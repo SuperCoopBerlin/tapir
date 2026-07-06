@@ -10,9 +10,9 @@
             Your shift {{ shift_name }} was cancelled! Reason: {{ reason }}.
             {% endblocktranslate %}
     </p>
-    {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
+    {% if user_is_registered_to_an_abcd_shift %}
         <p>{% blocktranslate %}Since this is your ABCD shift, you have been credited one shift point.{% endblocktranslate %}</p>
-    {% elif state == "flying" %}
+    {% else %}
         <p>{% blocktranslate %}Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point.{% endblocktranslate %}</p>
     {% endif %}
     <p>{% blocktranslate %}See you next time!{% endblocktranslate %}</p>

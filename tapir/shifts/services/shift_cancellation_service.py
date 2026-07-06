@@ -42,12 +42,17 @@ class ShiftCancellationService:
                 attendance.excused_reason = "Shift cancelled"
                 attendance.save()
                 attendance.update_shift_account_entry()
+                user_is_registered_to_an_abcd_shift = True
 
             else:
                 attendance.state = ShiftAttendance.State.CANCELLED
                 attendance.save()
+                user_is_registered_to_an_abcd_shift = False
 
-            email_builder = ShiftCancelledEmail(shift=shift)
+            email_builder = ShiftCancelledEmail(
+                shift=shift,
+                user_is_registered_to_an_abcd_shift=user_is_registered_to_an_abcd_shift,
+            )
             SendMailService.send_to_tapir_user(
                 actor=actor,
                 recipient=attendance.user,

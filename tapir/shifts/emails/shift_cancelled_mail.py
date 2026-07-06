@@ -10,9 +10,10 @@ from tapir.shifts.models import Shift
 class ShiftCancelledEmail(TapirEmailBuilderBase):
     option = MailOption.OPTIONAL_ENABLED
 
-    def __init__(self, shift):
+    def __init__(self, shift, user_is_registered_to_an_abcd_shift):
         super().__init__()
         self.shift = shift
+        self.user_is_registered_to_an_abcd_shift = user_is_registered_to_an_abcd_shift
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -40,6 +41,7 @@ class ShiftCancelledEmail(TapirEmailBuilderBase):
         return {
             "shift": self.shift,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+            "user_is_registered_to_an_abcd_shift": self.user_is_registered_to_an_abcd_shift,
         }
 
     @classmethod
@@ -51,7 +53,7 @@ class ShiftCancelledEmail(TapirEmailBuilderBase):
         if not shift or not share_owner:
             return None
 
-        mail = cls(shift=shift)
+        mail = cls(shift=shift, user_is_registered_to_an_abcd_shift=False)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),
