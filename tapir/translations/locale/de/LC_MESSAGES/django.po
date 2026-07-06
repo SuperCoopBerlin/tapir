@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 18:08+0200\n"
+"POT-Creation-Date: 2026-07-06 20:18+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3081,11 +3081,11 @@ msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
-#: shifts/emails/shift_cancelled_mail.py:23
+#: shifts/emails/shift_cancelled_mail.py:24
 msgid "Shift cancelled"
 msgstr "Schicht abgesagt"
 
-#: shifts/emails/shift_cancelled_mail.py:27
+#: shifts/emails/shift_cancelled_mail.py:28
 #, fuzzy
 #| msgid "Sent to a member when the member office marks the shift as confirmed"
 msgid "Sent to a member when the member office marks the shift as cancelled"
