@@ -3,21 +3,20 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short tapir_user as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name cancelled_reason=shift.cancelled_reason %}
-        <p>Hi {{ display_name_short }},</p>
-
-        <p>This is an automated email from {{ coop_name }}.</p>
-
-        <p>
-        Your shift {{ shift_display_name }} was cancelled! Reason: {{ cancelled_reason }}.
-
-        If you have an ABCD shift, you'll be credited with one shift point. If you're on a flight, you generally won't be credited with a shift point. Feel free to check your shift account, though.
-        See you next time!
-        </p>
-
-        <p>
-            Cooperative Greetings,<br />
-            The Membership Office
-        </p>
-    {% endblocktranslate %}
+    <p>{% blocktranslate with name=display_name_short %}Hi {{ name }},{% endblocktranslate %}</p>
+    <p>{% blocktranslate with coop_name=coop_name %}This is an automated email from {{ coop_name }}.{% endblocktranslate %}</p>
+    <p>
+        {% blocktranslate with shift_name=shift.get_display_name reason=shift.cancelled_reason %}
+            Your shift {{ shift_name }} was cancelled! Reason: {{ reason }}.
+            {% endblocktranslate %}
+    </p>
+    {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
+        <p>{% blocktranslate %}Since this is your ABCD shift, you have been credited one shift point.{% endblocktranslate %}</p>
+    {% elif state == "flying" %}
+        <p>{% blocktranslate %}Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point.{% endblocktranslate %}</p>
+    {% endif %}
+    <p>{% blocktranslate %}See you next time!{% endblocktranslate %}</p>
+    <p>
+        {% blocktranslate %}Cooperative Greetings,<br />The Membership Office{% endblocktranslate %}
+    </p>
 {% endblock body %}
