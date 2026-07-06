@@ -229,7 +229,12 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         slot_to_register.required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
         self.slots.append(slot_to_register)
 
-        # TODO assert first and second shift have attendance and third shift has no attendance
+        # assert first and second shift have attendance and third shift has no attendance
+        self.assertTrue(
+            ShiftAttendance.objects.filter(slot__in=self.slots[:2]).exists()
+        )
+        self.assertFalse(ShiftAttendance.objects.filter(slot=self.slots[2]).exists())
+
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
