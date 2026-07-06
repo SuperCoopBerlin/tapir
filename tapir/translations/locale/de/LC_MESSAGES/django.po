@@ -3086,8 +3086,6 @@ msgid "Shift cancelled"
 msgstr "Schicht abgesagt"
 
 #: shifts/emails/shift_cancelled_mail.py:28
-#, fuzzy
-#| msgid "Sent to a member when the member office marks the shift as confirmed"
 msgid "Sent to a member when the member office marks the shift as cancelled"
 msgstr "Wird an ein Mitglied gesendet, wenn die Schicht abgesagt wurde."
 
