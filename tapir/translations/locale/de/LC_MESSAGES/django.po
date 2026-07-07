@@ -3752,7 +3752,7 @@ msgstr "Weil das deine ABCD-Schicht ist, wurde dir ein Schichtpunkt gutgeschrieb
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:16
 msgid "Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point."
-msgstr "Da du fliegendes Mitglied bist (oder du normalweise ABCD-Schichten machst aber dies keine ABCD-Schicht ist), wird dir normalweise kein Schichtpunkt gutgeschrieben."
+msgstr "Da du fliegendes Mitglied bist (oder du normalerweise ABCD-Schichten machst aber dies keine ABCD-Schicht ist), wird dir normalerweise kein Schichtpunkt gutgeschrieben."
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:18
 msgid "See you next time!"
@@ -3760,16 +3760,12 @@ msgstr "Bis zum nächsten Mal!"
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:20
 msgid "Cooperative Greetings,<br />The Membership Office"
-msgstr ""
-"\n"
-"Kooperative Grüße,<br />\n"
-"Das Mitgliederbüro \n"
-" "
+msgstr "Kooperative Grüße,<br />Das Mitgliederbüro"
 
 #: shifts/templates/shifts/email/shift_cancelled.subject.html:2
 #, python-format
 msgid "Your shift on %(shift_date)s was cancelled"
-msgstr "Diese Schicht am %(shift_date)s wurde abgesagt: "
+msgstr "Deine Schicht am %(shift_date)s wurde abgesagt"
 
 #: shifts/templates/shifts/email/shift_confirmed.body.html:6
 #, fuzzy, python-format
