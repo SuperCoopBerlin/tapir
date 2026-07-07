@@ -4527,7 +4527,7 @@ msgstr "Hat einen freien Platz"
 msgid "Most help needed"
 msgstr "Hilfe am meisten gebraucht"
 
-#: shifts/templates/shifts/shift_filters.html:38
+#: shifts/templates/shifts/shift_filters.html:35
 msgid "Filter for type of slot"
 msgstr "Nach dem Schicht-Typ filtern"
 
