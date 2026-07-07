@@ -3736,11 +3736,7 @@ msgid "This is an automated email from %(coop_name)s."
 msgstr "Dies ist eine automatische Mail von %(coop_name)s."
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:9
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                Your current credit is %(credit)s€.\n"
-#| "            "
+#, python-format
 msgid ""
 "\n"
 "            Your shift %(shift_name)s was cancelled! Reason: %(reason)s.\n"
@@ -3771,10 +3767,9 @@ msgstr ""
 " "
 
 #: shifts/templates/shifts/email/shift_cancelled.subject.html:2
-#, fuzzy, python-format
-#| msgid "Your shift was cancelled"
+#, python-format
 msgid "Your shift on %(shift_date)s was cancelled"
-msgstr "Diese Schicht wurde abgesagt: "
+msgstr "Diese Schicht am %(shift_date)s wurde abgesagt: "
 
 #: shifts/templates/shifts/email/shift_confirmed.body.html:6
 #, fuzzy, python-format
