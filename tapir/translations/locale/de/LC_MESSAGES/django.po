@@ -3725,8 +3725,7 @@ msgstr ""
 "    Ausstehende Schichteinträge älter als %(nb_days_threshold)s Tage\n"
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:6
-#, fuzzy, python-format
-#| msgid "Edit share: %(name)s"
+#, python-format
 msgid "Hi %(name)s,"
 msgstr "Hi %(name)s"
 
