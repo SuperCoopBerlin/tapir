@@ -88,7 +88,9 @@
             </div>
         </div>
         <ul class="list-group list-group-flush">
-            {% if shift.description %}<li class="list-group-item">{{ shift.description }}</li>{% endif %}
+            {% if shift.description %}
+                <li class="list-group-item">{{ shift.description }}</li>
+            {% endif %}
             {% if shift.cancelled %}
                 <li class="list-group-item bg-warning">
                     {% translate 'This shift has been cancelled: ' %}
