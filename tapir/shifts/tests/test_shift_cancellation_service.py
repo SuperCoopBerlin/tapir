@@ -1,10 +1,13 @@
 import datetime
 
+from django.core import mail
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.emails.shift_cancelled_mail import ShiftCancelledEmail
 from tapir.shifts.models import (
     ShiftAttendance,
+    ShiftAttendanceTemplate,
     ShiftTemplate,
 )
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
@@ -13,10 +16,10 @@ from tapir.shifts.tests.utils import (
     register_user_to_shift,
     register_user_to_shift_template,
 )
-from tapir.utils.tests_utils import TapirFactoryTestBase
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
-class TestShiftCancelService(TapirFactoryTestBase):
+class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_ShiftCancellationService_registeredFlyingMember_attendanceIsCancelled(
         self,
     ):
@@ -88,4 +91,64 @@ class TestShiftCancelService(TapirFactoryTestBase):
             user.shift_user_data.get_account_balance(),
             1,
             "Because the attendance got excused, the account balance should have increased to 1.",
+        )
+
+    def test_ShiftCancellationService_memberRegisteredAsAbcd_emailIsSent(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_member_office_user()
+        shift_template: ShiftTemplate = ShiftTemplateFactory.create()
+        shift = shift_template.create_shift_if_necessary(
+            timezone.now().date() + datetime.timedelta(days=2)
+        )
+        register_user_to_shift_template(self.client, tapir_user, shift_template)
+
+        user_is_registered_to_an_abcd_shift = ShiftAttendanceTemplate.objects.filter(
+            user=tapir_user
+        ).exists()
+        self.assertTrue(user_is_registered_to_an_abcd_shift)
+
+        ShiftCancellationService.cancel(shift)
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            tapir_user.email,
+            sent_mail,
+        )
+        self.assertIn(
+            "Since this is your ABCD shift, you have been credited one shift point",
+            sent_mail.body,
+        )
+        self.assertNotIn("flying member", sent_mail.body)
+
+    def test_ShiftCancellationService_memberRegisteredAsFlying_emailSent(
+        self,
+    ):
+        tapir_user = TapirUserFactory.create(is_in_member_office=False)
+        self.login_as_member_office_user()
+        shift = ShiftFactory.create()
+        register_user_to_shift(self.client, tapir_user, shift)
+
+        user_is_registered_to_an_abcd_shift = ShiftAttendanceTemplate.objects.filter(
+            user=tapir_user
+        ).exists()
+        self.assertFalse(user_is_registered_to_an_abcd_shift)
+
+        ShiftCancellationService.cancel(shift)
+
+        self.assertEqual(1, len(mail.outbox))
+        sent_mail = mail.outbox[0]
+        self.assertEmailOfClass_GotSentTo(
+            ShiftCancelledEmail,
+            tapir_user.email,
+            sent_mail,
+        )
+
+        self.assertIn("flying member", sent_mail.body)
+        self.assertNotIn(
+            "Since this is your ABCD shift, you have been credited one shift point",
+            sent_mail.body,
         )

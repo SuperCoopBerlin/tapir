@@ -107,7 +107,7 @@ class CancelShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         shift: Shift = form.instance
-        ShiftCancellationService.cancel(shift)
+        ShiftCancellationService.cancel(shift, self.request.user)
         return response
 
 
@@ -143,7 +143,7 @@ class CancelDayShiftsView(LoginRequiredMixin, PermissionRequiredMixin, FormView)
             ]
             for shift in Shift.objects.filter(id__in=shift_ids_to_cancel):
                 shift.cancelled_reason = cancellation_reason
-                ShiftCancellationService.cancel(shift)
+                ShiftCancellationService.cancel(shift, self.request.user)
             return response
 
 
