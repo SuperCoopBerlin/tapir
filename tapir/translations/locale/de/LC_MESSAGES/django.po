@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-09 20:33+0200\n"
+"POT-Creation-Date: 2026-07-06 20:45+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2703,7 +2703,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:656 shifts/forms.py:789
+#: coop/views/shareowner.py:656 shifts/forms.py:788
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -3081,6 +3081,14 @@ msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
+#: shifts/emails/shift_cancelled_mail.py:24
+msgid "Shift cancelled"
+msgstr "Schicht abgesagt"
+
+#: shifts/emails/shift_cancelled_mail.py:28
+msgid "Sent to a member when the member office marks the shift as cancelled"
+msgstr "Wird an ein Mitglied gesendet, wenn die Schicht abgesagt wurde."
+
 #: shifts/emails/shift_confirmed_email.py:23
 msgid "Shift attendance confirmed"
 msgstr "Schichtanwesenheit bestätigt"
@@ -3236,38 +3244,34 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:725 shifts/forms.py:794 shifts/views/views.py:419
+#: shifts/forms.py:725 shifts/forms.py:793 shifts/views/views.py:419
 #: shifts/views/views.py:420
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:732 shifts/forms.py:801
+#: shifts/forms.py:732
 msgid "Notify me when these capabilities become available or unavailable"
 msgstr ""
 
-#: shifts/forms.py:736 shifts/forms.py:805
+#: shifts/forms.py:736
 msgid "Get notified when someone with specific skills registers or unregisters"
 msgstr ""
 
-#: shifts/forms.py:783 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:782 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:810
+#: shifts/forms.py:799
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:814
+#: shifts/forms.py:803
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
-msgstr ""
-
-#: shifts/forms.py:818
-msgid "At least one of the fields staffing_status or required capabilities must be selected."
 msgstr ""
 
 #: shifts/models.py:39
@@ -3719,6 +3723,48 @@ msgid ""
 msgstr ""
 "\n"
 "    Ausstehende Schichteinträge älter als %(nb_days_threshold)s Tage\n"
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:6
+#, python-format
+msgid "Hi %(name)s,"
+msgstr "Hi %(name)s"
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:7
+#, python-format
+msgid "This is an automated email from %(coop_name)s."
+msgstr "Dies ist eine automatische Mail von %(coop_name)s."
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:9
+#, python-format
+msgid ""
+"\n"
+"            Your shift %(shift_name)s was cancelled! Reason: %(reason)s.\n"
+"            "
+msgstr ""
+"\n"
+"            Deine Schicht %(shift_name)s wurde abgesagt! Grund: %(reason)s.\n"
+"            "
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:14
+msgid "Since this is your ABCD shift, you have been credited one shift point."
+msgstr "Weil das deine ABCD-Schicht ist, wurde dir ein Schichtpunkt gutgeschrieben."
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:16
+msgid "Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point."
+msgstr "Da du fliegendes Mitglied bist (oder du normalerweise ABCD-Schichten machst aber dies keine ABCD-Schicht ist), wird dir normalerweise kein Schichtpunkt gutgeschrieben."
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:18
+msgid "See you next time!"
+msgstr "Bis zum nächsten Mal!"
+
+#: shifts/templates/shifts/email/shift_cancelled.body.html:20
+msgid "Cooperative Greetings,<br />The Membership Office"
+msgstr "Kooperative Grüße,<br />Das Mitgliederbüro"
+
+#: shifts/templates/shifts/email/shift_cancelled.subject.html:2
+#, python-format
+msgid "Your shift on %(shift_date)s was cancelled"
+msgstr "Deine Schicht am %(shift_date)s wurde abgesagt"
 
 #: shifts/templates/shifts/email/shift_confirmed.body.html:6
 #, fuzzy, python-format
@@ -4273,7 +4319,7 @@ msgid "Unwatch"
 msgstr "Nicht mehr beobachten"
 
 #: shifts/templates/shifts/shift_detail.html:49
-#: shifts/templates/shifts/shiftwatch_overview.html:124
+#: shifts/templates/shifts/shiftwatch_overview.html:123
 msgid "You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations)."
 msgstr "Du erhältst E-Mail-Benachrichtigungen, wenn sich Schichten, denen du folgst, ändern – angepasst an die von dir ausgewählten Arten von Aktualisierungen (z. B. Hilfe benötigt, voll, Stornierungen)."
 
@@ -4480,7 +4526,7 @@ msgstr "Hat einen freien Platz"
 msgid "Most help needed"
 msgstr "Hilfe am meisten gebraucht"
 
-#: shifts/templates/shifts/shift_filters.html:38
+#: shifts/templates/shifts/shift_filters.html:35
 msgid "Filter for type of slot"
 msgstr "Nach dem Schicht-Typ filtern"
 
@@ -4695,32 +4741,32 @@ msgstr "Du beobachtest keine Schichten"
 msgid "Observed changes:"
 msgstr "Beobachtete Änderungen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:76
+#: shifts/templates/shifts/shiftwatch_overview.html:75
 msgid "Shift Watches"
 msgstr "Schicht-Beobachtungen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:82
+#: shifts/templates/shifts/shiftwatch_overview.html:81
 msgid "Total"
 msgstr "Insgesamt"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:105
+#: shifts/templates/shifts/shiftwatch_overview.html:104
 #: shifts/templates/shifts/user_shifts_overview_tag.html:64
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:127
+#: shifts/templates/shifts/shiftwatch_overview.html:126
 msgid "You can watch single shifts for changes by selecting a shift "
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:128
+#: shifts/templates/shifts/shiftwatch_overview.html:127
 msgid "here"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:129
+#: shifts/templates/shifts/shiftwatch_overview.html:128
 msgid " and clicking on the Watch-button"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:135
+#: shifts/templates/shifts/shiftwatch_overview.html:134
 msgid "Delete Selected"
 msgstr "Lösche das Ausgewählte"
 
@@ -6526,6 +6572,62 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
 
+#, fuzzy, python-format
+#~| msgid ""
+#~| "\n"
+#~| "        <p>Hi %(display_name_short)s,</p>\n"
+#~| "\n"
+#~| "        <p>This is an automated email from %(coop_name)s.</p>\n"
+#~| "\n"
+#~| "        <p>\n"
+#~| "        Your shift %(shift_display_name } was cancelled! Reason: {{ shift.cancelled_reason)s.\n"
+#~| "            What does in mean for you? If you are flying member, then X. If you're ABCD member, then Y.\n"
+#~| "        See you next time!\n"
+#~| "        </p>\n"
+#~| "\n"
+#~| "        <p>\n"
+#~| "            Cooperative Greetings,<br />\n"
+#~| "            The Membership Office\n"
+#~| "        </p>\n"
+#~| "    "
+#~ msgid ""
+#~ "\n"
+#~ "        <p>Hi %(display_name_short)s,</p>\n"
+#~ "\n"
+#~ "        <p>This is an automated email from %(coop_name)s.</p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "        Your shift %(shift_display_name)s was cancelled! Reason: %(cancelled_reason)s.\n"
+#~ "\n"
+#~ "        If you have an ABCD shift, you'll be credited with one shift point. If you're on a flight, you generally won't be credited with a shift point. Feel free to check your shift account, though.\n"
+#~ "        See you next time!\n"
+#~ "        </p>\n"
+#~ "\n"
+#~ "        <p>\n"
+#~ "            Cooperative Greetings,<br />\n"
+#~ "            The Membership Office\n"
+#~ "        </p>\n"
+#~ "    "
+#~ msgstr ""
+#~ "\n"
+#~ "    <p>Hallo %(display_name_short)s,</p>\n"
+#~ "\n"
+#~ "    <p>Dies ist eine automatische E-Mail von %(coop_name)s.</p>\n"
+#~ "\n"
+#~ "    <p>\n"
+#~ "        Deine Schicht %(shift_display_name)s wurde abgesagt! Grund %(shift.cancelled_reason)s.<br/>\n"
+#~ "        Wenn du eine ABCD-Schicht hast, bekommst du einen Schichtpunkt gutgeschrieben. Wenn du fliegend bist, bekommst du in der Regel keinen Schichtpunkt gutgeschrieben. Prüfe aber gerne dein Schichtkonto.\n"
+#~ "    </p>\n"
+#~ "\n"
+#~ "    <p>Wir sehen uns beim nächsten mal!</p>\n"
+#~ "\n"
+#~ "    <p>Kooperative Grüße,<br /> \n"
+#~ "            Das Mitgliederbüro\n"
+#~ "        </p> "
+
+#~ msgid "Shift attendance cancelled"
+#~ msgstr "Schicht"
+
 #~ msgid "Buy"
 #~ msgstr "Kaufen"
 
@@ -6757,23 +6859,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ "        besuche bitte das Mitgliederbüro in unserem Laden. Dort wird ein Konto für dich auf Tapir, unserem Online-Schichtverwaltungssystem,\n"
 #~ "        eingerichtet und du wirst durch die Schritte zur Auswahl deiner Schicht und Arbeitsgruppe geführt.\n"
 #~ "        "
-
-#, fuzzy
-#~| msgid ""
-#~| "\n"
-#~| "            Cooperative Greetings, <br/>\n"
-#~| "            The Member Office\n"
-#~| "        "
-#~ msgid ""
-#~ "\n"
-#~ "            Cooperative Greetings, <br />\n"
-#~ "            The Member Office\n"
-#~ "        "
-#~ msgstr ""
-#~ "\n"
-#~ "Kooperative Grüße,<br />\n"
-#~ "Das Mitgliederbüro \n"
-#~ " "
 
 #, python-format
 #~ msgid ""
