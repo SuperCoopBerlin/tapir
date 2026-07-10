@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-10 16:08+0200\n"
+"POT-Creation-Date: 2026-07-10 16:17+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -32,11 +32,11 @@ msgstr "Öffne Tür"
 msgid "Invalid username or password"
 msgstr "Ungültige Benutzername oder Passwort"
 
-#: accounts/emails/create_account_reminder_email.py:21
+#: accounts/emails/create_account_reminder_email.py:19
 msgid "Create account reminder"
 msgstr "Konto erstellen Erinnerung"
 
-#: accounts/emails/create_account_reminder_email.py:26
+#: accounts/emails/create_account_reminder_email.py:30
 msgid "Sent to active member if they haven't created the account 1 month after becoming member."
 msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt noch kein Konto erstellt haben."
 
@@ -230,8 +230,7 @@ msgid ""
 "        </p>\n"
 "        <p>\n"
 "            For general questions about your membership, please contact the Member Office by email <a href=\"mailto:mitglied@supercoop.de\">(mitglied@supercoop.de)</a>\n"
-"            or visit <a href=\"https://www.google.com/maps/place/SuperCoop+Berlin/@52.553371,13.3585897,15z/data=!4m5!3m4!1s0x0:0x72e80db955fa8d3!8m2!3d52.5533091!4d13.3586012\">SuperCoop</a>.\n"
-"            Feel free to drop by and meet other SuperCoopies in person! Opening hours are::\n"
+"            or feel free to drop by and meet other SuperCoopies in person! Opening hours are::\n"
 "        <ul>\n"
 "            <li>Monday - Friday from 16:30 to 19:30</li>\n"
 "            <li>Saturdays from 11:00 to 14:00</li>\n"
@@ -279,7 +278,7 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: accounts/templates/accounts/email/create_account_reminder.body.html:34
+#: accounts/templates/accounts/email/create_account_reminder.body.html:33
 #: shifts/templates/shifts/email/shift_cancelled.body.html:20
 msgid "Cooperative Greetings,<br />The Membership Office"
 msgstr "Kooperative Grüße,<br />Das Mitgliederbüro"
