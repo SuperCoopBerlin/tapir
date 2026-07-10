@@ -91,6 +91,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
@@ -106,6 +107,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
@@ -126,6 +128,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
                 shift=shift_understaffed
             ),
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
 
         Command().handle()
@@ -146,6 +149,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         self.unregister_slot()
@@ -167,6 +171,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         self.unregister_slot()
@@ -187,6 +192,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
 
         self.unregister_slot()
@@ -202,6 +208,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             weekdays=[self.shift_ok_first.start_time.weekday()],
             staffing_status=[event.value for event in get_staffingstatus_choices()],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
 
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring=recurring)
