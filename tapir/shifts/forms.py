@@ -473,6 +473,7 @@ class ShiftTemplateEndDateForm(forms.ModelForm):
     def clean_end_date(self):
         if (
             self.cleaned_data["end_date"]
+            and self.instance.start_date is not None
             and self.cleaned_data["end_date"] < self.instance.start_date
         ):
             raise ValidationError(_("The end date must be later than the start date."))
