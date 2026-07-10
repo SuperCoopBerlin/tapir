@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-10 17:50+0200\n"
+"POT-Creation-Date: 2026-07-10 18:09+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2089,7 +2089,6 @@ msgid "Submit"
 msgstr "Abschicken"
 
 #: coop/templates/coop/extra_share_request.html:92
-#: shifts/templates/shifts/shift_template_set_end_date.html:25
 #: shifts/templates/shifts/user_shifts_overview_tag.html:177
 msgid "Cancel"
 msgstr "Abmelden"
@@ -4709,7 +4708,7 @@ msgstr ""
 msgid "All shifts generated from this ABCD-shift after the selected date will be cancelled. Registered members will be notified."
 msgstr ""
 
-#: shifts/templates/shifts/shift_template_set_end_date.html:22
+#: shifts/templates/shifts/shift_template_set_end_date.html:23
 #, fuzzy
 #| msgid "Set shift attendance to"
 msgid "Set end date and cancel shifts"
