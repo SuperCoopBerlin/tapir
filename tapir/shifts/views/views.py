@@ -334,7 +334,6 @@ class ShiftTemplateDetail(LoginRequiredMixin, SelectedUserViewMixin, DetailView)
 class ShiftTemplateEndDateView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    # TapirFormMixin,
     generic.UpdateView,
 ):
     permission_required = PERMISSION_SHIFTS_MANAGE

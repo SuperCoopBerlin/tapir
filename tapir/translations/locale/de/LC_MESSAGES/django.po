@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-10 17:08+0200\n"
+"POT-Creation-Date: 2026-07-10 17:50+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -3245,8 +3245,8 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:746 shifts/forms.py:814 shifts/views/views.py:463
-#: shifts/views/views.py:464
+#: shifts/forms.py:746 shifts/forms.py:814 shifts/views/views.py:462
+#: shifts/views/views.py:463
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
@@ -4746,7 +4746,7 @@ msgid "Recurring Shift Watches"
 msgstr "Wiederholende Schichtbeobachtungen"
 
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:508
+#: shifts/views/views.py:507
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -5195,17 +5195,17 @@ msgstr "Schichtkonto-Protokoll für: %(name)s"
 msgid "Create manual shift account entry for: %(link)s"
 msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 
-#: shifts/views/views.py:370
+#: shifts/views/views.py:369
 #, fuzzy
 #| msgid "Shift attendance cancelled"
 msgid "Shift template was successfully cancelled"
 msgstr "Schicht"
 
-#: shifts/views/views.py:446
+#: shifts/views/views.py:445
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:511
+#: shifts/views/views.py:510
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""
