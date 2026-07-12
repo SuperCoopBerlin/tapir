@@ -3,6 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load utils %}
+{% load coop %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -89,9 +90,9 @@
                 <dd>
                     {{ person.get_display_address|default:"-" }}
                 </dd>
-                <dt>{% translate "Language" %}</dt>
+                <dt>{% translate "Status" %}</dt>
                 <dd>
-                    {{ person.get_preferred_language_display }}
+                    {% member_status_colored_text shareowner %}
                 </dd>
             </dl>
         </div>
