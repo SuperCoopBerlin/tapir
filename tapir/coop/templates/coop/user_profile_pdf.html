@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+{% load static %}
+{% load django_bootstrap5 %}
+{% load accounts %}
+{% load utils %}
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <title>Mitgliedsprofil - {{ person.get_display_name }}</title>
+    </head>
+    <body>
+        <div class="section">
+            <h2 style="font-size:13px;margin:8px 0">Stammdaten</h2>
+            <dl>
+                <dt>Name</dt>
+                <dd>
+                    {{ person.first_name }} {{ person.last_name }}
+                </dd>
+                <dt>E‑Mail</dt>
+                <dd>
+                    {{ person.email }}
+                </dd>
+                <dt>Telefon</dt>
+                <dd>
+                    {{ person.phone_number }}
+                </dd>
+                <dt>Geburtsdatum</dt>
+                <dd>
+                    {% if person.birthdate %}
+                        {{ person.birthdate|date:"Y-m-d" }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </dd>
+                <dt>Adresse</dt>
+                <dd>
+                    {{ person.get_display_address }}
+                </dd>
+                <dt>Sprache</dt>
+                <dd>
+                    {{ person.get_preferred_language_display }}
+                </dd>
+            </dl>
+        </div>
+        <div class="section">
+            <h2 style="font-size:13px;margin:8px 0">Schichten</h2>
+            {% if attendances %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Bezeichnung</th>
+                            <th>State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for att in attendances %}
+                            <tr>
+                                <td>
+                                    {% if att.slot and att.slot.shift and att.slot.shift.start_time %}
+                                        {{ att.slot.shift.start_time|date:"Y-m-d H-i" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if att.slot and att.slot.shift %}
+                                        {{ att.slot.shift.title|default:att.slot.name|default:"(ohne Bezeichnung)" }}
+                                    {% else %}
+                                        (Slot entfernt)
+                                    {% endif %}
+                                </td>
+                                <td>{{ att.get_state_display }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="small">Keine abgeschlossenen Schichten gefunden.</div>
+            {% endif %}
+        </div>
+        <div class="small" style="margin-top:20px;">Generiert am {{ generated_at|date:"Y-m-d H:i" }}</div>
+    </body>
+</html>

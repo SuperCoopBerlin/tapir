@@ -4,6 +4,7 @@ from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
+import weasyprint
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -18,7 +19,7 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import get_object_or_404, redirect
-from django.template import Context, Template
+from django.template import Context, Template, loader
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
@@ -1105,3 +1106,44 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
     def get_success_url(self):
         return self.get_share_owner().get_absolute_url()
+
+
+class UserProfilePDFView(generic.DetailView):
+    model = ShareOwner
+    pk_url_kwarg = "user_id"
+    template_name = "coop/user_profile_pdf.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        shareowner = self.object
+        person = getattr(shareowner, "user", None) or shareowner
+
+        attendances = []
+        if shareowner.user_id and shareowner.user is not None:
+            attendances = shareowner.user.shift_attesndances.select_related(
+                "slot", "slot__shift"
+            ).order_by("slot__shift__start_time")
+
+        context.update(
+            {
+                "person": person,
+                "attendances": attendances,
+                "generated_at": timezone.now(),
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        request = self.request
+        html_string = loader.render_to_string(
+            self.template_name, context, request=request
+        )
+        html = weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri("/")
+        )
+        pdf = html.write_pdf()
+
+        response = HttpResponse(pdf, content_type="application/pdf")
+        filename = f"user-{self.object.pk}-profile.pdf"
+        response["Content-Disposition"] = f'inline; filename="{filename}"'
+        return response
