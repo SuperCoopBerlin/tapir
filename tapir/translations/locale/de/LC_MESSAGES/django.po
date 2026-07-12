@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 20:45+0200\n"
+"POT-Creation-Date: 2026-07-12 09:54+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -289,8 +289,8 @@ msgid "I agree that my membership card will be scanned at the checkout when I ma
 msgstr "Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:176
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:184
 msgid "Yes,No"
 msgstr "Ja, Nein"
 
@@ -316,6 +316,7 @@ msgstr "Mitglied"
 
 #: accounts/templates/accounts/user_detail.html:27
 #: coop/templates/coop/shareowner_detail.html:17
+#: coop/templates/coop/user_profile_pdf.html:62
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
@@ -337,9 +338,9 @@ msgstr "Benutzername bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:238
 #: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:22
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:100
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:121
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:26
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:104
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:125
 #: core/templates/core/featureflag_list.html:30
 #: shifts/templates/shifts/shift_detail.html:65
 #: shifts/templates/shifts/shift_template_detail.html:29
@@ -355,7 +356,8 @@ msgstr "Name und Pronomen bearbeiten"
 #: accounts/templates/accounts/user_detail.html:59
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
-#: coop/templates/coop/shareowner_detail.html:43 coop/views/draftuser.py:260
+#: coop/templates/coop/shareowner_detail.html:43
+#: coop/templates/coop/user_profile_pdf.html:64 coop/views/draftuser.py:260
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -372,6 +374,7 @@ msgstr "Nutzer*innenname"
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
+#: coop/templates/coop/user_profile_pdf.html:68
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
@@ -391,6 +394,7 @@ msgstr "Fehlend"
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
+#: coop/templates/coop/user_profile_pdf.html:88
 msgid "Address"
 msgstr "Adresse"
 
@@ -530,8 +534,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:285
-#: coop/views/shareowner.py:290
+#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:286
+#: coop/views/shareowner.py:291
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -783,8 +787,8 @@ msgstr "Ist investierendes Mitglied"
 
 #: coop/models.py:90 coop/models.py:476
 #: coop/templates/coop/draftuser_detail.html:176
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:48
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:175
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:179
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
@@ -813,7 +817,7 @@ msgid "Investing"
 msgstr "Investierend"
 
 #: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:111
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:115
 #: coop/views/statistics.py:135
 msgid "Active"
 msgstr "Aktiv"
@@ -958,7 +962,7 @@ msgstr "Löschen bestätigen"
 
 #: coop/templates/coop/confirm_delete_incoming_payment.html:31
 #: coop/templates/coop/confirm_delete_share_ownership.html:24
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:135
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:139
 #: financingcampaign/templates/financingcampaign/confirm_delete.html:24
 #: shifts/templates/shifts/shift_confirm_delete.html:30
 msgid "Delete"
@@ -1020,9 +1024,9 @@ msgid "List of similar members"
 msgstr "Liste ähnlicher Mitglieder"
 
 #: coop/templates/coop/draftuser_detail.html:69
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:31
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:98
-#: coop/views/shareowner.py:611
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
+#: coop/templates/coop/user_profile_pdf.html:106 coop/views/shareowner.py:612
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -1045,7 +1049,7 @@ msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
 #: coop/templates/coop/draftuser_detail.html:190
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:53
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
 #: shifts/models.py:45
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
@@ -2022,7 +2026,7 @@ msgstr "Dein Konto in Tapir, das Mitgliedersystem von %(coop_name)s"
 
 #: coop/templates/coop/extra_share_request.html:7
 #: coop/templates/coop/extra_share_request.html:17
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:84
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:88
 msgid "Buy more shares"
 msgstr "Weitere Anteile zeichnen"
 
@@ -2101,7 +2105,7 @@ msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:10
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:168
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -2488,10 +2492,14 @@ msgstr ""
 "                "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:17
+msgid "Summary"
+msgstr "Zusammenfassung"
+
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:21
 msgid "Membership confirmation"
 msgstr "Mitgliedsbestätigung"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:39
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2506,7 +2514,7 @@ msgstr ""
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:40
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:44
 #, fuzzy, python-format
 #| msgid ""
 #| "\n"
@@ -2521,7 +2529,7 @@ msgstr ""
 "                    Mitglied #%(coop_share_owner_id)s\n"
 "                "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:56
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:60
 #: shifts/models.py:933 shifts/templates/shifts/shift_day_printable.html:214
 #: shifts/templates/shifts/shift_day_printable.html:276
 #: shifts/templates/shifts/shift_detail.html:304
@@ -2529,36 +2537,36 @@ msgstr ""
 msgid "Attended"
 msgstr "Teilgenommen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:58
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:62
 #: shifts/models.py:932
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:65
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:69
 msgid "Mark Attended"
 msgstr "Als teilgenommen markieren"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:74
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:78
 msgid "Owned shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:92
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:96
 msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:96
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:100
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:97
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:101
 msgid "Ends at"
 msgstr "Endet am"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:113
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:117
 msgid "Sold or future"
 msgstr ""
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:138
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:142
 msgid ""
 "\n"
 "                                                            Only use this to correct mistakes, i.e. if the share was\n"
@@ -2572,21 +2580,75 @@ msgstr ""
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:161
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:165
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:179
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:183
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:189
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:193
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:195
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:199
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
+
+#: coop/templates/coop/user_profile_pdf.html:10
+#: coop/templates/coop/user_profile_pdf.html:60
+msgid "Member Profile"
+msgstr "Mitgliederprofil"
+
+#: coop/templates/coop/user_profile_pdf.html:76
+msgid "Phone"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:84
+msgid "Date of Birth"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:92
+#, fuzzy
+#| msgid "Preferred Language"
+msgid "Language"
+msgstr "Bevorzugte Sprache"
+
+#: coop/templates/coop/user_profile_pdf.html:99 shifts/apps.py:36
+#: shifts/templates/shifts/user_shifts_overview_tag.html:8
+msgid "Shifts"
+msgstr "Schichten"
+
+#: coop/templates/coop/user_profile_pdf.html:104
+msgid "Date & Time"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:105
+#: core/templates/core/email_list.html:39 shifts/models.py:502
+#: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
+msgid "Description"
+msgstr "Beschreibung"
+
+#: coop/templates/coop/user_profile_pdf.html:123
+msgid "(Slot removed)"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:132
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "    You completed your shift\n"
+msgid "No completed shifts found."
+msgstr ""
+"\n"
+"Du hast deine Schicht beendet.\n"
+
+#: coop/templates/coop/user_profile_pdf.html:135
+#, fuzzy
+#| msgid "Generated from"
+msgid "Generated on"
+msgstr "Erzeugt von"
 
 #: coop/views/draftuser.py:89 coop/views/draftuser.py:94
 #, python-format
@@ -2664,71 +2726,71 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/shareowner.py:146 coop/views/shareowner.py:151
+#: coop/views/shareowner.py:147 coop/views/shareowner.py:152
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:171 coop/views/shareowner.py:176
+#: coop/views/shareowner.py:172 coop/views/shareowner.py:177
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:390
+#: coop/views/shareowner.py:391
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:612 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:613 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:617
+#: coop/views/shareowner.py:618
 #: shifts/templates/shifts/user_shifts_overview_tag.html:79
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:625
+#: coop/views/shareowner.py:626
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:633
+#: coop/views/shareowner.py:634
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:641
+#: coop/views/shareowner.py:642
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:649
+#: coop/views/shareowner.py:650
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:656 shifts/forms.py:788
+#: coop/views/shareowner.py:657 shifts/forms.py:788
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:659
+#: coop/views/shareowner.py:660
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:662
+#: coop/views/shareowner.py:663
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:666
+#: coop/views/shareowner.py:667
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:671
+#: coop/views/shareowner.py:672
 msgid "Shift Name"
 msgstr "Schichtname"
 
-#: coop/views/shareowner.py:987
+#: coop/views/shareowner.py:988
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
 
-#: coop/views/shareowner.py:1092
+#: coop/views/shareowner.py:1093
 msgid "Thank you for signing additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon."
 msgstr "Vielen Dank für das Zeichnen weiterer Anteile, wir freuen und bedanken uns! Du bekommst in Kürze eine Bestätigung per Email."
 
@@ -2835,11 +2897,6 @@ msgstr ""
 #: core/templates/core/email_list.html:35
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
-
-#: core/templates/core/email_list.html:39 shifts/models.py:502
-#: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
-msgid "Description"
-msgstr "Beschreibung"
 
 #: core/templates/core/email_list.html:40
 msgid "Subject"
@@ -3038,10 +3095,6 @@ msgstr "Notiz hinzufügen"
 #: log/views.py:153
 msgid "Log Type"
 msgstr ""
-
-#: shifts/apps.py:36 shifts/templates/shifts/user_shifts_overview_tag.html:8
-msgid "Shifts"
-msgstr "Schichten"
 
 #: shifts/apps.py:39 shifts/templates/shifts/shift_calendar_future.html:4
 #: shifts/templates/shifts/shift_calendar_future.html:7
