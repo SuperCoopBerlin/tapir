@@ -95,31 +95,31 @@
             <dl>
                 <dt>{% translate "Name" %}</dt>
                 <dd>
-                    {{ person.first_name }} {{ person.last_name }}
+                    {{ shareowner.get_info.first_name }} {{ shareowner.get_info.last_name }}
                 </dd>
                 <dt>{% translate "Email" %}</dt>
                 <dd>
-                    {% if person.email %}
-                        <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                    {% if shareowner.get_info.email %}
+                        <a href="mailto:{{ shareowner.get_info.email }}">{{ shareowner.get_info.email }}</a>
                     {% else %}
                         -
                     {% endif %}
                 </dd>
                 <dt>{% translate "Phone" %}</dt>
                 <dd>
-                    {% if person.phone_number %}
-                        <a href="tel:{{ person.phone_number }}">{{ person.phone_number }}</a>
+                    {% if shareowner.get_info.phone_number %}
+                        <a href="tel:{{ shareowner.get_info.phone_number }}">{{ shareowner.get_info.phone_number }}</a>
                     {% else %}
                         -
                     {% endif %}
                 </dd>
                 <dt>{% translate "Date of Birth" %}</dt>
                 <dd>
-                    {{ person.birthdate|date:"d.m.Y"|default:"-" }}
+                    {{ shareowner.get_info.birthdate|date:"d.m.Y"|default:"-" }}
                 </dd>
                 <dt>{% translate "Address" %}</dt>
                 <dd>
-                    {{ person.get_display_address|default:"-" }}
+                    {{ shareowner.get_info.get_display_address|default:"-" }}
                 </dd>
                 <dt>{% translate "Status" %}</dt>
                 <dd>

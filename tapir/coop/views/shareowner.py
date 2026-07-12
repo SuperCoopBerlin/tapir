@@ -1116,7 +1116,6 @@ class UserProfilePDFView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         shareowner = self.object
-        person = getattr(shareowner, "user", None) or shareowner
 
         attendances = []
         if shareowner.pk and shareowner.user is not None:
@@ -1126,7 +1125,6 @@ class UserProfilePDFView(generic.DetailView):
 
         context.update(
             {
-                "person": person,
                 "attendances": attendances,
                 "shareowner": shareowner,
                 "generated_at": timezone.now(),
