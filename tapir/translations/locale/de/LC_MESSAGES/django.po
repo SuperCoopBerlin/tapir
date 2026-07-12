@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 10:52+0200\n"
+"POT-Creation-Date: 2026-07-12 11:01+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -872,7 +872,7 @@ msgstr "Zahlendes Mitglied"
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:585
+#: coop/models.py:585 coop/templates/coop/user_profile_pdf.html:178
 msgid "Amount"
 msgstr "Betrag"
 
@@ -1030,7 +1030,7 @@ msgstr "Liste ähnlicher Mitglieder"
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
 #: coop/templates/coop/user_profile_pdf.html:124
 #: coop/templates/coop/user_profile_pdf.html:139
-#: coop/templates/coop/user_profile_pdf.html:177 coop/views/shareowner.py:613
+#: coop/templates/coop/user_profile_pdf.html:204 coop/views/shareowner.py:613
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -2110,6 +2110,7 @@ msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:10
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
+#: coop/templates/coop/user_profile_pdf.html:170
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -2616,33 +2617,53 @@ msgstr "Anteile"
 msgid "No shares found."
 msgstr "Keine Anteile gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:170 shifts/apps.py:36
+#: coop/templates/coop/user_profile_pdf.html:175
+msgid "ID"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:176
+#: financingcampaign/templates/financingcampaign/general.html:111
+#: log/templates/log/log_entry_list_tag.html:23
+#: shifts/templates/shifts/user_shift_account_log.html:26
+#: statistics/templates/statistics/tags/credit_account_card.html:17
+#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
+msgid "Date"
+msgstr "Datum"
+
+#: coop/templates/coop/user_profile_pdf.html:177
+#: coop/templates/coop/user_profile_pdf.html:203
+#: core/templates/core/email_list.html:39 shifts/models.py:502
+#: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
+msgid "Description"
+msgstr "Beschreibung"
+
+#: coop/templates/coop/user_profile_pdf.html:193
+#, fuzzy
+#| msgid "No shares found."
+msgid "No payments found."
+msgstr "Keine Anteile gefunden"
+
+#: coop/templates/coop/user_profile_pdf.html:197 shifts/apps.py:36
 #: shifts/templates/shifts/user_shifts_overview_tag.html:8
 msgid "Shifts"
 msgstr "Schichten"
 
-#: coop/templates/coop/user_profile_pdf.html:170
+#: coop/templates/coop/user_profile_pdf.html:197
 #, python-format
 msgid "last year"
 msgid_plural "max. last %(years)s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: coop/templates/coop/user_profile_pdf.html:175
+#: coop/templates/coop/user_profile_pdf.html:202
 msgid "Date & Time"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:176
-#: core/templates/core/email_list.html:39 shifts/models.py:502
-#: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
-msgid "Description"
-msgstr "Beschreibung"
-
-#: coop/templates/coop/user_profile_pdf.html:194
+#: coop/templates/coop/user_profile_pdf.html:221
 msgid "(Slot removed)"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:203
+#: coop/templates/coop/user_profile_pdf.html:230
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2650,7 +2671,7 @@ msgstr ""
 msgid "No completed shifts found."
 msgstr "Keine Schichten gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:206
+#: coop/templates/coop/user_profile_pdf.html:233
 msgid "Generated on"
 msgstr "Erzeugt am"
 
@@ -3005,14 +3026,6 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:108
 msgid "The list of all datapoints"
 msgstr ""
-
-#: financingcampaign/templates/financingcampaign/general.html:111
-#: log/templates/log/log_entry_list_tag.html:23
-#: shifts/templates/shifts/user_shift_account_log.html:26
-#: statistics/templates/statistics/tags/credit_account_card.html:17
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
-msgid "Date"
-msgstr "Datum"
 
 #: financingcampaign/templates/financingcampaign/general.html:112
 #: shifts/templates/shifts/user_shift_account_log.html:27

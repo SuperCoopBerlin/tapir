@@ -167,6 +167,33 @@
             {% endif %}
         </div>
         <div class="section">
+            <h2>{% translate "Payments" %}</h2>
+            {% if shareowner.credited_payments.all|length > 0 %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">{% translate "ID" %}</th>
+                            <th style="width: 20%;">{% translate "Date" %}</th>
+                            <th style="width: 50%;">{% translate "Description" %}</th>
+                            <th style="width: 20%;">{% translate "Amount" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in shareowner.credited_payments.all %}
+                            <tr>
+                                <td>{{ payment.id }}</td>
+                                <td>{{ payment.payment_date|date:"d.m.Y"|default:"-" }}</td>
+                                <td>{{ payment.description|default:"-" }}</td>
+                                <td>{{ payment.amount|floatformat:2 }} €</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">{% translate "No payments found." %}</div>
+            {% endif %}
+        </div>
+        <div class="section">
             <h2>{% translate "Shifts" %} ({% blocktranslate count years=SHIFT_RETENTION_YEARS %}last year{% plural %}max. last {{ years }} years{% endblocktranslate %})</h2>
             {% if attendances %}
                 <table>
