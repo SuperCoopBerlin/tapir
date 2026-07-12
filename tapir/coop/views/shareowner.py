@@ -1142,7 +1142,7 @@ class UserProfilePDFView(generic.DetailView):
         html = weasyprint.HTML(
             string=html_string, base_url=request.build_absolute_uri("/")
         )
-        pdf = html.write_pdf()
+        pdf = html.write_pdf(pdf_variant="pdf/a-1b")
 
         response = HttpResponse(pdf, content_type="application/pdf")
         filename = f"user-{self.object.pk}-profile.pdf"
