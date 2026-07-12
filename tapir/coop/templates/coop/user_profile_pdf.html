@@ -55,6 +55,38 @@
             border-bottom: 1px solid #ddd;
             padding-bottom: 5px;
         }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        h1 {
+            font-size: 14pt;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #333;
+        }
+
+        table {
+            page-break-inside: avoid;
+        }
+
+        .section {
+            page-break-inside: avoid;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 8pt;
+            color: #999;
+        }
         </style>
     </head>
     <body>
@@ -98,7 +130,7 @@
         </div>
         <div class="section">
             <h2>{% translate "Shares" %}</h2>
-            {% if shareowner.share_ownerships.all %}
+            {% if shareowner.share_ownerships.all|length > 0 %}
                 <table>
                     <thead>
                         <tr>
