@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 {% load django_bootstrap5 %}
-{% load accounts %}
 {% load i18n %}
 {% load utils %}
 <html lang="en">
@@ -9,187 +8,130 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</title>
+        <link rel="stylesheet"
+              href="{% static 'coop/css/membership_agreement_pdf.css' %}">
         <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: #333;
-            background-color: #f5f5f5;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section:last-of-type {
-            margin-bottom: 0;
-        }
-
-        h2 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #007bff;
-            color: #222;
-        }
-
         dl {
             display: grid;
-            grid-template-columns: 150px 1fr;
-            gap: 15px 20px;
+            grid-template-columns: 120px 1fr;
+            gap: 10px 20px;
+            margin-bottom: 15px;
         }
 
         dt {
-            font-weight: 600;
-            color: #555;
-        }
-
-        dd {
-            color: #333;
-            word-break: break-word;
+            font-weight: bold;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            font-size: 14px;
+            font-size: 9pt;
         }
 
-        /*thead {*/
-        /*    background-color: #f8f9fa;*/
-        /*}*/
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
 
         th {
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid #dee2e6;
-            color: #333;
+            font-weight: bold;
         }
 
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #dee2e6;
+        .empty-state {
+            padding: 10px;
+            color: #666;
         }
 
-        tbody tr:hover {
-            background-color: #f9f9f9;
+        .section {
+            margin-bottom: 20px;
         }
 
-        /*.empty-state {*/
-        /*    padding: 20px;*/
-        /*    text-align: center;*/
-        /*    color: #666;*/
-        /*    background-color: #f9f9f9;*/
-        /*    border-radius: 4px;*/
-        /*    border-left: 4px solid #ccc;*/
-        /*}*/
-
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 12px;
-            color: #999;
+        h2 {
+            font-size: 11pt;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
         }
-</style>
-</head>
-<body>
-<div class="container">
-<h1>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</h1>
-<div class="section">
-<h2>{% translate "Personal Information" %}</h2>
-<dl>
-<dt>{% translate "Name" %}</dt>
-<dd>
-{{ person.first_name }} {{ person.last_name }}
-</dd>
-<dt>{% translate "Email" %}</dt>
-<dd>
-{% if person.email %}
-<a href="mailto:{{ person.email }}">{{ person.email }}</a>
-{% else %}
--
-{% endif %}
-</dd>
-<dt>{% translate "Phone" %}</dt>
-<dd>
-{% if person.phone_number %}
-<a href="tel:{{ person.phone_number }}">{{ person.phone_number }}</a>
-{% else %}
--
-{% endif %}
-</dd>
-<dt>{% translate "Date of Birth" %}</dt>
-<dd>
-{{ person.birthdate|date:"j. F Y"|default:"-" }}
-</dd>
-<dt>{% translate "Address" %}</dt>
-<dd>
-{{ person.get_display_address|default:"-" }}
-</dd>
-<dt>{% translate "Language" %}</dt>
-<dd>
-{{ person.get_preferred_language_display }}
-</dd>
-</dl>
-</div>
-<div class="section">
-<h2>{% translate "Shifts" %}</h2>
-{% if attendances %}
-<table>
-<thead>
-<tr>
-<th>{% translate "Date & Time" %}</th>
-<th>{% translate "Description" %}</th>
-<th>{% translate "Status" %}</th>
-</tr>
-</thead>
-<tbody>
-{% for att in attendances %}
-<tr>
-<td>
-{% if att.slot.shift.start_time %}
-{{ att.slot.shift.start_time|date:"d.m.Y H:i" }}
-{% else %}
--
-{% endif %}
-</td>
-<td>
-{% if att.slot.shift %}
-{{ att.slot.shift.title|default:att.slot.name|default:"(no description)" }}
-{% else %}
-{% translate "(Slot removed)" %}
-{% endif %}
-</td>
-<td>{{ att.get_state_display }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-{% else %}
-<div class="empty-state">{% translate "No completed shifts found." %}</div>
-{% endif %}
-</div>
-<div class="footer">{% translate "Generated on" %} {{ generated_at|date:"d.m.Y H:i" }}</div>
-</div>
-</body>
+        </style>
+    </head>
+    <body>
+        <h1>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</h1>
+        <div class="section">
+            <h2>{% translate "Personal Information" %}</h2>
+            <dl>
+                <dt>{% translate "Name" %}</dt>
+                <dd>
+                    {{ person.first_name }} {{ person.last_name }}
+                </dd>
+                <dt>{% translate "Email" %}</dt>
+                <dd>
+                    {% if person.email %}
+                        <a href="mailto:{{ person.email }}">{{ person.email }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </dd>
+                <dt>{% translate "Phone" %}</dt>
+                <dd>
+                    {% if person.phone_number %}
+                        <a href="tel:{{ person.phone_number }}">{{ person.phone_number }}</a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </dd>
+                <dt>{% translate "Date of Birth" %}</dt>
+                <dd>
+                    {{ person.birthdate|date:"j. F Y"|default:"-" }}
+                </dd>
+                <dt>{% translate "Address" %}</dt>
+                <dd>
+                    {{ person.get_display_address|default:"-" }}
+                </dd>
+                <dt>{% translate "Language" %}</dt>
+                <dd>
+                    {{ person.get_preferred_language_display }}
+                </dd>
+            </dl>
+        </div>
+        <div class="section">
+            <h2>{% translate "Shifts" %}</h2>
+            {% if attendances %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{% translate "Date & Time" %}</th>
+                            <th>{% translate "Description" %}</th>
+                            <th>{% translate "Status" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for att in attendances %}
+                            <tr>
+                                <td>
+                                    {% if att.slot.shift.start_time %}
+                                        {{ att.slot.shift.start_time|date:"d.m.Y H:i" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if att.slot.shift %}
+                                        {{ att.slot.shift.title|default:att.slot.name|default:"(no description)" }}
+                                    {% else %}
+                                        {% translate "(Slot removed)" %}
+                                    {% endif %}
+                                </td>
+                                <td>{{ att.get_state_display }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">{% translate "No completed shifts found." %}</div>
+            {% endif %}
+        </div>
+        <div class="footer">{% translate "Generated on" %} {{ generated_at|date:"d.m.Y H:i" }}</div>
+    </body>
 </html>
