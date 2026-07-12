@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 09:54+0200\n"
+"POT-Creation-Date: 2026-07-12 10:41+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -73,6 +73,7 @@ msgstr "Pronomen"
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
+#: coop/templates/coop/user_profile_pdf.html:108
 msgid "Phone number"
 msgstr "Telefonnummer"
 
@@ -80,6 +81,7 @@ msgstr "Telefonnummer"
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
+#: coop/templates/coop/user_profile_pdf.html:116
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
@@ -316,7 +318,7 @@ msgstr "Mitglied"
 
 #: accounts/templates/accounts/user_detail.html:27
 #: coop/templates/coop/shareowner_detail.html:17
-#: coop/templates/coop/user_profile_pdf.html:62
+#: coop/templates/coop/user_profile_pdf.html:94
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
@@ -357,7 +359,7 @@ msgstr "Name und Pronomen bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43
-#: coop/templates/coop/user_profile_pdf.html:64 coop/views/draftuser.py:260
+#: coop/templates/coop/user_profile_pdf.html:96 coop/views/draftuser.py:260
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -374,7 +376,7 @@ msgstr "Nutzer*innenname"
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
-#: coop/templates/coop/user_profile_pdf.html:68
+#: coop/templates/coop/user_profile_pdf.html:100
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
@@ -394,7 +396,7 @@ msgstr "Fehlend"
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
-#: coop/templates/coop/user_profile_pdf.html:88
+#: coop/templates/coop/user_profile_pdf.html:120
 msgid "Address"
 msgstr "Adresse"
 
@@ -818,7 +820,7 @@ msgstr "Investierend"
 
 #: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:115
-#: coop/views/statistics.py:135
+#: coop/templates/coop/user_profile_pdf.html:156 coop/views/statistics.py:135
 msgid "Active"
 msgstr "Aktiv"
 
@@ -1026,7 +1028,9 @@ msgstr "Liste ähnlicher Mitglieder"
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
-#: coop/templates/coop/user_profile_pdf.html:106 coop/views/shareowner.py:612
+#: coop/templates/coop/user_profile_pdf.html:124
+#: coop/templates/coop/user_profile_pdf.html:139
+#: coop/templates/coop/user_profile_pdf.html:177 coop/views/shareowner.py:612
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -2555,14 +2559,17 @@ msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:100
+#: coop/templates/coop/user_profile_pdf.html:137
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:101
+#: coop/templates/coop/user_profile_pdf.html:138
 msgid "Ends at"
 msgstr "Endet am"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:117
+#: coop/templates/coop/user_profile_pdf.html:158
 msgid "Sold or future"
 msgstr ""
 
@@ -2596,59 +2603,49 @@ msgstr "Mitgliedsbestätigung per Mail senden"
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
-#: coop/templates/coop/user_profile_pdf.html:10
-#: coop/templates/coop/user_profile_pdf.html:60
+#: coop/templates/coop/user_profile_pdf.html:12
+#: coop/templates/coop/user_profile_pdf.html:92
 msgid "Member Profile"
 msgstr "Mitgliederprofil"
 
-#: coop/templates/coop/user_profile_pdf.html:76
-msgid "Phone"
-msgstr ""
+#: coop/templates/coop/user_profile_pdf.html:131
+msgid "Shares"
+msgstr "Anteile"
 
-#: coop/templates/coop/user_profile_pdf.html:84
-msgid "Date of Birth"
-msgstr ""
+#: coop/templates/coop/user_profile_pdf.html:166
+msgid "No shares found."
+msgstr "Keine Anteile gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:92
-#, fuzzy
-#| msgid "Preferred Language"
-msgid "Language"
-msgstr "Bevorzugte Sprache"
-
-#: coop/templates/coop/user_profile_pdf.html:99 shifts/apps.py:36
+#: coop/templates/coop/user_profile_pdf.html:170 shifts/apps.py:36
 #: shifts/templates/shifts/user_shifts_overview_tag.html:8
 msgid "Shifts"
 msgstr "Schichten"
 
-#: coop/templates/coop/user_profile_pdf.html:104
+#: coop/templates/coop/user_profile_pdf.html:175
 msgid "Date & Time"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:105
+#: coop/templates/coop/user_profile_pdf.html:176
 #: core/templates/core/email_list.html:39 shifts/models.py:502
 #: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
-#: coop/templates/coop/user_profile_pdf.html:123
+#: coop/templates/coop/user_profile_pdf.html:194
 msgid "(Slot removed)"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:132
+#: coop/templates/coop/user_profile_pdf.html:203
 #, fuzzy
 #| msgid ""
 #| "\n"
 #| "    You completed your shift\n"
 msgid "No completed shifts found."
-msgstr ""
-"\n"
-"Du hast deine Schicht beendet.\n"
+msgstr "Keine Schichten gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:135
-#, fuzzy
-#| msgid "Generated from"
+#: coop/templates/coop/user_profile_pdf.html:206
 msgid "Generated on"
-msgstr "Erzeugt von"
+msgstr "Erzeugt am"
 
 #: coop/views/draftuser.py:89 coop/views/draftuser.py:94
 #, python-format
@@ -6624,6 +6621,11 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, fuzzy
+#~| msgid "Preferred Language"
+#~ msgid "Language"
+#~ msgstr "Bevorzugte Sprache"
 
 #, fuzzy, python-format
 #~| msgid ""

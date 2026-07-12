@@ -105,7 +105,7 @@
                         -
                     {% endif %}
                 </dd>
-                <dt>{% translate "Phone" %}</dt>
+                <dt>{% translate "Phone number" %}</dt>
                 <dd>
                     {% if shareowner.get_info.phone_number %}
                         <a href="tel:{{ shareowner.get_info.phone_number }}">{{ shareowner.get_info.phone_number }}</a>
@@ -113,7 +113,7 @@
                         -
                     {% endif %}
                 </dd>
-                <dt>{% translate "Date of Birth" %}</dt>
+                <dt>{% translate "Birthdate" %}</dt>
                 <dd>
                     {{ shareowner.get_info.birthdate|date:"d.m.Y"|default:"-" }}
                 </dd>
