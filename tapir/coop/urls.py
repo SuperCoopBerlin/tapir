@@ -256,7 +256,7 @@ urlpatterns = [
         name="member_self_register",
     ),
     path(
-        "member/<int:user_id>/profile_pdf",
+        "member/<int:pk>/profile_pdf",
         views.UserProfilePDFView.as_view(),
         name="user_profile_pdf",
     ),

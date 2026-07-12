@@ -1110,7 +1110,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
 class UserProfilePDFView(generic.DetailView):
     model = ShareOwner
-    pk_url_kwarg = "user_id"
+    pk_url_kwarg = "pk"
     template_name = "coop/user_profile_pdf.html"
 
     def get_context_data(self, **kwargs):
@@ -1119,8 +1119,8 @@ class UserProfilePDFView(generic.DetailView):
         person = getattr(shareowner, "user", None) or shareowner
 
         attendances = []
-        if shareowner.user_id and shareowner.user is not None:
-            attendances = shareowner.user.shift_attesndances.select_related(
+        if shareowner.pk and shareowner.user is not None:
+            attendances = shareowner.user.shift_attendances.select_related(
                 "slot", "slot__shift"
             ).order_by("slot__shift__start_time")
 
