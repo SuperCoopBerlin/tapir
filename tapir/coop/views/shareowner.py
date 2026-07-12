@@ -1128,6 +1128,7 @@ class UserProfilePDFView(generic.DetailView):
             {
                 "person": person,
                 "attendances": attendances,
+                "shareowner": shareowner,
                 "generated_at": timezone.now(),
             }
         )

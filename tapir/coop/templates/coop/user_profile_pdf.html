@@ -2,12 +2,13 @@
 {% load static %}
 {% load django_bootstrap5 %}
 {% load accounts %}
+{% load i18n %}
 {% load utils %}
-<html lang="de">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Mitgliedsprofil - {{ person.get_display_name }}</title>
+        <title>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</title>
         <style>
         * {
             margin: 0;
@@ -72,9 +73,9 @@
             font-size: 14px;
         }
 
-        thead {
-            background-color: #f8f9fa;
-        }
+        /*thead {*/
+        /*    background-color: #f8f9fa;*/
+        /*}*/
 
         th {
             padding: 12px;
@@ -93,14 +94,14 @@
             background-color: #f9f9f9;
         }
 
-        .empty-state {
-            padding: 20px;
-            text-align: center;
-            color: #666;
-            background-color: #f9f9f9;
-            border-radius: 4px;
-            border-left: 4px solid #ccc;
-        }
+        /*.empty-state {*/
+        /*    padding: 20px;*/
+        /*    text-align: center;*/
+        /*    color: #666;*/
+        /*    background-color: #f9f9f9;*/
+        /*    border-radius: 4px;*/
+        /*    border-left: 4px solid #ccc;*/
+        /*}*/
 
         .footer {
             margin-top: 30px;
@@ -109,88 +110,86 @@
             font-size: 12px;
             color: #999;
         }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1 style="margin-bottom: 30px; font-size: 24px;">Mitgliedsprofil: {{ person.get_display_name }}</h1>
-            <!-- Stammdaten -->
-            <div class="section">
-                <h2>Stammdaten</h2>
-                <dl>
-                    <dt>Name</dt>
-                    <dd>
-                        {{ person.first_name }} {{ person.last_name }}
-                    </dd>
-                    <dt>E‑Mail</dt>
-                    <dd>
-                        {% if person.email %}
-                            <a href="mailto:{{ person.email }}">{{ person.email }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </dd>
-                    <dt>Telefon</dt>
-                    <dd>
-                        {% if person.phone_number %}
-                            <a href="tel:{{ person.phone_number }}">{{ person.phone_number }}</a>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </dd>
-                    <dt>Geburtsdatum</dt>
-                    <dd>
-                        {{ person.birthdate|date:"j. F Y"|default:"-" }}
-                    </dd>
-                    <dt>Adresse</dt>
-                    <dd>
-                        {{ person.get_display_address|default:"-" }}
-                    </dd>
-                    <dt>Sprache</dt>
-                    <dd>
-                        {{ person.get_preferred_language_display }}
-                    </dd>
-                </dl>
-            </div>
-            <!-- Schichten -->
-            <div class="section">
-                <h2>Schichten</h2>
-                {% if attendances %}
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Datum & Uhrzeit</th>
-                                <th>Bezeichnung</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for att in attendances %}
-                                <tr>
-                                    <td>
-                                        {% if att.slot.shift.start_time %}
-                                            {{ att.slot.shift.start_time|date:"d.m.Y H:i" }}
-                                        {% else %}
-                                            -
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {% if att.slot.shift %}
-                                            {{ att.slot.shift.title|default:att.slot.name|default:"(ohne Bezeichnung)" }}
-                                        {% else %}
-                                            <em>(Slot entfernt)</em>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ att.get_state_display }}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <div class="empty-state">Keine abgeschlossenen Schichten gefunden.</div>
-                {% endif %}
-            </div>
-            <div class="footer">Generiert am {{ generated_at|date:"d.m.Y H:i" }}</div>
-        </div>
-    </body>
+</style>
+</head>
+<body>
+<div class="container">
+<h1>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</h1>
+<div class="section">
+<h2>{% translate "Personal Information" %}</h2>
+<dl>
+<dt>{% translate "Name" %}</dt>
+<dd>
+{{ person.first_name }} {{ person.last_name }}
+</dd>
+<dt>{% translate "Email" %}</dt>
+<dd>
+{% if person.email %}
+<a href="mailto:{{ person.email }}">{{ person.email }}</a>
+{% else %}
+-
+{% endif %}
+</dd>
+<dt>{% translate "Phone" %}</dt>
+<dd>
+{% if person.phone_number %}
+<a href="tel:{{ person.phone_number }}">{{ person.phone_number }}</a>
+{% else %}
+-
+{% endif %}
+</dd>
+<dt>{% translate "Date of Birth" %}</dt>
+<dd>
+{{ person.birthdate|date:"j. F Y"|default:"-" }}
+</dd>
+<dt>{% translate "Address" %}</dt>
+<dd>
+{{ person.get_display_address|default:"-" }}
+</dd>
+<dt>{% translate "Language" %}</dt>
+<dd>
+{{ person.get_preferred_language_display }}
+</dd>
+</dl>
+</div>
+<div class="section">
+<h2>{% translate "Shifts" %}</h2>
+{% if attendances %}
+<table>
+<thead>
+<tr>
+<th>{% translate "Date & Time" %}</th>
+<th>{% translate "Description" %}</th>
+<th>{% translate "Status" %}</th>
+</tr>
+</thead>
+<tbody>
+{% for att in attendances %}
+<tr>
+<td>
+{% if att.slot.shift.start_time %}
+{{ att.slot.shift.start_time|date:"d.m.Y H:i" }}
+{% else %}
+-
+{% endif %}
+</td>
+<td>
+{% if att.slot.shift %}
+{{ att.slot.shift.title|default:att.slot.name|default:"(no description)" }}
+{% else %}
+{% translate "(Slot removed)" %}
+{% endif %}
+</td>
+<td>{{ att.get_state_display }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<div class="empty-state">{% translate "No completed shifts found." %}</div>
+{% endif %}
+</div>
+<div class="footer">{% translate "Generated on" %} {{ generated_at|date:"d.m.Y H:i" }}</div>
+</div>
+</body>
 </html>
