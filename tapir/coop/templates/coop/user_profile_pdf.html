@@ -97,6 +97,45 @@
             </dl>
         </div>
         <div class="section">
+            <h2>{% translate "Shares" %}</h2>
+            {% if shareowner.share_ownerships.all %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% translate "Starts at" %}</th>
+                            <th>{% translate "Ends at" %}</th>
+                            <th>{% translate "Status" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ownership in shareowner.share_ownerships.all %}
+                            <tr>
+                                <td>{{ ownership.id }}</td>
+                                <td>{{ ownership.start_date|date:"d.m.Y"|default:"-" }}</td>
+                                <td>
+                                    {% if ownership.end_date %}
+                                        {{ ownership.end_date|date:"d.m.Y" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if ownership.is_active %}
+                                        {% translate "Active" %}
+                                    {% else %}
+                                        {% translate "Sold or future" %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">{% translate "No shares found." %}</div>
+            {% endif %}
+        </div>
+        <div class="section">
             <h2>{% translate "Shifts" %}</h2>
             {% if attendances %}
                 <table>
