@@ -5,6 +5,7 @@ from tempfile import SpooledTemporaryFile
 import django_filters
 import django_tables2
 import weasyprint
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -1119,13 +1120,20 @@ class UserProfilePDFView(generic.DetailView):
 
         attendances = []
         if shareowner.pk and shareowner.user is not None:
-            attendances = shareowner.user.shift_attendances.select_related(
-                "slot", "slot__shift"
-            ).order_by("slot__shift__start_time")
+            cutoff_date = timezone.now() - relativedelta(
+                years=settings.SHIFT_RETENTION_YEARS
+            )
+
+            attendances = (
+                shareowner.user.shift_attendances.select_related("slot", "slot__shift")
+                .filter(slot__shift__start_time__gte=cutoff_date)
+                .order_by("slot__shift__start_time")
+            )
 
         context.update(
             {
                 "attendances": attendances,
+                "SHIFT_RETENTION_YEARS": settings.SHIFT_RETENTION_YEARS,
                 "shareowner": shareowner,
                 "generated_at": timezone.now(),
             }
