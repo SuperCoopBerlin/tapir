@@ -1110,8 +1110,11 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         return self.get_share_owner().get_absolute_url()
 
 
-class UserProfilePDFView(generic.DetailView):
+class UserProfilePDFView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
+):
     model = ShareOwner
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
     pk_url_kwarg = "pk"
     template_name = "coop/user_profile_pdf.html"
 
