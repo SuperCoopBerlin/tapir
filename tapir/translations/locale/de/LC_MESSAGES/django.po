@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 11:01+0200\n"
+"POT-Creation-Date: 2026-07-15 18:56+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -536,8 +536,8 @@ msgstr "Schickt mir eine Anleitung!"
 msgid "Enter a valid username. This value may contain only letters, numbers, and ./-/_ characters."
 msgstr "Der angegebene Name ist ungültig. Er darf nur Buchstaben, Zahlen und die Symbole ./-/_ enthalten."
 
-#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:287
-#: coop/views/shareowner.py:292
+#: accounts/views.py:129 accounts/views.py:134 coop/views/shareowner.py:288
+#: coop/views/shareowner.py:293
 #, python-format
 msgid "Edit member: %(name)s"
 msgstr "Mitglied bearbeiten: %(name)s"
@@ -1030,7 +1030,7 @@ msgstr "Liste ähnlicher Mitglieder"
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
 #: coop/templates/coop/user_profile_pdf.html:124
 #: coop/templates/coop/user_profile_pdf.html:139
-#: coop/templates/coop/user_profile_pdf.html:204 coop/views/shareowner.py:613
+#: coop/templates/coop/user_profile_pdf.html:204 coop/views/shareowner.py:614
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -2622,6 +2622,7 @@ msgid "ID"
 msgstr ""
 
 #: coop/templates/coop/user_profile_pdf.html:176
+#: coop/templates/coop/user_profile_pdf.html:239
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
@@ -2632,6 +2633,7 @@ msgstr "Datum"
 
 #: coop/templates/coop/user_profile_pdf.html:177
 #: coop/templates/coop/user_profile_pdf.html:203
+#: coop/templates/coop/user_profile_pdf.html:242
 #: core/templates/core/email_list.html:39 shifts/models.py:502
 #: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
@@ -2649,6 +2651,7 @@ msgid "Shifts"
 msgstr "Schichten"
 
 #: coop/templates/coop/user_profile_pdf.html:197
+#: coop/templates/coop/user_profile_pdf.html:234
 #, python-format
 msgid "last year"
 msgid_plural "max. last %(years)s years"
@@ -2664,6 +2667,7 @@ msgid "(Slot removed)"
 msgstr ""
 
 #: coop/templates/coop/user_profile_pdf.html:230
+#: coop/templates/coop/user_profile_pdf.html:257
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2671,7 +2675,24 @@ msgstr ""
 msgid "No completed shifts found."
 msgstr "Keine Schichten gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:233
+#: coop/templates/coop/user_profile_pdf.html:234
+#, fuzzy
+#| msgid "Shift account log for: "
+msgid "Shift account history"
+msgstr "Schichtkonto-Protokoll für: "
+
+#: coop/templates/coop/user_profile_pdf.html:240
+#: financingcampaign/templates/financingcampaign/general.html:112
+#: shifts/templates/shifts/user_shift_account_log.html:27
+msgid "Value"
+msgstr "Wert"
+
+#: coop/templates/coop/user_profile_pdf.html:241
+#: shifts/templates/shifts/user_shift_account_log.html:28
+msgid "Balance at date"
+msgstr ""
+
+#: coop/templates/coop/user_profile_pdf.html:260
 msgid "Generated on"
 msgstr "Erzeugt am"
 
@@ -2751,71 +2772,71 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/shareowner.py:148 coop/views/shareowner.py:153
+#: coop/views/shareowner.py:149 coop/views/shareowner.py:154
 #, python-format
 msgid "Edit share: %(name)s"
 msgstr "Anteil bearbeiten: %(name)s"
 
-#: coop/views/shareowner.py:173 coop/views/shareowner.py:178
+#: coop/views/shareowner.py:174 coop/views/shareowner.py:179
 #, python-format
 msgid "Add shares to %(name)s"
 msgstr "Anteile zu %(name)s hinzufügen"
 
-#: coop/views/shareowner.py:392
+#: coop/views/shareowner.py:393
 msgid "Membership confirmation email sent."
 msgstr "Mitgliedsbestätigung per Mail gesendet."
 
-#: coop/views/shareowner.py:614 shifts/templates/shifts/shift_filters.html:45
+#: coop/views/shareowner.py:615 shifts/templates/shifts/shift_filters.html:45
 msgid "Any"
 msgstr "Alle"
 
-#: coop/views/shareowner.py:619
+#: coop/views/shareowner.py:620
 #: shifts/templates/shifts/user_shifts_overview_tag.html:79
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:627
+#: coop/views/shareowner.py:628
 msgid "Is registered to an ABCD-slot that requires a qualification"
 msgstr "Ist für eine ABCD-Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:635
+#: coop/views/shareowner.py:636
 msgid "Is registered to a slot that requires a qualification"
 msgstr "Ist für eine Schicht eingetragen, die Qualifikation erfordert"
 
-#: coop/views/shareowner.py:643
+#: coop/views/shareowner.py:644
 msgid "Has qualification"
 msgstr "Hat Qualifikation"
 
-#: coop/views/shareowner.py:651
+#: coop/views/shareowner.py:652
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:658 shifts/forms.py:788
+#: coop/views/shareowner.py:659 shifts/forms.py:788
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
-#: coop/views/shareowner.py:661
+#: coop/views/shareowner.py:662
 msgid "Is fully paid"
 msgstr "Hat vollständig bezahlt"
 
-#: coop/views/shareowner.py:664
+#: coop/views/shareowner.py:665
 msgid "Name or member ID"
 msgstr "Name oder Mitgliedsnummer"
 
-#: coop/views/shareowner.py:668
+#: coop/views/shareowner.py:669
 msgid "Is currently exempted from shifts"
 msgstr "Ist derzeit von der Schichtarbeit befreit"
 
-#: coop/views/shareowner.py:673
+#: coop/views/shareowner.py:674
 msgid "Shift Name"
 msgstr "Schichtname"
 
-#: coop/views/shareowner.py:989
+#: coop/views/shareowner.py:990
 msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
 
-#: coop/views/shareowner.py:1094
+#: coop/views/shareowner.py:1095
 msgid "Thank you for signing additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon."
 msgstr "Vielen Dank für das Zeichnen weiterer Anteile, wir freuen und bedanken uns! Du bekommst in Kürze eine Bestätigung per Email."
 
@@ -3026,11 +3047,6 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:108
 msgid "The list of all datapoints"
 msgstr ""
-
-#: financingcampaign/templates/financingcampaign/general.html:112
-#: shifts/templates/shifts/user_shift_account_log.html:27
-msgid "Value"
-msgstr "Wert"
 
 #: financingcampaign/templates/financingcampaign/general.html:113
 msgid "Linked source"
@@ -4938,10 +4954,6 @@ msgstr "Füge per Hand einen Eintrag hinzu"
 
 #: shifts/templates/shifts/user_shift_account_log.html:23
 msgid "List of changes to this members shift account "
-msgstr ""
-
-#: shifts/templates/shifts/user_shift_account_log.html:28
-msgid "Balance at date"
 msgstr ""
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:20
