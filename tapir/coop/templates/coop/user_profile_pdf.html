@@ -230,6 +230,33 @@
                 <div class="empty-state">{% translate "No completed shifts found." %}</div>
             {% endif %}
         </div>
+        <div class="section">
+            <h2>{% translate "Shift account history" %} ({% blocktranslate count years=SHIFT_RETENTION_YEARS %}last year{% plural %}max. last {{ years }} years{% endblocktranslate %})</h2>
+            {% if attendances %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{% translate 'Date' %}</th>
+                            <th>{% translate 'Value' %}</th>
+                            <th>{% translate 'Balance at date' %}</th>
+                            <th>{% translate 'Description' %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry_data in entries_data %}
+                            <tr>
+                                <td>{{ entry_data.entry.date|date:"d.m.Y H:i" }}</td>
+                                <td>{{ entry_data.entry.value }}</td>
+                                <td>{{ entry_data.balance_at_date }}</td>
+                                <td class="description">{{ entry_data.entry.description }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="empty-state">{% translate "No completed shifts found." %}</div>
+            {% endif %}
+        </div>
         <div class="footer">{% translate "Generated on" %} {{ generated_at|date:"d.m.Y H:i" }}</div>
     </body>
 </html>

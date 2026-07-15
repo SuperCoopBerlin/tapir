@@ -95,6 +95,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
     SHIFT_USER_CAPABILITY_CHOICES,
     Shift,
+    ShiftAccountEntry,
     ShiftExemption,
     ShiftTemplateGroup,
 )
@@ -1129,6 +1130,17 @@ class UserProfilePDFView(generic.DetailView):
                 .filter(slot__shift__start_time__gte=cutoff_date)
                 .order_by("slot__shift__start_time")
             )
+            entries_data = [
+                {
+                    "entry": entry,
+                    "balance_at_date": shareowner.user.shift_user_data.get_account_balance(
+                        at_date=entry.date
+                    ),
+                }
+                for entry in ShiftAccountEntry.objects.filter(
+                    user=shareowner.user, date__gte=cutoff_date
+                ).order_by("-date")
+            ]
 
         context.update(
             {
@@ -1136,6 +1148,7 @@ class UserProfilePDFView(generic.DetailView):
                 "SHIFT_RETENTION_YEARS": settings.SHIFT_RETENTION_YEARS,
                 "shareowner": shareowner,
                 "generated_at": timezone.now(),
+                "entries_data": entries_data,
             }
         )
         return context
