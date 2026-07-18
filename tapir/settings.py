@@ -234,12 +234,10 @@ elif EMAIL_ENV == "prod":
     EMAIL_USE_TLS = True
 
 
-COOP_NAME = "SuperCoop Berlin"
-COOP_FULL_NAME = "SuperCoop Berlin eG"
-COOP_STREET = "Oudenarder Straße 16"
-COOP_PLACE = "13347 Berlin"
-FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
-DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
+COOP_NAME_DEFAULT = "SuperCoop Berlin"
+COOP_FULL_NAME_DEFAULT = "SuperCoop Berlin eG"
+COOP_STREET_DEFAULT = "Oudenarder Straße 16"
+COOP_PLACE_DEFAULT = "13347 Berlin"
 
 
 # DJANGO_ADMINS="Blake <blake@cyb.org>, Alice Judge <alice@cyb.org>"

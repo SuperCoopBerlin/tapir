@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
 from tapir.coop import pdfs
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import CoopAddress, ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
@@ -56,8 +56,9 @@ class MembershipConfirmationForActiveMemberEmailBuilder(TapirEmailBuilderBase):
         ]
 
     def get_extra_context(self) -> dict:
+        coop_address = CoopAddress.objects.first()
         return {
-            "organization_name": settings.COOP_NAME,
+            "organization_name": coop_address.coop_name,
             "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
             "management_email_address": settings.EMAIL_ADDRESS_MANAGEMENT,
             "supervisors_email_address": settings.EMAIL_ADDRESS_SUPERVISORS,

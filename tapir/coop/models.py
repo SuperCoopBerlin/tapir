@@ -870,16 +870,16 @@ class MembershipResignationDeleteLogEntry(ModelLogEntry):
 
 class CoopAddress(models.Model):
     coop_name = models.CharField(
-        max_length=255, blank=False, null=False, default=settings.COOP_NAME
+        max_length=255, blank=False, null=False, default=settings.COOP_NAME_DEFAULT
     )
     coop_full_name = models.CharField(
-        max_length=255, blank=True, default=settings.COOP_FULL_NAME
+        max_length=255, blank=True, default=settings.COOP_FULL_NAME_DEFAULT
     )
     street = models.CharField(
-        max_length=255, blank=False, null=False, default=settings.COOP_STREET
+        max_length=255, blank=False, null=False, default=settings.COOP_STREET_DEFAULT
     )
     place = models.CharField(
-        max_length=255, blank=False, null=False, default=settings.COOP_PLACE
+        max_length=255, blank=False, null=False, default=settings.COOP_PLACE_DEFAULT
     )
     country = models.CharField(max_length=255, default="Deutschland")
 

@@ -1,8 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
 from tapir.coop.config import URL_MEMBER_MANUAL
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import CoopAddress, ShareOwner
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.config import (
     FREEZE_AFTER_DAYS,
@@ -37,9 +36,11 @@ class MemberFrozenEmailBuilder(TapirEmailBuilderBase):
         ]
 
     def get_extra_context(self) -> dict:
+        coop_address = CoopAddress.objects.first()
+
         return {
             "url_member_manual": URL_MEMBER_MANUAL,
-            "coop_name": settings.COOP_NAME,
+            "coop_name": coop_address.coop_name,
             "freeze_threshold": FREEZE_THRESHOLD,
             "freeze_after_days": FREEZE_AFTER_DAYS,
             "nb_weeks_in_the_future_for_make_up_shifts": NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,

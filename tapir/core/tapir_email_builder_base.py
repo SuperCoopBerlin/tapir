@@ -10,7 +10,7 @@ from tapir.core.mail_option import MailOption
 if TYPE_CHECKING:
     # ignore at runtime to avoid circular import
     from tapir.accounts.models import TapirUser
-    from tapir.coop.models import ShareOwner
+    from tapir.coop.models import CoopAddress, ShareOwner
 
 all_emails: dict[str, type[TapirEmailBuilderBase]] = {}
 
@@ -80,13 +80,14 @@ class TapirEmailBuilderBase:
         member_infos,
         tapir_user: TapirUser,
     ) -> dict:
+        coop_address = CoopAddress.objects.first()
         if self.context is None:
             self.context = {
                 "share_owner": share_owner,
                 "tapir_user": tapir_user,
                 "member_infos": member_infos,
-                "coop_name": settings.COOP_NAME,
-                "coop_full_name": settings.COOP_FULL_NAME,
+                "coop_name": coop_address.coop_name,
+                "coop_full_name": coop_address.coop_full_name,
                 "email_unique_id": self.get_unique_id(),
             } | self.get_extra_context()  # '|' is the union operator for dictionaries.
 

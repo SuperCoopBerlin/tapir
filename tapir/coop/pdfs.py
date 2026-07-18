@@ -25,7 +25,7 @@ def get_shareowner_membership_confirmation_pdf(
         "date": date,
         "COOP_NAME": coop_address.coop_name,
         "EMAIL_ADDRESS_MEMBER_OFFICE": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
-        "COOP_FULL_NAME": settings.COOP_FULL_NAME,
+        "COOP_FULL_NAME": coop_address.coop_full_name,
         "COOP_STREET": coop_address.street,
         "COOP_PLACE": coop_address.place,
     }
@@ -37,15 +37,16 @@ def get_shareowner_membership_confirmation_pdf(
 
 
 def get_membership_agreement_pdf(share_owner=None, num_shares=1):
+    coop_address = CoopAddress.objects.first()
     templates = [
         "coop/pdf/membership_agreement_pdf.html",
         "coop/pdf/membership_agreement_pdf.default.html",
     ]
     context = {
         "share_owner": share_owner,
-        "coop_full_name": settings.COOP_FULL_NAME,
-        "coop_street": settings.COOP_STREET,
-        "coop_place": settings.COOP_PLACE,
+        "coop_full_name": coop_address.coop_full_name,
+        "coop_street": coop_address.street,
+        "coop_place": coop_address.place,
         "share_price": config.COOP_SHARE_PRICE,
         "entry_amount": config.COOP_ENTRY_AMOUNT,
         "num_shares": num_shares,
@@ -60,6 +61,7 @@ def get_membership_agreement_pdf(share_owner=None, num_shares=1):
 def get_confirmation_extra_shares_pdf(
     share_owner: ShareOwner, num_shares: int, date: datetime.date
 ) -> Document:
+    coop_address = CoopAddress.objects.first()
     templates = [
         "coop/pdf/extra_shares_confirmation_pdf.html",
         "coop/pdf/extra_shares_confirmation_pdf.default.html",
@@ -69,9 +71,9 @@ def get_confirmation_extra_shares_pdf(
         "num_shares": num_shares,
         "date": date,
         "member_number": share_owner.id,
-        "coop_full_name": settings.COOP_FULL_NAME,
-        "coop_street": settings.COOP_STREET,
-        "coop_place": settings.COOP_PLACE,
+        "coop_full_name": coop_address.coop_full_name,
+        "coop_street": coop_address.street,
+        "coop_place": coop_address.place,
         "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
     }
     return render_pdf(
@@ -87,6 +89,7 @@ def generate_share_request_pdf(
     additional_information,
     generation_time: datetime.datetime,
 ):
+    coop_address = CoopAddress.objects.first()
     templates = [
         "coop/pdf/membership_agreement_pdf.html",
         "coop/pdf/membership_agreement_pdf.default.html",
@@ -96,9 +99,9 @@ def generate_share_request_pdf(
         "num_additional_shares": num_shares,
         "additional_to_pay": num_shares * config.COOP_SHARE_PRICE,
         "additional_information": additional_information,
-        "coop_full_name": settings.COOP_FULL_NAME,
-        "coop_street": settings.COOP_STREET,
-        "coop_place": settings.COOP_PLACE,
+        "coop_full_name": coop_address.coop_full_name,
+        "coop_street": coop_address.street,
+        "coop_place": coop_address.place,
         "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         "hide_user_signing_field": True,
         "generation_time": generation_time,
