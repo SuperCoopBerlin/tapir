@@ -884,4 +884,4 @@ class CoopAddress(models.Model):
     country = models.CharField(max_length=255, default="Deutschland")
 
     def __str__(self):
-        print(f"coop address is {self.street} {self.place} {self.country}")
+        return f"coop address is {self.street} {self.place} {self.country}"
