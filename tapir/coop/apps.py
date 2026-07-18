@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import (
     PERMISSION_ACCOUNTING_VIEW,
+    PERMISSION_COOP_ADMIN,
     PERMISSION_COOP_MANAGE,
     PERMISSION_COOP_VIEW,
 )
@@ -53,6 +54,13 @@ class CoopConfig(AppConfig):
             url=reverse_lazy("coop:incoming_payment_list"),
             ordering=3,
             required_permissions=[PERMISSION_ACCOUNTING_VIEW],
+        )
+        management_group.add_link(
+            display_name=_("Coop Management"),
+            material_icon="admin_panel_settings",
+            url=reverse_lazy("coop:coop_management"),
+            ordering=7,
+            required_permissions=[PERMISSION_COOP_ADMIN],
         )
 
     @staticmethod

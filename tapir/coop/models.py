@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
-from tapir import utils
+from tapir import settings, utils
 from tapir.accounts.models import TapirUser
 from tapir.coop.config import COOP_ENTRY_AMOUNT, COOP_SHARE_PRICE
 from tapir.coop.services.investing_status_service import InvestingStatusService
@@ -866,3 +866,22 @@ class MembershipResignationDeleteLogEntry(ModelLogEntry):
         return super().populate_base(
             actor=actor, share_owner=model.share_owner, model=model
         )
+
+
+class CoopAddress(models.Model):
+    coop_name = models.CharField(
+        max_length=255, blank=False, null=False, default=settings.COOP_NAME
+    )
+    coop_full_name = models.CharField(
+        max_length=255, blank=True, default=settings.COOP_FULL_NAME
+    )
+    street = models.CharField(
+        max_length=255, blank=False, null=False, default=settings.COOP_STREET
+    )
+    place = models.CharField(
+        max_length=255, blank=False, null=False, default=settings.COOP_PLACE
+    )
+    country = models.CharField(max_length=255, default="Deutschland")
+
+    def __str__(self):
+        print(f"coop address is {self.street} {self.place} {self.country}")

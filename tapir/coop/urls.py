@@ -255,4 +255,7 @@ urlpatterns = [
         views.MemberSelfRegisterApiView.as_view(),
         name="member_self_register",
     ),
+    path(
+        "coop-management/", views.CoopManagementView.as_view(), name="coop_management"
+    ),
 ]

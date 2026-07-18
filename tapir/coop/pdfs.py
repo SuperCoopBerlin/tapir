@@ -4,7 +4,7 @@ from django.conf import settings
 from weasyprint import Document
 
 from tapir.coop import config
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import CoopAddress, ShareOwner
 from tapir.utils.pdfs import render_pdf
 
 CONTENT_TYPE_PDF = "application/pdf"
@@ -13,6 +13,8 @@ CONTENT_TYPE_PDF = "application/pdf"
 def get_shareowner_membership_confirmation_pdf(
     share_owner: ShareOwner, num_shares: int, date: datetime.date
 ):
+    coop_address = CoopAddress.objects.first()
+
     templates = [
         "coop/pdf/membership_confirmation_pdf.html",
         "coop/pdf/membership_confirmation_pdf.default.html",
@@ -21,11 +23,11 @@ def get_shareowner_membership_confirmation_pdf(
         "share_owner": share_owner,
         "num_shares": num_shares,
         "date": date,
-        "COOP_NAME": settings.COOP_NAME,
+        "COOP_NAME": coop_address.coop_name,
         "EMAIL_ADDRESS_MEMBER_OFFICE": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
         "COOP_FULL_NAME": settings.COOP_FULL_NAME,
-        "COOP_STREET": settings.COOP_STREET,
-        "COOP_PLACE": settings.COOP_PLACE,
+        "COOP_STREET": coop_address.street,
+        "COOP_PLACE": coop_address.place,
     }
     return render_pdf(
         templates=templates,
