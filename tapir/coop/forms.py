@@ -479,8 +479,3 @@ class CoopAddressForm(forms.ModelForm):
             "place",
             "country",
         ]
-        # widgets = {
-        #     "street": forms.TextInput(attrs={"class": "form-control"}),
-        #     "place": forms.TextInput(attrs={"class": "form-control"}),
-        #     "country": forms.TextInput(attrs={"class": "form-control"}),
-        # }
