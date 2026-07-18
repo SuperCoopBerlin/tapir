@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-18 08:05+0200\n"
+"POT-Creation-Date: 2026-07-18 09:42+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -608,7 +608,7 @@ msgstr "Wird gesendet, wenn jemand, der bereits Mitglied ist, weitere Anteile ka
 msgid "Membership confirmation for active users"
 msgstr "Mitgliedsbestätigung für aktive Mitglieder"
 
-#: coop/emails/membership_confirmation_email_for_investing_member.py:24
+#: coop/emails/membership_confirmation_email_for_investing_member.py:23
 msgid "Membership confirmation for investing users"
 msgstr "Mitgliedsbestätigung für investierende Mitglieder"
 
@@ -2734,7 +2734,7 @@ msgctxt "Willing to give a share"
 msgid "No"
 msgstr "Nein"
 
-#: coop/views/shareowner.py:1092
+#: coop/views/shareowner.py:1094
 msgid "Thank you for signing additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon."
 msgstr "Vielen Dank für das Zeichnen weiterer Anteile, wir freuen und bedanken uns! Du bekommst in Kürze eine Bestätigung per Email."
 
@@ -3079,11 +3079,11 @@ msgstr "Einfrierwarnung"
 msgid "Sent to a member when their shift status is not frozen yet but will be set to frozen if they don't register for make-up shifts."
 msgstr "Wird an ein Mitglied gesendet, das bald eingefroren wird wenn es sich nicht für eine Aufholschicht registriert"
 
-#: shifts/emails/member_frozen_email.py:21
+#: shifts/emails/member_frozen_email.py:20
 msgid "Shift status set to frozen"
 msgstr "Schicht-Status wird auf Eingefroren gesetzt"
 
-#: shifts/emails/member_frozen_email.py:26
+#: shifts/emails/member_frozen_email.py:25
 msgid "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
 msgstr "Wird an ein Mitglied gesendet, wenn sein Schichtstatus auf Eingefroren gesetzt wird. Dies geschieht in der Regel, wenn es zu viele Schichten versäumt hat."
 
