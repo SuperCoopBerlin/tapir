@@ -28,6 +28,11 @@
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:shift_template_set_end_date' object.pk %}">
+                        <span class="material-icons button-icon">event_busy</span>
+                        {% translate 'Set end date' %}
+                    </a>
                 </div>
             {% endif %}
         </h5>
