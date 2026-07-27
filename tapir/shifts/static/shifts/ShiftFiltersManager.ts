@@ -72,7 +72,13 @@ class ShiftFiltersManager {
             this.legend_highlighted.innerText += " - " + this.current_slot_filter.nextElementSibling.innerHTML;
         }
 
-        this.slot_name_group.style.display = this.current_status_filter.value == StatusFilter.FREESLOT ? null : "none";
+        const isFreeslot = this.current_status_filter.value == StatusFilter.FREESLOT;
+        this.slot_name_group.style.display = isFreeslot ? null : "none";
+
+        const legend = this.slot_name_group.closest("fieldset")?.querySelector("legend") as HTMLElement;
+        if (legend) {
+            legend.style.display = isFreeslot ? null : "none";
+        }
     }
 
     private update_shift_block(shift_block: HTMLElement, slot_status_filter: StatusFilter, slot_name_filter: string) {

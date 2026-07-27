@@ -15,7 +15,7 @@
                 return
             }
 
-            let url = "{% url "shifts:calendar" %}";
+            let url = "{% url 'shifts:calendar' %}";
             url += "?date_from=" + document.getElementById("date-from").value;
             url += "&date_to=" + document.getElementById("date-to").value;
             window.location = url;
