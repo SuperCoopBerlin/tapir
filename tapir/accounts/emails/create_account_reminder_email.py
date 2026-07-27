@@ -1,5 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
+from tapir import settings
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
@@ -16,6 +17,12 @@ class CreateAccountReminderEmailBuilder(TapirEmailBuilderBase):
     @classmethod
     def get_name(cls) -> str:
         return _("Create account reminder")
+
+    def get_extra_context(self) -> dict:
+        return {
+            "coop_street": settings.COOP_STREET,
+            "coop_place": settings.COOP_PLACE,
+        }
 
     @classmethod
     def get_description(cls) -> str:
