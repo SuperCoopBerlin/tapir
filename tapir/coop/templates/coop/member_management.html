@@ -34,35 +34,35 @@
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:membership_resignation_list' %}">
                         <span class="material-icons button-icon">person_cancel</span>{% translate 'Membership resignations' %}
-                    {% endif %}
-                </a>
-            </div>
+                {% endif %}
+            </a>
         </div>
-        <div class="card mb-2">
-            <h5 class="card-header">{% translate "Old member statistics" %}</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    {% blocktranslate %}
+    </div>
+    <div class="card mb-2">
+        <h5 class="card-header">{% translate "Old member statistics" %}</h5>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                {% blocktranslate %}
                         <p>This statistics have been hidden from members in order to focus on the more important
                             ones.</p>
                         <p>They may not be relevant or well presented.</p>
                     {% endblocktranslate %}
-                    <a class="{% tapir_button_link %}" href="{% url 'coop:statistics' %}">
-                        <span class="material-icons button-icon">calculate</span>{% translate 'Old member statistics' %}
-                    </a>
-                </li>
-            </ul>
+                <a class="{% tapir_button_link %}" href="{% url 'coop:statistics' %}">
+                    <span class="material-icons button-icon">calculate</span>{% translate 'Old member statistics' %}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between">
+            <h5>General Tapir Accounts</h5>
         </div>
-        <div class="card mb-2">
-            <div class="card-header d-flex justify-content-between">
-                <h5>General Tapir Accounts</h5>
-            </div>
-            <div class="card-body">
-                <a class="{% tapir_button_link_to_action %}"
-                   href="{% url 'coop:create_general_account' %}"><span class="material-icons button-icon">add</span>Create new Tapir account</a>
-                <a class="{% tapir_button_link %}"
-                   href="{% url 'coop:general_accounts_list' %}"><span class="material-icons button-icon">list</span>Show general Tapir accounts</a>
-            </div>
+        <div class="card-body">
+            <a class="{% tapir_button_link_to_action %}"
+               href="{% url 'coop:create_general_account' %}"><span class="material-icons button-icon">add</span>Create new Tapir account</a>
+            <a class="{% tapir_button_link %}"
+               href="{% url 'coop:general_accounts_list' %}"><span class="material-icons button-icon">list</span>Show general Tapir accounts</a>
         </div>
+    </div>
     </div>
 {% endblock content %}
