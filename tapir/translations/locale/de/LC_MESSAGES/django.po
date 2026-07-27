@@ -2640,8 +2640,6 @@ msgid "Description"
 msgstr "Beschreibung"
 
 #: coop/templates/coop/user_profile_pdf.html:193
-#, fuzzy
-#| msgid "No shares found."
 msgid "No payments found."
 msgstr "Keine Anteile gefunden"
 
@@ -2668,16 +2666,10 @@ msgstr ""
 
 #: coop/templates/coop/user_profile_pdf.html:230
 #: coop/templates/coop/user_profile_pdf.html:257
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "    You completed your shift\n"
 msgid "No completed shifts found."
 msgstr "Keine Schichten gefunden"
 
 #: coop/templates/coop/user_profile_pdf.html:234
-#, fuzzy
-#| msgid "Shift account log for: "
 msgid "Shift account history"
 msgstr "Schichtkonto-Protokoll für: "
 
