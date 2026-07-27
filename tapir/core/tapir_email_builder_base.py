@@ -80,13 +80,16 @@ class TapirEmailBuilderBase:
         member_infos,
         tapir_user: TapirUser,
     ) -> dict:
+        from tapir.coop.models import CoopAddress
+
+        coop_address = CoopAddress.objects.get()
         if self.context is None:
             self.context = {
                 "share_owner": share_owner,
                 "tapir_user": tapir_user,
                 "member_infos": member_infos,
-                "coop_name": settings.COOP_NAME,
-                "coop_full_name": settings.COOP_FULL_NAME,
+                "coop_name": coop_address.coop_name,
+                "coop_full_name": coop_address.coop_full_name,
                 "email_unique_id": self.get_unique_id(),
             } | self.get_extra_context()  # '|' is the union operator for dictionaries.
 

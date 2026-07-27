@@ -62,6 +62,7 @@ from tapir.coop.forms import (
 )
 from tapir.coop.models import (
     MEMBER_STATUS_CHOICES,
+    CoopAddress,
     CreateShareOwnershipsLogEntry,
     DeleteShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
@@ -83,7 +84,6 @@ from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
-    DEFAULT_FROM_EMAIL,
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_ADMIN,
     PERMISSION_COOP_MANAGE,
@@ -1067,10 +1067,12 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
             share_owner, num_shares, additional_information, generation_time
         ).write_pdf()
 
+        coop_address = CoopAddress.objects.first()
+        from_email = f"{coop_address.coop_name} Mitgliederbüro <{settings.EMAIL_ADDRESS_MEMBER_OFFICE}>"
         email = EmailMultiAlternatives(
             subject=f"Neue Beteiligungserklärung: {filename}",
             body="Eine neue Beteiligungserklärung wurde eingereicht.",
-            from_email=DEFAULT_FROM_EMAIL,
+            from_email=from_email,
             to=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
         )
         email.attach(filename, pdf, "application/pdf")

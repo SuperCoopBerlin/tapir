@@ -11,6 +11,7 @@ from tapir.coop.config import (
     COOP_SHARE_PRICE,
 )
 from tapir.coop.models import (
+    CoopAddress,
     DraftUser,
     IncomingPayment,
     MembershipPause,
@@ -466,3 +467,15 @@ class RequestShareForm(forms.Form):
                 _("Additional information must not exceed 500 characters.")
             )
         return additional_information
+
+
+class CoopAddressForm(forms.ModelForm):
+    class Meta:
+        model = CoopAddress
+        fields = [
+            "coop_name",
+            "coop_full_name",
+            "street",
+            "place",
+            "country",
+        ]
