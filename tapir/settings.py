@@ -438,3 +438,6 @@ SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
 )
 
 SESSION_COOKIE_AGE = 86400  # one day
+
+# Duration of years, after which shifts are not relevant enough to be saved
+SHIFT_RETENTION_YEARS = 8
