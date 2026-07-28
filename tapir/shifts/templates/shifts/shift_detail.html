@@ -76,7 +76,7 @@
                                 <span class="material-icons">delete</span>{% translate 'Delete the entire shift' %}
                             </a>
                         {% endif %}
-                    </span>
+                        </span>
                 {% endif %}
             </div>
             <div>
@@ -234,12 +234,17 @@
                                             {% elif not slot.is_occupied %}
                                                 {% blocktranslate asvar self_register_tooltip %}You can only register
                                                     yourself
-                                                    for a shift if:<br />
-                                                    -You are not registered to another slot in that shift<br />
+                                                    for a shift if:
+<br />
+                                                    -You are not registered to another slot in that shift
+<br />
                                                     -You have the required qualification (if you want to get a
-                                                    qualification, contact the member office)<br />
-                                                    -The shift is in the future<br />
-                                                    -The shift is not cancelled (holidays...)<br />
+                                                    qualification, contact the member office)
+<br />
+                                                    -The shift is in the future
+<br />
+                                                    -The shift is not cancelled (holidays...)
+<br />
                                                 {% endblocktranslate %}
                                                 {% autoescape off %}
                                                     <span {% if not slot.can_self_register and not perms.shifts.manage %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ self_register_tooltip }}"{% endif %}>
