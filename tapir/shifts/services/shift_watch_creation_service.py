@@ -208,8 +208,6 @@ class ShiftWatchCreator:
         if not watched_capabilities:
             return []
 
-        notifications = []
-
         current_slots = ShiftSlot.objects.filter(
             id__in=this_valid_slot_ids
         ).values_list("required_capabilities", flat=True)
@@ -218,22 +216,19 @@ class ShiftWatchCreator:
             "required_capabilities", flat=True
         )
 
-        current_capabilities_set = set()
-        for capabilities in current_slots:
-            current_capabilities_set.update(capabilities)
+        current_capabilities = [cap for caps in current_slots for cap in caps]
+        last_capabilities = [cap for caps in last_slots for cap in caps]
 
-        last_capabilities_set = set()
-        for capabilities in last_slots:
-            last_capabilities_set.update(capabilities)
-
+        notifications = []
         for capability in watched_capabilities:
-            has_now = capability in current_capabilities_set
-            had_before = capability in last_capabilities_set
+            current_count = current_capabilities.count(capability)
+            last_count = last_capabilities.count(capability)
 
-            if has_now and not had_before:
-                notifications.append(f"Member with capability added: {capability}")
-            elif not has_now and had_before:
+            if current_count > last_count:
+                notifications.append(f"Member with capability registered: {capability}")
+            elif current_count < last_count:
                 notifications.append(
                     f"Member with capability unregistered: {capability}"
                 )
+
         return notifications
