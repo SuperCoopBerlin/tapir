@@ -244,9 +244,12 @@ class ModelLogEntry(LogEntry):
     ):
         frozen = freeze_for_log(model) if model else frozen
 
-        if hasattr(self, "exclude_fields"):
-            for k in self.exclude_fields:
-                del frozen[k]
+        fields_to_exclude = [
+            *getattr(self, "excluded_fields", ()),
+            *getattr(self, "exclude_fields", ()),
+        ]
+        for k in fields_to_exclude:
+            frozen.pop(k, None)
 
         self.values = frozen
         return super().populate_base(

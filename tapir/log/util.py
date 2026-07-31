@@ -9,7 +9,6 @@ def freeze_for_log(instance) -> dict:
         data[field.name] = field.value_from_object(instance)
     for field in opts.many_to_many:
         data[field.name] = [i.id for i in field.value_from_object(instance)]
-    if hasattr(instance, "excluded_fields"):
-        for field in instance.excluded_fields_for_logs:
-            del data[field]
+    for field in getattr(instance, "excluded_fields_for_logs", ()):
+        data.pop(field, None)
     return data
