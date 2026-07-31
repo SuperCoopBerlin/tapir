@@ -32,20 +32,37 @@ body {
 
 .sidebar .nav-link {
   font-weight: 500;
-  color: #333;
+  color: #542738;
 }
 
 .sidebar .nav-link.active {
-  color: #2470dc;
+  color: #aec972;
 }
 
 .sidebar .nav-link:hover {
-  color: #007bff;
+  color: #ba3846;
 }
 
 .sidebar-heading {
   font-size: .75rem;
   text-transform: uppercase;
+}
+
+.sidebar .nav-item:focus {
+  outline: 3px solid rgba(186,56,70,0.18);
+  outline-offset: 2px;
+  background: rgba(186,56,70,0.06);
+}
+
+.sidebar .nav-item .material-icons {
+  display: inline-flex;
+  align-items: center;
+  justify-content: left;
+  width: 36px;
+  height: 20px;
+  border-radius: 6px;
+  color: #ba3846;
+  background: transparent;
 }
 
 @font-face {
@@ -54,6 +71,24 @@ body {
   font-weight: 400;
   src: url(/static/core/material-icons/MaterialSymbolsRounded.woff2) format('woff2'),
        url(/static/core/material-icons/MaterialSymbolsRounded.woff) format('woff');
+}
+
+@font-face {
+  font-family: "Raleway";
+  src: url("https://typo3-test.supercoop.de/_assets/9c7b14713875d04a67b2364c89136b9e/Fonts/Raleway-Medium.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-sans: "Raleway", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html, body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .material-icons {
@@ -107,6 +142,140 @@ body {
   transform: translateX(-50%);
 }
 
+.card-header {
+  background-color: #FCF4E9;
+}
+
 .card-header h5 {
   margin-bottom: 0;
+}
+
+.card {
+  background: #FFFFFF;
+  box-shadow: 0 6px 18px rgba(84,39,56,0.06);
+  border: 1px solid rgba(84,39,56,0.04);
+}
+
+.card .card-body {
+  color: #222222;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* Baseline für alle tapir-btn (überschreibt Bootstrap Defaults) */
+.tapir-btn,
+.tapir-btn.btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+  box-shadow: none;
+}
+
+/* Primary */
+.tapir-btn.btn-primary,
+.tapir-btn-primary {
+  background-color: #ba3846 !important;
+  color: #ffffff !important;
+  border-color: #ba3846 !important;
+  box-shadow: 0 6px 18px rgba(186,56,70,0.12);
+}
+.tapir-btn.btn-primary:hover,
+.tapir-btn-primary:hover { background-color: #9c3038 !important; transform: translateY(-2px); }
+
+/* Outline primary */
+.tapir-btn.btn-outline,
+.tapir-btn.btn-outline-primary {
+  background: transparent !important;
+  color: #ba3846 !important;
+  border: 1px solid rgba(186,56,70,0.12) !important;
+}
+.tapir-btn.btn-outline:hover,
+.tapir-btn.btn-outline-primary:hover { background: rgba(186,56,70,0.06) !important; }
+
+/* Secondary / deep (uses #542738) */
+.tapir-btn.btn-secondary,
+.tapir-btn-secondary {
+  background-color: #542738 !important;
+  color: #ffffff !important;
+  border-color: #542738 !important;
+}
+.tapir-btn.btn-secondary:hover,
+.tapir-btn-secondary:hover { background-color: #3e1927 !important; }
+
+/* Accent (salbei) */
+.tapir-btn.btn-accent,
+.tapir-btn-accent {
+  background-color: #aec972 !important;
+  color: #542738 !important;
+  border-color: #aec972 !important;
+}
+.tapir-btn.btn-accent:hover,
+.tapir-btn-accent:hover { filter: brightness(0.96); transform: translateY(-1px); }
+
+/* Small / Large sizes */
+.tapir-btn.btn-sm { padding: 6px 10px; font-size: 0.85rem; border-radius: 6px; }
+.tapir-btn.btn-lg { padding: 12px 18px; font-size: 1rem; border-radius: 10px; }
+
+/* Disabled state */
+.tapir-btn:disabled,
+.tapir-btn.disabled,
+.tapir-btn[aria-disabled="true"] {
+  background: #F3F3F3 !important;
+  color: #BDBDBD !important;
+  border-color: #F3F3F3 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+/* Full width / block */
+.tapir-btn.btn-block { width: 100% !important; }
+
+/* Focus accessibility */
+.tapir-btn:focus {
+  outline: 3px solid rgba(186,56,70,0.18);
+  outline-offset: 2px;
+  box-shadow: 0 6px 18px rgba(186,56,70,0.08);
+}
+
+/* Utility helpers to combine with Bootstrap classes */
+.tapir-btn.btn-link {
+  background: transparent !important;
+  color: #ba3846 !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Navbar Container */
+.navbar {
+  background: #3F2809;
+  border-bottom: 1px solid #E6E3E3;
+  display: flex;
+  align-items: center;
+}
+
+/* Focus accessibility */
+.navbar a:focus,
+.navbar button:focus {
+  outline: 3px solid rgba(186,56,70,0.18);
+  outline-offset: 2px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .navbar { padding: 10px 12px; gap: 10px; }
+  .navbar .search { display: none; }
+  .navbar .nav { gap: 4px; }
+  .navbar .navbar-brand img { height: 28px; }
 }
