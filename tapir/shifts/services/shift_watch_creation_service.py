@@ -216,7 +216,7 @@ class ShiftWatchCreator:
             "required_capabilities", flat=True
         )
 
-        current_capabilities = [cap for caps in current_slots for cap in caps]
+        current_capabilities = [capability for capabilities in capabilities_by_current_slot for capability in capabilities]
         last_capabilities = [cap for caps in last_slots for cap in caps]
 
         notifications = []
