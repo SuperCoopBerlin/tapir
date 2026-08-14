@@ -296,11 +296,10 @@ class ShiftTemplate(models.Model):
                 shift.update_to_fit_template()
 
     def clean(self):
-        if self.start_time and self.end_time:
-            if self.start_time >= self.end_time:
-                raise ValidationError(
-                    f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
-                )
+        if (self.start_time and self.end_time) and self.start_time >= self.end_time:
+            raise ValidationError(
+                f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
+            )
 
 
 class RequiredCapabilitiesMixin:
