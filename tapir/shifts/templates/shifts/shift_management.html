@@ -38,7 +38,7 @@
                 </a>
             </div>
         </div>
-        {% feature_flag_enabled feature_flag_frozen_members as is_enabled %}
+        {% feature_flag_enabled "feature_flag_frozen_members" as is_enabled %}
         {% if is_enabled %}
             <div class="card mb-2">
                 <h5 class="card-header">{% translate "Update frozen statuses" %}</h5>

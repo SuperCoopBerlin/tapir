@@ -56,6 +56,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[self.base_shift.start_time.weekday()],
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
+            watched_capabilities=[],
         )
 
         ShiftWatchFactory(user=self.user, shift=self.base_shift)
@@ -77,6 +78,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[shift.start_time.weekday()],
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         ShiftWatchCreator.create_shift_watches_for_shift_based_on_recurring(shift)
@@ -91,6 +93,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[],
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
+            watched_capabilities=[],
         )
 
         # Create two shifts which should not be existing after
