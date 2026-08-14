@@ -68,7 +68,7 @@
                 {% if object.pay_out_day is not None %}
                     <div class="row m-1">
                         <div class="col-3 fw-bold text-end">{% translate "Membership ends" %}:</div>
-                        <div class="col-9" id="membership_resignation_cancellation_date">{{ object.pay_out_day|date:"d.m.Y" }}</div>
+                        <div class="col-9" id="membership_resignation_ends_date">{{ object.pay_out_day|date:"d.m.Y" }}</div>
                     </div>
                 {% endif %}
                 <div class="row m-1">
