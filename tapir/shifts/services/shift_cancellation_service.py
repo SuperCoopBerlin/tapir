@@ -12,11 +12,16 @@ class ShiftCancellationService:
 
     @staticmethod
     @transaction.atomic
-    def cancel(shift: Shift, actor: TapirUser | User | None = None):
+    def cancel(
+        shift: Shift,
+        actor: TapirUser | User | None = None,
+        grant_shift_credits: bool = True,
+    ):
         """Cancels the given shift and updates attendances accordingly.
 
         If the attendance is for an ABCD shift (i.e. has an attendance template
-        linked to the slot template), the attendance is marked as MISSED_EXCUSED.
+        linked to the slot template), the attendance is marked as MISSED_EXCUSED
+        (if grant_shift_credits is True) or CANCELLED (if grant_shift_credits is False).
         Otherwise, it is marked as CANCELLED.
 
         Note that the cancellation reason must be set by the caller on the shift
@@ -38,7 +43,11 @@ class ShiftCancellationService:
                 hasattr(slot.slot_template, "attendance_template")
                 and slot.slot_template.attendance_template.user == attendance.user
             ):
-                attendance.state = ShiftAttendance.State.MISSED_EXCUSED
+                attendance.state = (
+                    ShiftAttendance.State.MISSED_EXCUSED
+                    if grant_shift_credits
+                    else ShiftAttendance.State.CANCELLED
+                )
                 attendance.excused_reason = "Shift cancelled"
                 attendance.save()
                 attendance.update_shift_account_entry()
