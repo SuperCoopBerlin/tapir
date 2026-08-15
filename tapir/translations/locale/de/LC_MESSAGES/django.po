@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-28 20:36+0200\n"
+"POT-Creation-Date: 2026-08-15 21:47+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -1121,7 +1121,7 @@ msgstr "Bewerber*in erzeugen"
 #: shifts/templates/shifts/register_user_to_shift_slot.html:27
 #: shifts/templates/shifts/register_user_to_shift_slot_template.html:26
 #: shifts/templates/shifts/shift_detail.html:254
-#: shifts/templates/shifts/shift_template_detail.html:88
+#: shifts/templates/shifts/shift_template_detail.html:93
 msgid "Register"
 msgstr "Anmelden"
 
@@ -2284,7 +2284,7 @@ msgstr ""
 "                            "
 
 #: coop/templates/coop/membershipresignation_detail.html:61
-#: shifts/models.py:541
+#: shifts/models.py:540
 msgid "Cancellation reason"
 msgstr "Grund der Kündigung"
 
@@ -2535,7 +2535,7 @@ msgstr ""
 "                "
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:60
-#: shifts/models.py:933 shifts/templates/shifts/shift_day_printable.html:214
+#: shifts/models.py:938 shifts/templates/shifts/shift_day_printable.html:214
 #: shifts/templates/shifts/shift_day_printable.html:276
 #: shifts/templates/shifts/shift_detail.html:309
 #: shifts/templates/shifts/shift_detail_printable.html:51
@@ -2543,7 +2543,7 @@ msgid "Attended"
 msgstr "Teilgenommen"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:62
-#: shifts/models.py:932
+#: shifts/models.py:937
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -2634,8 +2634,8 @@ msgstr "Datum"
 #: coop/templates/coop/user_profile_pdf.html:172
 #: coop/templates/coop/user_profile_pdf.html:198
 #: coop/templates/coop/user_profile_pdf.html:237
-#: core/templates/core/email_list.html:39 shifts/models.py:502
-#: shifts/models.py:1071 shifts/templates/shifts/user_shift_account_log.html:29
+#: core/templates/core/email_list.html:39 shifts/models.py:507
+#: shifts/models.py:1076 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
@@ -2803,7 +2803,7 @@ msgstr "Hat Qualifikation"
 msgid "Does not have qualification"
 msgstr "Hat die Qualifikation nicht"
 
-#: coop/views/shareowner.py:659 shifts/forms.py:789
+#: coop/views/shareowner.py:659 shifts/forms.py:811
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -2935,11 +2935,6 @@ msgstr ""
 #: core/templates/core/email_list.html:35
 msgid "List of all emails"
 msgstr "Liste alle E-Mails"
-
-#: core/templates/core/email_list.html:39 shifts/models.py:508
-#: shifts/models.py:1077 shifts/templates/shifts/user_shift_account_log.html:29
-msgid "Description"
-msgstr "Beschreibung"
 
 #: core/templates/core/email_list.html:40
 msgid "Subject"
@@ -3327,37 +3322,37 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:725 shifts/forms.py:794 shifts/views/views.py:419
-#: shifts/views/views.py:420
+#: shifts/forms.py:747 shifts/forms.py:816 shifts/views/views.py:462
+#: shifts/views/views.py:463
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:732 shifts/forms.py:801
+#: shifts/forms.py:754 shifts/forms.py:823
 msgid "Notify me when these capabilities become available or unavailable"
 msgstr ""
 
-#: shifts/forms.py:736 shifts/forms.py:805
+#: shifts/forms.py:758 shifts/forms.py:827
 msgid "Get notified when someone with specific skills registers or unregisters"
 msgstr ""
 
-#: shifts/forms.py:783 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:805 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:810
+#: shifts/forms.py:832
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:814
+#: shifts/forms.py:836
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
 msgstr ""
 
-#: shifts/forms.py:818
+#: shifts/forms.py:840
 msgid "At least one of the fields staffing_status or required capabilities must be selected."
 msgstr ""
 
@@ -3421,7 +3416,7 @@ msgstr "Mir ist klar, dass ich bei dieser Schicht möglicherweise schwere Gewich
 msgid "I understand that I may need to work high, for example up a ladder. I do not suffer from fear of heights."
 msgstr "Mir ist klar, dass ich möglicherweise in großer Höhe arbeiten muss, zum Beispiel auf einer Leiter. Ich leide nicht unter Höhenangst."
 
-#: shifts/models.py:166 shifts/models.py:502
+#: shifts/models.py:166 shifts/models.py:501
 msgid "If there are less members registered to a shift than that number, it will be highlighted in the shift calendar. The number of required attendances can't be higher than the slots in the resp. shift."
 msgstr "Wenn weniger Mitlieder als diese Nummer zur Schicht registriert sind, wird diese blau angezeigt. Die Anzahl der benltigten Mitglieder kann nicht höher sein als die Anzahl vorhandener Slots."
 
@@ -3433,47 +3428,47 @@ msgstr ""
 msgid "All shifts after this date will be cancelled."
 msgstr ""
 
-#: shifts/models.py:186 shifts/models.py:516
+#: shifts/models.py:186 shifts/models.py:515
 #: shifts/templates/shifts/shift_block_tag.html:10
 msgid "Flexible time"
 msgstr "Zeit flexibel"
 
-#: shifts/models.py:188 shifts/models.py:518
+#: shifts/models.py:188 shifts/models.py:517
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
 msgstr ""
 
-#: shifts/models.py:414 shifts/models.py:830
+#: shifts/models.py:413 shifts/models.py:829
 #: shifts/templates/shifts/shift_detail.html:118
 #: shifts/templates/shifts/shift_template_detail.html:51
 msgid "Chosen time"
 msgstr "Ausgewählte Uhrzeit"
 
-#: shifts/models.py:416
+#: shifts/models.py:415
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
 msgstr ""
 
-#: shifts/models.py:500
+#: shifts/models.py:499
 msgid "Number of required attendances"
 msgstr "Anzahl notwendiger Teilnehmender"
 
-#: shifts/models.py:509
+#: shifts/models.py:508
 msgid "Is shown on the shift page below the title"
 msgstr ""
 
-#: shifts/models.py:529 shifts/models.py:535
+#: shifts/models.py:528 shifts/models.py:534
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
 
-#: shifts/models.py:832
+#: shifts/models.py:831
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
 msgstr "Diese Schicht ermöglicht dir auszusuchen, wann du kommen magst. Um die Planung zu erleichtern, gib bitte deine erwartete Ankunftszeit an."
 
-#: shifts/models.py:934 shifts/templates/shifts/shift_detail.html:319
+#: shifts/models.py:939 shifts/templates/shifts/shift_detail.html:319
 #: shifts/templates/shifts/shift_detail_printable.html:52
 msgid "Missed"
 msgstr "Nicht erschienen"
 
-#: shifts/models.py:941 shifts/templates/shifts/shift_day_printable.html:216
+#: shifts/models.py:940 shifts/templates/shifts/shift_day_printable.html:216
 #: shifts/templates/shifts/shift_day_printable.html:281
 #: shifts/templates/shifts/shift_day_printable.html:283
 #: shifts/templates/shifts/shift_detail.html:349
@@ -3481,58 +3476,58 @@ msgstr "Nicht erschienen"
 msgid "Excused"
 msgstr "Entschuldigt"
 
-#: shifts/models.py:936 shifts/templates/shifts/shift_detail.html:357
+#: shifts/models.py:941 shifts/templates/shifts/shift_detail.html:357
 msgid "Cancelled"
 msgstr "Abgesagt"
 
-#: shifts/models.py:937 shifts/templates/shifts/shift_day_printable.html:264
+#: shifts/models.py:942 shifts/templates/shifts/shift_day_printable.html:264
 #: shifts/templates/shifts/shift_detail.html:341
 #: shifts/templates/shifts/shift_detail_printable.html:94
 #: shifts/templates/shifts/shift_filters.html:83
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
 
-#: shifts/models.py:976
+#: shifts/models.py:975
 msgid "🏠 ABCD"
 msgstr "🏠 ABCD"
 
-#: shifts/models.py:977
+#: shifts/models.py:976
 msgid "✈ Flying"
 msgstr "✈ Fliegend"
 
-#: shifts/models.py:978
+#: shifts/models.py:977
 msgid "❄ Frozen"
 msgstr "❄ Eingefroren"
 
-#: shifts/models.py:1009
+#: shifts/models.py:1008
 msgid "Is frozen"
 msgstr "Ist eingefroren"
 
-#: shifts/models.py:1183
+#: shifts/models.py:1182
 msgid "Cycle start date"
 msgstr "Anfangsdatum"
 
-#: shifts/models.py:1204
+#: shifts/models.py:1203
 msgid "Shift is almost full, only one spot left."
 msgstr "Die Schicht ist fast voll, es ist nur noch ein Platz übrig."
 
-#: shifts/models.py:1205
+#: shifts/models.py:1204
 msgid "Shift is full now."
 msgstr "Die Schicht ist jetzt voll."
 
-#: shifts/models.py:1206
+#: shifts/models.py:1205
 msgid "The Shift is understaffed!"
 msgstr "Die Schicht ist jetzt unterbesetzt."
 
-#: shifts/models.py:1207
+#: shifts/models.py:1206
 msgid "Shift stable: not understaffed, not fully staffed."
 msgstr "Entwarnung. Die schicht ist nicht länger unterbesetzt, aber es noch Platz übrig"
 
-#: shifts/models.py:1209
+#: shifts/models.py:1208
 msgid "One new attendance or more registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich registriert, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
-#: shifts/models.py:1212
+#: shifts/models.py:1211
 msgid "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
 msgstr "Ein Mitglied oder mehr hat sich abgemeldet, aber die Schicht ist weder unterbesetzt noch (fast) voll"
 
@@ -4590,7 +4585,7 @@ msgstr ""
 " "
 
 #: shifts/templates/shifts/shift_detail.html:282
-#: shifts/templates/shifts/shift_template_detail.html:99
+#: shifts/templates/shifts/shift_template_detail.html:104
 msgid "Not specified"
 msgstr ""
 
@@ -4792,7 +4787,7 @@ msgid "Warning"
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_set_end_date.html:18
-msgid "All shifts generated from this ABCD-shift after the selected date will be cancelled. Registered members will be notified."
+msgid "All shifts generated from this ABCD-shift after the selected date will be cancelled. Registered members will be notified. No shift points will be credited automatically."
 msgstr ""
 
 #: shifts/templates/shifts/shift_template_set_end_date.html:23
