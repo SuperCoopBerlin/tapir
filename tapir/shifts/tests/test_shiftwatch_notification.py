@@ -238,7 +238,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        # register user to third slot
         ShiftAttendance.objects.create(
             user=TapirUserFactory.create(), slot=slot_to_register
         )
