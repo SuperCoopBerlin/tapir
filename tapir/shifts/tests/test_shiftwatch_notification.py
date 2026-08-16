@@ -222,7 +222,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
@@ -237,7 +237,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             slot_to_unregister.required_capabilities,
             [ShiftUserCapability.SHIFT_COORDINATOR],
         )
-        self.unregister_slot(slot=slot_to_unregister)
+        unregister_slot(slot=slot_to_unregister)
         Command().handle()
 
         self.assertEqual(0, len(mail.outbox))
@@ -251,7 +251,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
@@ -263,7 +263,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             slot_to_unregister.required_capabilities,
             [ShiftUserCapability.SHIFT_COORDINATOR],
         )
-        self.unregister_slot(slot=slot_to_unregister)
+        unregister_slot(slot=slot_to_unregister)
         Command().handle()
         self.assertEqual(1, len(mail.outbox))
 
@@ -277,7 +277,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
@@ -293,7 +293,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             slot_to_unregister.required_capabilities,
             [ShiftUserCapability.SHIFT_COORDINATOR],
         )
-        self.unregister_slot(slot=slot_to_unregister)
+        unregister_slot(slot=slot_to_unregister)
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
