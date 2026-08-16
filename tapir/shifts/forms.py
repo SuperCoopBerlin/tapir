@@ -10,6 +10,7 @@ from django.forms import (
     ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2MultipleWidget, Select2Widget
 
@@ -471,13 +472,18 @@ class ShiftTemplateEndDateForm(forms.ModelForm):
         self.fields["end_date"].required = True
 
     def clean_end_date(self):
-        if (
-            self.cleaned_data["end_date"]
-            and self.instance.start_date is not None
-            and self.cleaned_data["end_date"] < self.instance.start_date
-        ):
+        end_date = self.cleaned_data.get("end_date")
+
+        if not end_date:
+            return end_date
+
+        if end_date < timezone.now().date():
+            raise ValidationError(_("The end date cannot be in the past."))
+
+        if self.instance.start_date is not None and end_date < self.instance.start_date:
             raise ValidationError(_("The end date must be later than the start date."))
-        return self.cleaned_data["end_date"]
+
+        return end_date
 
 
 class CreateShiftAccountEntryForm(forms.ModelForm):

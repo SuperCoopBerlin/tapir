@@ -3,7 +3,6 @@ import datetime
 from django.contrib.messages import get_messages
 from django.urls import reverse
 from django.utils import timezone
-from django_extensions.jobs import weekly
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.tests.factories import ShiftTemplateFactory
@@ -109,6 +108,25 @@ class TestShiftTemplateEndView(TapirFactoryTestBase):
             self.url,
             {
                 "end_date": end_date.strftime("%Y-%m-%d"),
+                "cancellation_reason": "Test",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("end_date", response.context["form"].errors)
+
+        self.shift_template.refresh_from_db()
+        self.assertIsNone(self.shift_template.end_date)
+
+    def test_shiftTemplate_sendEndDateInPast_showsValidationError(self):
+        self.login_as_employee()
+
+        past_date = timezone.now().date() - datetime.timedelta(days=7)
+
+        response = self.client.post(
+            self.url,
+            {
+                "end_date": past_date.strftime("%Y-%m-%d"),
                 "cancellation_reason": "Test",
             },
         )
