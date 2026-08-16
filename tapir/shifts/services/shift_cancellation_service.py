@@ -31,6 +31,7 @@ class ShiftCancellationService:
         Args:
             shift (Shift): The shift to cancel.
             actor
+            grant_shift_credits: whether shift-credits should be credited to the canceled users
         """
         shift.cancelled = True
         shift.save()
