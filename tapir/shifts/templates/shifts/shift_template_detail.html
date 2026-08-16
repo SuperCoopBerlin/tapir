@@ -38,6 +38,12 @@
         </h5>
         <ul class="list-group list-group-flush">
             {% if object.description %}<li class="list-group-item">{{ object.description }}</li>{% endif %}
+            {% if object.end_date %}
+                <li class="list-group-item bg-warning">
+                    {% translate 'This shift template has been cancelled for all shifts after ' %}
+                    {{ object.end_date }}
+                </li>
+            {% endif %}
             <li class="list-group-item">
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'List of slots for this ABCD shifts' %}">
