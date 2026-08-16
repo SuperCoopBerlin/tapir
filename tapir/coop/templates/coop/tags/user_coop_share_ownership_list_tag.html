@@ -13,6 +13,10 @@
             {% if perms.accounts.manage %}
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                     <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:user_profile_pdf' share_owner.pk %}">
+                        <span class="material-icons">picture_as_pdf</span>{% translate 'Summary' %}
+                    </a>
+                    <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
                     </a>
@@ -46,7 +50,7 @@
             {% if object.ratenzahlung %}
                 <div class="row m-1">
                     <div class="col-12 col-sm-3 fw-bold text-sm-end">{% translate "Ratenzahlung" %}:</div>
-                    <div class="col-12 col-sm-9" id="share_owner_email">Yes</div>
+                    <div class="col-12 col-sm-9" id="ratenzahhung">Yes</div>
                 </div>
             {% endif %}
             <div class="row m-1">

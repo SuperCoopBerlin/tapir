@@ -4,9 +4,9 @@ from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftTemplate,
-    ShiftAttendance,
     Shift,
+    ShiftAttendance,
+    ShiftTemplate,
 )
 from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
 from tapir.shifts.views import ShiftDetailView
@@ -74,8 +74,8 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
 
     def test_getPastShiftsData_changedShiftTemplateDuration_correctSum(self):
         shift_template: ShiftTemplate = ShiftTemplateFactory.create(
-            start_time=datetime.time(hour=10, tzinfo=datetime.timezone.utc),
-            end_time=datetime.time(hour=12, tzinfo=datetime.timezone.utc),
+            start_time=datetime.time(hour=10, tzinfo=datetime.UTC),
+            end_time=datetime.time(hour=12, tzinfo=datetime.UTC),
         )
         shift_2_hours = shift_template.create_shift_if_necessary(
             timezone.now() - datetime.timedelta(days=7)
@@ -86,7 +86,7 @@ class ShiftGetPastShiftsStatisticsTests(TapirFactoryTestBase):
             state=ShiftAttendance.State.DONE,
         )
 
-        shift_template.end_time = datetime.time(hour=15, tzinfo=datetime.timezone.utc)
+        shift_template.end_time = datetime.time(hour=15, tzinfo=datetime.UTC)
         shift_template.save()
 
         shift_5_hours = shift_template.create_shift_if_necessary(

@@ -145,6 +145,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.accounts.tasks.update_purchase_tracking_list",
         "schedule": celery.schedules.crontab(minute=0, hour=23),
     },
+    "clear_sessions": {
+        "task": "tapir.accounts.tasks.clear_sessions",
+        "schedule": celery.schedules.crontab(hour=23, minute=59, day_of_week=6),
+    },
     "run_freeze_checks": {
         "task": "tapir.shifts.tasks.run_freeze_checks",
         "schedule": celery.schedules.crontab(minute=0, hour=1),
@@ -236,7 +240,7 @@ elif EMAIL_ENV == "prod":
 
 COOP_NAME = "SuperCoop Berlin"
 COOP_FULL_NAME = "SuperCoop Berlin eG"
-COOP_STREET = "Oudenarder Straße 16"
+COOP_STREET = "Amsterdamer Straße 27"
 COOP_PLACE = "13347 Berlin"
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
@@ -438,3 +442,6 @@ SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
 )
 
 SESSION_COOKIE_AGE = 86400  # one day
+
+# Duration of years, after which shifts are not relevant enough to be saved
+SHIFT_RETENTION_YEARS = 8
