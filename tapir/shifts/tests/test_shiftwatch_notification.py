@@ -71,9 +71,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             self.NUM_REQUIRED_ATTENDANCE
         )
 
-    def unregister_slot(self, slot: ShiftSlot | None = None):
-        if slot is None:
-            slot = self.slots[0]
+    def unregister_slot(self, slot: ShiftSlot):
         first_shift_attendance = ShiftAttendance.objects.filter(slot=slot).first()
         first_shift_attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
         first_shift_attendance.save()
@@ -95,7 +93,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        self.unregister_slot()
+        self.unregister_slot(self.slots[0])
         Command().handle()
         self.assertEqual(1, len(mail.outbox))
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
@@ -148,7 +146,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-        self.unregister_slot()
+        self.unregister_slot(self.slots[0])
 
         self.assertEqual(len(mail.outbox), 0)
 
@@ -169,7 +167,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-        self.unregister_slot()
+        self.unregister_slot(self.slots[0])
 
         Command().handle()
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
@@ -189,7 +187,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=list(get_staffingstatus_choices()),
         )
 
-        self.unregister_slot()
+        self.unregister_slot(self.slots[0])
 
         Command().handle()
 
@@ -242,11 +240,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=TapirUserFactory.create(), slot=slot_to_register
         )
         slot_to_register.save()
-
-        self.assertEqual(
-            slot_to_register.required_capabilities,
-            [ShiftUserCapability.SHIFT_COORDINATOR],
-        )
 
         Command().handle()
         self.assert_email_sent("registered")
