@@ -38,7 +38,7 @@ def create_shift_with_attendance(num_attendances):
 def create_shift_watch(
     user,
     shift,
-    last_valid_slot_ids,
+    last_valid_slots: list[ShiftSlot],
     last_staffing_status=None,
     staffing_status=None,
     watched_capabilities=None,
@@ -54,7 +54,7 @@ def create_shift_watch(
     return ShiftWatchFactory(
         user=user,
         shift=shift,
-        last_valid_slot_ids=[slot.pk for slot in last_valid_slot_ids],
+        last_valid_slot_ids=[slot.pk for slot in last_valid_slots],
         staffing_status=staffing_status,
         last_staffing_status=last_staffing_status,
         watched_capabilities=watched_capabilities,
@@ -87,7 +87,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
         Command().handle()
@@ -102,7 +102,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
         )
         Command().handle()
@@ -119,7 +119,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         create_shift_watch(
             user=user,
             shift=shift_understaffed,
-            last_valid_slot_ids=slots,
+            last_valid_slots=slots,
             last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                 shift=shift_understaffed
             ),
@@ -142,7 +142,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
@@ -163,7 +163,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
@@ -183,7 +183,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
         )
 
@@ -216,7 +216,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
-            last_valid_slot_ids=self.slots,
+            last_valid_slots=self.slots,
             staffing_status=[],
             watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
