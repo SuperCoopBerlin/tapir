@@ -362,7 +362,7 @@ class ShiftTemplateEndDateView(
             )
             for shift in shifts_to_cancel:
                 shift.cancelled_reason = cancellation_reason
-                ShiftCancellationService.cancel(shift)
+                ShiftCancellationService.cancel(shift, grant_shift_credits=False)
 
         messages.success(
             self.request,
