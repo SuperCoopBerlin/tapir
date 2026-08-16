@@ -13,7 +13,7 @@ from tapir.shifts.models import (
 class ShiftWatchCreator:
     @classmethod
     def get_staffing_status_for_shift(
-        cls, shift: Shift, last_status: str = None
+        cls, shift: Shift, last_status: str | None = None
     ) -> str | None:
         """
         Compute the staffing status for a Shift instance by extracting the required
@@ -58,7 +58,7 @@ class ShiftWatchCreator:
         number_of_available_slots: int,
         valid_attendances: int,
         required_attendances: int,
-        last_status: str = None,
+        last_status: str | None = None,
     ):
         """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
         if valid_attendances < required_attendances:
@@ -81,7 +81,7 @@ class ShiftWatchCreator:
         number_of_available_slots: int,
         valid_attendances: int,
         required_attendances: int,
-        last_status: str = None,
+        last_status: str | None = None,
     ) -> None | StaffingStatusChoices:
         """
         Determine if the staffing status has changed. Return **None** if the staffing status has not changed.
@@ -135,6 +135,7 @@ class ShiftWatchCreator:
                     user=recurring.user,
                     shift=shift,
                     staffing_status=recurring.staffing_status,
+                    watched_capabilities=recurring.watched_capabilities,
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift
                     ),

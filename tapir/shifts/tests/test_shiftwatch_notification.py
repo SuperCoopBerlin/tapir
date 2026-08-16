@@ -90,6 +90,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
@@ -105,6 +106,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slots=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
@@ -125,6 +127,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
                 shift=shift_understaffed
             ),
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
 
         Command().handle()
@@ -145,6 +148,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         unregister_slot(slot=self.slots[0])
@@ -166,6 +170,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slots=self.slots,
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         unregister_slot(self.slots[0])
@@ -186,6 +191,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             shift=self.shift_ok_first,
             last_valid_slots=self.slots,
             staffing_status=list(get_staffingstatus_choices()),
+            watched_capabilities=[],
         )
 
         unregister_slot(self.slots[0])
@@ -201,6 +207,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             user=self.user,
             weekdays=[self.shift_ok_first.start_time.weekday()],
             staffing_status=[event.value for event in get_staffingstatus_choices()],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
 
         ShiftWatchCreator.create_shift_watches_for_recurring(recurring=recurring)
@@ -208,6 +215,87 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
 
         self.assertEqual(len(mail.outbox), 0)
+
+    def test_handle_noStaffingStatusSelected_noMailSent(self):
+        # Only for watched capabilities
+
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
+        slot_to_unregister = self.slots[0]
+
+        # assert that slot to unregister has no required capability, so it should not trigger notification
+        self.assertNotEqual(
+            slot_to_unregister.required_capabilities,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+
+        self.assertEqual(0, len(mail.outbox))
+
+    def test_handle_watchedCapability_MailSent(self):
+        slot_to_unregister = self.slots[0]
+        slot_to_unregister.required_capabilities = [
+            ShiftUserCapability.SHIFT_COORDINATOR
+        ]
+        slot_to_unregister.save()
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
+        self.assertEqual(
+            slot_to_unregister.required_capabilities,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+        self.assertEqual(1, len(mail.outbox))
+
+    def test_handle_watchDifferentCapability_noMailSent(self):
+        # watch for Shift-Coordinator, but shift has Cashier-capability
+        slot_to_unregister = self.slots[0]
+        slot_to_unregister.required_capabilities = [ShiftUserCapability.CASHIER]
+        self.slots[1].required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        slot_to_unregister.save()
+
+        self.shift_watch = create_shift_watch(
+            user=self.user,
+            shift=self.shift_ok_first,
+            last_valid_slot_ids=self.slots,
+            staffing_status=[],
+            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
+
+        self.assertEqual(
+            slot_to_unregister.required_capabilities,
+            [ShiftUserCapability.CASHIER],
+        )
+        self.assertNotEqual(
+            slot_to_unregister.required_capabilities,
+            [ShiftUserCapability.SHIFT_COORDINATOR],
+        )
+        self.unregister_slot(slot=slot_to_unregister)
+        Command().handle()
+        self.assertEqual(0, len(mail.outbox))
 
     def test_handle_registerAnotherUserToSameCapability_MailSent(self):
         for slot in self.slots:

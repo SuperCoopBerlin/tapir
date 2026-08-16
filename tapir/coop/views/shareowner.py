@@ -4,6 +4,8 @@ from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
+import weasyprint
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
@@ -18,7 +20,7 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import get_object_or_404, redirect
-from django.template import Context, Template
+from django.template import Context, Template, loader
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
@@ -93,6 +95,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
     SHIFT_USER_CAPABILITY_CHOICES,
     Shift,
+    ShiftAccountEntry,
     ShiftExemption,
     ShiftTemplateGroup,
 )
@@ -1105,3 +1108,65 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
     def get_success_url(self):
         return self.get_share_owner().get_absolute_url()
+
+
+class UserProfilePDFView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
+):
+    model = ShareOwner
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    pk_url_kwarg = "pk"
+    template_name = "coop/user_profile_pdf.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        shareowner = self.object
+
+        attendances = []
+        if shareowner.pk and shareowner.user is not None:
+            cutoff_date = timezone.now() - relativedelta(
+                years=settings.SHIFT_RETENTION_YEARS
+            )
+
+            attendances = (
+                shareowner.user.shift_attendances.select_related("slot", "slot__shift")
+                .filter(slot__shift__start_time__gte=cutoff_date)
+                .order_by("slot__shift__start_time")
+            )
+            entries_data = [
+                {
+                    "entry": entry,
+                    "balance_at_date": shareowner.user.shift_user_data.get_account_balance(
+                        at_date=entry.date
+                    ),
+                }
+                for entry in ShiftAccountEntry.objects.filter(
+                    user=shareowner.user, date__gte=cutoff_date
+                ).order_by("-date")
+            ]
+
+        context.update(
+            {
+                "attendances": attendances,
+                "SHIFT_RETENTION_YEARS": settings.SHIFT_RETENTION_YEARS,
+                "shareowner": shareowner,
+                "generated_at": timezone.now(),
+                "entries_data": entries_data,
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        request = self.request
+        html_string = loader.render_to_string(
+            self.template_name, context, request=request
+        )
+        html = weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri("/")
+        )
+        pdf = html.write_pdf(pdf_variant="pdf/a-1b")
+
+        response = HttpResponse(pdf, content_type="application/pdf")
+        filename = f"user-{self.object.pk}-profile.pdf"
+        response["Content-Disposition"] = f'inline; filename="{filename}"'
+        return response

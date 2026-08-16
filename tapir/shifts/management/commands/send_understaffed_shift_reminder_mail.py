@@ -41,5 +41,5 @@ class Command(BaseCommand):
             )
             if current_status == StaffingStatusChoices.UNDERSTAFFED:
                 SendShiftWatchCommand.send_shift_watch_mail(
-                    shift_watch_data, staffing_status=StaffingStatusChoices.UNDERSTAFFED
+                    shift_watch_data, reason=StaffingStatusChoices.UNDERSTAFFED
                 )
