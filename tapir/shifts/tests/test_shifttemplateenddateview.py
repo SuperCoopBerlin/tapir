@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.shifts.models import ShiftAttendance
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.shifts.tests.utils import register_user_to_shift_template
 from tapir.utils.tests_utils import TapirFactoryTestBase
@@ -20,6 +21,27 @@ class TestShiftTemplateEndView(TapirFactoryTestBase):
         self.url = reverse(
             "shifts:shift_template_set_end_date", kwargs={"pk": self.shift_template.pk}
         )
+
+    def test_shiftTemplate_setEndDate_shiftsCancelled(self):
+        self.login_as_employee()
+        end_date = timezone.now().date() + datetime.timedelta(days=14)
+        cancellation_reason = "Shift Template ended"
+
+        response = self.client.post(
+            self.url,
+            {
+                "end_date": end_date.strftime("%Y-%m-%d"),
+                "cancellation_reason": cancellation_reason,
+            },
+        )
+        self.assertRedirects(
+            response,
+            reverse(
+                "shifts:shift_template_detail", kwargs={"pk": self.shift_template.pk}
+            ),
+        )
+        self.shift_template.refresh_from_db()
+        self.assertEqual(self.shift_template.end_date, end_date)
 
     def test_shiftTemplate_setEndDateInBetween_futureShiftsAfterEndDateAreCancelled(
         self,
@@ -43,19 +65,12 @@ class TestShiftTemplateEndView(TapirFactoryTestBase):
         end_date = today + datetime.timedelta(days=14)
         cancellation_reason = "Shift Template ended"
 
-        response = self.client.post(
+        self.client.post(
             self.url,
             {
                 "end_date": end_date.strftime("%Y-%m-%d"),
                 "cancellation_reason": cancellation_reason,
             },
-        )
-
-        self.assertRedirects(
-            response,
-            reverse(
-                "shifts:shift_template_detail", kwargs={"pk": self.shift_template.pk}
-            ),
         )
 
         self.shift_template.refresh_from_db()
@@ -136,3 +151,47 @@ class TestShiftTemplateEndView(TapirFactoryTestBase):
 
         self.shift_template.refresh_from_db()
         self.assertIsNone(self.shift_template.end_date)
+
+    def test_shiftTemplate_setEndDate_shiftBalanceShouldBeSame(
+        self,
+    ):
+        self.login_as_employee()
+
+        user = TapirUserFactory.create(is_in_member_office=False)
+        register_user_to_shift_template(self.client, user, self.shift_template)
+        shift_1 = self.shift_template.create_shift_if_necessary(
+            timezone.now().date() + datetime.timedelta(days=7)
+        )
+        self.assertEqual(
+            ShiftAttendance.objects.get(user=user, slot__shift=shift_1).state,
+            ShiftAttendance.State.PENDING,
+            "User should be registered to shift with pending state",
+        )
+        self.assertEqual(
+            user.shift_user_data.get_account_balance(),
+            0,
+            "After cancelling ABCD-shifts, the user's balance should be the same.",
+        )
+        end_date = timezone.now().date() + datetime.timedelta(days=1)
+        cancellation_reason = "Shift Template ended"
+        self.client.post(
+            self.url,
+            {
+                "end_date": end_date.strftime("%Y-%m-%d"),
+                "cancellation_reason": cancellation_reason,
+            },
+        )
+
+        self.shift_template.refresh_from_db()
+        self.assertEqual(self.shift_template.end_date, end_date)
+
+        self.assertEqual(
+            user.shift_user_data.get_account_balance(),
+            0,
+            "After cancelling ABCD-shifts, the user's balance should be the same.",
+        )
+        self.assertEqual(
+            ShiftAttendance.objects.get(user=user, slot__shift=shift_1).state,
+            ShiftAttendance.State.CANCELLED,
+            "User should be registered to shift with pending state",
+        )
