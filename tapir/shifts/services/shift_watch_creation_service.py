@@ -208,7 +208,7 @@ class ShiftWatchCreator:
         if not watched_capabilities:
             return []
 
-        current_slots = ShiftSlot.objects.filter(
+        capabilities_by_current_slot = ShiftSlot.objects.filter(
             id__in=this_valid_slot_ids
         ).values_list("required_capabilities", flat=True)
 
@@ -216,8 +216,15 @@ class ShiftWatchCreator:
             "required_capabilities", flat=True
         )
 
-        current_capabilities = [capability for capabilities in capabilities_by_current_slot for capability in capabilities]
-        last_capabilities = [cap for caps in last_slots for cap in caps]
+        current_capabilities = []
+        for capability_group in capabilities_by_current_slot:
+            for capability in capability_group:
+                current_capabilities.append(capability)
+
+        last_capabilities = []
+        for capability_group in last_slots:
+            for capability in capability_group:
+                last_capabilities.append(capability)
 
         notifications = []
         for capability in watched_capabilities:
