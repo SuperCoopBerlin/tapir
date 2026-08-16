@@ -61,6 +61,12 @@ def create_shift_watch(
     )
 
 
+def unregister_slot(slot: ShiftSlot):
+    first_shift_attendance = ShiftAttendance.objects.filter(slot=slot).first()
+    first_shift_attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
+    first_shift_attendance.save()
+
+
 class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     USER_EMAIL_ADDRESS = "test_address@test.net"
     NUM_REQUIRED_ATTENDANCE = 2
@@ -70,11 +76,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.shift_ok_first, self.slots = create_shift_with_attendance(
             self.NUM_REQUIRED_ATTENDANCE
         )
-
-    def unregister_slot(self, slot: ShiftSlot):
-        first_shift_attendance = ShiftAttendance.objects.filter(slot=slot).first()
-        first_shift_attendance.state = ShiftAttendance.State.LOOKING_FOR_STAND_IN
-        first_shift_attendance.save()
 
     def assert_email_sent(self, expected_status_choice: str):
         self.assertEqual(len(mail.outbox), 1)
@@ -93,7 +94,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         Command().handle()
         self.assertEqual(0, len(mail.outbox))
 
-        self.unregister_slot(self.slots[0])
+        unregister_slot(slot=self.slots[0])
         Command().handle()
         self.assertEqual(1, len(mail.outbox))
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
@@ -146,7 +147,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-        self.unregister_slot(self.slots[0])
+        unregister_slot(slot=self.slots[0])
 
         self.assertEqual(len(mail.outbox), 0)
 
@@ -167,7 +168,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
         )
 
-        self.unregister_slot(self.slots[0])
+        unregister_slot(self.slots[0])
 
         Command().handle()
         self.assert_email_sent(StaffingStatusChoices.UNDERSTAFFED.label)
@@ -187,7 +188,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
             staffing_status=list(get_staffingstatus_choices()),
         )
 
-        self.unregister_slot(self.slots[0])
+        unregister_slot(self.slots[0])
 
         Command().handle()
 
