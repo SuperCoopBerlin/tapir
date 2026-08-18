@@ -34,34 +34,29 @@ class TestUserProfilePDFView(PermissionTestMixin, TapirFactoryTestBase):
     def do_request(self):
         return self.client.get(self.url)
 
-    def test_returns_pdf_content_type(self):
-        """Response should have correct PDF content type"""
+    def test_userProfilePDFView_loggedInAsMemberOffice_returnsPDFContentType(self):
         self.login_as_member_office_user()
         response = self.client.get(self.url)
         self.assertEqual(response["Content-Type"], "application/pdf")
 
-    def test_pdf_filename_in_response_header(self):
-        """Response should have correct filename in Content-Disposition"""
+    def test_userProfilePDFView_loggedInAsMemberOffice_correctFilenameInHeader(self):
         self.login_as_member_office_user()
         response = self.client.get(self.url)
         expected_filename = f"user-{self.tapir_user.share_owner.id}-profile.pdf"
         self.assertIn(
             expected_filename,
             response["Content-Disposition"],
-            "PDF filename should be in Content-Disposition header",
         )
 
-    def test_attendances_empty_for_shareowner_without_user(self):
-        """If ShareOwner has no TapirUser, attendances should be empty"""
+    def test_userProfilePDFView_shareOwnerWithoutUser_attendancesEmpty(self):
+        self.login_as_member_office_user()
         shareowner_without_user = ShareOwnerFactory.create()
         url = reverse("coop:user_profile_pdf", args=[shareowner_without_user.pk])
-        self.login_as_member_office_user()
         response = self.client.get(url)
 
         self.assertEqual(response.context["attendances"], [])
 
-    def test_attendances_includes_recent_shifts(self):
-        """Should include shift attendances within retention period"""
+    def test_userProfilePDFView_recentShifts_attendancesIncluded(self):
         shift = ShiftFactory.create(start_time=timezone.now() - timedelta(days=10))
         slot = ShiftSlotFactory.create(shift=shift)
         ShiftAttendance.objects.create(slot=slot, user=self.tapir_user)
@@ -73,8 +68,7 @@ class TestUserProfilePDFView(PermissionTestMixin, TapirFactoryTestBase):
         self.assertEqual(len(attendances), 1)
         self.assertEqual(attendances[0].user, self.tapir_user)
 
-    def test_attendances_excludes_old_shifts(self):
-        """Should exclude shift attendances older than retention period"""
+    def test_userProfilePDFView_oldShifts_attendancesExcluded(self):
         cutoff = timezone.now() - relativedelta(years=settings.SHIFT_RETENTION_YEARS)
         old_shift = ShiftFactory.create(start_time=cutoff - timedelta(days=1))
         old_slot = ShiftSlotFactory.create(shift=old_shift)
@@ -86,8 +80,7 @@ class TestUserProfilePDFView(PermissionTestMixin, TapirFactoryTestBase):
         attendances = response.context["attendances"]
         self.assertEqual(len(attendances), 0)
 
-    def test_entries_data_includes_account_entries(self):
-        """Context should include account entries with balances"""
+    def test_userProfilePDFView_recentEntries_entriesDataIncluded(self):
         entry_date = timezone.now() - timedelta(days=5)
         ShiftAccountEntry.objects.create(user=self.tapir_user, date=entry_date, value=1)
 
@@ -99,8 +92,7 @@ class TestUserProfilePDFView(PermissionTestMixin, TapirFactoryTestBase):
         self.assertIn("entry", entries_data[0])
         self.assertIn("balance_at_date", entries_data[0])
 
-    def test_balance_calculation_at_entry_date(self):
-        """balance_at_date should be calculated at the entry date"""
+    def test_userProfilePDFView_accountEntry_balanceCalculatedAtEntryDate(self):
         entry_date = timezone.now() - timedelta(days=5)
         ShiftAccountEntry.objects.create(user=self.tapir_user, date=entry_date, value=1)
 
@@ -112,15 +104,13 @@ class TestUserProfilePDFView(PermissionTestMixin, TapirFactoryTestBase):
         balance = entries_data[0]["balance_at_date"]
         self.assertIsNotNone(balance)
 
-    def test_nonexistent_shareowner_returns_404(self):
-        """Requesting non-existent shareowner should return 404"""
+    def test_userProfilePDFView_nonexistentShareOwner_returns404(self):
         self.login_as_member_office_user()
         url = reverse("coop:user_profile_pdf", args=[99999])
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
-    def test_pdf_generation_does_not_fail(self):
-        """PDF generation should complete without errors"""
+    def test_userProfilePDFView_loggedInAsMemberOffice_pdfGenerationSucceeds(self):
         self.login_as_member_office_user()
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
