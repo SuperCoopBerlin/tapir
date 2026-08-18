@@ -196,7 +196,7 @@
             <div style="display: flex; flex-direction: row; margin-top: 5mm;">
                 <div style="margin-right: 8mm; width: 5mm;">
                     <span class="material-icons">check_box_outline_blank</span>
-                    {% if share_owner.ratenzahlung or additional_information %}
+                    {% if share_owner.ratenzahlung and not share_owner.share_ownerships or additional_information %}
                         <span style="position: absolute; left: 2mm;" class="material-icons">close</span>
                     {% endif %}
                 </div>
@@ -205,7 +205,7 @@
                                  width: 100mm;
                                  border-bottom: 2px solid black;
                                  text-align: center">
-                        {% if share_owner.ratenzahlung %}Ratenzahlung{% endif %}
+                        {% if share_owner.ratenzahlung and not share_owner.share_ownerships %}Ratenzahlung{% endif %}
                         {% if additional_information %}{{ additional_information }}{% endif %}
                     </span>
                     <br />

@@ -437,7 +437,7 @@ def remove_users_from_group(connection: LDAPObject, group_name: str, tapir_users
 
 
 def clear_ldap():
-    tapir_users = TapirUser.objects.all()
+    TapirUser.objects.all()
     connection = get_admin_ldap_connection()
     for group_name in settings.LDAP_GROUPS:
         search = LDAPSearch(

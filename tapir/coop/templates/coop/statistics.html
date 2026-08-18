@@ -25,7 +25,7 @@
         }
 
         function show_stats_chart(button, url, canvas_id, type) {
-            button.getElementsByClassName("button-text")[0].innerText = "{% translate "Loading..." %}"
+            button.getElementsByClassName("button-text")[0].innerText = "{% translate 'Loading...' %}"
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
