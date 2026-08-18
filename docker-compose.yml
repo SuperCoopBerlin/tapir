@@ -18,12 +18,15 @@ services:
       context: .
       args:
           ARG_VERSION: ""
+          POETRY_INSTALL_DEV: "true"
       dockerfile: ./django.Dockerfile
-    command: bash -c "poetry install &&
+    command: bash -c "poetry install --with dev &&
                       poetry run python manage.py compilemessages --ignore \".venv\" &&
                       poetry run python manage.py runserver_plus 0.0.0.0:80"
     volumes:
       - .:/app
+      # Keep container's virtualenv isolated from host .venv so dev deps (pytest) are available
+      - web-venv:/app/.venv
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
@@ -69,7 +72,7 @@ services:
   celery:
     extends:
       service: web
-    command: bash -c "poetry install &&
+    command: bash -c "poetry install --with dev &&
                       poetry run celery -A tapir worker -l info"
     depends_on:
       - redis
@@ -78,7 +81,7 @@ services:
     extends:
       service: web
     # --schedule to avoid polluting the app directory
-    command: bash -c "poetry install &&
+    command: bash -c "poetry install --with dev &&
                       poetry run celery -A tapir beat -l info --schedule /tmp/celerybeat-schedule"
     depends_on:
       - redis
@@ -95,3 +98,4 @@ services:
 
 volumes:
   nginx-certs-volume:
+  web-venv:
