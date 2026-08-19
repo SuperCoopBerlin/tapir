@@ -92,7 +92,6 @@ jobs:
         with:
           context: .
           push: true
-          target: prod
           tags: ${{ steps.meta.outputs.tags }}
           build-args: |
             ARG_VERSION=${{ env.VERSION }} 

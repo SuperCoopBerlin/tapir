@@ -10,16 +10,12 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: Run Test
-        run: docker compose run --name test-run web make test
-      - name: Copy file
-        run: docker cp test-run:/app/coverage.xml /tmp/coverage.xml
-      - name: remove container
-        run: docker rm test-run
+        run: docker compose run web make test
       - name: Upload coverage
         uses: actions/upload-artifact@v7
         with:
           name: coverage-reports
-          path: /tmp/coverage.xml
+          path: coverage.xml
   sonarcloud:
     needs: test
     runs-on: ubuntu-latest
