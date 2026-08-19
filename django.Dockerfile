@@ -70,6 +70,7 @@ WORKDIR /app
 
 COPY --from=builder --chmod=755  /app/.venv /app/.venv
 COPY --chown=root:root --chmod=755  manage.py ./
+COPY --chown=root:root --chmod=755 dist ./dist
 COPY --chown=root:root --chmod=755 tapir ./tapir
 
 RUN python manage.py compilemessages
