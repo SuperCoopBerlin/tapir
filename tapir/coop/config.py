@@ -14,3 +14,4 @@ get_ids_of_users_registered_to_a_shift_with_capability = []
 URL_MEMBER_MANUAL = "https://wiki.supercoop.de/wiki/Member_Manual"
 
 feature_flag_membership_resignation = "feature_flags.coop.membership_resignation"
+feature_flag_buy_shares = "feature_flags.coop.buy_shares"

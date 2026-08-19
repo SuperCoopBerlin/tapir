@@ -4,10 +4,13 @@ from tempfile import SpooledTemporaryFile
 
 import django_filters
 import django_tables2
+import weasyprint
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.mail import EmailMultiAlternatives
 from django.db import transaction
 from django.db.models import F, OuterRef, Q, Subquery
 from django.http import (
@@ -17,7 +20,7 @@ from django.http import (
     HttpResponseRedirect,
 )
 from django.shortcuts import get_object_or_404, redirect
-from django.template import Context, Template
+from django.template import Context, Template, loader
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
@@ -35,8 +38,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
-from tapir.coop import pdfs
-from tapir.coop.config import on_welcome_session_attendance_update
+from tapir.coop import config, pdfs
+from tapir.coop.config import (
+    feature_flag_buy_shares,
+    on_welcome_session_attendance_update,
+)
+from tapir.coop.emails.extra_shares_buy_mail import ExtraSharesBuyEmailBuilder
 from tapir.coop.emails.extra_shares_confirmation_email import (
     ExtraSharesConfirmationEmailBuilder,
 )
@@ -50,6 +57,7 @@ from tapir.coop.emails.tapir_account_created_email import (
     TapirAccountCreatedEmailBuilder,
 )
 from tapir.coop.forms import (
+    RequestShareForm,
     ShareOwnerForm,
     ShareOwnershipCreateMultipleForm,
     ShareOwnershipForm,
@@ -70,12 +78,14 @@ from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.coop.services.payment_status_service import PaymentStatusService
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
+from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.models import LogEntry
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
+    DEFAULT_FROM_EMAIL,
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_ADMIN,
     PERMISSION_COOP_MANAGE,
@@ -85,6 +95,7 @@ from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
     SHIFT_USER_CAPABILITY_CHOICES,
     Shift,
+    ShiftAccountEntry,
     ShiftExemption,
     ShiftTemplateGroup,
 )
@@ -1025,3 +1036,138 @@ class MemberSelfRegisterApiView(APIView):
             return Response(False)
 
         return Response(True)
+
+
+class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormView):
+    form_class = RequestShareForm
+    model = ShareOwner
+    template_name = "coop/extra_share_request.html"
+    success_url_name = "coop:share-request-success"
+
+    def get_share_owner(self) -> ShareOwner:
+        return get_object_or_404(ShareOwner, pk=self.kwargs["shareowner_pk"])
+
+    def dispatch(self, request, *args, **kwargs):
+        share_owner = self.get_share_owner()
+
+        if share_owner.user != request.user:
+            return HttpResponseForbidden("You don't have permission.")
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        share_owner = self.get_share_owner()
+        num_shares = form.cleaned_data["num_shares"]
+        additional_information = form.cleaned_data["additional_information"]
+        generation_time = timezone.now()
+
+        filename = "Beteiligungserklärung %s.pdf" % (
+            UserUtils.build_display_name_for_viewer(share_owner, self.request.user)
+        )
+        response = HttpResponse(content_type=pdfs.CONTENT_TYPE_PDF)
+        set_header_for_file_download(response, filename)
+        pdf = pdfs.generate_share_request_pdf(
+            share_owner, num_shares, additional_information, generation_time
+        ).write_pdf()
+
+        email = EmailMultiAlternatives(
+            subject=f"Neue Beteiligungserklärung: {filename}",
+            body="Eine neue Beteiligungserklärung wurde eingereicht.",
+            from_email=DEFAULT_FROM_EMAIL,
+            to=[settings.EMAIL_ADDRESS_MEMBER_OFFICE],
+        )
+        email.attach(filename, pdf, "application/pdf")
+        email.send()
+
+        email_builder = ExtraSharesBuyEmailBuilder(
+            num_shares=form.cleaned_data["num_shares"],
+            additional_information=additional_information,
+            share_owner=share_owner,
+            generation_time=generation_time,
+        )
+        SendMailService.send_to_share_owner(
+            actor=self.request.user, recipient=share_owner, email_builder=email_builder
+        )
+
+        messages.success(
+            self.request,
+            _(
+                "Thank you for signing additional shares, we truly appreciate your contribution and commitment! "
+                "You will receive an email confirmation soon."
+            ),
+        )
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not FeatureFlag.get_flag_value(feature_flag_buy_shares):
+            raise PermissionDenied("The feature to buy shares is disabled.")
+        context["share_owner"] = self.get_share_owner()
+        context["COOP_SHARE_PRICE"] = config.COOP_SHARE_PRICE
+        return context
+
+    def get_success_url(self):
+        return self.get_share_owner().get_absolute_url()
+
+
+class UserProfilePDFView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView
+):
+    model = ShareOwner
+    permission_required = PERMISSION_ACCOUNTS_MANAGE
+    pk_url_kwarg = "pk"
+    template_name = "coop/user_profile_pdf.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        shareowner = self.object
+
+        attendances = []
+        entries_data = []
+        if shareowner.pk and shareowner.user is not None:
+            cutoff_date = timezone.now() - relativedelta(
+                years=settings.SHIFT_RETENTION_YEARS
+            )
+
+            attendances = (
+                shareowner.user.shift_attendances.select_related("slot", "slot__shift")
+                .filter(slot__shift__start_time__gte=cutoff_date)
+                .order_by("slot__shift__start_time")
+            )
+            entries_data = [
+                {
+                    "entry": entry,
+                    "balance_at_date": shareowner.user.shift_user_data.get_account_balance(
+                        at_date=entry.date
+                    ),
+                }
+                for entry in ShiftAccountEntry.objects.filter(
+                    user=shareowner.user, date__gte=cutoff_date
+                ).order_by("-date")
+            ]
+
+        context.update(
+            {
+                "attendances": attendances,
+                "SHIFT_RETENTION_YEARS": settings.SHIFT_RETENTION_YEARS,
+                "shareowner": shareowner,
+                "generated_at": timezone.now(),
+                "entries_data": entries_data,
+            }
+        )
+        return context
+
+    def render_to_response(self, context, **response_kwargs):
+        request = self.request
+        html_string = loader.render_to_string(
+            self.template_name, context, request=request
+        )
+        html = weasyprint.HTML(
+            string=html_string, base_url=request.build_absolute_uri("/")
+        )
+        pdf = html.write_pdf(pdf_variant="pdf/a-1b")
+
+        response = HttpResponse(pdf, content_type="application/pdf")
+        filename = f"user-{self.object.pk}-profile.pdf"
+        response["Content-Disposition"] = f'inline; filename="{filename}"'
+        return response

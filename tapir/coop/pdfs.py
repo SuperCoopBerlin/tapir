@@ -77,3 +77,33 @@ def get_confirmation_extra_shares_pdf(
         context=context,
         language=share_owner.get_info().preferred_language,
     )
+
+
+def generate_share_request_pdf(
+    share_owner: ShareOwner,
+    num_shares,
+    additional_information,
+    generation_time: datetime.datetime,
+):
+    templates = [
+        "coop/pdf/membership_agreement_pdf.html",
+        "coop/pdf/membership_agreement_pdf.default.html",
+    ]
+    context = {
+        "share_owner": share_owner,
+        "num_additional_shares": num_shares,
+        "additional_to_pay": num_shares * config.COOP_SHARE_PRICE,
+        "additional_information": additional_information,
+        "coop_full_name": settings.COOP_FULL_NAME,
+        "coop_street": settings.COOP_STREET,
+        "coop_place": settings.COOP_PLACE,
+        "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+        "hide_user_signing_field": True,
+        "generation_time": generation_time,
+    }
+
+    return render_pdf(
+        templates=templates,
+        context=context,
+        language=share_owner.get_info().preferred_language,
+    )

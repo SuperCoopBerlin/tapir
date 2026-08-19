@@ -29,6 +29,10 @@
                 <h5>
                     <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
                 </h5>
+                {% if total_valid_attendances and total_hours and no_of_past_shifts %}
+                    <span data-bs-toggle="tooltip"
+                          title="Total Hours: {{ total_hours }}, Number of Past Shifts: {{ no_of_past_shifts }}, First Shift Date: {{ first_shift_date|date:'d.m.y' }}"></span>
+                {% endif %}
                 <span class="d-flex justify-content-end flex-wrap gap-2">
                     {% if request.user|user_watching_shift:shift %}
                         <form style="display: inline"
@@ -72,7 +76,7 @@
                                 <span class="material-icons">delete</span>{% translate 'Delete the entire shift' %}
                             </a>
                         {% endif %}
-                    </span>
+                        </span>
                 {% endif %}
             </div>
             <div>
@@ -84,7 +88,9 @@
             </div>
         </div>
         <ul class="list-group list-group-flush">
-            {% if shift.description %}<li class="list-group-item">{{ shift.description }}</li>{% endif %}
+            {% if shift.description %}
+                <li class="list-group-item">{{ shift.description }}</li>
+            {% endif %}
             {% if shift.cancelled %}
                 <li class="list-group-item bg-warning">
                     {% translate 'This shift has been cancelled: ' %}
@@ -228,12 +234,17 @@
                                             {% elif not slot.is_occupied %}
                                                 {% blocktranslate asvar self_register_tooltip %}You can only register
                                                     yourself
-                                                    for a shift if:<br />
-                                                    -You are not registered to another slot in that shift<br />
+                                                    for a shift if:
+<br />
+                                                    -You are not registered to another slot in that shift
+<br />
                                                     -You have the required qualification (if you want to get a
-                                                    qualification, contact the member office)<br />
-                                                    -The shift is in the future<br />
-                                                    -The shift is not cancelled (holidays...)<br />
+                                                    qualification, contact the member office)
+<br />
+                                                    -The shift is in the future
+<br />
+                                                    -The shift is not cancelled (holidays...)
+<br />
                                                 {% endblocktranslate %}
                                                 {% autoescape off %}
                                                     <span {% if not slot.can_self_register and not perms.shifts.manage %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ self_register_tooltip }}"{% endif %}>
