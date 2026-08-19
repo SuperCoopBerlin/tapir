@@ -1,5 +1,6 @@
 body {
   font-size: .875rem;
+  color: #0D0D0D;
 }
 
 /* Sidebar, stolen from https://getbootstrap.com/docs/4.1/examples/dashboard/ */
@@ -32,26 +33,27 @@ body {
 
 .sidebar .nav-link {
   font-weight: 500;
-  color: #542738;
+  color: #0D0D0D;
 }
 
 .sidebar .nav-link.active {
-  color: #aec972;
+  color: #FF8080;
 }
 
 .sidebar .nav-link:hover {
-  color: #ba3846;
+  color: #FF8080;
 }
 
 .sidebar-heading {
   font-size: .75rem;
   text-transform: uppercase;
+  color: #0D0D0D;
 }
 
 .sidebar .nav-item:focus {
-  outline: 3px solid rgba(186,56,70,0.18);
+  outline: 1px solid #0D0D0D;
   outline-offset: 2px;
-  background: rgba(186,56,70,0.06);
+  background: rgba(12, 13, 13, 0.06);
 }
 
 .sidebar .nav-item .material-icons {
@@ -61,7 +63,7 @@ body {
   width: 36px;
   height: 20px;
   border-radius: 6px;
-  color: #ba3846;
+  color: #0D0D0D;
   background: transparent;
 }
 
@@ -89,6 +91,7 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #0D0D0D;
 }
 
 .material-icons {
@@ -121,6 +124,7 @@ html, body {
   gap: 5px;
   flex-direction: row;
   align-items: center;
+  color: #0D0D0D;
 }
 
 .tapir-btn > .material-icons {
@@ -133,6 +137,7 @@ html, body {
 
 .tooltip-inner {
   max-width: 350px;
+  color: #0D0D0D;
 }
 
 #about-link {
@@ -144,20 +149,22 @@ html, body {
 
 .card-header {
   background-color: #FCF4E9;
+  color: #0D0D0D;
 }
 
 .card-header h5 {
   margin-bottom: 0;
+  color: #0D0D0D;
 }
 
 .card {
   background: #FFFFFF;
-  box-shadow: 0 6px 18px rgba(84,39,56,0.06);
-  border: 1px solid rgba(84,39,56,0.04);
+  box-shadow: 0 6px 18px rgba(13, 13, 13, 0.06);
+  border: 1px solid rgba(13, 13, 13, 0.04);
 }
 
 .card .card-body {
-  color: #222222;
+  color: #0D0D0D;
   font-size: 0.95rem;
   line-height: 1.45;
 }
@@ -174,52 +181,63 @@ html, body {
   font-weight: 600;
   font-size: 0.95rem;
   line-height: 1;
-  border: 1px solid transparent;
+  border: 1px solid #0D0D0D;
+  color: #0D0D0D !important;
   cursor: pointer;
   transition: background 120ms ease, color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
   box-shadow: none;
 }
 
-/* Primary */
+/* Primary - Rot */
 .tapir-btn.btn-primary,
 .tapir-btn-primary {
-  background-color: #ba3846 !important;
-  color: #ffffff !important;
-  border-color: #ba3846 !important;
-  box-shadow: 0 6px 18px rgba(186,56,70,0.12);
+  background-color: #FF8080 !important;
+  color: #0D0D0D !important;
+  border-color: #0D0D0D !important;
+  box-shadow: 0 6px 18px rgba(255, 128, 128, 0.12);
 }
 .tapir-btn.btn-primary:hover,
-.tapir-btn-primary:hover { background-color: #9c3038 !important; transform: translateY(-2px); }
+.tapir-btn-primary:hover {
+  background-color: #FF6565 !important;
+  transform: translateY(-2px);
+}
 
-/* Outline primary */
+/* Outline primary - Rot */
 .tapir-btn.btn-outline,
 .tapir-btn.btn-outline-primary {
   background: transparent !important;
-  color: #ba3846 !important;
-  border: 1px solid rgba(186,56,70,0.12) !important;
+  color: #0D0D0D !important;
+  border: 1px solid #0D0D0D !important;
 }
 .tapir-btn.btn-outline:hover,
-.tapir-btn.btn-outline-primary:hover { background: rgba(186,56,70,0.06) !important; }
+.tapir-btn.btn-outline-primary:hover {
+  background: #FFE6E6 !important;
+}
 
-/* Secondary / deep (uses #542738) */
+/* Secondary - Grün */
 .tapir-btn.btn-secondary,
 .tapir-btn-secondary {
-  background-color: #542738 !important;
-  color: #ffffff !important;
-  border-color: #542738 !important;
+  background-color: #C9ECC6 !important;
+  color: #0D0D0D !important;
+  border-color: #0D0D0D !important;
 }
 .tapir-btn.btn-secondary:hover,
-.tapir-btn-secondary:hover { background-color: #3e1927 !important; }
+.tapir-btn-secondary:hover {
+  background-color: #B3E4B0 !important;
+}
 
-/* Accent (salbei) */
+/* Accent - Gelb */
 .tapir-btn.btn-accent,
 .tapir-btn-accent {
-  background-color: #aec972 !important;
-  color: #542738 !important;
-  border-color: #aec972 !important;
+  background-color: #FFFFB4 !important;
+  color: #0D0D0D !important;
+  border-color: #0D0D0D !important;
 }
 .tapir-btn.btn-accent:hover,
-.tapir-btn-accent:hover { filter: brightness(0.96); transform: translateY(-1px); }
+.tapir-btn-accent:hover {
+  background-color: #FFFF99 !important;
+  transform: translateY(-1px);
+}
 
 /* Small / Large sizes */
 .tapir-btn.btn-sm { padding: 6px 10px; font-size: 0.85rem; border-radius: 6px; }
@@ -230,8 +248,8 @@ html, body {
 .tapir-btn.disabled,
 .tapir-btn[aria-disabled="true"] {
   background: #F3F3F3 !important;
-  color: #BDBDBD !important;
-  border-color: #F3F3F3 !important;
+  color: #999999 !important;
+  border-color: #BDBDBD !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
   transform: none !important;
@@ -243,15 +261,15 @@ html, body {
 
 /* Focus accessibility */
 .tapir-btn:focus {
-  outline: 3px solid rgba(186,56,70,0.18);
+  outline: 3px solid #0D0D0D;
   outline-offset: 2px;
-  box-shadow: 0 6px 18px rgba(186,56,70,0.08);
+  box-shadow: 0 6px 18px rgba(13, 13, 13, 0.08);
 }
 
 /* Utility helpers to combine with Bootstrap classes */
 .tapir-btn.btn-link {
   background: transparent !important;
-  color: #ba3846 !important;
+  color: #0D0D0D !important;
   border: none !important;
   padding: 0 !important;
   box-shadow: none !important;
@@ -259,16 +277,20 @@ html, body {
 
 /* Navbar Container */
 .navbar {
-  background: #3F2809;
-  border-bottom: 1px solid #E6E3E3;
+  background: #0D0D0D;
+  border-bottom: 1px solid #FCF4E9;
   display: flex;
   align-items: center;
+}
+
+.navbar {
+  color: #0D0D0D;
 }
 
 /* Focus accessibility */
 .navbar a:focus,
 .navbar button:focus {
-  outline: 3px solid rgba(186,56,70,0.18);
+  outline: 3px solid #0D0D0D;
   outline-offset: 2px;
 }
 
