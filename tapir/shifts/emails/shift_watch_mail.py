@@ -12,7 +12,7 @@ class ShiftWatchEmailBuilder(TapirEmailBuilderBase):
     def __init__(self, shift_watch: ShiftWatch, reason: str):
         super().__init__()
         self.shift = shift_watch.shift
-        self.reason = f"{reason}: {shift_watch.shift.get_display_name()}"
+        self.reason = f"{reason}: {shift_watch.shift.get_display_url()}"
 
     @classmethod
     def get_unique_id(cls) -> str:
