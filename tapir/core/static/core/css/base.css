@@ -178,6 +178,9 @@ html, body {
   font-size: 0.95rem;
   line-height: 1.45;
 }
+.card-body > .row {
+    align-items: center;
+}
 
 /* Baseline für alle tapir-btn (überschreibt Bootstrap Defaults) */
 .tapir-btn,
