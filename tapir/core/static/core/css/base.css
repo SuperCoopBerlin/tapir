@@ -77,10 +77,20 @@ body {
 
 @font-face {
   font-family: "Raleway";
-  src: url("https://typo3-test.supercoop.de/_assets/9c7b14713875d04a67b2364c89136b9e/Fonts/Raleway-Medium.ttf") format("truetype");
+  src: url("/static/core/fonts/Raleway-Regular.ttf") format("truetype");
   font-weight: 400;
-  font-style: normal;
   font-display: swap;
+}
+@font-face {
+    font-family: 'Raleway';
+    src: url("/static/core/fonts/Raleway-Medium.ttf") format('truetype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url("/static/core/fonts/Raleway-Bold.ttf") format('truetype');
+    font-weight: 700;
 }
 
 :root {
@@ -88,7 +98,7 @@ body {
 }
 
 html, body {
-  font-family: var(--font-sans);
+  font-family: 'Raleway', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #0D0D0D;
