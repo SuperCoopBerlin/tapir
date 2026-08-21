@@ -177,6 +177,11 @@ class ShiftTemplate(models.Model):
             "This determines from which date shifts should be generated from this ABCD shift."
         ),
     )
+    end_date = models.DateField(
+        blank=True,
+        null=True,
+        help_text=_("All shifts after this date will be cancelled."),
+    )
     flexible_time = models.BooleanField(
         verbose_name=_("Flexible time"),
         help_text=_(
@@ -291,7 +296,7 @@ class ShiftTemplate(models.Model):
                 shift.update_to_fit_template()
 
     def clean(self):
-        if self.start_time >= self.end_time:
+        if (self.start_time and self.end_time) and self.start_time >= self.end_time:
             raise ValidationError(
                 f"The shift must end after it starts. Given start time: {self.start_time}. Given end time: {self.end_time}"
             )

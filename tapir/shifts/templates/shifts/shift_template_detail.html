@@ -28,11 +28,22 @@
                         <span class="material-icons button-icon">edit</span>
                         {% translate "Edit" %}
                     </a>
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:shift_template_set_end_date' object.pk %}">
+                        <span class="material-icons button-icon">event_busy</span>
+                        {% translate 'Set end date' %}
+                    </a>
                 </div>
             {% endif %}
         </h5>
         <ul class="list-group list-group-flush">
             {% if object.description %}<li class="list-group-item">{{ object.description }}</li>{% endif %}
+            {% if object.end_date %}
+                <li class="list-group-item bg-warning">
+                    {% translate 'This shift template has been cancelled for all shifts after ' %}
+                    {{ object.end_date }}
+                </li>
+            {% endif %}
             <li class="list-group-item">
                 <table class="{% tapir_table_classes %}"
                        aria-label="{% translate 'List of slots for this ABCD shifts' %}">
