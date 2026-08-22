@@ -53,6 +53,30 @@ class ShiftWatchCreator:
         return staffing_status
 
     @classmethod
+    def _get_initial_staffing_status_from_prefetch(cls, shift: Shift) -> str:
+        """
+        same as get_initial_staffing_status_for_shift, but expects slots to be filtered for pending slots only to avoid extra database queries
+        """
+        valid_attendances_count = 0
+        number_of_available_slots = 0
+
+        for slot in shift.slots.all():
+            number_of_available_slots += 1
+            # slot.attendances are already filtered by PENDING state
+            valid_attendances_count += slot.attendances.count()
+
+        required_attendances_count = shift.num_required_attendances
+
+        status = cls.calculate_staffing_status(
+            number_of_available_slots=number_of_available_slots,
+            valid_attendances=valid_attendances_count,
+            required_attendances=required_attendances_count,
+            last_status=None,
+        )
+
+        return status or StaffingStatusChoices.ALL_CLEAR
+
+    @classmethod
     def calculate_staffing_status(
         cls,
         number_of_available_slots: int,
@@ -126,21 +150,21 @@ class ShiftWatchCreator:
         existing_ids = ShiftWatch.objects.filter(
             user=recurring.user, shift__in=shifts_qs
         ).values_list("shift_id", flat=True)
-        shifts_to_create = shifts_qs.exclude(pk__in=existing_ids)
 
-        shifts_to_create = shifts_to_create.prefetch_related(
-            Prefetch(
-                "slots",
-                queryset=ShiftSlot.objects.prefetch_related(
-                    Prefetch(
-                        "attendances",
-                        queryset=ShiftAttendance.objects.filter(
-                            state=ShiftAttendance.State.PENDING
-                        ),
-                    )
-                ),
-            )
+        shifts_to_create = shifts_qs.exclude(pk__in=list(existing_ids))
+
+        pending_attendances = Prefetch(
+            "attendances",
+            queryset=ShiftAttendance.objects.filter(
+                state=ShiftAttendance.State.PENDING
+            ),
         )
+
+        slots_with_pending = Prefetch(
+            "slots", queryset=ShiftSlot.objects.prefetch_related(pending_attendances)
+        )
+
+        shifts_to_create = shifts_to_create.prefetch_related(slots_with_pending)
 
         new_watches = []
         for shift in shifts_to_create:
@@ -150,8 +174,8 @@ class ShiftWatchCreator:
                     shift=shift,
                     staffing_status=recurring.staffing_status,
                     watched_capabilities=recurring.watched_capabilities,
-                    last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
-                        shift=shift
+                    last_staffing_status=cls._get_initial_staffing_status_from_prefetch(
+                        shift
                     ),
                     recurring_template=recurring,
                     last_valid_slot_ids=cls._compute_valid_slot_ids_from_prefetch(
