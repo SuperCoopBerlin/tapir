@@ -3,7 +3,7 @@
 {% load core %}
 <div class="card mb-2" id="card-account-card">
     <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Credits" %}</h5>
-    <ul class="list-group  list-group-flush">
+    <ul class="list-group list-group-flush">
         <li class="list-group-item">
             {% blocktranslate with credit=actual_credit %}
                 Your current credit is {{ credit }}€.
