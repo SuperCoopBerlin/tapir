@@ -1123,6 +1123,7 @@ class UserProfilePDFView(
         shareowner = self.object
 
         attendances = []
+        entries_data = []
         if shareowner.pk and shareowner.user is not None:
             cutoff_date = timezone.now() - relativedelta(
                 years=settings.SHIFT_RETENTION_YEARS
