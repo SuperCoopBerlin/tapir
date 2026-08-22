@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 15:48+0200\n"
+"POT-Creation-Date: 2026-08-22 18:30+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -2608,7 +2608,7 @@ msgstr ""
 #: coop/templates/coop/user_profile_pdf.html:171
 #: coop/templates/coop/user_profile_pdf.html:234
 #: financingcampaign/templates/financingcampaign/general.html:111
-#: log/templates/log/log_entry_list_tag.html:23
+#: log/templates/log/log_entry_list_tag.html:30
 #: shifts/templates/shifts/user_shift_account_log.html:26
 #: statistics/templates/statistics/tags/credit_account_card.html:17
 #: statistics/templates/statistics/tags/purchase_statistics_card.html:18
@@ -3023,19 +3023,6 @@ msgstr ""
 #: financingcampaign/templates/financingcampaign/general.html:108
 msgid "The list of all datapoints"
 msgstr ""
-
-#: financingcampaign/templates/financingcampaign/general.html:111
-#: log/templates/log/log_entry_list_tag.html:30
-#: shifts/templates/shifts/user_shift_account_log.html:26
-#: statistics/templates/statistics/tags/credit_account_card.html:17
-#: statistics/templates/statistics/tags/purchase_statistics_card.html:18
-msgid "Date"
-msgstr "Datum"
-
-#: financingcampaign/templates/financingcampaign/general.html:112
-#: shifts/templates/shifts/user_shift_account_log.html:27
-msgid "Value"
-msgstr "Wert"
 
 #: financingcampaign/templates/financingcampaign/general.html:113
 msgid "Linked source"
