@@ -161,7 +161,7 @@ class ShiftWatchCreator:
             )
 
         if new_watches:
-            ShiftWatch.objects.bulk_create(new_watches)
+            ShiftWatch.objects.bulk_create(new_watches, batch_size=500)
 
     @classmethod
     def _compute_valid_slot_ids_from_prefetch(cls, shift: Shift) -> list[int]:
