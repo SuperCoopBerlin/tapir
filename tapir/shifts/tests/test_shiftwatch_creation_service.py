@@ -1,5 +1,8 @@
 import datetime
+import time
 
+from django.db import connection
+from django.test.utils import CaptureQueriesContext
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
@@ -149,3 +152,54 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
 
         self.assertEqual(shift_watch_1.recurring_template, recurring_template)
         self.assertEqual(shift_watch_3.recurring_template, recurring_template_2)
+
+    def test_createShiftWatchesForRecurring_benchmark_belowThresholds(self):
+
+        recurring = RecurringShiftWatch.objects.create(
+            user=self.user,
+            weekdays=[0, 1, 2, 3, 4, 5, 6],
+            staffing_status=[StaffingStatusChoices.ALL_CLEAR],
+            watched_capabilities=[],
+        )
+
+        # Create 1500 shifts
+        shifts = []
+        base_date = timezone.now().date() + datetime.timedelta(days=1)
+
+        for day_offset in range(150):
+            current_date = base_date + datetime.timedelta(days=day_offset)
+            for shift_num in range(10):
+                start_time = timezone.make_aware(
+                    datetime.datetime.combine(
+                        current_date,
+                        datetime.time(
+                            hour=6 + (shift_num // 2), minute=30 * (shift_num % 2)
+                        ),
+                    )
+                )
+                end_time = start_time + datetime.timedelta(hours=2)
+                shifts.append(Shift(start_time=start_time, end_time=end_time))
+
+        Shift.objects.bulk_create(shifts, batch_size=500)
+
+        with CaptureQueriesContext(connection) as ctx:
+            start_time = time.time()
+            ShiftWatchCreator.create_shift_watches_for_recurring(recurring)
+            elapsed = time.time() - start_time
+
+        query_count = len(ctx)
+        watches_count = ShiftWatch.objects.filter(recurring_template=recurring).count()
+
+        print(f"""
+        --------------------------------------------------------
+        Shifts Created:    {watches_count:<17}
+        Time Elapsed:      {elapsed:.2f}s           
+        Database Queries:  {query_count:<17}
+        Queries/Shift:     {query_count / watches_count:.3f}   
+        --------------------------------------------------------      
+        """)
+
+        self.assertEqual(watches_count, len(shifts) + 1)
+        self.assertLess(elapsed, 3, f"Took {elapsed:.2f}s, expected < 3s")
+        # Expected: ~10-15 queries
+        self.assertLess(query_count, 15, f"{query_count} queries")
