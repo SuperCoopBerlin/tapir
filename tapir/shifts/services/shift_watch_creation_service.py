@@ -36,7 +36,7 @@ class ShiftWatchCreator:
         return staffing_status
 
     @classmethod
-    def _get_initial_staffing_status_for_shift(cls, shift: Shift) -> str | None:
+    def get_initial_staffing_status_for_shift(cls, shift: Shift) -> str | None:
         """
         Determine the initial staffing status for a given shift.
 
@@ -233,7 +233,7 @@ class ShiftWatchCreator:
                     shift=shift,
                     staffing_status=recurring.staffing_status,
                     recurring_template=recurring,
-                    last_staffing_status=ShiftWatchCreator._get_initial_staffing_status_for_shift(
+                    last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift,
                     ),
                     last_valid_slot_ids=cls.get_valid_slot_ids(shift),
