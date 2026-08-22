@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 
 from tapir.shifts.models import (
     RecurringShiftWatch,
@@ -128,6 +128,20 @@ class ShiftWatchCreator:
         ).values_list("shift_id", flat=True)
         shifts_to_create = shifts_qs.exclude(pk__in=existing_ids)
 
+        shifts_to_create = shifts_to_create.prefetch_related(
+            Prefetch(
+                "slots",
+                queryset=ShiftSlot.objects.prefetch_related(
+                    Prefetch(
+                        "attendances",
+                        queryset=ShiftAttendance.objects.filter(
+                            state=ShiftAttendance.State.PENDING
+                        ),
+                    )
+                ),
+            )
+        )
+
         new_watches = []
         for shift in shifts_to_create:
             new_watches.append(
@@ -140,12 +154,18 @@ class ShiftWatchCreator:
                         shift=shift
                     ),
                     recurring_template=recurring,
-                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
+                    last_valid_slot_ids=cls._compute_valid_slot_ids_from_prefetch(
+                        shift
+                    ),
                 )
             )
 
         if new_watches:
             ShiftWatch.objects.bulk_create(new_watches)
+
+    @classmethod
+    def _compute_valid_slot_ids_from_prefetch(cls, shift: Shift) -> list[int]:
+        return [slot.id for slot in shift.slots.all() if slot.attendances.exists()]
 
     @classmethod
     def get_valid_slot_ids(cls, shift: Shift) -> list[int]:
