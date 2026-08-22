@@ -11,29 +11,6 @@ from tapir.shifts.models import (
 
 
 class ShiftWatchCreator:
-    @classmethod
-    def get_staffing_status_for_shift(
-        cls, shift: Shift, last_status: str | None = None
-    ) -> str | None:
-        """
-        Compute the staffing status for a Shift instance by extracting the required
-        counts and calling get_staffing_status_if_changed. Returns the status string or None.
-        """
-        valid_attendances_count = ShiftSlot.objects.filter(
-            shift=shift,
-            attendances__state=ShiftAttendance.State.PENDING,
-        ).count()
-        required_attendances_count = shift.num_required_attendances
-        number_of_available_slots = shift.slots.count()
-
-        staffing_status = cls.get_staffing_status_if_changed(
-            number_of_available_slots=number_of_available_slots,
-            valid_attendances=valid_attendances_count,
-            required_attendances=required_attendances_count,
-            last_status=last_status,
-        )
-
-        return staffing_status
 
     @classmethod
     def _extract_attendance_counts(
