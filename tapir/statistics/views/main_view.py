@@ -12,6 +12,8 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import RedirectView
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from tapir.accounts.models import (
     TapirUser,
@@ -288,7 +290,7 @@ class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
         return number_of_members
 
 
-class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
+class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
     def get_context_data(self, **kwargs):
         dates = self.get_and_cache_dates_from_first_share_to_today()
         data = [
@@ -302,19 +304,13 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView)
             )
             for index, date in enumerate(dates)
         ]
-        context_data = {
+        data = {
             "type": "bar",
-            "data": {
-                "labels": self.get_and_cache_dates_from_first_share_to_today(),
-                "datasets": [
-                    {
-                        "label": _("New members"),
-                        "data": data,
-                    }
-                ],
-            },
+            "labels": self.get_and_cache_dates_from_first_share_to_today(),
+            "data": data,
+            "chartLabel": _("New members"),
         }
-        return context_data
+        return Response(data)
 
 
 class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JSONView):
