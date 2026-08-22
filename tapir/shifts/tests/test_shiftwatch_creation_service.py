@@ -193,10 +193,10 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
         print(f"""
         --------------------------------------------------------
         Shifts Created:    {watches_count:<17}
-        Time Elapsed:      {elapsed:.2f}s           
+        Time Elapsed:      {elapsed:.2f}s
         Database Queries:  {query_count:<17}
-        Queries/Shift:     {query_count / watches_count:.3f}   
-        --------------------------------------------------------      
+        Queries/Shift:     {query_count / watches_count:.3f}
+        --------------------------------------------------------
         """)
 
         self.assertEqual(watches_count, len(shifts) + 1)
