@@ -36,7 +36,34 @@ class ShiftWatchCreator:
         return staffing_status
 
     @classmethod
-    def get_initial_staffing_status_for_shift(cls, shift: Shift) -> str | None:
+    def _extract_attendance_counts(
+        cls, shift: Shift, use_prefetch: bool = False
+    ) -> tuple[int, int, int]:
+        """Extract valid attendances, required attendances, and available slots."""
+        required_attendances_count = shift.num_required_attendances
+        number_of_available_slots = shift.slots.count()
+
+        if use_prefetch:
+            # Verwendet bereits geladene Daten (prefetched)
+            valid_attendances_count = sum(
+                slot.attendances.count() for slot in shift.slots.all()
+            )
+        else:
+            valid_attendances_count = ShiftSlot.objects.filter(
+                shift=shift,
+                attendances__state=ShiftAttendance.State.PENDING,
+            ).count()
+
+        return (
+            valid_attendances_count,
+            required_attendances_count,
+            number_of_available_slots,
+        )
+
+    @classmethod
+    def get_initial_staffing_status_for_shift(
+        cls, shift: Shift, use_prefetch: bool = False
+    ) -> str:
         """
         Determine the initial staffing status for a given shift.
 
@@ -45,33 +72,14 @@ class ShiftWatchCreator:
         returns StaffingStatusChoices.ALL_CLEAR as the default. Otherwise, it
         returns the status returned by get_staffing_status_for_shift.
         """
-        staffing_status = cls.get_staffing_status_for_shift(shift=shift)
-
-        if staffing_status is None:
-            return StaffingStatusChoices.ALL_CLEAR
-
-        return staffing_status
-
-    @classmethod
-    def _get_initial_staffing_status_from_prefetch(cls, shift: Shift) -> str:
-        """
-        same as get_initial_staffing_status_for_shift, but expects slots to be filtered for pending slots only to avoid extra database queries
-        """
-        valid_attendances_count = 0
-        number_of_available_slots = 0
-
-        for slot in shift.slots.all():
-            number_of_available_slots += 1
-            # slot.attendances are already filtered by PENDING state
-            valid_attendances_count += slot.attendances.count()
-
-        required_attendances_count = shift.num_required_attendances
+        valid_count, required_count, slots_count = cls._extract_attendance_counts(
+            shift, use_prefetch=use_prefetch
+        )
 
         status = cls.calculate_staffing_status(
-            number_of_available_slots=number_of_available_slots,
-            valid_attendances=valid_attendances_count,
-            required_attendances=required_attendances_count,
-            last_status=None,
+            number_of_available_slots=slots_count,
+            valid_attendances=valid_count,
+            required_attendances=required_count,
         )
 
         return status or StaffingStatusChoices.ALL_CLEAR
@@ -174,8 +182,8 @@ class ShiftWatchCreator:
                     shift=shift,
                     staffing_status=recurring.staffing_status,
                     watched_capabilities=recurring.watched_capabilities,
-                    last_staffing_status=cls._get_initial_staffing_status_from_prefetch(
-                        shift
+                    last_staffing_status=cls.get_initial_staffing_status_for_shift(
+                        shift, use_prefetch=True
                     ),
                     recurring_template=recurring,
                     last_valid_slot_ids=cls._compute_valid_slot_ids_from_prefetch(
