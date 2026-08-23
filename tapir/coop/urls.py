@@ -141,11 +141,6 @@ urlpatterns = [
         name="shareowner_update",
     ),
     path(
-        "statistics",
-        views.StatisticsView.as_view(),
-        name="statistics",
-    ),
-    path(
         "about",
         views.AboutView.as_view(),
         name="about",

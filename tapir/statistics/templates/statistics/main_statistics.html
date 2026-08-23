@@ -85,7 +85,13 @@
     <div class="row">
         <div class="col-xl-6">
             <div class="card mb-2">
-                <h5 class="card-header">{% translate "Working members" %}</h5>
+                <h5 class="card-header d-flex justify-content-between align-items-center">
+                    {% translate "Working members" %}                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:active_members_with_account_at_end_of_month_csv_view' %}">
+                    <span class="material-icons">file_present</span>
+                    {% translate "Active members with account at end of month as CSV" %}
+                    </a>
+                </h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <p>
@@ -136,7 +142,14 @@
         <div class="row">
             <div class="col-xl-6">
                 <div class="card mb-2">
-                    <h5 class="card-header">{% translate "Co-purchasers" %}</h5>
+                    <h5 class="card-header d-flex justify-content-between align-items-center">
+                        {% translate "Co-purchasers" %}
+                        <a class="{% tapir_button_link %}"
+                           href="{% url 'coop:number_of_co_purchasers_csv_view' %}">
+                            <span class="material-icons">file_present</span>
+                            {% translate "Get as CSV" %}
+                        </a>
+                    </h5>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <p>
