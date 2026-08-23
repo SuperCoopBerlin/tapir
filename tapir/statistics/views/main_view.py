@@ -330,7 +330,7 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, AP
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
-    def get(self, request, format=None):
+    def get(self, request, pk, format=None):
         tapir_user = get_object_or_404(TapirUser, pk=(self.kwargs["pk"]))
 
         user_purchases = (
