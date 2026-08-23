@@ -330,9 +330,6 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, AP
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
-    authentication_classes = []
-    permission_classes = []
-
     def get(self, request, format=None):
         tapir_user = get_object_or_404(TapirUser, pk=(self.kwargs["pk"]))
 
@@ -388,8 +385,6 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, AP
 
 
 class FrozenMembersJsonView(APIView):
-    authentication_classes = []
-    permission_classes = []
 
     def get(self, request, format=None):
         relevant_members = self.get_relevant_members()
