@@ -291,7 +291,10 @@ class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONVie
 
 
 class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
-    def get_context_data(self, **kwargs):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
         dates = self.get_and_cache_dates_from_first_share_to_today()
         data = [
             (
@@ -307,7 +310,7 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
         data = {
             "type": "bar",
             "labels": self.get_and_cache_dates_from_first_share_to_today(),
-            "data": data,
+            "chartdata": data,
             "chartLabel": _("New members"),
         }
         return Response(data)
