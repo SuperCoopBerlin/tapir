@@ -2,8 +2,6 @@ import csv
 import datetime
 import os
 
-from chartjs.colors import COLORS, next_color
-from chartjs.views.lines import BaseLineChartView
 from django.db.models import Q
 from django.http import HttpResponse
 from django.utils import timezone
@@ -24,7 +22,7 @@ from tapir.utils.shortcuts import (
 CONTENT_TYPE_CSV = "text/csv"
 
 
-class MemberCountEvolutionJsonView(BaseLineChartView):
+class MemberCountEvolutionJsonView:
     dates_from_first_share_to_today = None
 
     def get_labels(self):
@@ -69,7 +67,7 @@ class MemberCountEvolutionJsonView(BaseLineChartView):
         return self.dates_from_first_share_to_today
 
 
-class ShareCountEvolutionJsonView(BaseLineChartView):
+class ShareCountEvolutionJsonView:
     dates_from_first_share_to_today = None
 
     def get_labels(self):
@@ -85,9 +83,6 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
                 for date in self.get_and_cache_dates_from_first_share_to_today()
             ]
         ]
-
-    def get_colors(self):
-        return next_color(COLORS[1:])
 
     def get_and_cache_dates_from_first_share_to_today(self):
         if self.dates_from_first_share_to_today is None:
@@ -117,7 +112,7 @@ class ShareCountEvolutionJsonView(BaseLineChartView):
         return dates
 
 
-class MemberAgeDistributionJsonView(BaseLineChartView):
+class MemberAgeDistributionJsonView:
     age_to_number_of_members_map = None
 
     def get_labels(self):
@@ -128,9 +123,6 @@ class MemberAgeDistributionJsonView(BaseLineChartView):
 
     def get_data(self):
         return [list(self.get_age_distribution().values())]
-
-    def get_colors(self):
-        return next_color(COLORS[1:])
 
     def get_age_distribution(self) -> dict:
         if self.age_to_number_of_members_map is not None:
@@ -169,7 +161,7 @@ class AboutView(generic.TemplateView):
         return context
 
 
-class MemberStatusUpdatesJsonView(BaseLineChartView):
+class MemberStatusUpdatesJsonView:
     dates_from_first_share_to_today = None
 
     def get_labels(self):
@@ -374,7 +366,7 @@ def active_members_with_account_at_end_of_month_csv_view(_):
     return response
 
 
-class NumberOfCoPurchasersJsonView(BaseLineChartView):
+class NumberOfCoPurchasersJsonView:
     dates_from_first_share_to_today = None
     number_of_co_purchasers_per_month = None
 
@@ -386,9 +378,6 @@ class NumberOfCoPurchasersJsonView(BaseLineChartView):
 
     def get_data(self):
         return [list(self.get_number_of_co_purchasers_per_month().values())]
-
-    def get_colors(self):
-        return next_color(COLORS[1:])
 
     @classmethod
     def get_and_cache_dates_from_first_share_to_today(cls):
