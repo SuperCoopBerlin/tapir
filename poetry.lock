@@ -1301,18 +1301,6 @@ django = ">=4.2"
 jinja = ["jinja2 (>=3.0,<4)"]
 
 [[package]]
-name = "django-chartjs"
-version = "2.3.0"
-description = "Django Chart.js and Hightchart ajax views"
-optional = false
-python-versions = "*"
-groups = ["main"]
-files = [
-    {file = "django-chartjs-2.3.0.tar.gz", hash = "sha256:576ad20cfb6d18efcd3142784752cc8f7445601180d74fbaa6af9fd2f866899b"},
-    {file = "django_chartjs-2.3.0-py3-none-any.whl", hash = "sha256:3cc1660ff1403c021b3ede163062120e36fde194e97e1a84a7eb1a8f09223183"},
-]
-
-[[package]]
 name = "django-cors-headers"
 version = "4.9.0"
 description = "django-cors-headers is a Django application for handling the server headers required for Cross-Origin Resource Sharing (CORS)."
@@ -4397,4 +4385,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.13,<4.0"
-content-hash = "74ca380be84285ddbb494c71ecc1aba939ce3e1fa39d7af482a4911292ab3b79"
+content-hash = "8c021c0fb2af3f82cba7a005c55e5b8dbf6d00d7658a852910335a375af44592"
