@@ -34,7 +34,36 @@ var ChartManager = /** @class */ (function () {
         button.style.display = "none";
         var canvas = document.getElementById(canvas_id);
         canvas.style.display = null;
-        new Chart(canvas, data);
+        // Prüfe ob es ein Bar-Chart oder ein Standard-Chart ist
+         this.drawBarGraph(data, canvas_id);
+
+    };
+    ChartManager.prototype.drawBarGraph = function (data, canvas_id) {
+        var labels = data.labels;
+        var chartLabel = data.chartLabel;
+        var chartdata = data.chartdata;
+        var canvas = document.getElementById(canvas_id);
+        var ctx = canvas.getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: chartLabel,
+                    data: chartdata,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
     };
     ChartManager.prototype.on_load_error = function (response, button) {
         console.log(response);

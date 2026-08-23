@@ -29,57 +29,7 @@
                     </p>
                     <p>
                         {% translate "New members per month" as chart_name %}
-                        <body class="container-fluid">
-                            <hr />
-                            <div class="row">
-                                <div>
-                                    <canvas id="myChartBar"></canvas>
-                                </div>
-                            </div>
-                            <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-                            <script>
-                                var endpoint = '/statistics/new_members_per_month_json';
-
-                                $.ajax({
-                                  method: "GET",
-                                  url: endpoint,
-                                  success: function(data) {
-                                    drawBarGraph(data, 'myChartBar');
-                                    console.log("drawing");
-                                  },
-                                  error: function(error_data) {
-                                    console.log(error_data);
-                                  }
-                                })
-                                function drawBarGraph(data, id) {
-                                  var labels = data.labels;
-                                  var chartLabel = data.chartLabel;
-                                  var chartdata = data.chartdata;
-                                  var ctx = document.getElementById(id).getContext('2d');
-                                  var myChart = new Chart(ctx, {
-                                    type: 'bar',
-                                    data: {
-                                      labels: labels,
-                                      datasets: [{
-                                        label: chartLabel,
-                                        data: chartdata,
-
-                                        borderWidth: 1
-                                      }]
-                                    },
-                                    options: {
-                                      scales: {
-                                        yAxes: [{
-                                          ticks: {
-                                            beginAtZero: true
-                                          }
-                                        }]
-                                      }
-                                    }
-                                  });
-                                }
-                            </script>
-                        </body>
+                        {% on_demand_chart chart_name "statistics:new_members_per_month_json" %}
                     </p>
                 </div>
             </div>
