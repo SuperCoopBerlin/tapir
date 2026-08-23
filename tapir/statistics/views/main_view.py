@@ -1,6 +1,5 @@
 import datetime
 
-from chartjs.views import JSONView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
@@ -264,12 +263,17 @@ class CacheDatesFromFirstShareToTodayMixin:
         return self.dates_from_first_share_to_today
 
 
-class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
-    def get_context_data(self, **kwargs):
-        return build_line_chart_data(
-            x_axis_values=self.get_and_cache_dates_from_first_share_to_today(),
-            y_axis_values=[self.get_number_of_members_per_month()],
-            data_labels=[_("Total number of members")],
+class MemberCountEvolutionJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        return Response(
+            build_line_chart_data(
+                x_axis_values=self.get_and_cache_dates_from_first_share_to_today(),
+                y_axis_values=[self.get_number_of_members_per_month()],
+                data_labels=[_("Total number of members")],
+            )
         )
 
     @staticmethod
@@ -309,20 +313,27 @@ class NewMembersPerMonthJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
         ]
         data = {
             "type": "bar",
-            "labels": self.get_and_cache_dates_from_first_share_to_today(),
-            "chartdata": data,
-            "chartLabel": _("New members"),
+            "data": {
+                "labels": self.get_and_cache_dates_from_first_share_to_today(),
+                "datasets": [
+                    {"label": _("New members"), "data": data, "borderWidth": 1}
+                ],
+            },
+            "options": {"scales": {"yAxes": [{"ticks": {"beginAtZero": "true"}}]}},
         }
         return Response(data)
 
 
-class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JSONView):
+class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
     def get_permission_required(self):
         if self.request.user.pk == self.kwargs["pk"]:
             return []
         return [PERMISSION_ACCOUNTS_VIEW]
 
-    def get_context_data(self, **kwargs):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
         tapir_user = get_object_or_404(TapirUser, pk=(self.kwargs["pk"]))
 
         user_purchases = (
@@ -335,10 +346,12 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JS
 
         months = self.get_months(user_purchases)
 
-        return build_bar_chart_data(
-            data=self.get_sums_per_month(user_purchases, months),
-            labels=months,
-            label=_("Total spends per month"),
+        return Response(
+            build_bar_chart_data(
+                data=self.get_sums_per_month(user_purchases, months),
+                labels=months,
+                label=_("Total spends per month"),
+            )
         )
 
     @staticmethod
@@ -374,8 +387,11 @@ class BasketSumEvolutionJsonView(LoginRequiredMixin, PermissionRequiredMixin, JS
         return prices
 
 
-class FrozenMembersJsonView(JSONView):
-    def get_context_data(self, **kwargs):
+class FrozenMembersJsonView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
         relevant_members = self.get_relevant_members()
         annotated_members = ShiftAttendanceModeService.annotate_share_owner_queryset_with_attendance_mode_at_datetime(
             relevant_members
@@ -387,9 +403,11 @@ class FrozenMembersJsonView(JSONView):
         ).count()
         not_frozen_members_count = relevant_members.count() - frozen_members_count
 
-        return build_pie_chart_data(
-            labels=[_("Purchasing members"), _("Frozen members")],
-            data=[not_frozen_members_count, frozen_members_count],
+        return Response(
+            build_pie_chart_data(
+                labels=[_("Purchasing members"), _("Frozen members")],
+                data=[not_frozen_members_count, frozen_members_count],
+            )
         )
 
     @staticmethod
@@ -399,17 +417,22 @@ class FrozenMembersJsonView(JSONView):
         )
 
 
-class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
-    def get_context_data(self, **kwargs):
-        return build_line_chart_data(
-            x_axis_values=self.get_dates(),
-            y_axis_values=[self.get_percentage_of_co_purchasers_per_month()],
-            data_labels=[
-                _(
-                    "Percentage of members with a co-purchaser relative to the number of active members"
-                )
-            ],
-            y_axis_max=100,
+class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        return Response(
+            build_line_chart_data(
+                x_axis_values=self.get_dates(),
+                y_axis_values=[self.get_percentage_of_co_purchasers_per_month()],
+                data_labels=[
+                    _(
+                        "Percentage of members with a co-purchaser relative to the number of active members"
+                    )
+                ],
+                y_axis_max=100,
+            )
         )
 
     def get_dates(self):
@@ -506,21 +529,28 @@ class CoPurchasersJsonView(CacheDatesFromFirstShareToTodayMixin, JSONView):
         return has_co_purchaser
 
 
-class FinancingCampaignJsonView(JSONView):
+class FinancingCampaignJsonView(APIView):
     def get_campaign(self):
         return get_object_or_404(FinancingCampaign, pk=self.kwargs["pk"])
 
-    def get_context_data(self, **kwargs):
-        return build_line_chart_data(
-            x_axis_values=[date for date in self.get_dates()],
-            y_axis_values=self.get_data(),
-            data_labels=[
-                source.name
-                for source in self.get_campaign().financingsource_set.order_by("name")
-            ],
-            y_axis_min=0,
-            y_axis_max=self.get_campaign().goal,
-            stacked=True,
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
+        return Response(
+            build_line_chart_data(
+                x_axis_values=[date for date in self.get_dates()],
+                y_axis_values=self.get_data(),
+                data_labels=[
+                    source.name
+                    for source in self.get_campaign().financingsource_set.order_by(
+                        "name"
+                    )
+                ],
+                y_axis_min=0,
+                y_axis_max=self.get_campaign().goal,
+                stacked=True,
+            )
         )
 
     def get_dates(self):

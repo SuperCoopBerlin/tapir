@@ -1,4 +1,3 @@
-from chartjs.views import JSONView
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseBadRequest, HttpResponseForbidden
@@ -9,6 +8,8 @@ from django.views.generic import (
     RedirectView,
     TemplateView,
 )
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
 from tapir.core.config import (
@@ -23,6 +24,7 @@ from tapir.shifts.models import (
     ShiftAttendance,
     SolidarityShift,
 )
+from tapir.statistics.utils import build_bar_chart_data
 from tapir.utils.shortcuts import get_first_of_next_month
 
 
@@ -154,8 +156,11 @@ class CacheDatesFirstSolidarityToTodayMixin:
         return dates
 
 
-class GiftedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONView):
-    def get_context_data(self, **kwargs):
+class GiftedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
         data = []
         dates = self.get_dates_from_first_solidarity_to_today()
 
@@ -168,23 +173,20 @@ class GiftedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSON
                 ).count()
             )
 
-        context_data = {
-            "type": "bar",
-            "data": {
-                "labels": [date.strftime("%b %Y") for date in dates],
-                "datasets": [
-                    {
-                        "label": _("Solidarity shifts gifted"),
-                        "data": data,
-                    }
-                ],
-            },
-        }
-        return context_data
+        return Response(
+            build_bar_chart_data(
+                labels=[date.strftime("%b %Y") for date in dates],
+                data=data,
+                label=_("Solidarity shifts gifted"),
+            )
+        )
 
 
-class UsedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONView):
-    def get_context_data(self, **kwargs):
+class UsedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, format=None):
         data = []
         dates = self.get_dates_from_first_solidarity_to_today()
 
@@ -197,16 +199,10 @@ class UsedSolidarityShiftsJsonView(CacheDatesFirstSolidarityToTodayMixin, JSONVi
                 ).count()
             )
 
-        context_data = {
-            "type": "bar",
-            "data": {
-                "labels": [date.strftime("%b %Y") for date in dates],
-                "datasets": [
-                    {
-                        "label": _("Solidarity shifts used"),
-                        "data": data,
-                    }
-                ],
-            },
-        }
-        return context_data
+        return Response(
+            build_bar_chart_data(
+                labels=[date.strftime("%b %Y") for date in dates],
+                data=data,
+                label=_("Solidarity shifts used"),
+            )
+        )
