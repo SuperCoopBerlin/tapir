@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     "django_select2",  # For autocompletion in form fields
     "phonenumber_field",
     "django_extensions",
-    "chartjs",
     "rest_framework",
     "drf_spectacular",
     "django_vite",
