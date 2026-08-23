@@ -42,10 +42,11 @@ var ChartManager = /** @class */ (function () {
         var labels = data.labels;
         var chartLabel = data.chartLabel;
         var chartdata = data.chartdata;
+        var type = data.type;
         var canvas = document.getElementById(canvas_id);
         var ctx = canvas.getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: type,
             data: {
                 labels: labels,
                 datasets: [{
