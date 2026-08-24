@@ -60,9 +60,9 @@
                                 {% translate "Clear all filters" %}
                             </a>
                             <div class="ms-2">
-                                {% blocktranslate with filtered=filtered_draftuser_count total=total_draftuser_count %}
-                                            Filtered {{ filtered }} of {{ total }}
-                                        {% endblocktranslate %}
+                                {% blocktranslate with filtered=filtered_draftuser_count total=total_draftuser_count trimmed %}
+                                    Filtered {{ filtered }} of {{ total }}
+                                {% endblocktranslate %}
                             </div>
                         </div>
                     </form>
