@@ -110,8 +110,6 @@ msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
 #: accounts/models.py:79
-#, fuzzy
-#| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail"
 msgstr "Miteinkäufer*in-Mail"
 
@@ -315,8 +313,6 @@ msgid "Personal Data"
 msgstr "Persönliche Daten"
 
 #: accounts/templates/accounts/user_detail.html:31
-#, fuzzy
-#| msgid "Emails"
 msgid "Mails"
 msgstr "E-Mails"
 
@@ -2085,8 +2081,6 @@ msgstr "Abmelden"
 
 #: coop/templates/coop/general_accounts_list.html:7
 #: coop/templates/coop/general_accounts_list.html:16
-#, fuzzy
-#| msgid "Create Tapir account"
 msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
@@ -2243,8 +2237,6 @@ msgid "Membership resignation"
 msgstr "Mitgliedschaftskündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:19
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Confirm cancellation of resignation"
 msgstr "Bestätigen Sie die Rücknahme der Kündigung"
 
@@ -2395,10 +2387,8 @@ msgid "Send mail"
 msgstr ""
 
 #: coop/templates/coop/shareowner_list.html:53
-#, fuzzy
-#| msgid "Email address"
 msgid "Copy mail addresses"
-msgstr "E-Mail-Adresse"
+msgstr "Kopiere E-Mail-Adressen"
 
 #: coop/templates/coop/shareowner_list.html:93
 #, fuzzy, python-format
