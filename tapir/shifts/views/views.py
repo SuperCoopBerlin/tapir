@@ -461,7 +461,12 @@ class CreateRecurringShiftWatchView(
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data["page_title"] = _("Create a rule for recurring Shift Watches")
+        user = TapirUser.objects.get(pk=self.kwargs["pk"])
+        context_data["page_title"] = _(
+            "Create a rule for recurring shift watch for %(name)s"
+        ) % {
+            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
         context_data["card_title"] = context_data["page_title"]
         context_data["help_text"] = _(
             "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
@@ -495,6 +500,14 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_pk = self.kwargs.get("pk")
+        user = TapirUser.objects.get(pk=self.kwargs["pk"])
+        context["user"] = user
+        context["page_title"] = _("Recurring Shiftwatch List of %(name)s") % {
+            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
+        context["card_title"] = _("Recurring Shiftwatch List of %(name)s") % {
+            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
         context["shift_watches"] = (
             ShiftWatch.objects.filter(
                 user__id=user_pk, shift__end_time__gte=timezone.now()
