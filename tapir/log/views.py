@@ -3,12 +3,13 @@ import datetime
 import django_filters
 import django_tables2
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, QuerySet
 from django.http import HttpResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext_lazy as _
+from django.views import View
 from django.views.decorators.http import require_GET, require_POST
 from django_filters import DateRangeFilter
 from django_filters.views import FilterView
@@ -20,7 +21,10 @@ from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, LogEntry, TextLogEntry
 from tapir.log.util import freeze_for_log
-from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_VIEW
+from tapir.settings import (
+    PERMISSION_COOP_MANAGE,
+    PERMISSION_COOP_VIEW,
+)
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.shortcuts import (
     safe_redirect,
@@ -182,3 +186,32 @@ class LogTableView(LoginRequiredMixin, FilterView, SingleTableView):
         if not self.request.user.has_perm(PERMISSION_COOP_VIEW):
             return queryset.filter(user=self.request.user)
         return queryset
+
+
+class DeleteLogsView(LoginRequiredMixin, PermissionRequiredMixin, View):
+
+    permission_required = "accounts.manage"
+    raise_exception = True
+    template_name = "log/logentry_confirm_delete.html"
+
+    def get(self, request, share_owner_id):
+        share_owner = get_object_or_404(ShareOwner, pk=share_owner_id)
+        log_count = LogEntry.objects.filter(share_owner=share_owner).count()
+
+        if log_count == 0:
+            log_count = LogEntry.objects.filter(user=share_owner.user).count()
+
+        context = {
+            "share_owner": share_owner,
+            "log_count": log_count,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, share_owner_id):
+        share_owner = get_object_or_404(ShareOwner, pk=share_owner_id)
+
+        deleted_count, _ = LogEntry.objects.filter(share_owner=share_owner).delete()
+        if deleted_count == 0:
+            deleted_count, _ = LogEntry.objects.filter(user=share_owner.user).delete()
+
+        return redirect(share_owner.user.get_absolute_url())

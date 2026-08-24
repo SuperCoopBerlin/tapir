@@ -1,0 +1,55 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load coop %}
+{% load static %}
+{% load core %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "coop/css/coop.css" %}">
+    <style>
+        .select2 {
+            width: 100%!important;
+        }
+    </style>
+    {{ filter.form.media }}
+{% endblock head %}
+{% block content %}
+    <div class="card m-2">
+        <div class="card-header">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="col-6 d-flex flex-column justify-content-center">
+                    <h5 style="margin-bottom: 0">
+                        <span class="material-icons align-middle">warning</span>
+                        {% translate "Delete all log entries?" %}
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <p>
+                    {% blocktranslate with name=share_owner.get_display_name|default:share_owner count=log_count %}
+                        You are about to permanently delete <strong>{{ count }} log entries</strong> for <strong>{{ name }}</strong>.
+                    {% endblocktranslate %}
+                </p>
+                <div class="alert alert-danger" role="alert">
+                    <strong>{% translate "Warning:" %}</strong>
+                    {% translate "This action cannot be undone!" %}
+                    {% translate "This action may skew statistics based on the logs!" %}
+                </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-end gap-2">
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn tapir-btn btn-danger">
+                        <span class="material-icons">delete_sweep</span>
+                        {% translate "Delete all logs" %}
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
+{% endblock content %}

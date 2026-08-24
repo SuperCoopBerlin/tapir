@@ -19,4 +19,9 @@ urlpatterns = [
         views.LogTableView.as_view(),
         name="log_overview",
     ),
+    path(
+        "delete/<int:share_owner_id>/",
+        views.DeleteLogsView.as_view(),
+        name="delete_logs",
+    ),
 ]
