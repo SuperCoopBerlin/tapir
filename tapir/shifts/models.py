@@ -569,6 +569,9 @@ class Shift(models.Model):
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
 
+    def get_display_url(self):
+        return get_html_link(self.get_absolute_url(), self.get_display_name())
+
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)
 

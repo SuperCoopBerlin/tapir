@@ -11,12 +11,12 @@
     <p>
         {% if tapir_user.shift_user_data.attendance_mode == "regular" %}
             {% if tapir_user.shift_attendance_templates.first %}
-                {% blocktranslate with slot_display_name=tapir_user.shift_attendance_templates.first.slot_template.get_display_name %}
+                {% blocktranslate with slot_display_name=tapir_user.shift_attendance_templates.first.slot_template.get_display_name trimmed %}
                     Your regular ABCD-shift is: {{ slot_display_name }}. You will receive a reminder email in advance of your first shift.
                 {% endblocktranslate %}
             {% endif %}
         {% else %}
-            {% blocktranslate %}
+            {% blocktranslate trimmed %}
                 Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href="https://wiki.supercoop.de/wiki/Member_Manual">Member Manual</a> .
             {% endblocktranslate %}
         {% endif %}
@@ -32,8 +32,9 @@
         {% endblocktranslate %}
     </p>
     <p>
-        {% blocktranslate %}
-            Cooperative regards, <br />
+        {% blocktranslate trimmed %}
+            Cooperative regards,
+            <br />
             Your SuperCoop Berlin Member Office team.
         {% endblocktranslate %}
     </p>
