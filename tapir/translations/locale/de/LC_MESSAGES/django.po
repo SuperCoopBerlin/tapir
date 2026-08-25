@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 08:15+0200\n"
+"POT-Creation-Date: 2026-08-25 11:40+0200\n"
 "PO-Revision-Date: 2025-07-07 13:06+0000\n"
 "Last-Translator: Weblate Admin <theo.madet@posteo.net>\n"
 "Language-Team: German <http://weblate.seriousdino.org/projects/tapir/tapir-python-translations/de/>\n"
@@ -110,8 +110,6 @@ msgid "Co-Purchaser"
 msgstr "Miteinkäufer*in"
 
 #: accounts/models.py:79
-#, fuzzy
-#| msgid "Co-Purchaser"
 msgid "Co-Purchaser mail"
 msgstr "Miteinkäufer*in-Mail"
 
@@ -143,20 +141,11 @@ msgid "This username is already taken."
 msgstr "Benutzername schon vorhanden."
 
 #: accounts/templates/accounts/edit_username.default.html:13
-#, python-format
-msgid ""
-"\n"
-"        Edit username: %(display_name_full)s\n"
-"    "
-msgstr ""
-
 #: accounts/templates/accounts/edit_username.default.html:22
-#, python-format
-msgid ""
-"\n"
-"                    Edit username: %(display_name_full)s\n"
-"                "
-msgstr ""
+#, fuzzy, python-format
+#| msgid "Edit share: %(name)s"
+msgid "Edit username: %(display_name_full)s"
+msgstr "Anteil bearbeiten: %(name)s"
 
 #: accounts/templates/accounts/edit_username.default.html:28
 #, python-format
@@ -242,9 +231,11 @@ msgid "Cooperative Greetings,<br />The Membership Office"
 msgstr "Kooperative Grüße,<br />Das Mitgliederbüro"
 
 #: accounts/templates/accounts/email/create_account_reminder.subject.html:2
-msgid ""
-"\n"
-"    Don't forget to sign up for your first shift at SuperCoop!\n"
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "    Don't forget to sign up for your first shift at SuperCoop!\n"
+msgid "Don't forget to sign up for your first shift at SuperCoop!"
 msgstr ""
 "\n"
 "    Vergiss nicht, dich für deine erste Schicht bei SuperCoop anzumelden!\n"
@@ -315,8 +306,6 @@ msgid "Personal Data"
 msgstr "Persönliche Daten"
 
 #: accounts/templates/accounts/user_detail.html:31
-#, fuzzy
-#| msgid "Emails"
 msgid "Mails"
 msgstr "E-Mails"
 
@@ -436,9 +425,11 @@ msgstr ""
 " "
 
 #: accounts/templates/registration/email/password_reset_subject.html:2
-msgid ""
-"\n"
-"    Reset your password\n"
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "    Reset your password\n"
+msgid "Reset your password"
 msgstr ""
 "\n"
 "Passwort zurücksetzen\n"
@@ -1095,14 +1086,8 @@ msgstr "Alle Filter entfernen"
 
 #: coop/templates/coop/draftuser_list.html:63
 #, python-format
-msgid ""
-"\n"
-"                                            Filtered %(filtered)s of %(total)s\n"
-"                                        "
+msgid "Filtered %(filtered)s of %(total)s"
 msgstr ""
-"\n"
-"                            %(filtered)s aus %(total)s gefilterte Mitglieder\n"
-"                            "
 
 #: coop/templates/coop/draftuser_register_form.default.html:27
 msgid "Create Applicant"
@@ -1163,9 +1148,7 @@ msgid "This email is send automatically every Sunday. Contact the Tapir team on 
 msgstr "Diese Mail wird automatisch jeden Sonntag verschickt. Kontaktiere das Tapir-Team auf Slack bei Fragen"
 
 #: coop/templates/coop/email/accounting_recap.subject.default.html:2
-msgid ""
-"\n"
-"    Accounting recap\n"
+msgid "Accounting recap"
 msgstr ""
 
 #: coop/templates/coop/email/co_purchaser_updated.body.html:6
@@ -1251,13 +1234,10 @@ msgstr ""
 
 #: coop/templates/coop/email/extra_shares_bought.subject.html:2
 #: coop/templates/coop/email/extra_shares_buy.subject.html:2
-#, python-format
-msgid ""
-"\n"
-"    Confirmation acquisition of additional shares in %(coop_name)s\n"
-msgstr ""
-"\n"
-"    Bestätigung zum Erwerb zusätzlicher Anteile bei %(coop_name)s\n"
+#, fuzzy, python-format
+#| msgid "Confirmation acquisition of additional shares in %(coop_full_name)s"
+msgid "Confirmation acquisition of additional shares in %(coop_name)s"
+msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_full_name)s"
 
 #: coop/templates/coop/email/extra_shares_buy.body.html:6
 #, python-format
@@ -1708,10 +1688,11 @@ msgstr ""
 "   "
 
 #: coop/templates/coop/email/membership_confirmation.active.subject.html:2
-#, python-format
-msgid ""
-"\n"
-"    Welcome at %(organization_name)s!\n"
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    Welcome at %(organization_name)s!\n"
+msgid "Welcome at %(organization_name)s!"
 msgstr ""
 "\n"
 "Willkommen in der %(organization_name)s!\n"
@@ -1891,10 +1872,11 @@ msgstr ""
 "     "
 
 #: coop/templates/coop/email/membershipresignation_confirmation_subject.html:4
-#, python-format
-msgid ""
-"\n"
-"    Confirmation of the cancellation of membership: %(share_owner_name)s\n"
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    Confirmation of the cancellation of membership: %(share_owner_name)s\n"
+msgid "Confirmation of the cancellation of membership: %(share_owner_name)s"
 msgstr ""
 "\n"
 "Bestätigung der Kündigung von: %(share_owner_name)s\n"
@@ -1956,21 +1938,24 @@ msgstr ""
 "Weitere Informationen zum Vertretungssystem findest du im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.</p> "
 
 #: coop/templates/coop/email/tapir_account_created.body.html:14
-#, python-format
-msgid ""
-"\n"
-"                    Your regular ABCD-shift is: %(slot_display_name)s. You will receive a reminder email in advance of your first shift.\n"
-"                "
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                    Your regular ABCD-shift is: %(slot_display_name)s. You will receive a reminder email in advance of your first shift.\n"
+#| "                "
+msgid "Your regular ABCD-shift is: %(slot_display_name)s. You will receive a reminder email in advance of your first shift."
 msgstr ""
 "\n"
 "Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten Schicht wirst du nochmal eine Erinnerungsmail erhalten.\n"
 " "
 
 #: coop/templates/coop/email/tapir_account_created.body.html:19
-msgid ""
-"\n"
-"                Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> .\n"
-"            "
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> .\n"
+#| "            "
+msgid "Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> ."
 msgstr ""
 "\n"
 "Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.\n"
@@ -1994,11 +1979,13 @@ msgstr ""
 " "
 
 #: coop/templates/coop/email/tapir_account_created.body.html:35
-msgid ""
-"\n"
-"            Cooperative regards, <br />\n"
-"            Your SuperCoop Berlin Member Office team.\n"
-"        "
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "            Cooperative regards, <br />\n"
+#| "            Your SuperCoop Berlin Member Office team.\n"
+#| "        "
+msgid "Cooperative regards, <br /> Your SuperCoop Berlin Member Office team."
 msgstr ""
 "\n"
 "Kooperative Grüße,<br />\n"
@@ -2085,8 +2072,6 @@ msgstr "Abmelden"
 
 #: coop/templates/coop/general_accounts_list.html:7
 #: coop/templates/coop/general_accounts_list.html:16
-#, fuzzy
-#| msgid "Create Tapir account"
 msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
@@ -2101,10 +2086,11 @@ msgid "Register a new payment"
 msgstr "Zahlung registrieren"
 
 #: coop/templates/coop/log/create_membership_pause_log_entry.html:3
-#, python-format
-msgid ""
-"\n"
-"    New membership pause starting %(start_date)s: %(description)s.\n"
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "    New membership pause starting %(start_date)s: %(description)s.\n"
+msgid "New membership pause starting %(start_date)s: %(description)s."
 msgstr ""
 "\n"
 "    Eine neue Mitgliedsschaftspause startet am %(start_date)s: %(description)s.\n"
@@ -2116,9 +2102,7 @@ msgstr ""
 
 #: coop/templates/coop/log/create_resignmember_log_entry.html:2
 #, python-format
-msgid ""
-"\n"
-"Member resigned for reason: %(cancellation_reason)s\n"
+msgid "Member resigned for reason: %(cancellation_reason)s"
 msgstr ""
 
 #: coop/templates/coop/log/delete_resignmember_log_entry.html:2
@@ -2243,8 +2227,6 @@ msgid "Membership resignation"
 msgstr "Mitgliedschaftskündigung"
 
 #: coop/templates/coop/membershipresignation_detail.html:19
-#, fuzzy
-#| msgid "Confirm cancellation"
 msgid "Confirm cancellation of resignation"
 msgstr "Bestätigen Sie die Rücknahme der Kündigung"
 
@@ -2395,10 +2377,8 @@ msgid "Send mail"
 msgstr ""
 
 #: coop/templates/coop/shareowner_list.html:53
-#, fuzzy
-#| msgid "Email address"
 msgid "Copy mail addresses"
-msgstr "E-Mail-Adresse"
+msgstr "Kopiere E-Mail-Adressen"
 
 #: coop/templates/coop/shareowner_list.html:93
 #, fuzzy, python-format
@@ -5103,22 +5083,22 @@ msgstr "Keine beobachteten Schichten"
 msgid "General"
 msgstr "Allgemein"
 
-#: shifts/views/attendance.py:205 shifts/views/attendance.py:349
+#: shifts/views/attendance.py:215 shifts/views/attendance.py:366
 #, python-format
 msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:211 shifts/views/attendance.py:355
+#: shifts/views/attendance.py:221 shifts/views/attendance.py:372
 #, python-format
 msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
 msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
 
-#: shifts/views/attendance.py:389
+#: shifts/views/attendance.py:406
 #, python-format
 msgid "ABCD attendance: %(name)s"
 msgstr "ABCD-Anwesenheit: %(name)s"
 
-#: shifts/views/attendance.py:396
+#: shifts/views/attendance.py:413
 #, python-format
 msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
 msgstr "ABCD-Anwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
@@ -6627,6 +6607,24 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "    Confirmation acquisition of additional shares in %(coop_name)s\n"
+#~ msgstr ""
+#~ "\n"
+#~ "    Bestätigung zum Erwerb zusätzlicher Anteile bei %(coop_name)s\n"
+
+#, python-format
+#~ msgid ""
+#~ "\n"
+#~ "                                            Filtered %(filtered)s of %(total)s\n"
+#~ "                                        "
+#~ msgstr ""
+#~ "\n"
+#~ "                            %(filtered)s aus %(total)s gefilterte Mitglieder\n"
+#~ "                            "
 
 #, fuzzy
 #~| msgid "Preferred Language"
