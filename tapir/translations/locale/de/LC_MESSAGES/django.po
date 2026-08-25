@@ -1055,6 +1055,12 @@ msgstr "Beteiligungserklärung"
 msgid "Export"
 msgstr "Exportieren"
 
+#: coop/templates/coop/draftuser_list.html:33
+#, fuzzy
+#| msgid "Created by"
+msgid "Create"
+msgstr "Erstellt durch"
+
 #: coop/templates/coop/draftuser_list.html:42
 #: coop/templates/coop/membership_pause/membership_pause_list.html:43
 #: coop/templates/coop/membership_resignation_list.html:50

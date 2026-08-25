@@ -14,9 +14,9 @@
 {% endblock head %}
 {% block content %}
     <div class="card mb-2">
-        <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h5>{% translate "Applicants" %}</h5>
-            <div class="btn-group">
+            <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                 <button type="button"
                         class="{% tapir_button_link %} dropdown-toggle m-1"
                         data-bs-toggle="dropdown">{% translate "Export" %}</button>
@@ -30,7 +30,7 @@
                 <a class="{% tapir_button_link_to_action %} m-1"
                    href="{% url 'coop:draftuser_create' %}">
                     <span class="material-icons">person_add</span>
-                    Create
+                    {% translate "Create" %}
                 </a>
                 <div class="m-1">
                     <button class="{% tapir_button_link_to_action %}"
@@ -43,7 +43,7 @@
                         <span class="material-icons">unfold_more</span>
                     </button>
                 </div>
-            </div>
+            </span>
         </div>
         <ul class="list-group list-group-flush">
             {% if filter %}
