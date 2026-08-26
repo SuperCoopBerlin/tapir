@@ -265,9 +265,10 @@ SELECT2_I18N_PATH = "core/select2/4.0.13/js/i18n"
 
 WEASYPRINT_BASEURL = "/"
 
-REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
+LDAP_BASE_DN = env("LDAP_BASE_DN", default="dc=supercoop,dc=de")
+REG_PERSON_BASE_DN = f"ou=people,{LDAP_BASE_DN}"
 REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
-REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
+REG_GROUP_BASE_DN = f"ou=groups,{LDAP_BASE_DN}"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 PERMISSION_SHIFTS_MANAGE = "shifts.manage"
@@ -387,12 +388,12 @@ SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 AUTHENTICATION_BACKENDS = ["tapir.accounts.custom_ldap_backend.CustomLdapBackend"]
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
-AUTH_LDAP_BIND_DN = "cn=admin,dc=supercoop,dc=de"
+AUTH_LDAP_USER_DN_TEMPLATE = f"uid=%(user)s,{REG_PERSON_BASE_DN}"
+AUTH_LDAP_BIND_DN = env("LDAP_BIND_DN", default=f"cn=admin,{LDAP_BASE_DN}")
 AUTH_LDAP_BIND_PASSWORD = env("LDAP_ADMIN_PASSWORD", cast=str, default="admin")
 
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    "ou=groups,dc=supercoop,dc=de",
+    REG_GROUP_BASE_DN,
     ldap.SCOPE_SUBTREE,
     "(objectClass=top)",
 )

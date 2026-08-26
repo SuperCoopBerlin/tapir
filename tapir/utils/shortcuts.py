@@ -19,7 +19,12 @@ from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 
 from tapir import settings
-from tapir.settings import AUTH_LDAP_BIND_PASSWORD, AUTH_LDAP_SERVER_URI
+from tapir.settings import (
+    AUTH_LDAP_BIND_DN,
+    AUTH_LDAP_BIND_PASSWORD,
+    AUTH_LDAP_SERVER_URI,
+    REG_GROUP_BASE_DN,
+)
 
 if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
@@ -144,12 +149,12 @@ def get_models_with_attribute_value_at_date(
 
 
 def build_ldap_group_dn(group_cn: str):
-    return f"cn={group_cn},ou=groups,dc=supercoop,dc=de"
+    return f"cn={group_cn},{REG_GROUP_BASE_DN}"
 
 
 def get_group_members(connection, group_cn):
     search = LDAPSearch(
-        "ou=groups,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(cn={group_cn})"
+        REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_cn})"
     )
     result = search.execute(connection)
     return result[0][1]._data["member"] if result else []
@@ -224,7 +229,7 @@ def set_group_membership(
 
 def get_admin_ldap_connection():
     connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
-    connection.simple_bind_s("cn=admin,dc=supercoop,dc=de", AUTH_LDAP_BIND_PASSWORD)
+    connection.simple_bind_s(AUTH_LDAP_BIND_DN, AUTH_LDAP_BIND_PASSWORD)
     return connection
 
 
