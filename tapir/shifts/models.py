@@ -352,7 +352,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def user_can_attend(self, user):
@@ -668,7 +668,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def get_html_link(self):

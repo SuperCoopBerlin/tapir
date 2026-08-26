@@ -57,7 +57,7 @@ def get_last_day_of_month(date: datetime.date):
 
 
 def set_header_for_file_download(response: HttpResponse, filename: str):
-    response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
 
 def get_html_link(url: str, text: str):
@@ -153,9 +153,7 @@ def build_ldap_group_dn(group_cn: str):
 
 
 def get_group_members(connection, group_cn):
-    search = LDAPSearch(
-        REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_cn})"
-    )
+    search = LDAPSearch(REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_cn})")
     result = search.execute(connection)
     return result[0][1]._data["member"] if result else []
 

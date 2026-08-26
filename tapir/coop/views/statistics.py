@@ -110,9 +110,7 @@ class StatisticsView(LoginRequiredMixin, generic.TemplateView):
             if members_who_bought_extra_shares.exists()
             else 1
         )
-        context["average_extra_shares"] = "{:.2f}".format(
-            extra_shares.count() / members_count
-        )
+        context["average_extra_shares"] = f"{extra_shares.count() / members_count:.2f}"
 
         total_amount_paid = 0
         total_cost = 0
