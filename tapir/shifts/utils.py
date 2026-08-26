@@ -18,7 +18,7 @@ from tapir.utils.shortcuts import get_monday
 # override HTMLCalender method to use colors
 class ColorHTMLCalendar(HTMLCalendar):
     def __init__(self, firstweekday, monday_to_week_group_map):
-        super(ColorHTMLCalendar, self).__init__(firstweekday=firstweekday)
+        super().__init__(firstweekday=firstweekday)
         self.monday_to_week_group_map = monday_to_week_group_map
 
     def formatweek(self, theweek, monday):

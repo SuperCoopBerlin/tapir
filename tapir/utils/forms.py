@@ -24,7 +24,7 @@ class TapirPhoneNumberField(PhoneNumberField):
         help_text = _(
             "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)"
         )
-        super(TapirPhoneNumberField, self).__init__(
+        super().__init__(
             *args, help_text=help_text, **kwargs
         )
 

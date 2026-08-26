@@ -295,7 +295,7 @@ class DraftUserFilter(django_filters.FilterSet):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(DraftUserFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     share_owner_can_be_created = django_filters.BooleanFilter(
         method="share_owner_can_be_created_filter", label=_("Member can be created")

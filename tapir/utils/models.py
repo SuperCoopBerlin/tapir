@@ -264,7 +264,7 @@ class CountryField(models.CharField):
         kwargs.setdefault("max_length", 2)
         kwargs.setdefault("choices", COUNTRIES)
 
-        super(CountryField, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def get_internal_type(self):
         return "CharField"
@@ -360,7 +360,7 @@ class DurationModelMixin(models.Model):
 
     ## Validate the model
     def clean(self, *args, **kwargs):
-        super(DurationModelMixin, self).clean()
+        super().clean()
         # Ensure that the duration has a start date
         if not self.start_date:
             raise ValidationError(_("start date must be set"))

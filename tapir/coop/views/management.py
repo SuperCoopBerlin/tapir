@@ -36,7 +36,7 @@ class CreateGeneralTapirAccountView(
     ]
 
     def get_form(self, form_class=None):
-        form = super(CreateGeneralTapirAccountView, self).get_form(form_class)
+        form = super().get_form(form_class)
         form.fields["email"].required = True
         form.fields["email"].help_text = _(
             "Required. Please insert a valid email address."
