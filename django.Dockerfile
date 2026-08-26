@@ -28,14 +28,14 @@ RUN curl -sS https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 
-FROM base as builder
+FROM base AS builder
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
 RUN poetry install --only main --no-root
 
 
-FROM base as dev
+FROM base AS dev
 
 WORKDIR /app
 
