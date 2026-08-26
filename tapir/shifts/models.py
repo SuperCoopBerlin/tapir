@@ -548,11 +548,7 @@ class Shift(models.Model):
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
 
-        display_name = "%s [%d/%d]" % (
-            display_name,
-            self.get_valid_attendances().count(),
-            self.slots.count(),
-        )
+        display_name = f"{display_name} [{self.get_valid_attendances().count()}/{self.slots.count()}]"
 
         return f"{display_name} (#{self.id})"
 
