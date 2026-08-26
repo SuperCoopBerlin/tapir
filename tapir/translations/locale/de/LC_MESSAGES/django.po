@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-25 11:40+0200\n"
+"POT-Creation-Date: 2026-08-26 09:45+0200\n"
 "PO-Revision-Date: 2026-08-26 05:54+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
-"de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +73,7 @@ msgstr "Pronomen"
 #: coop/templates/coop/draftuser_detail.html:71
 #: coop/templates/coop/draftuser_detail.html:142
 #: coop/templates/coop/shareowner_detail.html:51
-#: coop/templates/coop/user_profile_pdf.html:103
+#: coop/templates/coop/user_profile_pdf.html:113
 msgid "Phone number"
 msgstr "Telefonnummer"
 
@@ -82,7 +81,7 @@ msgstr "Telefonnummer"
 #: coop/models.py:73 coop/models.py:448
 #: coop/templates/coop/draftuser_detail.html:146
 #: coop/templates/coop/shareowner_detail.html:55
-#: coop/templates/coop/user_profile_pdf.html:111
+#: coop/templates/coop/user_profile_pdf.html:121
 msgid "Birthdate"
 msgstr "Geburtsdatum"
 
@@ -295,7 +294,7 @@ msgstr "Mitglied"
 
 #: accounts/templates/accounts/user_detail.html:27
 #: coop/templates/coop/shareowner_detail.html:17
-#: coop/templates/coop/user_profile_pdf.html:89
+#: coop/templates/coop/user_profile_pdf.html:99
 msgid "Personal Data"
 msgstr "Persönliche Daten"
 
@@ -334,7 +333,7 @@ msgstr "Name und Pronomen bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43
-#: coop/templates/coop/user_profile_pdf.html:91 coop/views/draftuser.py:260
+#: coop/templates/coop/user_profile_pdf.html:101 coop/views/draftuser.py:260
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -351,7 +350,7 @@ msgstr "Nutzer*innenname"
 #: coop/templates/coop/draftuser_detail.html:73
 #: coop/templates/coop/draftuser_detail.html:138
 #: coop/templates/coop/shareowner_detail.html:47
-#: coop/templates/coop/user_profile_pdf.html:95
+#: coop/templates/coop/user_profile_pdf.html:105
 msgid "Email"
 msgstr "E-Mail-Adresse"
 
@@ -371,7 +370,7 @@ msgstr "Fehlend"
 #: coop/templates/coop/draftuser_detail.html:72
 #: coop/templates/coop/draftuser_detail.html:156
 #: coop/templates/coop/shareowner_detail.html:65
-#: coop/templates/coop/user_profile_pdf.html:115
+#: coop/templates/coop/user_profile_pdf.html:125
 msgid "Address"
 msgstr "Adresse"
 
@@ -791,7 +790,7 @@ msgstr "Investierend"
 
 #: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:115
-#: coop/templates/coop/user_profile_pdf.html:151 coop/views/statistics.py:135
+#: coop/templates/coop/user_profile_pdf.html:161 coop/views/statistics.py:135
 msgid "Active"
 msgstr "Aktiv"
 
@@ -843,7 +842,7 @@ msgstr "Zahlendes Mitglied"
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:585 coop/templates/coop/user_profile_pdf.html:173
+#: coop/models.py:585 coop/templates/coop/user_profile_pdf.html:183
 msgid "Amount"
 msgstr "Betrag"
 
@@ -999,9 +998,9 @@ msgstr "Liste ähnlicher Mitglieder"
 #: coop/templates/coop/draftuser_detail.html:69
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:35
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:102
-#: coop/templates/coop/user_profile_pdf.html:119
-#: coop/templates/coop/user_profile_pdf.html:134
-#: coop/templates/coop/user_profile_pdf.html:199 coop/views/shareowner.py:614
+#: coop/templates/coop/user_profile_pdf.html:129
+#: coop/templates/coop/user_profile_pdf.html:144
+#: coop/templates/coop/user_profile_pdf.html:209 coop/views/shareowner.py:614
 #: shifts/templates/shifts/user_shifts_overview_tag.html:26
 msgid "Status"
 msgstr "Status"
@@ -2063,7 +2062,7 @@ msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:10
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
-#: coop/templates/coop/user_profile_pdf.html:165
+#: coop/templates/coop/user_profile_pdf.html:175
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -2508,17 +2507,17 @@ msgid "List of shares owned by this member"
 msgstr "Liste der Anteile die dieses Mitglied gehören"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:100
-#: coop/templates/coop/user_profile_pdf.html:132
+#: coop/templates/coop/user_profile_pdf.html:142
 msgid "Starts at"
 msgstr "Anfangsdatum"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:101
-#: coop/templates/coop/user_profile_pdf.html:133
+#: coop/templates/coop/user_profile_pdf.html:143
 msgid "Ends at"
 msgstr "Endet am"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:117
-#: coop/templates/coop/user_profile_pdf.html:153
+#: coop/templates/coop/user_profile_pdf.html:163
 msgid "Sold or future"
 msgstr ""
 
@@ -2553,24 +2552,24 @@ msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
 #: coop/templates/coop/user_profile_pdf.html:12
-#: coop/templates/coop/user_profile_pdf.html:87
+#: coop/templates/coop/user_profile_pdf.html:97
 msgid "Member Profile"
 msgstr "Mitgliederprofil"
 
-#: coop/templates/coop/user_profile_pdf.html:126
+#: coop/templates/coop/user_profile_pdf.html:136
 msgid "Shares"
 msgstr "Anteile"
 
-#: coop/templates/coop/user_profile_pdf.html:161
+#: coop/templates/coop/user_profile_pdf.html:171
 msgid "No shares found."
 msgstr "Keine Anteile gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:170
+#: coop/templates/coop/user_profile_pdf.html:180
 msgid "ID"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:171
-#: coop/templates/coop/user_profile_pdf.html:234
+#: coop/templates/coop/user_profile_pdf.html:181
+#: coop/templates/coop/user_profile_pdf.html:244
 #: financingcampaign/templates/financingcampaign/general.html:111
 #: log/templates/log/log_entry_list_tag.html:23
 #: shifts/templates/shifts/user_shift_account_log.html:26
@@ -2579,60 +2578,60 @@ msgstr ""
 msgid "Date"
 msgstr "Datum"
 
-#: coop/templates/coop/user_profile_pdf.html:172
-#: coop/templates/coop/user_profile_pdf.html:198
-#: coop/templates/coop/user_profile_pdf.html:237
+#: coop/templates/coop/user_profile_pdf.html:182
+#: coop/templates/coop/user_profile_pdf.html:208
+#: coop/templates/coop/user_profile_pdf.html:247
 #: core/templates/core/email_list.html:39 shifts/models.py:502
 #: shifts/models.py:1074 shifts/templates/shifts/user_shift_account_log.html:29
 msgid "Description"
 msgstr "Beschreibung"
 
-#: coop/templates/coop/user_profile_pdf.html:188
+#: coop/templates/coop/user_profile_pdf.html:198
 msgid "No payments found."
 msgstr "Keine Anteile gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:192 shifts/apps.py:36
+#: coop/templates/coop/user_profile_pdf.html:202 shifts/apps.py:36
 #: shifts/templates/shifts/user_shifts_overview_tag.html:8
 msgid "Shifts"
 msgstr "Schichten"
 
-#: coop/templates/coop/user_profile_pdf.html:192
-#: coop/templates/coop/user_profile_pdf.html:229
+#: coop/templates/coop/user_profile_pdf.html:202
+#: coop/templates/coop/user_profile_pdf.html:239
 #, python-format
 msgid "last year"
 msgid_plural "max. last %(years)s years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: coop/templates/coop/user_profile_pdf.html:197
+#: coop/templates/coop/user_profile_pdf.html:207
 msgid "Date & Time"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:216
+#: coop/templates/coop/user_profile_pdf.html:226
 msgid "(Slot removed)"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:225
-#: coop/templates/coop/user_profile_pdf.html:252
+#: coop/templates/coop/user_profile_pdf.html:235
+#: coop/templates/coop/user_profile_pdf.html:262
 msgid "No completed shifts found."
 msgstr "Keine Schichten gefunden"
 
-#: coop/templates/coop/user_profile_pdf.html:229
+#: coop/templates/coop/user_profile_pdf.html:239
 msgid "Shift account history"
 msgstr "Schichtkonto-Protokoll für: "
 
-#: coop/templates/coop/user_profile_pdf.html:235
+#: coop/templates/coop/user_profile_pdf.html:245
 #: financingcampaign/templates/financingcampaign/general.html:112
 #: shifts/templates/shifts/user_shift_account_log.html:27
 msgid "Value"
 msgstr "Wert"
 
-#: coop/templates/coop/user_profile_pdf.html:236
+#: coop/templates/coop/user_profile_pdf.html:246
 #: shifts/templates/shifts/user_shift_account_log.html:28
 msgid "Balance at date"
 msgstr ""
 
-#: coop/templates/coop/user_profile_pdf.html:255
+#: coop/templates/coop/user_profile_pdf.html:265
 msgid "Generated on"
 msgstr "Erzeugt am"
 
