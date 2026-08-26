@@ -46,9 +46,10 @@ class ExtraSharesConfirmationEmailBuilder(TapirEmailBuilderBase):
     def get_attachments(self) -> list:
         return [
             (
-                "Bestätigung Erwerb Anteile %s.pdf"
-                % UserUtils.build_display_name(
-                    self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                "Bestätigung Erwerb Anteile {}.pdf".format(
+                    UserUtils.build_display_name(
+                        self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                    )
                 ),
                 pdfs.get_confirmation_extra_shares_pdf(
                     share_owner=self.share_owner,

@@ -17,10 +17,9 @@ class FlyingMemberRegistrationReminderEmailBuilder(TapirEmailBuilderBase):
     @classmethod
     def get_description(cls) -> str:
         return _(
-            "Sent to flying members %(nb_days)s days after a cycle has begun, if they haven't registered to a shift for this cycle."
-            % {
-                "nb_days": config.FLYING_MEMBERS_REGISTRATION_REMINDER_DAYS_AFTER_CYCLE_START
-            }
+            "Sent to flying members {nb_days} days after a cycle has begun, if they haven't registered to a shift for this cycle.".format(
+                nb_days=config.FLYING_MEMBERS_REGISTRATION_REMINDER_DAYS_AFTER_CYCLE_START,
+            )
         )
 
     def get_subject_templates(self) -> list:

@@ -189,7 +189,7 @@ class ShiftTemplate(models.Model):
     )
 
     def __str__(self):
-        display_name = "%s: %s %s %s-%s" % (
+        display_name = "{}: {} {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             self.get_weekday_display(),
@@ -219,7 +219,7 @@ class ShiftTemplate(models.Model):
         ).order_by("-start_time")
 
     def get_display_name(self):
-        display_name = "%s %s %s - %s" % (
+        display_name = "{} {} {} - {}".format(
             self.name,
             _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
@@ -539,7 +539,7 @@ class Shift(models.Model):
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
-        display_name = "%s: %s %s-%s" % (
+        display_name = "{}: {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             timezone.localtime(self.start_time).strftime("%a %Y-%m-%d %H:%M"),
@@ -557,7 +557,7 @@ class Shift(models.Model):
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "%s %s - %s" % (
+        display_name = "{} {} - {}".format(
             self.name,
             timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
             timezone.localtime(self.end_time).strftime("%H:%M"),

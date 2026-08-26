@@ -402,9 +402,8 @@ class ShareOwnerMembershipConfirmationFileView(
 
     def get(self, request, *args, **kwargs):
         share_owner = get_object_or_404(ShareOwner, pk=self.kwargs["pk"])
-        filename = (
-            "Mitgliedschaftsbestätigung %s.pdf"
-            % UserUtils.build_display_name_for_viewer(share_owner, request.user)
+        filename = "Mitgliedschaftsbestätigung {}.pdf".format(
+            UserUtils.build_display_name_for_viewer(share_owner, request.user)
         )
         num_shares = (
             request.GET["num_shares"]
@@ -1061,7 +1060,7 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
         additional_information = form.cleaned_data["additional_information"]
         generation_time = timezone.now()
 
-        filename = "Beteiligungserklärung %s.pdf" % (
+        filename = "Beteiligungserklärung {}.pdf".format(
             UserUtils.build_display_name_for_viewer(share_owner, self.request.user)
         )
         response = HttpResponse(content_type=pdfs.CONTENT_TYPE_PDF)

@@ -216,8 +216,8 @@ def member_card_barcode_pdf(request, pk):
             _("You can only look at your own barcode unless you have admin rights")
         )
 
-    filename = "Member card barcode %s.pdf" % UserUtils.build_display_name_for_viewer(
-        tapir_user, request.user
+    filename = "Member card barcode {}.pdf".format(
+        UserUtils.build_display_name_for_viewer(tapir_user, request.user)
     )
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)

@@ -36,8 +36,9 @@ class ColorHTMLCalendar(HTMLCalendar):
         v = []
         a = v.append
         a(
-            '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
-            % self.cssclass_month
+            '<table border="0" cellpadding="0" cellspacing="0" class="{}">'.format(
+                self.cssclass_month
+            )
         )
         a("\n")
         a(self.formatmonthname(theyear, themonth, withyear=withyear))
@@ -67,8 +68,9 @@ class ColorHTMLCalendar(HTMLCalendar):
         a(f"<td class='year'>{theyear}</td>")
         a("</tr></table>")
         a(
-            '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
-            % self.cssclass_year
+            '<table border="0" cellpadding="0" cellspacing="0" class="{}">'.format(
+                self.cssclass_year
+            )
         )
         for i in range(1, 1 + 12, width):
             # months in this row
@@ -87,7 +89,7 @@ class ColorHTMLCalendar(HTMLCalendar):
         Return a weekday name as a table header.
         SuperCoop: Overwrites locale
         """
-        return '<th class="%s">%s</th>' % (
+        return '<th class="{}">{}</th>'.format(
             self.cssclasses_weekday_head[day],
             _(day_abbr[day]),
         )
@@ -98,10 +100,10 @@ class ColorHTMLCalendar(HTMLCalendar):
         SuperCoop: Overwrites locale
         """
         if withyear:
-            s = "%s %s" % (month_name[themonth], theyear)
+            s = "{} {}".format(month_name[themonth], theyear)
         else:
-            s = "%s" % _(month_name[themonth])
-        return '<tr><th colspan="7" class="%s">%s</th></tr>' % (
+            s = "{}".format(_(month_name[themonth]))
+        return '<tr><th colspan="7" class="{}">{}</th></tr>'.format(
             self.cssclass_month_head,
             s,
         )
