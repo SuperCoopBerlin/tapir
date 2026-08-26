@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-26 09:45+0200\n"
+"POT-Creation-Date: 2026-08-26 17:31+0200\n"
 "PO-Revision-Date: 2026-08-26 05:54+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -790,7 +790,7 @@ msgstr "Investierend"
 
 #: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:115
-#: coop/templates/coop/user_profile_pdf.html:161 coop/views/statistics.py:135
+#: coop/templates/coop/user_profile_pdf.html:161
 msgid "Active"
 msgstr "Aktiv"
 
@@ -2149,20 +2149,6 @@ msgstr "Mitgliedschaft pausiert"
 msgid "Membership resignations"
 msgstr "Mitgliedschaftskündigungen"
 
-#: coop/templates/coop/member_management.html:42
-#: coop/templates/coop/member_management.html:51
-msgid "Old member statistics"
-msgstr "Alte Mitgliederstatistik"
-
-#: coop/templates/coop/member_management.html:45
-msgid ""
-"\n"
-"                        <p>This statistics have been hidden from members in order to focus on the more important\n"
-"                            ones.</p>\n"
-"                        <p>They may not be relevant or well presented.</p>\n"
-"                    "
-msgstr ""
-
 #: coop/templates/coop/member_self_registration.html:12
 msgid "Supercoop registration"
 msgstr ""
@@ -2379,58 +2365,6 @@ msgstr ""
 "\n"
 "                            %(filtered_member_count)s aus %(total_member_count)s gefilterte Mitglieder\n"
 "                            "
-
-#: coop/templates/coop/statistics.html:10
-msgid "Members statistics"
-msgstr "Mitglieder-Statistik"
-
-#: coop/templates/coop/statistics.html:28
-msgid "Loading..."
-msgstr "Lädt..."
-
-#: coop/templates/coop/statistics.html:48
-msgid "Statistics on members"
-msgstr "Mitglieder-Statistiken"
-
-#: coop/templates/coop/statistics.html:52
-msgid "Active members with account at end of month as CSV"
-msgstr "Aktive Mitglieder mit Konto am Monatsende als CSV"
-
-#: coop/templates/coop/statistics.html:72
-#: statistics/templates/statistics/main_statistics.html:27
-msgid "Evolution of member count"
-msgstr "Entwicklung der Mitgliederzahl"
-
-#: coop/templates/coop/statistics.html:74
-msgid "Member age distribution"
-msgstr "Verteilung des Mitgliederalters"
-
-#: coop/templates/coop/statistics.html:82
-msgid "Statistics on shares"
-msgstr "Anteile-Statistiken"
-
-#: coop/templates/coop/statistics.html:126
-msgid "Evolution of the number of shares"
-msgstr "Entwicklung der Anzahl Anteile"
-
-#: coop/templates/coop/statistics.html:134
-msgid "Members who bought extra shares"
-msgstr "Mitglieder die weitere Anteile übernommen haben"
-
-#: coop/templates/coop/statistics.html:150
-#: coop/templates/coop/statistics.html:158
-msgid "Member status updates"
-msgstr "Aktualisierungen des Mitgliedsstatus"
-
-#: coop/templates/coop/statistics.html:154
-#: coop/templates/coop/statistics.html:170
-msgid "Get as CSV"
-msgstr ""
-
-#: coop/templates/coop/statistics.html:166
-#: coop/templates/coop/statistics.html:174
-msgid "Number of co-purchasers per month"
-msgstr "Anzahl der Mitkäufer:innen pro Monat"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:9
 #, python-format
@@ -2778,46 +2712,6 @@ msgstr "Nein"
 #: coop/views/shareowner.py:1095
 msgid "Thank you for signing additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon."
 msgstr "Vielen Dank für das Zeichnen weiterer Anteile, wir freuen und bedanken uns! Du bekommst in Kürze eine Bestätigung per Email."
-
-#: coop/views/statistics.py:135
-msgid "All members"
-msgstr "Alle Mitglieder"
-
-#: coop/views/statistics.py:135
-msgid "Active with account"
-msgstr "Aktiv mit Konto"
-
-#: coop/views/statistics.py:180
-msgid "Number of shares"
-msgstr "Anzahl an Anteilen"
-
-#: coop/views/statistics.py:228
-msgid "Number of members (X-axis) by age (Y-axis)"
-msgstr "Anzahl an Mitglieder (X-Achse) pro Alter (Y-Achse)"
-
-#: coop/views/statistics.py:281
-msgid "New active members"
-msgstr "Neue aktive Mitglieder"
-
-#: coop/views/statistics.py:282
-msgid "New investing members"
-msgstr "Neue investierende Mitglieder"
-
-#: coop/views/statistics.py:283
-msgid "New active members without account"
-msgstr "Neue aktive Mitglieder ohne Konto"
-
-#: coop/views/statistics.py:284
-msgid "Active to investing"
-msgstr "Aktiv nach Investierend"
-
-#: coop/views/statistics.py:285
-msgid "Investing to active"
-msgstr "Investierend nach Aktiv"
-
-#: coop/views/statistics.py:486
-msgid "Number of members with a co-purchaser (X-axis) by month (Y-axis)"
-msgstr ""
 
 #: core/apps.py:21
 msgid "Emails"
@@ -4848,7 +4742,7 @@ msgstr ""
 "                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:41
-#: shifts/views/solidarity.py:206
+#: shifts/views/solidarity.py:202
 msgid "Solidarity shifts used"
 msgstr "Genutzte Solidaritäts-Schichten"
 
@@ -4879,7 +4773,7 @@ msgstr ""
 "                        "
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:61
-#: shifts/views/solidarity.py:177
+#: shifts/views/solidarity.py:178
 msgid "Solidarity shifts gifted"
 msgstr "Gespendete Solidaritäts-Schichten"
 
@@ -5151,15 +5045,15 @@ msgstr " Die Schichten für diese ABCD-Schicht werden ab dem folgenden Zeitpunkt
 msgid "Shifts generated."
 msgstr "Schichten erstellt."
 
-#: shifts/views/solidarity.py:68
+#: shifts/views/solidarity.py:70
 msgid "Solidarity Shift received. Account Balance increased by 1."
 msgstr "Solidaritätsschicht empfangen. Deinem Kontostand wird eine Schicht gutgeschrieben."
 
-#: shifts/views/solidarity.py:97
+#: shifts/views/solidarity.py:99
 msgid "Could not find a shift attendance to use as solidarity shift. You have to finish at least one shift, before you can donate one."
 msgstr "Es konnte keine vollendete Schicht gefunden werden, die als Solidaritätsschicht verwenden werden könnte. Du musst mindestens eine Schicht beendet haben, bevor du eine spenden kannst."
 
-#: shifts/views/solidarity.py:116
+#: shifts/views/solidarity.py:118
 msgid "Solidarity Shift given. Account Balance debited with -1."
 msgstr "Die Solidaritätsschicht wurde vergeben. Von deinem Kontostand wird nun eine Schicht abgezogen."
 
@@ -5264,7 +5158,7 @@ msgstr "Fliegendes Mitglied"
 #: statistics/services/data_providers/data_provider_frozen_members.py:16
 #: statistics/templates/statistics/main_statistics.html:118
 #: statistics/templates/statistics/main_statistics.html:129
-#: statistics/views/main_view.py:392
+#: statistics/views/main_view.py:417
 msgid "Frozen members"
 msgstr "Eingefrorene Mitglieder"
 
@@ -5305,7 +5199,7 @@ msgid "Members that have paid more than expected relative to their number of sha
 msgstr ""
 
 #: statistics/services/data_providers/data_provider_purchasing_members.py:14
-#: statistics/views/main_view.py:392
+#: statistics/views/main_view.py:417
 msgid "Purchasing members"
 msgstr "Einkaufsberechtigten Mitglieder*innen"
 
@@ -5369,7 +5263,7 @@ msgid "Main statistics"
 msgstr "Hauptstatistik"
 
 #: statistics/templates/statistics/main_statistics.html:19
-#: statistics/views/main_view.py:270
+#: statistics/views/main_view.py:291
 msgid "Total number of members"
 msgstr "Gesamte Mitgliederzahl"
 
@@ -5383,6 +5277,10 @@ msgstr ""
 "\n"
 "                            Alle Mitglieder der Genossenschaft - egal, ob investierend oder aktiv.: %(number_of_members_now)s.\n"
 "                        "
+
+#: statistics/templates/statistics/main_statistics.html:27
+msgid "Evolution of member count"
+msgstr "Entwicklung der Mitgliederzahl"
 
 #: statistics/templates/statistics/main_statistics.html:31
 msgid "New members per month"
@@ -5558,19 +5456,19 @@ msgstr ""
 msgid "Evolution of total spends per month"
 msgstr "Entwicklung der Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:311
+#: statistics/views/main_view.py:333
 msgid "New members"
 msgstr "Neue Mitglieder"
 
-#: statistics/views/main_view.py:342
+#: statistics/views/main_view.py:364
 msgid "Total spends per month"
 msgstr "Gesamtausgaben pro Monat"
 
-#: statistics/views/main_view.py:410
+#: statistics/views/main_view.py:438
 msgid "Percentage of members with a co-purchaser relative to the number of active members"
 msgstr "Prozentualer Anteil der Mitglieder mit einem Miterwerber im Verhältnis zur Zahl der aktiven Mitglieder"
 
-#: statistics/views/main_view.py:563
+#: statistics/views/main_view.py:596
 msgid "Purchase data updated"
 msgstr "Kaufdaten aktualisiert"
 
@@ -6592,6 +6490,66 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Old member statistics"
+#~ msgstr "Alte Mitgliederstatistik"
+
+#~ msgid "Members statistics"
+#~ msgstr "Mitglieder-Statistik"
+
+#~ msgid "Loading..."
+#~ msgstr "Lädt..."
+
+#~ msgid "Statistics on members"
+#~ msgstr "Mitglieder-Statistiken"
+
+#~ msgid "Active members with account at end of month as CSV"
+#~ msgstr "Aktive Mitglieder mit Konto am Monatsende als CSV"
+
+#~ msgid "Member age distribution"
+#~ msgstr "Verteilung des Mitgliederalters"
+
+#~ msgid "Statistics on shares"
+#~ msgstr "Anteile-Statistiken"
+
+#~ msgid "Evolution of the number of shares"
+#~ msgstr "Entwicklung der Anzahl Anteile"
+
+#~ msgid "Members who bought extra shares"
+#~ msgstr "Mitglieder die weitere Anteile übernommen haben"
+
+#~ msgid "Member status updates"
+#~ msgstr "Aktualisierungen des Mitgliedsstatus"
+
+#~ msgid "Number of co-purchasers per month"
+#~ msgstr "Anzahl der Mitkäufer:innen pro Monat"
+
+#~ msgid "All members"
+#~ msgstr "Alle Mitglieder"
+
+#~ msgid "Active with account"
+#~ msgstr "Aktiv mit Konto"
+
+#~ msgid "Number of shares"
+#~ msgstr "Anzahl an Anteilen"
+
+#~ msgid "Number of members (X-axis) by age (Y-axis)"
+#~ msgstr "Anzahl an Mitglieder (X-Achse) pro Alter (Y-Achse)"
+
+#~ msgid "New active members"
+#~ msgstr "Neue aktive Mitglieder"
+
+#~ msgid "New investing members"
+#~ msgstr "Neue investierende Mitglieder"
+
+#~ msgid "New active members without account"
+#~ msgstr "Neue aktive Mitglieder ohne Konto"
+
+#~ msgid "Active to investing"
+#~ msgstr "Aktiv nach Investierend"
+
+#~ msgid "Investing to active"
+#~ msgstr "Investierend nach Aktiv"
 
 #, python-format
 #~ msgid ""
