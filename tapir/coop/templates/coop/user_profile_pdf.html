@@ -10,9 +10,19 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% translate "Member Profile" %}: {% get_display_name_full shareowner %}</title>
-        <link rel="stylesheet"
-              href="{% static 'coop/css/membership_agreement_pdf.css' %}">
         <style>
+            @page {
+                size: A4;
+                margin-top: 27mm;
+                margin-left: 20mm;
+                margin-right: 20mm;
+            }
+
+            html {
+                font-family: sans-serif;
+                font-size: 9pt;
+                line-height: 1.4;
+            }
         dl {
             display: grid;
             grid-template-columns: 120px 1fr;
