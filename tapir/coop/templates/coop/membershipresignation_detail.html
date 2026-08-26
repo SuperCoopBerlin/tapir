@@ -25,10 +25,10 @@
                 <div class="modal-body">
                     <p>
                         {% get_display_name_for_viewer object.share_owner request.user as display_name %}
-                        {% blocktranslate with member_name=display_name %}
-                        Are you sure you want to
-                        cancel the resignation of {{member_name}}?
-                        The person's shares will be reactivated.
+                        {% blocktranslate with member_name=display_name trimmed %}
+                            Are you sure you want to
+                            cancel the resignation of {{ member_name }}?
+                            The person's shares will be reactivated.
                         {% endblocktranslate %}
                     </p>
                 </div>
@@ -88,7 +88,7 @@
             </div>
         </div>
         <div class="card-footer d-flex justify-content-end gap-2">
-            {% blocktranslate asvar tooltip %}
+            {% blocktranslate asvar tooltip trimmed %}
                 Only the vorstand and the employees can edit resignations.
             {% endblocktranslate %}
             <span data-bs-toggle="tooltip"

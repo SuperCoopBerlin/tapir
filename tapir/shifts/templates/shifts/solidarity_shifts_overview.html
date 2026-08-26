@@ -14,13 +14,17 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Available" %}</h5>
                 <div class="card-body">
                     {% if available_solidarity_shifts == 1 %}
-                        {% blocktranslate %}
-                        <p>There is {{ available_solidarity_shifts }} solidarity shift available at the moment</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                There is {{ available_solidarity_shifts }} solidarity shift available at the moment
+                            {% endblocktranslate %}
+                        </p>
                     {% else %}
-                        {% blocktranslate %}
-                        <p>There are {{ available_solidarity_shifts }} solidarity shifts available at the moment</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                There are {{ available_solidarity_shifts }} solidarity shifts available at the moment
+                            {% endblocktranslate %}
+                        </p>
                     {% endif %}
                 </div>
             </div>
@@ -30,13 +34,17 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Used" %}</h5>
                 <div class="card-body">
                     {% if used_solidarity_shifts_total == 1 %}
-                        {% blocktranslate %}
-                        <p>{{ used_solidarity_shifts_total }} solidarity shift has been used in total</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                {{ used_solidarity_shifts_total }} solidarity shift has been used in total
+                            {% endblocktranslate %}
+                        </p>
                     {% else %}
-                        {% blocktranslate %}
-                        <p>{{ used_solidarity_shifts_total }} solidarity shifts have been used in total</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                {{ used_solidarity_shifts_total }} solidarity shifts have been used in total
+                            {% endblocktranslate %}
+                        </p>
                     {% endif %}
                     {% translate "Solidarity shifts used" as chart_name %}
                     {% on_demand_chart chart_name "shifts:used_solidarity_shifts_json" %}
@@ -50,13 +58,17 @@
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Gifted" %}</h5>
                 <div class="card-body">
                     {% if gifted_solidarity_shifts_total == 1 %}
-                        {% blocktranslate %}
-                        <p>{{ gifted_solidarity_shifts_total }} solidarity shift has been gifted in total</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                {{ gifted_solidarity_shifts_total }} solidarity shift has been gifted in total
+                            {% endblocktranslate %}
+                        </p>
                     {% else %}
-                        {% blocktranslate %}
-                        <p>{{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total</p>
-                        {% endblocktranslate %}
+                        <p>
+                            {% blocktranslate trimmed %}
+                                {{ gifted_solidarity_shifts_total }} solidarity shifts have been gifted in total
+                            {% endblocktranslate %}
+                        </p>
                     {% endif %}
                     {% translate "Solidarity shifts gifted" as chart_name %}
                     {% on_demand_chart chart_name "shifts:gifted_solidarity_shifts_json" %}

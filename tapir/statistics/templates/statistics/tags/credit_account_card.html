@@ -5,7 +5,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Credits" %}</h5>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">
-            {% blocktranslate with credit=actual_credit %}
+            {% blocktranslate with credit=actual_credit trimmed %}
                 Your current credit is {{ credit }}€.
             {% endblocktranslate %}
         </li>

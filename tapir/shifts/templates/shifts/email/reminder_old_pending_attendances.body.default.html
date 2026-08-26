@@ -18,10 +18,11 @@
             </li>
         {% endfor %}
     </ul>
-    {% blocktranslate %}
-        <p>
-            Please check the corresponding attendance lists. <br />
+    <p>
+        {% blocktranslate trimmed %}
+            Please check the corresponding attendance lists.
+            <br />
             If those can't be found anymore, please mark the pending shifts as attended.
-        </p>
-    {% endblocktranslate %}
+        {% endblocktranslate %}
+    </p>
 {% endblock body %}

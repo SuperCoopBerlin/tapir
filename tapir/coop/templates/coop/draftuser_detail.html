@@ -55,12 +55,12 @@
                 </div>
                 {% if similar_members %}
                     <div class="modal-body">
-                        {% blocktranslate %}
-                            <p>
+                        <p>
+                            {% blocktranslate trimmed %}
                                 Members with similar information as the person you are trying to create have been found.
                                 Please double-check that this is not a duplicate.
-                            </p>
-                        {% endblocktranslate %}
+                            {% endblocktranslate %}
+                        </p>
                         <div class="table-responsive">
                             <table class="{% tapir_table_classes %}"
                                    aria-label="{% translate 'List of similar members' %}">

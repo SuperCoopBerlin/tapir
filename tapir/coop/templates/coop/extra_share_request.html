@@ -17,11 +17,11 @@
             <h5 class="card-header">{% translate "Buy more shares" %}</h5>
             <div class="card-body">
                 <p class="mb-4 text-muted">
-                    {% blocktranslate %}
-                Here you can request additional shares in the cooperative. Enter the number of shares you wish to
-                hold and confirm that you accept the legal terms and conditions.
-                In the end, you will receive an email with your new membership-agreement.
-                {% endblocktranslate %}
+                    {% blocktranslate trimmed %}
+                        Here you can request additional shares in the cooperative. Enter the number of shares you wish to
+                        hold and confirm that you accept the legal terms and conditions.
+                        In the end, you will receive an email with your new membership-agreement.
+                    {% endblocktranslate %}
                 </p>
                 <form method="post">
                     {% csrf_token %}
@@ -47,52 +47,52 @@
                                    name="participation_confirm"
                                    required>
                             <label class="form-check-label" for="participationConfirm">
-                                {% blocktranslate %}
-                            I want to participate in the cooperative with <strong id="shareCount">{{ share_count
-                            }}</strong>
-                            additional shares.
-                            I undertake to make the payments required by the Articles of Association and
-                            by law in the amount of {{ COOP_SHARE_PRICE }} € per share. Together with the mandatory
-                            contribution, I
-                            therefore undertake to pay a total of <strong id="sharePrice">{{ share_price }}</strong> €.
+                                {% blocktranslate trimmed %}
+                                    I want to participate in the cooperative with <strong id="shareCount">{{ share_count
+                                    }}</strong>
+                                additional shares.
+                                I undertake to make the payments required by the Articles of Association and
+                                by law in the amount of {{ COOP_SHARE_PRICE }} € per share. Together with the mandatory
+                                contribution, I
+                                therefore undertake to pay a total of <strong id="sharePrice">{{ share_price }}</strong> €.
                             {% endblocktranslate %}
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input type="checkbox"
-                                   class="form-check-input"
-                                   id="statutesAcknowledged"
-                                   name="statutes_acknowledged"
-                                   required>
-                            <label class="form-check-label" for="statutesAcknowledged">
-                                {% translate "I have taken note of the articles of association" %}
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox"
-                                   class="form-check-input"
-                                   id="terminationPeriodAccepted"
-                                   name="termination_period_accepted"
-                                   required>
-                            <label class="form-check-label" for="terminationPeriodAccepted">
-                                {% blocktranslate %}
-                            I acknowledge that the Articles of Association stipulate a notice period of three years,
-                            effective at the end of the
-                            financial year. This long notice period serves to ensure financial stability and is a
-                            fundamental aspect of the cooperative principle, which is geared towards long-term
-                            objectives. A
-                            transfer of shares is also possible at an earlier stage and is governed by the
-                            Articles of Association.
-                            {% endblocktranslate %}
-                            </label>
-                        </div>
+                        </label>
                     </div>
-                    <button type="submit" class="{% tapir_button_action %}">{% translate "Submit" %}</button>
-                    <a class="{% tapir_button_link %}"
-                       href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
-                </form>
-            </div>
+                    <div class="form-check mb-2">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="statutesAcknowledged"
+                               name="statutes_acknowledged"
+                               required>
+                        <label class="form-check-label" for="statutesAcknowledged">
+                            {% translate "I have taken note of the articles of association" %}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox"
+                               class="form-check-input"
+                               id="terminationPeriodAccepted"
+                               name="termination_period_accepted"
+                               required>
+                        <label class="form-check-label" for="terminationPeriodAccepted">
+                            {% blocktranslate trimmed %}
+                                I acknowledge that the Articles of Association stipulate a notice period of three years,
+                                effective at the end of the
+                                financial year. This long notice period serves to ensure financial stability and is a
+                                fundamental aspect of the cooperative principle, which is geared towards long-term
+                                objectives. A
+                                transfer of shares is also possible at an earlier stage and is governed by the
+                                Articles of Association.
+                            {% endblocktranslate %}
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="{% tapir_button_action %}">{% translate "Submit" %}</button>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:shareowner_detail' share_owner.pk %}">{% translate "Cancel" %}</a>
+            </form>
         </div>
+    </div>
     </div>
     <script>
     const numSharesInput = document.querySelector('[name="num_shares"]');
