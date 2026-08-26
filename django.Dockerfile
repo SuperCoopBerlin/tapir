@@ -61,9 +61,8 @@ ENV PYTHONUNBUFFERED=1 \
 RUN apt-get update \
     && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN groupadd --gid 1001 appuser && \
+    && rm -rf /var/lib/apt/lists/* } \
+    groupadd --gid 1001 appuser && \
     useradd --uid 1001 --gid 1001 -m appuser
 
 WORKDIR /app
