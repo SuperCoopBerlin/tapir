@@ -13,19 +13,13 @@
             <div class="card mb-2">
                 <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Available" %}</h5>
                 <div class="card-body">
-                    {% if available_solidarity_shifts == 1 %}
-                        <p>
-                            {% blocktranslate trimmed %}
-                                There is {{ available_solidarity_shifts }} solidarity shift available at the moment
-                            {% endblocktranslate %}
-                        </p>
-                    {% else %}
-                        <p>
-                            {% blocktranslate trimmed %}
-                                There are {{ available_solidarity_shifts }} solidarity shifts available at the moment
-                            {% endblocktranslate %}
-                        </p>
-                    {% endif %}
+                    <p>
+                        {% blocktranslate count no_available_solidarity_shifts=available_solidarity_shifts trimmed %}
+                            There is {{ no_available_solidarity_shifts }} solidarity shift available at the moment
+                        {% plural %}
+                            There are {{ no_available_solidarity_shifts }} solidarity shifts available at the moment
+                        {% endblocktranslate %}
+                    </p>
                 </div>
             </div>
         </div>
