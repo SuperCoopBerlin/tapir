@@ -242,7 +242,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.assertEqual(0, len(mail.outbox))
 
-    def test_handle_watchedCapability_MailSent(self):
+    def test_handle_watchedCapability_mailSent(self):
         slot_to_unregister = self.slots[0]
         slot_to_unregister.required_capabilities = [
             ShiftUserCapability.SHIFT_COORDINATOR
