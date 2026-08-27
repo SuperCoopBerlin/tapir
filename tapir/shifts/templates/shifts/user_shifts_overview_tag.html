@@ -83,166 +83,176 @@
                     {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% translate "Shift for ongoing cycle pending" %})
                     {% elif user.shift_user_data.get_account_balance > 0 %}
-                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance %}
-                        {{ num_banked_shifts }} banked shifts
+                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance trimmed %}
+                            {{ num_banked_shifts }} banked shifts
                     {% endblocktranslate %})
-                    {% endif %}
-                {% else %}
-                    <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
                 {% endif %}
-                <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-                   class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>
-            </div>
+            {% else %}
+                <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
+            {% endif %}
+            <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
+               class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>
         </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Qualifications" %}:</div>
-            <div class="col-12 col-sm-8">
-                {% if user.shift_user_data.capabilities %}
-                    {{ user.shift_user_data.get_capabilities_display }}
-                {% else %}
-                    {% translate "None" context "No qualifications" %}
-                {% endif %}
-            </div>
+    </div>
+    <div class="row m-1">
+        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Qualifications" %}:</div>
+        <div class="col-12 col-sm-8">
+            {% if user.shift_user_data.capabilities %}
+                {{ user.shift_user_data.get_capabilities_display }}
+            {% else %}
+                {% translate "None" context "No qualifications" %}
+            {% endif %}
         </div>
-        <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Exemption" %}:</div>
-            <div class="col-12 col-sm-8">
-                <span id="shift_exemption_value">
-                    {% with exemption=user.shift_user_data.get_current_shift_exemption %}
-                        {% if exemption %}
-                            {{ exemption.description }} {% translate 'until' %}
-                            {% if exemption.end_date %}
-                                {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
-                            {% else %}
-                                ∞
-                            {% endif %}
+    </div>
+    <div class="row m-1">
+        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Exemption" %}:</div>
+        <div class="col-12 col-sm-8">
+            <span id="shift_exemption_value">
+                {% with exemption=user.shift_user_data.get_current_shift_exemption %}
+                    {% if exemption %}
+                        {{ exemption.description }} {% translate 'until' %}
+                        {% if exemption.end_date %}
+                            {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
                         {% else %}
-                            {% translate "None" context "No shift exemption" %}
+                            ∞
                         {% endif %}
-                    {% endwith %}
-                </span>
-                <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
-                   class="{% tapir_button_link %} btn-sm"
-                   id="shift_exemption_list_button">
-                    <span class="material-icons">visibility</span>
-                    {% translate 'View all' %}
-                </a>
-            </div>
+                    {% else %}
+                        {% translate "None" context "No shift exemption" %}
+                    {% endif %}
+                {% endwith %}
+            </span>
+            <a href="{% url 'shifts:shift_exemption_list' %}?shift_user_data_id={{ user.shift_user_data.id }}"
+               class="{% tapir_button_link %} btn-sm"
+               id="shift_exemption_list_button">
+                <span class="material-icons">visibility</span>
+                {% translate 'View all' %}
+            </a>
         </div>
-        {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
-        {% if solidarity_shifts_enabled %}
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity" %}:</div>
-                <div class="col-12 col-sm-8 d-flex gap-1">
-                    <form method="post"
-                          action="{% url 'shifts:solidarity_shift_used' object.pk %}">
-                        {% csrf_token %}
-                        <button type="submit"
-                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}">
-                            <span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}
-                        </button>
-                    </form>
-                    <form method="post"
-                          action="{% url 'shifts:solidarity_shift_given' object.pk %}">
-                        {% csrf_token %}
-                        <button type="button"
-                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalSubmitGiveSolidarity">
-                            <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
-                        </button>
-                        <div class="modal fade"
-                             id="modalSubmitGiveSolidarity"
-                             tabindex="-1"
-                             aria-labelledby="submitGiveSolidarityModalLabel"
-                             aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">
-                                            Give Solidarity
-                                            Shift
-                                        </h1>
-                                        <button type="button"
-                                                class="btn-close"
-                                                data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button"
-                                                class="{% tapir_button_link %} btn-sm"
-                                                data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
-                                        <button type="submit"
-                                                class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
-                                            {% translate 'Confirm' %}
-                                        </button>
-                                    </div>
+    </div>
+    {% feature_flag_enabled "Enable Solidarity Shifts" as solidarity_shifts_enabled %}
+    {% if solidarity_shifts_enabled %}
+        <div class="row m-1">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity" %}:</div>
+            <div class="col-12 col-sm-8 d-flex gap-1">
+                <form method="post"
+                      action="{% url 'shifts:solidarity_shift_used' object.pk %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}">
+                        <span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}
+                    </button>
+                </form>
+                <form method="post"
+                      action="{% url 'shifts:solidarity_shift_given' object.pk %}">
+                    {% csrf_token %}
+                    <button type="button"
+                            class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalSubmitGiveSolidarity">
+                        <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
+                    </button>
+                    <div class="modal fade"
+                         id="modalSubmitGiveSolidarity"
+                         tabindex="-1"
+                         aria-labelledby="submitGiveSolidarityModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="submitGiveSolidarityModalLabel">
+                                        Give Solidarity
+                                        Shift
+                                    </h1>
+                                    <button type="button"
+                                            class="btn-close"
+                                            data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button"
+                                            class="{% tapir_button_link %} btn-sm"
+                                            data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
+                                    <button type="submit"
+                                            class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
+                                        {% translate 'Confirm' %}
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity Status" %}:</div>
-                <div class="col-12 col-sm-8 d-flex">
-                    {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
-                    {% if used_solidarity_shifts_current_year >= 2 %}
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
-                                this year</p>
-                        {% endblocktranslate %}
-                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
-                            <p>There are Solidarity Shifts available for you to use. You
-                                used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year</p>
-                        {% endblocktranslate %}
-                    {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
-                        {% blocktranslate %}
-                            <p data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Solidarity Shifts can only be received while having a negative balance">
-                                You cannot receive a Solidarity Shift at the moment</p>
-                        {% endblocktranslate %}
-                    {% elif not user.shift_user_data.get_available_solidarity_shifts %}
-                        {% blocktranslate %}
-                            <p>There are no Solidarity Shifts available at the moment</p>
-                        {% endblocktranslate %}
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
-        {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
-        {% if shift_partner_enabled %}
-            <div class="row m-1">
-                <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
-                <div class="col-12 col-sm-8 d-flex">
-                    {% if user.shift_user_data.shift_partner_of %}
-                        <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner_of.user request.user %}</span>
-                    {% elif user.shift_user_data.shift_partner %}
-                        <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner.user request.user %}</span>
-                    {% else %}
-                        {% blocktranslate asvar tooltip %}
-                                You can email the member office to ask for a shift partner to be registered. <br />
-                                See member manual section III.F.6
-                            {% endblocktranslate %}
-                        <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
-                            {% translate "None" context "No shift partner" %}
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
+        </div>
         <div class="row m-1">
-            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Next watched Shift" %}:</div>
-            <div class="col-12 col-sm-8">
-                {% if next_watched_shift %}
-                    <a href="{{ next_watched_shift.shift.get_absolute_url }}">{{ next_watched_shift.shift.get_display_name }}</a>
-                {% else %}
-                    <span class="text-danger">{% translate "No watched shifts" %}</span>
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Solidarity Status" %}:</div>
+            <div class="col-12 col-sm-8 d-flex">
+                {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
+                {% if used_solidarity_shifts_current_year >= 2 %}
+                    <p>
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year trimmed %}
+                            You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
+                            this year
+                        {% endblocktranslate %}
+                    </p>
+                {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
+                    <p>
+                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year trimmed %}
+                            There are Solidarity Shifts available for you to use. You
+                            used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year
+                        {% endblocktranslate %}
+                    </p>
+                {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance <= 0 %}
+                    <p data-bs-toggle="tooltip"
+                       data-bs-placement="bottom"
+                       data-bs-title="Solidarity Shifts can only be received while having a negative balance">
+                        {% blocktranslate trimmed %}
+                            You cannot receive a Solidarity Shift at the moment
+                        {% endblocktranslate %}
+                    </p>
+                {% elif not user.shift_user_data.get_available_solidarity_shifts %}
+                    <p>
+                        {% blocktranslate trimmed %}
+                            There are no Solidarity Shifts available at the moment
+                        {% endblocktranslate %}
+                    </p>
                 {% endif %}
             </div>
         </div>
+    {% endif %}
+    {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
+    {% if shift_partner_enabled %}
+        <div class="row m-1">
+            <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Shift partner" %}:</div>
+            <div class="col-12 col-sm-8 d-flex">
+                {% if user.shift_user_data.shift_partner_of %}
+                    <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner_of.user request.user %}</span>
+                {% elif user.shift_user_data.shift_partner %}
+                    <span>{% get_html_link_or_just_name user.shift_user_data.shift_partner.user request.user %}</span>
+                {% else %}
+                    {% blocktranslate asvar tooltip trimmed %}
+                        You can email the member office to ask for a shift partner to be registered.
+                        <br />
+                        See member manual section III.F.6
+                    {% endblocktranslate %}
+                    <span data-bs-toggle="tooltip" data-bs-html="true" title="{{ tooltip }}">
+                        {% translate "None" context "No shift partner" %}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="row m-1">
+        <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Next watched Shift" %}:</div>
+        <div class="col-12 col-sm-8">
+            {% if next_watched_shift %}
+                <a href="{{ next_watched_shift.shift.get_absolute_url }}">{{ next_watched_shift.shift.get_display_name }}</a>
+            {% else %}
+                <span class="text-danger">{% translate "No watched shifts" %}</span>
+            {% endif %}
+        </div>
     </div>
+</div>
 </div>

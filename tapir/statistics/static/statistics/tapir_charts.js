@@ -34,7 +34,17 @@ var ChartManager = /** @class */ (function () {
         button.style.display = "none";
         var canvas = document.getElementById(canvas_id);
         canvas.style.display = null;
-        new Chart(canvas, data);
+        this.drawBarGraph(data, canvas_id);
+
+    };
+    ChartManager.prototype.drawBarGraph = function (data, canvas_id) {
+        var canvas = document.getElementById(canvas_id);
+        var ctx = canvas.getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: data.type,
+            data: data.data,
+            options: data.options
+        });
     };
     ChartManager.prototype.on_load_error = function (response, button) {
         console.log(response);

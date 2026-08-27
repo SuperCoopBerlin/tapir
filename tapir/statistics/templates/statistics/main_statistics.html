@@ -19,7 +19,7 @@
                 <h5 class="card-header">{% translate "Total number of members" %}</h5>
                 <div class="card-body">
                     <p>
-                        {% blocktranslate with number_of_members_now=number_of_members_now %}
+                        {% blocktranslate with number_of_members_now=number_of_members_now trimmed %}
                             All members of the cooperative - whether investing or active: {{ number_of_members_now }}.
                         {% endblocktranslate %}
                     </p>
@@ -41,7 +41,7 @@
                     <li class="list-group-item">
                         <h5>{% translate 'Shopping basket' %}</h5>
                         <p>
-                            {% blocktranslate with target_basket=target_average_monthly_basket %}
+                            {% blocktranslate with target_basket=target_average_monthly_basket trimmed %}
                                 The current target food basket value per member and per month to reach the break-even is
                                 {{ target_basket }}€. If you have enabled purchase tracking, you can see your average
                                 basket value on your profile page.
@@ -89,7 +89,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <p>
-                            {% blocktranslate with target_count=working_members.target_count %}
+                            {% blocktranslate with target_count=working_members.target_count trimmed %}
                                 Working members are active members who do not have an exemption. Exemptions are, for
                                 example, one year of parental leave, prolonged illness or members over 70 years of age.
                                 Required number of working members to fulfil all shift placements: {{ target_count }}.
@@ -119,7 +119,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <p>
-                            {% blocktranslate %}
+                            {% blocktranslate trimmed %}
                                 Any member who is registered as an active member but is 4 or more shifts short and
                                 therefore
                                 not eligible to purchase again until they sign up for the appropriate make-up shifts.
@@ -140,7 +140,7 @@
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <p>
-                                {% blocktranslate %}
+                                {% blocktranslate trimmed %}
                                     Each member can designate one person (whether in their own household or not) to shop
                                     under the same membership number. This can be investing members or non-members.
                                 {% endblocktranslate %}
@@ -160,7 +160,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <p>
-                                    {% blocktranslate %}
+                                    {% blocktranslate trimmed %}
                                         Here you can follow the progress of the funding campaign. Both additional shares
                                         (all shares that are subscribed to over and above the compulsory share) and
                                         subordinated loans are counted. The period runs from 12.09.2023 - 09.12.2023.

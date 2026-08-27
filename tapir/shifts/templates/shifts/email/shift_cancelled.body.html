@@ -6,9 +6,9 @@
     <p>{% blocktranslate with name=display_name_short %}Hi {{ name }},{% endblocktranslate %}</p>
     <p>{% blocktranslate with coop_name=coop_name %}This is an automated email from {{ coop_name }}.{% endblocktranslate %}</p>
     <p>
-        {% blocktranslate with shift_name=shift.get_display_name reason=shift.cancelled_reason %}
+        {% blocktranslate with shift_name=shift.get_display_url reason=shift.cancelled_reason trimmed %}
             Your shift {{ shift_name }} was cancelled! Reason: {{ reason }}.
-            {% endblocktranslate %}
+        {% endblocktranslate %}
     </p>
     {% if user_is_registered_to_an_abcd_shift %}
         <p>{% blocktranslate %}Since this is your ABCD shift, you have been credited one shift point.{% endblocktranslate %}</p>

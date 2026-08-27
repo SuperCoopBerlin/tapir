@@ -170,7 +170,7 @@ class TapirUser(AbstractUser):
             return self.ldap_user
 
         search = LDAPSearch(
-            "ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(uid={self.username})"
+            REG_PERSON_BASE_DN, ldap.SCOPE_SUBTREE, f"(uid={self.username})"
         )
         result = search.execute(get_admin_ldap_connection())
         if not result:

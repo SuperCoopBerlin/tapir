@@ -9,9 +9,9 @@
         <meta charset="UTF-8">
         <title>
             {% get_display_name_full member_infos as display_name_full %}
-            {% blocktranslate with display_name=display_name_full %}
-            Confirmation acquisition of additional shares in {{ coop_name }} for {{ display_name }}
-        {% endblocktranslate %}
+            {% blocktranslate with display_name=display_name_full trimmed %}
+                Confirmation acquisition of additional shares in {{ coop_name }} for {{ display_name }}
+            {% endblocktranslate %}
         </title>
         <link rel="stylesheet"
               href="{% static 'coop/css/membership_agreement_pdf.css' %}">

@@ -52,7 +52,7 @@
                     <form action="" method="get" class="form member-filter-form">
                         <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
                         <div class="member-filter-form-buttons">
-                            <button class=" {% tapir_button_link %}">
+                            <button class="{% tapir_button_link %}">
                                 <span class="material-icons">filter_alt</span>{% translate 'Filter' %}
                             </button>
                             <a class="{% tapir_button_link %}"
@@ -61,7 +61,7 @@
                                 {% translate "Clear all filters" %}
                             </a>
                             <div class="ms-2">
-                                {% blocktranslate %}
+                                {% blocktranslate trimmed %}
                                     Filtered {{ filtered_pause_count }} of {{ total_pause_count }}
                                 {% endblocktranslate %}
                             </div>
