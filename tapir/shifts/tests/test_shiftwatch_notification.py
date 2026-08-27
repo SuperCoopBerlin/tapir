@@ -267,7 +267,6 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         # watch for Shift-Coordinator, but shift has Cashier-capability
         slot_to_unregister = self.slots[0]
         slot_to_unregister.required_capabilities = [ShiftUserCapability.CASHIER]
-        self.slots[1].required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
         slot_to_unregister.save()
 
         self.shift_watch = create_shift_watch(
