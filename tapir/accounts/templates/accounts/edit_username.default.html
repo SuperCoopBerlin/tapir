@@ -25,10 +25,12 @@
             </h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    {% blocktranslate with old_username=object.username %}
+                    {% blocktranslate with old_username=object.username trimmed %}
                         <p>Your old username is {{ old_username }}.</p>
-                        <p>If you ever updated the wiki, please contact the Wiki team on Slack <a href="https://supercoopberlin.slack.com/archives/C01UCL82XMF">#wiki</a> to keep your
-                            member's page there and the history of your changes.</p>
+                        <p>
+                            If you ever updated the wiki, please contact the Wiki team on Slack <a href="https://supercoopberlin.slack.com/archives/C01UCL82XMF">#wiki</a> to keep your
+                            member's page there and the history of your changes.
+                        </p>
                     {% endblocktranslate %}
                 </li>
                 <li class="list-group-item">

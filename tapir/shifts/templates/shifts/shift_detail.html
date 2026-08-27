@@ -190,14 +190,16 @@
                                                               method="post"
                                                               action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance_states.LOOKING_FOR_STAND_IN %}">
                                                             {% csrf_token %}
-                                                            {% blocktranslate asvar stand_in_tooltip %}You can only look for
-                                                            a
-                                                            stand-in
-                                                            {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the
-                                                            shift. If
-                                                            you can't
-                                                            attend, contact your shift leader as soon as
-                                                            possible.{% endblocktranslate %}
+                                                            {% blocktranslate asvar stand_in_tooltip trimmed %}
+                                                                You can only look for
+                                                                a
+                                                                stand-in
+                                                                {{ NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN }} days before the
+                                                                shift. If
+                                                                you can't
+                                                                attend, contact your shift leader as soon as
+                                                                possible.
+                                                            {% endblocktranslate %}
                                                             <span {% if not slot.can_look_for_stand_in %}data-bs-toggle="tooltip" title="{{ stand_in_tooltip }}"{% endif %}>
                                                                 <button type="submit"
                                                                         class="{% tapir_button_custom 'warning' %} btn-sm {% if not slot.can_look_for_stand_in %}disabled{% endif %}"
@@ -212,15 +214,17 @@
                                                           method="post"
                                                           action="{% url 'shifts:update_shift_attendance_state' attendance.pk|default:1 attendance_states.CANCELLED %}">
                                                         {% csrf_token %}
-                                                        {% blocktranslate asvar self_unregister_tooltip %}You can only
-                                                        unregister
-                                                        yourself
-                                                        {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. Also,
-                                                        ABCD-Shifts
-                                                        can't be unregistered from. If you can't
-                                                        attend, look for a stand-in or contact your shift leader as soon
-                                                        as
-                                                        possible.{% endblocktranslate %}
+                                                        {% blocktranslate asvar self_unregister_tooltip trimmed %}
+                                                            You can only
+                                                            unregister
+                                                            yourself
+                                                            {{ NB_DAYS_FOR_SELF_UNREGISTER }} days before the shift. Also,
+                                                            ABCD-Shifts
+                                                            can't be unregistered from. If you can't
+                                                            attend, look for a stand-in or contact your shift leader as soon
+                                                            as
+                                                            possible.
+                                                        {% endblocktranslate %}
                                                         <span {% if not slot.can_self_unregister %}data-bs-toggle="tooltip" title="{{ self_unregister_tooltip }}"{% endif %}>
                                                             <button type="submit"
                                                                     class="{% tapir_button_custom 'danger' %} btn-sm"

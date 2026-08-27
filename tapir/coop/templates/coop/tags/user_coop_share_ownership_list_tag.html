@@ -6,7 +6,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         {% if share_owner %}
             <span>
-                {% blocktranslate with coop_share_owner_id=share_owner.id %}
+                {% blocktranslate with coop_share_owner_id=share_owner.id trimmed %}
                     Member #{{ coop_share_owner_id }}
                 {% endblocktranslate %}
             </span>
@@ -36,14 +36,14 @@
                 <div class="col-12 col-sm-7" id="share_owner_status">
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
-                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
-                (membership starting {{ start_date }})
-                {% endblocktranslate %}
+                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" trimmed %}
+                            (membership starting {{ start_date }})
+                        {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
-                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
-                (membership ending {{ end_date }})
-                {% endblocktranslate %}
+                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" trimmed %}
+                            (membership ending {{ end_date }})
+                        {% endblocktranslate %}
                     {% endif %}
                 </div>
             </div>

@@ -27,7 +27,6 @@ dependencies = [
     "django-bootstrap5 (>=26.2,<27.0)",
     "celery (>=5.4.0,<6.0.0)",
     "redis (>=7.3.0,<8.0.0)",
-    "django-chartjs (>=2.3.0,<3.0.0)",
     "unidecode (>=1.3.8,<2.0.0)",
     "python-barcode (>=0.16.1,<0.17.0)",
     "fabric (>=3.2.2,<4.0.0)",

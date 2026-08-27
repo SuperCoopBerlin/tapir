@@ -3,7 +3,11 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
-    <p>{% blocktranslate with name=display_name_short %}Hi {{ name }},{% endblocktranslate %}</p>
+    <p>
+        {% blocktranslate with name=display_name_short trimmed %}
+            Hi {{ name }},
+        {% endblocktranslate %}
+    </p>
     {% blocktranslate %}
         <p>We've noticed that you've been a SuperCoop member for a month/week but haven't set up a Tapir account to sign up for your first shift.</p>
         <p>
