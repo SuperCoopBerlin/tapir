@@ -1,0 +1,31 @@
+name: Run python tests
+
+on: push
+
+jobs:
+  test:
+    runs-on: codeberg-tiny-lazy
+    services:
+      db:
+        image: postgres:14
+        env:
+          POSTGRES_DB: tapir
+          POSTGRES_PASSWORD: tapir
+          POSTGRES_USER: tapir
+      openldap:
+        image: "osixia/openldap"
+        env:
+          LDAP_ORGANISATION: "SuperCoop Berlin"
+          LDAP_DOMAIN: "supercoop.de"
+          LDAP_ADMIN_PASSWORD: "admin"
+          LDAP_READONLY_USER: "true"
+      selenium:
+        image: selenium/standalone-firefox-debug:latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: pip install poetry==2.4.1
+      - run: poetry install
+      - run: poetry run pytest
