@@ -130,9 +130,7 @@ class DraftUserDeleteView(
 @permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % (
-        UserUtils.build_display_name_for_viewer(draft_user, request.user)
-    )
+    filename = f"Beteiligungserklärung {UserUtils.build_display_name_for_viewer(draft_user, request.user)}.pdf"
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     set_header_for_file_download(response, filename)
@@ -295,7 +293,7 @@ class DraftUserFilter(django_filters.FilterSet):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(DraftUserFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     share_owner_can_be_created = django_filters.BooleanFilter(
         method="share_owner_can_be_created_filter", label=_("Member can be created")

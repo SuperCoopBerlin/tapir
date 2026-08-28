@@ -189,7 +189,7 @@ class ShiftTemplate(models.Model):
     )
 
     def __str__(self):
-        display_name = "%s: %s %s %s-%s" % (
+        display_name = "{}: {} {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             self.get_weekday_display(),
@@ -219,7 +219,7 @@ class ShiftTemplate(models.Model):
         ).order_by("-start_time")
 
     def get_display_name(self):
-        display_name = "%s %s %s - %s" % (
+        display_name = "{} {} {} - {}".format(
             self.name,
             _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
@@ -352,7 +352,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def user_can_attend(self, user):
@@ -539,7 +539,7 @@ class Shift(models.Model):
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
-        display_name = "%s: %s %s-%s" % (
+        display_name = "{}: {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             timezone.localtime(self.start_time).strftime("%a %Y-%m-%d %H:%M"),
@@ -548,16 +548,12 @@ class Shift(models.Model):
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
 
-        display_name = "%s [%d/%d]" % (
-            display_name,
-            self.get_valid_attendances().count(),
-            self.slots.count(),
-        )
+        display_name = f"{display_name} [{self.get_valid_attendances().count()}/{self.slots.count()}]"
 
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "%s %s - %s" % (
+        display_name = "{} {} - {}".format(
             self.name,
             timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
             timezone.localtime(self.end_time).strftime("%H:%M"),
@@ -668,7 +664,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def get_html_link(self):

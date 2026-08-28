@@ -300,7 +300,7 @@ class ShareOwner(models.Model):
         )
 
     def get_id_for_biooffice(self):
-        return "299" + "{:0>9}".format(self.id)
+        return "299" + f"{self.id:0>9}"
 
     def get_member_number(self):
         return self.id
