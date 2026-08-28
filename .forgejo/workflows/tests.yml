@@ -29,6 +29,6 @@ jobs:
         with:
           python-version: '3.13'
           cache: 'poetry'
-      - run: pipx install poetry=2.4.1
+      - run: pip install poetry=2.4.1
       - run: poetry install
       - run: poetry run pytest
