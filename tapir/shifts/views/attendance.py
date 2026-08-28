@@ -218,13 +218,12 @@ class UpdateShiftAttendanceStateWithFormView(
             )
         }
         context["card_title"] = _(
-            "Updating shift attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating shift attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance.user, self.request.user
                 ),
-                "slot_link": attendance.slot.get_html_link(),
-            }
+                slot_link=attendance.slot.get_html_link(),
+            )
         )
         return context
 
@@ -369,13 +368,12 @@ class UpdateShiftAttendanceCustomTimeView(
             )
         }
         context["card_title"] = _(
-            "Updating shift attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating shift attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance.user, self.request.user
                 ),
-                "slot_link": attendance.slot.get_html_link(),
-            }
+                slot_link=attendance.slot.get_html_link(),
+            )
         )
         return context
 
@@ -410,14 +408,13 @@ class UpdateShiftAttendanceTemplateCustomTimeView(
         }
         shift_template = attendance_template.slot_template.shift_template
         context["card_title"] = _(
-            "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating ABCD attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance_template.user, self.request.user
                 ),
-                "slot_link": get_html_link(
+                slot_link=get_html_link(
                     shift_template.get_absolute_url(), shift_template.get_display_name()
                 ),
-            }
+            )
         )
         return context

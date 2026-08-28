@@ -40,9 +40,10 @@ class MembershipConfirmationForInvestingMemberEmailBuilder(TapirEmailBuilderBase
     def get_attachments(self) -> list:
         return [
             (
-                "Mitgliedschaftsbestätigung %s.pdf"
-                % UserUtils.build_display_name(
-                    self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                "Mitgliedschaftsbestätigung {}.pdf".format(
+                    UserUtils.build_display_name(
+                        self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                    )
                 ),
                 pdfs.get_shareowner_membership_confirmation_pdf(
                     self.share_owner,

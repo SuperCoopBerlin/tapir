@@ -18,7 +18,7 @@ from tapir.utils.shortcuts import get_monday
 # override HTMLCalender method to use colors
 class ColorHTMLCalendar(HTMLCalendar):
     def __init__(self, firstweekday, monday_to_week_group_map):
-        super(ColorHTMLCalendar, self).__init__(firstweekday=firstweekday)
+        super().__init__(firstweekday=firstweekday)
         self.monday_to_week_group_map = monday_to_week_group_map
 
     def formatweek(self, theweek, monday):
@@ -36,8 +36,7 @@ class ColorHTMLCalendar(HTMLCalendar):
         v = []
         a = v.append
         a(
-            '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
-            % self.cssclass_month
+            f'<table border="0" cellpadding="0" cellspacing="0" class="{self.cssclass_month}">'
         )
         a("\n")
         a(self.formatmonthname(theyear, themonth, withyear=withyear))
@@ -67,8 +66,7 @@ class ColorHTMLCalendar(HTMLCalendar):
         a(f"<td class='year'>{theyear}</td>")
         a("</tr></table>")
         a(
-            '<table border="0" cellpadding="0" cellspacing="0" class="%s">'
-            % self.cssclass_year
+            f'<table border="0" cellpadding="0" cellspacing="0" class="{self.cssclass_year}">'
         )
         for i in range(1, 1 + 12, width):
             # months in this row
@@ -87,9 +85,8 @@ class ColorHTMLCalendar(HTMLCalendar):
         Return a weekday name as a table header.
         SuperCoop: Overwrites locale
         """
-        return '<th class="%s">%s</th>' % (
-            self.cssclasses_weekday_head[day],
-            _(day_abbr[day]),
+        return (
+            f'<th class="{self.cssclasses_weekday_head[day]}">{_(day_abbr[day])}</th>'
         )
 
     def formatmonthname(self, theyear, themonth, withyear=True):
@@ -98,13 +95,10 @@ class ColorHTMLCalendar(HTMLCalendar):
         SuperCoop: Overwrites locale
         """
         if withyear:
-            s = "%s %s" % (month_name[themonth], theyear)
+            s = f"{month_name[themonth]} {theyear}"
         else:
-            s = "%s" % _(month_name[themonth])
-        return '<tr><th colspan="7" class="%s">%s</th></tr>' % (
-            self.cssclass_month_head,
-            s,
-        )
+            s = f"{_(month_name[themonth])}"
+        return f'<tr><th colspan="7" class="{self.cssclass_month_head}">{s}</th></tr>'
 
 
 def update_shift_account_depending_on_welcome_session_status(share_owner: ShareOwner):
