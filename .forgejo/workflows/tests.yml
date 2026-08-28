@@ -22,10 +22,13 @@ jobs:
       selenium:
         image: selenium/standalone-firefox-debug:latest
     steps:
+      - name: Install ubuntu packages
+        run: apt-get update && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
-      - run: pip install poetry==2.4.1
+          cache: 'poetry'
+      - run: pipx install poetry=2.4.1
       - run: poetry install
       - run: poetry run pytest
