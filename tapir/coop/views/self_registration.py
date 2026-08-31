@@ -102,7 +102,7 @@ class MemberSelfRegisterApiView(APIView):
                 num_shares=serializer.validated_data["num_shares"],
                 is_investing=serializer.validated_data["is_investing"],
                 is_company=serializer.validated_data["is_company"],
-                company_name=serializer.validated_data.get("company_name", None),
+                company_name=serializer.validated_data.get("company_name", ""),
                 preferred_language=serializer.validated_data["preferred_language"],
                 ratenzahlung=serializer.validated_data["ratenzahlung"],
             )
