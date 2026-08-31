@@ -6,12 +6,9 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 
 ENV POETRY_VERSION=2.3.4 \
-    POETRY_HOME="/opt/poetry" \
     POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_VIRTUALENVS_CREATE=true \
     POETRY_NO_INTERACTION=1 
-
-ENV PATH="$POETRY_HOME/bin:$PATH"
 
 
 RUN apt-get update \
@@ -23,7 +20,7 @@ RUN apt-get update \
     libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
     
 
-RUN curl -sS https://install.python-poetry.org | POETRY_HOME=$POETRY_HOME python3 - 
+RUN pip install poetry==$POETRY_VERSION
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -32,6 +29,8 @@ FROM base AS builder
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
+ENV PATH="/app/.venv/bin:$PATH"
+
 RUN poetry install --only main --no-root
 
 
