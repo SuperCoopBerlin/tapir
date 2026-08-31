@@ -21,21 +21,19 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.template import Context, Template, loader
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
 from django.views import View, generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
-from django.views.generic import DeleteView, FormView, TemplateView, UpdateView
+from django.views.generic import DeleteView, FormView, UpdateView
 from django_filters import BooleanFilter, CharFilter, ChoiceFilter
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
-from drf_spectacular.utils import extend_schema
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from tapir.accounts.models import TapirUser
 from tapir.coop import config, pdfs
@@ -67,12 +65,12 @@ from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
     DeleteShareOwnershipLogEntry,
     ExtraSharesForAccountingRecap,
+    MemberStatus,
     ShareOwner,
     ShareOwnership,
     UpdateShareOwnerLogEntry,
     UpdateShareOwnershipLogEntry,
 )
-from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.coop.services.investing_status_service import InvestingStatusService
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
@@ -429,16 +427,6 @@ class ShareOwnerMembershipConfirmationFileView(
         )
 
         return response
-
-
-class CurrentShareOwnerMixin:
-    def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .filter(share_ownerships__in=ShareOwnership.objects.active_temporal())
-            .distinct()
-        )
 
 
 class ShareOwnerTable(django_tables2.Table):
@@ -906,15 +894,13 @@ class ShareOwnerListView(
 class ShareOwnerExportMailchimpView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    CurrentShareOwnerMixin,
     generic.list.BaseListView,
 ):
     permission_required = PERMISSION_COOP_MANAGE
     model = ShareOwner
 
     def get_queryset(self):
-        # Only active members should be on our mailing lists
-        return super().get_queryset().filter(is_investing=False)
+        return ShareOwner.objects.with_status(MemberStatus.ACTIVE)
 
     @staticmethod
     def render_to_response(context, **response_kwargs):
@@ -1007,35 +993,7 @@ class MatchingProgramListView(
         )
 
 
-class MemberSelfRegistrationTemplateView(TemplateView):
-    template_name = "coop/member_self_registration.html"
-
-
-class MemberSelfRegisterApiView(APIView):
-    permission_classes = []
-
-    @extend_schema(
-        request=MemberRegistrationRequestSerializer,
-        responses={200: bool},
-    )
-    def post(self, request):
-        if not settings.DEBUG:
-            raise PermissionDenied("Only for debug mode!")
-
-        serializer = MemberRegistrationRequestSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        email = serializer.validated_data["email"]
-        if (
-            TapirUser.objects.filter(email=email).exists()
-            or ShareOwner.objects.filter(email=email).exists()
-        ):
-            return Response(False)
-
-        return Response(True)
-
-
-class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormView):
+class RequestShareView(LoginRequiredMixin, generic.FormView):
     form_class = RequestShareForm
     model = ShareOwner
     template_name = "coop/extra_share_request.html"
@@ -1103,6 +1061,21 @@ class RequestShareView(LoginRequiredMixin, CurrentShareOwnerMixin, generic.FormV
 
     def get_success_url(self):
         return self.get_share_owner().get_absolute_url()
+
+
+class RequestShareGenericView(LoginRequiredMixin, generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        tapir_user = self.request.user
+        if not hasattr(tapir_user, "share_owner") or not tapir_user.share_owner:
+            return reverse(
+                "accounts:user_detail",
+                args=[self.request.user.id],
+            )
+
+        return reverse(
+            "coop:share_create",
+            args=[self.request.user.share_owner.id],
+        )
 
 
 class UserProfilePDFView(

@@ -1,0 +1,22 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short draft_user as name_short %}
+    {% blocktranslate with name_short=name_short contact_email_address=EMAIL_ADDRESS_MEMBER_OFFICE coop_name=coop_name %}
+        <p>Dear {{ name_short }},</p>
+        <p>
+            We are very happy about your interest in becoming a member of {{ coop_name }}!
+        </p>
+        <p>
+            Your application will be checked soon, you will receive an e-mail as soon as it happens, usually within a
+            few days.
+        </p>
+        <p>If you already have questions, please contact our member office at <a
+                href="mailto:{{ contact_email_address }}">{{ contact_email_address }}</a></p>
+        <p>
+            Cooperative greetings,<br/>
+            Your {{ coop_name }}-Board
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

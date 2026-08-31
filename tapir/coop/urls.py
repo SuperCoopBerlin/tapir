@@ -1,6 +1,7 @@
 from django.urls import path
 
 from tapir.coop import views
+from tapir.coop.views import self_registration
 
 app_name = "coop"
 urlpatterns = [
@@ -13,6 +14,11 @@ urlpatterns = [
         "member/<int:shareowner_pk>/request-share/",
         views.RequestShareView.as_view(),
         name="share_create",
+    ),
+    path(
+        "member/request-share/",
+        views.RequestShareGenericView.as_view(),
+        name="share_create_generic",
     ),
     path(
         "share/<int:pk>/delete",

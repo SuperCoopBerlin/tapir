@@ -1,4 +1,9 @@
 from collections.abc import Callable
+from typing import Literal
+
+type LinkVisibility = Literal[
+    "only_when_logged_in", "only_when_not_logged_in", "always"
+]
 
 
 class SidebarLink:
@@ -11,6 +16,7 @@ class SidebarLink:
     ordering: int
     on_render: Callable
     required_feature_flag: str | None
+    visibility: LinkVisibility
 
 
 class SidebarLinkGroup:
@@ -33,6 +39,7 @@ class SidebarLinkGroup:
         required_feature_flag=None,
         html_id=None,
         on_render=None,
+        visibility: LinkVisibility = "only_when_logged_in",
     ):
         if self.links is None:
             self.links = []
@@ -49,7 +56,7 @@ class SidebarLinkGroup:
         link.required_permissions = required_permissions
         link.on_render = on_render
         link.required_feature_flag = required_feature_flag
-
+        link.visibility = visibility
         self.links.append(link)
 
 
@@ -99,7 +106,15 @@ class SidebarLinkGroups:
             link.required_feature_flag
         ):
             return False
+
         for permission in link.required_permissions:
             if not user.has_perm(permission):
                 return False
+
+        if link.visibility == "only_when_logged_in" and not user.is_authenticated:
+            return False
+
+        if link.visibility == "only_when_not_logged_in" and user.is_authenticated:
+            return False
+
         return True

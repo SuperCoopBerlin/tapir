@@ -88,6 +88,7 @@ class DraftUserForm(forms.ModelForm):
             "country",
             "preferred_language",
             "is_investing",
+            "is_company",
             "attended_welcome_session",
             "ratenzahlung",
             "paid_membership_fee",

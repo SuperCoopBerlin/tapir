@@ -3,5 +3,6 @@ from .incoming_payments import *
 from .management import *
 from .membership_pause import *
 from .membership_resignation import *
+from .self_registration import *
 from .shareowner import *
 from .statistics import *

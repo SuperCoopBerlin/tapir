@@ -24,6 +24,8 @@ services:
       - ./manage.py:/app/manage.py
       - ./Makefile:/app/Makefile
       - poetry-cache:/home/appuser/.cache/pypoetry
+      - ./dist:/app/dist
+      - ./schema.yml:/app/schema.yml
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1
