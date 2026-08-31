@@ -15,10 +15,14 @@
                 return;
             }
 
-            let url = "{% url 'shifts:calendar' %}";
-            url += "?date_from=" + document.getElementById("date-from").value;
-            url += "&date_to=" + document.getElementById("date-to").value;
-            window.location = url;
+            const baseUrl = "{% url 'shifts:calendar' %}";
+            const dateFrom = document.getElementById("date-from").value;
+            const dateTo = document.getElementById("date-to").value;
+            const params = new URLSearchParams({
+                date_from: dateFrom,
+                date_to: dateTo,
+            });
+            window.location = `${baseUrl}?${params.toString()}`;
         }
     </script>
 {% endblock head %}
