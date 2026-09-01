@@ -7,7 +7,9 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpRequest
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import TemplateView
 from drf_spectacular.utils import extend_schema
 from rest_framework.response import Response
@@ -27,6 +29,7 @@ from tapir.core.services.send_mail_service import SendMailService
 class MemberSelfRegistrationTemplateView(TemplateView):
     template_name = "coop/member_self_registration.html"
 
+    @method_decorator(ensure_csrf_cookie)
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any):
         if not FeatureFlag.get_flag_value(
             config.feature_flag_self_registration_enabled
@@ -76,15 +79,17 @@ class MemberSelfRegisterApiView(APIView):
                 status=HTTPStatus.CONFLICT,
             )
 
-        delta = relativedelta(
-            timezone.now().date(), serializer.validated_data["birthdate"]
-        )
-
-        if delta.years < 18:
-            return Response(
-                "You must be at least 18 years old",
-                status=HTTPStatus.UNPROCESSABLE_CONTENT,
+        is_company = serializer.validated_data["is_company"]
+        if not is_company:
+            delta = relativedelta(
+                timezone.now().date(), serializer.validated_data["birthdate"]
             )
+
+            if delta.years < 18:
+                return Response(
+                    "You must be at least 18 years old",
+                    status=HTTPStatus.UNPROCESSABLE_CONTENT,
+                )
 
         with transaction.atomic():
             draft_user = DraftUser.objects.create(
@@ -101,7 +106,7 @@ class MemberSelfRegisterApiView(APIView):
                 country=serializer.validated_data["country"],
                 num_shares=serializer.validated_data["num_shares"],
                 is_investing=serializer.validated_data["is_investing"],
-                is_company=serializer.validated_data["is_company"],
+                is_company=is_company,
                 company_name=serializer.validated_data.get("company_name", ""),
                 preferred_language=serializer.validated_data["preferred_language"],
                 ratenzahlung=serializer.validated_data["ratenzahlung"],

@@ -103,7 +103,7 @@ const MemberRegistration: React.FC = () => {
       isInvesting,
       numShares: shares,
 
-      birthdate: new Date(dob),
+      birthdate: isCompany ? new Date() : new Date(dob),
       usageName: preferredName,
       pronouns,
       preferredLanguage,
