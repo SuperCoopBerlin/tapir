@@ -558,18 +558,20 @@ class Shift(models.Model):
         )
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
-        if self.cancelled:
-            display_name = format_html(
-                '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
-                display_name,
-            )
+
         return display_name
 
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
 
     def get_display_url(self):
-        return get_html_link(self.get_absolute_url(), self.get_display_name())
+        display_name = self.get_display_name()
+        if self.cancelled:
+            display_name = format_html(
+                '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
+                display_name,
+            )
+        return get_html_link(self.get_absolute_url(), display_name)
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)
