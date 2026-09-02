@@ -4,13 +4,12 @@ import os
 import pathlib
 import socket
 from http import HTTPStatus
-from typing import Type
 from unittest.mock import patch
 
 import factory.random
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.mail import EmailMessage
-from django.test import TestCase, override_settings, Client, SimpleTestCase
+from django.test import Client, SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 from selenium import webdriver
@@ -30,8 +29,8 @@ from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.member_can_shop_service import MemberCanShopService
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.models import (
-    ShiftAttendanceTemplate,
     DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendanceTemplate,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.shifts.tests.factories import ShiftTemplateFactory
@@ -225,7 +224,7 @@ class TapirFactoryTestBase(TestCase):
 class TapirEmailTestMixin(TestCase):
     def assertEmailOfClass_GotSentTo(
         self,
-        expected_class: Type[TapirEmailBuilderBase],
+        expected_class: type[TapirEmailBuilderBase],
         target_email_address: str,
         mail: EmailMessage,
     ):

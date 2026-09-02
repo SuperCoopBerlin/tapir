@@ -11,23 +11,23 @@
             </p>
         {% endblocktranslate %}
     {% if resigned_member.resignation_type == resignation_type_gift_to_coop %}
-        {% blocktranslate %}
-            <p>
+        <p>
+            {% blocktranslate trimmed %}
                 As you stated in your letter of cancellation that you want to transfer your shares to SuperCoop,
                 your termination is effective immediately.
-            </p>
-        {% endblocktranslate %}
+            {% endblocktranslate %}
+        </p>
     {% elif resigned_member.resignation_type == resignation_type_transfer %}
         {% get_display_name_full resigned_member.transferring_shares_to as transferred_member %}
-        {% blocktranslate with transferred_member=transferred_member %}
-            <p>
+        <p>
+            {% blocktranslate with transferred_member=transferred_member trimmed %}
                 You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed
                 {{ transferred_member }} about this separately.
                 Your termination is effective immediately.
-            </p>
-        {% endblocktranslate %}
+            {% endblocktranslate %}
+        </p>
     {% else %}
-        {% blocktranslate with contact_email_adress=contact_email_adress %}
+        {% blocktranslate with contact_email_adress=contact_email_adress trimmed %}
             <p>
                 As you wished in your cancellation letter your membership will run until the end of the regular cancellation period specified in our Articles of Association, i.e.
                 until the end of the financial year in three years. Please note the passage stated in our Articles of Association

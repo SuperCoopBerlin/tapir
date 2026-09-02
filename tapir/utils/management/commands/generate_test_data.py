@@ -2,11 +2,11 @@ from django.core.management.base import BaseCommand
 
 from tapir import settings
 from tapir.utils.management.commands.generate_test_data_functions import (
-    generate_test_users,
-    generate_test_template_groups,
-    generate_test_shift_templates,
-    generate_shifts,
     clear_data,
+    generate_shifts,
+    generate_test_shift_templates,
+    generate_test_template_groups,
+    generate_test_users,
     reset_all_test_data,
 )
 

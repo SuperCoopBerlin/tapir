@@ -2,14 +2,15 @@ from datetime import timedelta
 
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+
 from tapir.shifts.management.commands.send_shift_watch_mail import (
     Command as SendShiftWatchCommand,
 )
 from tapir.shifts.models import (
+    ShiftAttendance,
+    ShiftSlot,
     ShiftWatch,
     StaffingStatusChoices,
-    ShiftSlot,
-    ShiftAttendance,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 
@@ -40,5 +41,5 @@ class Command(BaseCommand):
             )
             if current_status == StaffingStatusChoices.UNDERSTAFFED:
                 SendShiftWatchCommand.send_shift_watch_mail(
-                    shift_watch_data, staffing_status=StaffingStatusChoices.UNDERSTAFFED
+                    shift_watch_data, reason=StaffingStatusChoices.UNDERSTAFFED
                 )

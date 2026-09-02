@@ -10,8 +10,8 @@ from tapir.statistics.services.data_providers.data_provider_exempted_members imp
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
     create_member_that_is_working,
+    mock_timezone_now,
 )
 
 

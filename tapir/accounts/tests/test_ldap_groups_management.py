@@ -1,9 +1,10 @@
+from http import HTTPStatus
+
 from django.urls import reverse
 
-from http import HTTPStatus
 from tapir.accounts.models import TapirUser, UpdateTapirUserLogEntry
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.settings import GROUP_VORSTAND, GROUP_ACCOUNTING
+from tapir.settings import GROUP_ACCOUNTING, GROUP_VORSTAND
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 

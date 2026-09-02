@@ -1,9 +1,9 @@
 import datetime
 
-from django.db.models import QuerySet, Value, Case, When, Q
+from django.db.models import Case, Q, QuerySet, Value, When
 from django.utils import timezone
 
-from tapir.coop.models import ShareOwner, MemberStatus
+from tapir.coop.models import MemberStatus, ShareOwner
 from tapir.shifts.models import ShiftUserData
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,

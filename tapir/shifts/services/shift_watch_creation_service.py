@@ -1,19 +1,19 @@
 from django.db.models import Q
 
 from tapir.shifts.models import (
-    Shift,
-    ShiftSlot,
-    ShiftAttendance,
-    StaffingStatusChoices,
     RecurringShiftWatch,
+    Shift,
+    ShiftAttendance,
+    ShiftSlot,
     ShiftWatch,
+    StaffingStatusChoices,
 )
 
 
 class ShiftWatchCreator:
     @classmethod
     def get_staffing_status_for_shift(
-        cls, shift: Shift, last_status: str = None
+        cls, shift: Shift, last_status: str | None = None
     ) -> str | None:
         """
         Compute the staffing status for a Shift instance by extracting the required
@@ -58,7 +58,7 @@ class ShiftWatchCreator:
         number_of_available_slots: int,
         valid_attendances: int,
         required_attendances: int,
-        last_status: str = None,
+        last_status: str | None = None,
     ):
         """Determine the staffing status based on attendance counts. Returns None if status has not changed."""
         if valid_attendances < required_attendances:
@@ -81,7 +81,7 @@ class ShiftWatchCreator:
         number_of_available_slots: int,
         valid_attendances: int,
         required_attendances: int,
-        last_status: str = None,
+        last_status: str | None = None,
     ) -> None | StaffingStatusChoices:
         """
         Determine if the staffing status has changed. Return **None** if the staffing status has not changed.
@@ -135,6 +135,7 @@ class ShiftWatchCreator:
                     user=recurring.user,
                     shift=shift,
                     staffing_status=recurring.staffing_status,
+                    watched_capabilities=recurring.watched_capabilities,
                     last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
                         shift=shift
                     ),
@@ -197,3 +198,43 @@ class ShiftWatchCreator:
 
         if new_watches:
             ShiftWatch.objects.bulk_create(new_watches)
+
+    @classmethod
+    def get_capability_status_changes(
+        cls,
+        this_valid_slot_ids: list[int],
+        last_valid_slot_ids: list[int],
+        watched_capabilities: list[str],
+    ) -> list[str]:
+        if not watched_capabilities:
+            return []
+
+        notifications = []
+
+        current_slots = ShiftSlot.objects.filter(
+            id__in=this_valid_slot_ids
+        ).values_list("required_capabilities", flat=True)
+
+        last_slots = ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
+            "required_capabilities", flat=True
+        )
+
+        current_capabilities_set = set()
+        for capabilities in current_slots:
+            current_capabilities_set.update(capabilities)
+
+        last_capabilities_set = set()
+        for capabilities in last_slots:
+            last_capabilities_set.update(capabilities)
+
+        for capability in watched_capabilities:
+            has_now = capability in current_capabilities_set
+            had_before = capability in last_capabilities_set
+
+            if has_now and not had_before:
+                notifications.append(f"Member with capability added: {capability}")
+            elif not has_now and had_before:
+                notifications.append(
+                    f"Member with capability unregistered: {capability}"
+                )
+        return notifications

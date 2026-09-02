@@ -59,7 +59,7 @@ class LogEntry(models.Model):
                 self.__class__, for_concrete_model=False
             )
 
-        super(LogEntry, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def as_leaf_class(self):
         """

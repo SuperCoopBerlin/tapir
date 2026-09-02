@@ -4,9 +4,10 @@ import holidays
 from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
+
 from tapir.core.models import FeatureFlag
-from tapir.shifts.config import GENERATE_UP_TO, FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS
-from tapir.shifts.models import ShiftTemplateGroup, ShiftTemplate, Shift
+from tapir.shifts.config import FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS, GENERATE_UP_TO
+from tapir.shifts.models import Shift, ShiftTemplate, ShiftTemplateGroup
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import get_week_group

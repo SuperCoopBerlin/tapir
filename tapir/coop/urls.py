@@ -10,6 +10,11 @@ urlpatterns = [
         name="share_update",
     ),
     path(
+        "member/<int:shareowner_pk>/request-share/",
+        views.RequestShareView.as_view(),
+        name="share_create",
+    ),
+    path(
         "share/<int:pk>/delete",
         views.ShareOwnershipDeleteView.as_view(),
         name="shareownership_delete",
@@ -136,11 +141,6 @@ urlpatterns = [
         name="shareowner_update",
     ),
     path(
-        "statistics",
-        views.StatisticsView.as_view(),
-        name="statistics",
-    ),
-    path(
         "about",
         views.AboutView.as_view(),
         name="about",
@@ -149,21 +149,6 @@ urlpatterns = [
         "matching_program",
         views.MatchingProgramListView.as_view(),
         name="matching_program_list",
-    ),
-    path(
-        "member_count_evolution_json",
-        views.MemberCountEvolutionJsonView.as_view(),
-        name="member_count_evolution_json",
-    ),
-    path(
-        "share_count_evolution_json",
-        views.ShareCountEvolutionJsonView.as_view(),
-        name="share_count_evolution_json",
-    ),
-    path(
-        "member_age_distribution_json",
-        views.MemberAgeDistributionJsonView.as_view(),
-        name="member_age_distribution_json",
     ),
     path(
         "payments/list",
@@ -184,31 +169,6 @@ urlpatterns = [
         "payments/<int:pk>/delete/",
         views.IncomingPaymentDeleteView.as_view(),
         name="incoming_payment_delete",
-    ),
-    path(
-        "new_members_json_view",
-        views.MemberStatusUpdatesJsonView.as_view(),
-        name="member_status_updates_json_view",
-    ),
-    path(
-        "new_members_csv_view",
-        views.member_status_updates_csv_view,
-        name="member_status_updates_csv_view",
-    ),
-    path(
-        "active_members_with_account_at_end_of_month_csv_view",
-        views.active_members_with_account_at_end_of_month_csv_view,
-        name="active_members_with_account_at_end_of_month_csv_view",
-    ),
-    path(
-        "number_of_co_purchasers_json_view",
-        views.NumberOfCoPurchasersJsonView.as_view(),
-        name="number_of_co_purchasers_json_view",
-    ),
-    path(
-        "number_of_co_purchasers_csv_view",
-        views.number_of_co_purchasers_csv_view,
-        name="number_of_co_purchasers_csv_view",
     ),
     path(
         "membership_pauses",
@@ -249,5 +209,10 @@ urlpatterns = [
         "member_self_register",
         views.MemberSelfRegisterApiView.as_view(),
         name="member_self_register",
+    ),
+    path(
+        "member/<int:pk>/profile_pdf",
+        views.UserProfilePDFView.as_view(),
+        name="user_profile_pdf",
     ),
 ]

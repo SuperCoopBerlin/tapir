@@ -11,11 +11,11 @@ from tapir.coop.emails.extra_shares_confirmation_email import (
 )
 from tapir.coop.models import (
     CreateShareOwnershipsLogEntry,
-    ShareOwner,
     ExtraSharesForAccountingRecap,
+    ShareOwner,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestCreateExtraShares(TapirFactoryTestBase, TapirEmailTestMixin):

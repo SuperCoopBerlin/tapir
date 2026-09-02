@@ -2,7 +2,7 @@ import datetime
 
 import django_filters
 import django_tables2
-from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q, QuerySet
@@ -18,10 +18,10 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.log.forms import CreateTextLogEntryForm
-from tapir.log.models import EmailLogEntry, TextLogEntry, LogEntry
+from tapir.log.models import EmailLogEntry, LogEntry, TextLogEntry
 from tapir.log.util import freeze_for_log
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_VIEW
-from tapir.utils.filters import TapirUserModelChoiceFilter, ShareOwnerModelChoiceFilter
+from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.shortcuts import (
     safe_redirect,
     set_header_for_file_download,

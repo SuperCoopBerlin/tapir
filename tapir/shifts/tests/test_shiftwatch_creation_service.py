@@ -1,18 +1,19 @@
-from django.utils import timezone
 import datetime
+
+from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     RecurringShiftWatch,
+    Shift,
     ShiftWatch,
     StaffingStatusChoices,
-    Shift,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import (
     ShiftFactory,
-    ShiftWatchFactory,
     ShiftTemplateFactory,
+    ShiftWatchFactory,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
@@ -30,7 +31,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
                 hour=15,
                 minute=0,
                 second=0,
-                tzinfo=datetime.timezone.utc,
+                tzinfo=datetime.UTC,
             ),
         )
 
@@ -55,6 +56,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[self.base_shift.start_time.weekday()],
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
+            watched_capabilities=[],
         )
 
         ShiftWatchFactory(user=self.user, shift=self.base_shift)
@@ -76,6 +78,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[shift.start_time.weekday()],
             staffing_status=[StaffingStatusChoices.UNDERSTAFFED],
+            watched_capabilities=[],
         )
 
         ShiftWatchCreator.create_shift_watches_for_shift_based_on_recurring(shift)
@@ -90,6 +93,7 @@ class TestShiftWatchCreationEdgeCases(TapirFactoryTestBase):
             user=self.user,
             weekdays=[],
             staffing_status=[StaffingStatusChoices.ALL_CLEAR],
+            watched_capabilities=[],
         )
 
         # Create two shifts which should not be existing after

@@ -1,0 +1,33 @@
+name: Run python tests
+
+on: push
+
+jobs:
+  test:
+    runs-on: codeberg-small-lazy
+    services:
+      db:
+        image: postgres:14
+        env:
+          POSTGRES_DB: tapir
+          POSTGRES_PASSWORD: tapir
+          POSTGRES_USER: tapir
+      openldap:
+        image: "osixia/openldap"
+        env:
+          LDAP_ORGANISATION: "SuperCoop Berlin"
+          LDAP_DOMAIN: "supercoop.de"
+          LDAP_ADMIN_PASSWORD: "admin"
+          LDAP_READONLY_USER: "true"
+      selenium:
+        image: selenium/standalone-firefox-debug:latest
+    steps:
+      - name: Install ubuntu packages
+        run: apt-get update && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+      - run: pip install poetry==2.4.1
+      - run: poetry install --no-root
+      - run: poetry run pytest

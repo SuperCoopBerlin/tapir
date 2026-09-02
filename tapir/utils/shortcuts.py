@@ -2,7 +2,8 @@ from __future__ import annotations
 
 import datetime
 import os
-from typing import Type, Callable, List, TYPE_CHECKING
+from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import environ
 import ldap
@@ -18,7 +19,12 @@ from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 
 from tapir import settings
-from tapir.settings import AUTH_LDAP_BIND_PASSWORD, AUTH_LDAP_SERVER_URI
+from tapir.settings import (
+    AUTH_LDAP_BIND_DN,
+    AUTH_LDAP_BIND_PASSWORD,
+    AUTH_LDAP_SERVER_URI,
+    REG_GROUP_BASE_DN,
+)
 
 if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
@@ -51,7 +57,7 @@ def get_last_day_of_month(date: datetime.date):
 
 
 def set_header_for_file_download(response: HttpResponse, filename: str):
-    response["Content-Disposition"] = 'attachment; filename="{}"'.format(filename)
+    response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
 
 def get_html_link(url: str, text: str):
@@ -91,13 +97,13 @@ def send_file_to_storage_server(filename: str, username: str):
 
     setup_ssh_for_biooffice_storage()
     os.system(
-        f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {filename} {username}@u326634.your-storagebox.de:./"
+        f"scp -o 'NumberOfPasswordPrompts=0' -o 'UserKnownHostsFile=~/.ssh/biooffice_known_hosts' -i ~/.ssh/biooffice_id_rsa -P 23 {filename} {username}@u326634.your-storagebox.de:./members-current.csv"
     )
 
 
 def get_models_with_attribute_value_at_date(
     entries: QuerySet,
-    log_class: Type[UpdateModelLogEntry],
+    log_class: type[UpdateModelLogEntry],
     attribute_name: str,
     attribute_value: any,
     date: datetime.date,
@@ -143,18 +149,16 @@ def get_models_with_attribute_value_at_date(
 
 
 def build_ldap_group_dn(group_cn: str):
-    return f"cn={group_cn},ou=groups,dc=supercoop,dc=de"
+    return f"cn={group_cn},{REG_GROUP_BASE_DN}"
 
 
 def get_group_members(connection, group_cn):
-    search = LDAPSearch(
-        "ou=groups,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(cn={group_cn})"
-    )
+    search = LDAPSearch(REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_cn})")
     result = search.execute(connection)
     return result[0][1]._data["member"] if result else []
 
 
-def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
+def create_ldap_group(connection, group_cn, tapir_users: list[TapirUser]):
     # Empty groups are not allowed in LDAP, so we need to create them with at least one member
     connection.add_s(
         build_ldap_group_dn(group_cn),
@@ -171,7 +175,7 @@ def create_ldap_group(connection, group_cn, tapir_users: List[TapirUser]):
 
 
 def set_group_membership(
-    tapir_users: List[TapirUser], group_cn, is_member_of_group: bool
+    tapir_users: list[TapirUser], group_cn, is_member_of_group: bool
 ):
     connection = get_admin_ldap_connection()
 
@@ -223,7 +227,7 @@ def set_group_membership(
 
 def get_admin_ldap_connection():
     connection = ldap.initialize(AUTH_LDAP_SERVER_URI)
-    connection.simple_bind_s("cn=admin,dc=supercoop,dc=de", AUTH_LDAP_BIND_PASSWORD)
+    connection.simple_bind_s(AUTH_LDAP_BIND_DN, AUTH_LDAP_BIND_PASSWORD)
     return connection
 
 

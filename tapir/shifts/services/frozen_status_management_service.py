@@ -9,8 +9,8 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.log.models import EmailLogEntry
 from tapir.log.util import freeze_for_log
 from tapir.shifts.config import (
-    FREEZE_THRESHOLD,
     FREEZE_AFTER_DAYS,
+    FREEZE_THRESHOLD,
     NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
 )
 from tapir.shifts.emails.freeze_warning_email import FreezeWarningEmailBuilder
@@ -19,12 +19,12 @@ from tapir.shifts.emails.unfreeze_notification_email import (
     UnfreezeNotificationEmailBuilder,
 )
 from tapir.shifts.models import (
-    ShiftUserData,
-    UpdateShiftUserDataLogEntry,
-    ShiftAttendanceTemplate,
+    DeleteShiftAttendanceTemplateLogEntry,
     ShiftAccountEntry,
     ShiftAttendance,
-    DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendanceTemplate,
+    ShiftUserData,
+    UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 

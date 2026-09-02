@@ -8,9 +8,9 @@ from tapir.coop.models import MembershipPause
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.coop.tests.incoming_payment_factory import IncomingPaymentFactory
 from tapir.shifts.models import (
-    ShiftUserCapability,
-    ShiftExemption,
     ShiftAttendanceMode,
+    ShiftExemption,
+    ShiftUserCapability,
     UpdateShiftUserDataLogEntry,
 )
 from tapir.statistics.services.dataset_export_column_builder import (
@@ -18,9 +18,9 @@ from tapir.statistics.services.dataset_export_column_builder import (
 )
 from tapir.utils.tests_utils import (
     TapirFactoryTestBase,
-    mock_timezone_now,
-    create_member_that_is_working,
     create_member_that_can_shop,
+    create_member_that_is_working,
+    mock_timezone_now,
 )
 
 

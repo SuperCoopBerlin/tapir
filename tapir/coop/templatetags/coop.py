@@ -3,8 +3,8 @@ import datetime
 from django import template
 
 from tapir.coop.models import (
-    ShareOwner,
     MemberStatus,
+    ShareOwner,
     get_member_status_translation,
 )
 

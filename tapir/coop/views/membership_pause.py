@@ -15,11 +15,11 @@ from tapir.accounts.models import TapirUser
 from tapir.coop.forms import MembershipPauseForm
 from tapir.coop.models import (
     MembershipPause,
-    MembershipPauseUpdatedLogEntry,
     MembershipPauseCreatedLogEntry,
+    MembershipPauseUpdatedLogEntry,
 )
 from tapir.coop.services.membership_pause_service import MembershipPauseService
-from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.templatetags.core import tapir_button_link_to_action
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log

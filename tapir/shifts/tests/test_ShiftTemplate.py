@@ -7,8 +7,8 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 
 class TestShiftTemplate(TapirFactoryTestBase):
     NAME = "test_name"
-    START_TIME = datetime.time(hour=11, minute=47, tzinfo=datetime.timezone.utc)
-    END_TIME = datetime.time(hour=13, minute=26, tzinfo=datetime.timezone.utc)
+    START_TIME = datetime.time(hour=11, minute=47, tzinfo=datetime.UTC)
+    END_TIME = datetime.time(hour=13, minute=26, tzinfo=datetime.UTC)
     DESCRIPTION = "test_description"
     NUM_REQUIRED_ATTENDANCES = 6
     CREATION_DATE = datetime.date(year=2023, month=8, day=7)

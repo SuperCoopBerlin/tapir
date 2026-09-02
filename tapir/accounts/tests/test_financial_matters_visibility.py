@@ -2,12 +2,11 @@ from django.urls import reverse
 from django.utils.translation import gettext as _
 
 from tapir import settings
-
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.utils.tests_utils import (
+    FeatureFlagTestMixin,
     PermissionTestMixin,
     TapirFactoryTestBase,
-    FeatureFlagTestMixin,
 )
 
 

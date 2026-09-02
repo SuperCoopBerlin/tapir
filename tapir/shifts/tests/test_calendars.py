@@ -31,7 +31,7 @@ class TestCalendars(TapirFactoryTestBase):
         self.login_as_member_office_user()
         ShiftFactory(
             start_time=datetime.datetime(
-                year=2023, month=6, day=15, hour=12, tzinfo=datetime.timezone.utc
+                year=2023, month=6, day=15, hour=12, tzinfo=datetime.UTC
             )
         )
         response = self.client.get(

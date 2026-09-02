@@ -3,7 +3,7 @@
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load static %}
-{% load querystring from django_tables2 %}
+{% load querystring_replace from django_tables2 %}
 {% load export_url from django_tables2 %}
 {% load core %}
 {% block title %}
@@ -55,7 +55,7 @@
                                 {% translate "Clear all filters" %}
                             </a>
                             <div class="ms-2">
-                                {% blocktranslate %}
+                                {% blocktranslate trimmed %}
                                     Filtered {{ filtered_exemption_count }} of {{ total_exemption_count }}
                                 {% endblocktranslate %}
                             </div>

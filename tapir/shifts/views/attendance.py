@@ -1,46 +1,49 @@
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.views.generic import (
     CreateView,
-    UpdateView,
     FormView,
+    UpdateView,
 )
 
 from tapir.accounts.models import TapirUser
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
-from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.emails.shift_confirmed_email import ShiftConfirmedEmailBuilder
+from tapir.shifts.emails.shift_missed_email import ShiftMissedEmailBuilder
 from tapir.shifts.emails.stand_in_found_email import StandInFoundEmailBuilder
 from tapir.shifts.forms import (
-    ShiftAttendanceTemplateForm,
-    UpdateShiftAttendanceForm,
     RegisterUserToShiftSlotForm,
     ShiftAttendanceCustomTimeForm,
     ShiftAttendanceTemplateCustomTimeForm,
+    ShiftAttendanceTemplateForm,
+    UpdateShiftAttendanceForm,
 )
 from tapir.shifts.models import (
+    CreateShiftAttendanceLogEntry,
+    CreateShiftAttendanceTemplateLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
     ShiftAttendance,
+    ShiftAttendanceTakenOverLogEntry,
     ShiftAttendanceTemplate,
     ShiftSlot,
     ShiftSlotTemplate,
-    CreateShiftAttendanceTemplateLogEntry,
-    DeleteShiftAttendanceTemplateLogEntry,
-    CreateShiftAttendanceLogEntry,
-    UpdateShiftAttendanceStateLogEntry,
-    ShiftAttendanceTakenOverLogEntry,
     SolidarityShift,
+    UpdateShiftAttendanceStateLogEntry,
+)
+from tapir.shifts.services.frozen_status_management_service import (
+    FrozenStatusManagementService,
 )
 from tapir.shifts.views.views import SelectedUserViewMixin
-from tapir.utils.shortcuts import safe_redirect, get_html_link
+from tapir.utils.shortcuts import get_html_link, safe_redirect
 from tapir.utils.user_utils import UserUtils
 
 
@@ -97,9 +100,16 @@ class RegisterUserToShiftSlotTemplateView(
 
             CreateShiftAttendanceTemplateLogEntry().populate(
                 actor=self.request.user,
-                tapir_user=self.object.user,
+                tapir_user=shift_attendance_template.user,
                 shift_attendance_template=shift_attendance_template,
             ).save()
+
+            if FrozenStatusManagementService.should_unfreeze_member(
+                shift_attendance_template.user.shift_user_data
+            ):
+                FrozenStatusManagementService.unfreeze_and_send_notification_email(
+                    shift_attendance_template.user.shift_user_data
+                )
 
         return response
 
@@ -184,6 +194,9 @@ class UpdateShiftAttendanceStateBase(
 class UpdateShiftAttendanceStateView(UpdateShiftAttendanceStateBase):
     fields = []
 
+    def get(self, request, *args, **kwargs):
+        return redirect(self.get_success_url())
+
 
 class UpdateShiftAttendanceStateWithFormView(
     TapirFormMixin, UpdateShiftAttendanceStateBase
@@ -205,13 +218,12 @@ class UpdateShiftAttendanceStateWithFormView(
             )
         }
         context["card_title"] = _(
-            "Updating shift attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating shift attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance.user, self.request.user
                 ),
-                "slot_link": attendance.slot.get_html_link(),
-            }
+                slot_link=attendance.slot.get_html_link(),
+            )
         )
         return context
 
@@ -299,7 +311,7 @@ class RegisterUserToShiftSlotView(
     def form_valid(self, form):
         response = super().form_valid(form)
         slot = self.get_slot()
-        user_to_register = form.cleaned_data["user"]
+        user_to_register: TapirUser = form.cleaned_data["user"]
         is_solidarity = form.cleaned_data["is_solidarity"]
         custom_time = form.cleaned_data.get("custom_time", None)
 
@@ -318,6 +330,13 @@ class RegisterUserToShiftSlotView(
                 tapir_user=user_to_register,
                 attendance=attendance,
             ).save()
+
+            if FrozenStatusManagementService.should_unfreeze_member(
+                user_to_register.shift_user_data
+            ):
+                FrozenStatusManagementService.unfreeze_and_send_notification_email(
+                    user_to_register.shift_user_data
+                )
 
         return response
 
@@ -349,13 +368,12 @@ class UpdateShiftAttendanceCustomTimeView(
             )
         }
         context["card_title"] = _(
-            "Updating shift attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating shift attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance.user, self.request.user
                 ),
-                "slot_link": attendance.slot.get_html_link(),
-            }
+                slot_link=attendance.slot.get_html_link(),
+            )
         )
         return context
 
@@ -390,14 +408,13 @@ class UpdateShiftAttendanceTemplateCustomTimeView(
         }
         shift_template = attendance_template.slot_template.shift_template
         context["card_title"] = _(
-            "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
-            % {
-                "member_link": UserUtils.build_html_link_for_viewer(
+            "Updating ABCD attendance: {member_link}, {slot_link}".format(
+                member_link=UserUtils.build_html_link_for_viewer(
                     attendance_template.user, self.request.user
                 ),
-                "slot_link": get_html_link(
+                slot_link=get_html_link(
                     shift_template.get_absolute_url(), shift_template.get_display_name()
                 ),
-            }
+            )
         )
         return context

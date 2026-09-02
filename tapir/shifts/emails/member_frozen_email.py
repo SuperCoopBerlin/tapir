@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -7,8 +5,8 @@ from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 from tapir.shifts.config import (
-    FREEZE_THRESHOLD,
     FREEZE_AFTER_DAYS,
+    FREEZE_THRESHOLD,
     NB_WEEKS_IN_THE_FUTURE_FOR_MAKE_UP_SHIFTS,
 )
 
@@ -28,12 +26,12 @@ class MemberFrozenEmailBuilder(TapirEmailBuilderBase):
             "Sent to a member when their shift status gets set to frozen. Usually happens if they miss to many shifts."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "shifts/email/member_frozen.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "shifts/email/member_frozen.body.html",
         ]

@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
@@ -26,12 +24,12 @@ class MembershipResignationTransferredSharesConfirmation(TapirEmailBuilderBase):
             "Automatically sent to the member who received shares after a resignation."
         )
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/membershipresignation_transferred_shares_confirmation_subject.html"
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/membershipresignation_transferred_shares_confirmation_body.html"
         ]

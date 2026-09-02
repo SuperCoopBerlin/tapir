@@ -2,10 +2,10 @@ import datetime
 from unittest.mock import Mock
 
 from tapir.shifts.config import FEATURE_FLAG_AUTO_CANCEL_HOLIDAYS
-from tapir.shifts.models import ShiftTemplateGroup, Shift
+from tapir.shifts.models import Shift, ShiftTemplateGroup
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.shifts.tests.factories import ShiftTemplateFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, FeatureFlagTestMixin
+from tapir.utils.tests_utils import FeatureFlagTestMixin, TapirFactoryTestBase
 
 
 class TestCreateShiftsForGroup(FeatureFlagTestMixin, TapirFactoryTestBase):

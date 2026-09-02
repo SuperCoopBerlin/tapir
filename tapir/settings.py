@@ -17,7 +17,7 @@ from pathlib import Path
 import celery.schedules
 import environ
 import ldap
-from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+from django_auth_ldap.config import GroupOfNamesType, LDAPSearch
 
 env = environ.Env()
 
@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     "django_select2",  # For autocompletion in form fields
     "phonenumber_field",
     "django_extensions",
-    "chartjs",
     "rest_framework",
     "drf_spectacular",
     "django_vite",
@@ -144,6 +143,10 @@ CELERY_BEAT_SCHEDULE = {
     "update_purchase_tracking_list": {
         "task": "tapir.accounts.tasks.update_purchase_tracking_list",
         "schedule": celery.schedules.crontab(minute=0, hour=23),
+    },
+    "clear_sessions": {
+        "task": "tapir.accounts.tasks.clear_sessions",
+        "schedule": celery.schedules.crontab(hour=23, minute=59, day_of_week=6),
     },
     "run_freeze_checks": {
         "task": "tapir.shifts.tasks.run_freeze_checks",
@@ -236,7 +239,7 @@ elif EMAIL_ENV == "prod":
 
 COOP_NAME = "SuperCoop Berlin"
 COOP_FULL_NAME = "SuperCoop Berlin eG"
-COOP_STREET = "Oudenarder Straße 16"
+COOP_STREET = "Amsterdamer Straße 27"
 COOP_PLACE = "13347 Berlin"
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
@@ -261,9 +264,10 @@ SELECT2_I18N_PATH = "core/select2/4.0.13/js/i18n"
 
 WEASYPRINT_BASEURL = "/"
 
-REG_PERSON_BASE_DN = "ou=people,dc=supercoop,dc=de"
+LDAP_BASE_DN = env("LDAP_BASE_DN", default="dc=supercoop,dc=de")
+REG_PERSON_BASE_DN = f"ou=people,{LDAP_BASE_DN}"
 REG_PERSON_OBJECT_CLASSES = ["inetOrgPerson", "organizationalPerson", "person"]
-REG_GROUP_BASE_DN = "ou=groups,dc=supercoop,dc=de"
+REG_GROUP_BASE_DN = f"ou=groups,{LDAP_BASE_DN}"
 REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 PERMISSION_SHIFTS_MANAGE = "shifts.manage"
@@ -383,12 +387,12 @@ SLACK_BOT_TOKEN = env("SLACK_BOT_TOKEN", cast=str, default="")
 AUTHENTICATION_BACKENDS = ["tapir.accounts.custom_ldap_backend.CustomLdapBackend"]
 LDAP_DOCKER_SERVICE_NAME = env("LDAP_DOCKER_SERVICE_NAME", cast=str, default="openldap")
 AUTH_LDAP_SERVER_URI = f"ldap://{LDAP_DOCKER_SERVICE_NAME}"
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=people,dc=supercoop,dc=de"
-AUTH_LDAP_BIND_DN = "cn=admin,dc=supercoop,dc=de"
+AUTH_LDAP_USER_DN_TEMPLATE = f"uid=%(user)s,{REG_PERSON_BASE_DN}"
+AUTH_LDAP_BIND_DN = env("LDAP_BIND_DN", default=f"cn=admin,{LDAP_BASE_DN}")
 AUTH_LDAP_BIND_PASSWORD = env("LDAP_ADMIN_PASSWORD", cast=str, default="admin")
 
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    "ou=groups,dc=supercoop,dc=de",
+    REG_GROUP_BASE_DN,
     ldap.SCOPE_SUBTREE,
     "(objectClass=top)",
 )
@@ -436,3 +440,8 @@ COUNTRY_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
 SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL = env.str(
     "SUBDIV_FOR_HOLIDAYS_AUTO_CANCEL", default="BE"
 )
+
+SESSION_COOKIE_AGE = 86400  # one day
+
+# Duration of years, after which shifts are not relevant enough to be saved
+SHIFT_RETENTION_YEARS = 8

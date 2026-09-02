@@ -9,7 +9,7 @@ from tapir.coop.emails.tapir_account_created_email import (
 )
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestsShareOwnerToTapirUser(TapirFactoryTestBase, TapirEmailTestMixin):

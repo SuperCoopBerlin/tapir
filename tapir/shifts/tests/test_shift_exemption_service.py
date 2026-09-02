@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftUserData, ShiftExemption
+from tapir.shifts.models import ShiftExemption, ShiftUserData
 from tapir.shifts.services.shift_exemption_service import ShiftExemptionService
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

@@ -1,10 +1,9 @@
 from django import template
+from django.db.models import Sum
 from django.urls import reverse
 
-from tapir.statistics.models import PurchaseBasket, CreditAccount
+from tapir.statistics.models import CreditAccount, PurchaseBasket
 from tapir.statistics.views import get_average_monthly_basket
-
-from django.db.models import Sum
 
 register = template.Library()
 
@@ -15,8 +14,8 @@ register = template.Library()
 def purchase_statistics_card(context, tapir_user):
     user_purchases = PurchaseBasket.objects.filter(tapir_user=tapir_user)
     context["last_purchases"] = user_purchases.order_by("-purchase_date")[:10]
-    context["average_basket_per_month"] = "{:.2f}".format(
-        get_average_monthly_basket(user_purchases)
+    context["average_basket_per_month"] = (
+        f"{get_average_monthly_basket(user_purchases):.2f}"
     )
 
     return context

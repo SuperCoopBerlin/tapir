@@ -1,5 +1,3 @@
-from typing import List
-
 import weasyprint
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -11,7 +9,7 @@ from weasyprint.text.fonts import FontConfiguration
 _WEASYPRINT_FONT_CONFIG = FontConfiguration()
 
 
-def render_pdf(templates: List, context: dict, language: str) -> Document:
+def render_pdf(templates: list, context: dict, language: str) -> Document:
     with translation.override(language):
         rendered_html = render_to_string(
             template_name=templates,

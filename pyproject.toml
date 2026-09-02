@@ -15,7 +15,7 @@ dependencies = [
     "django-extensions (>=4.1,<5.0)",
     "django-bootstrap-datepicker-plus (>=5.0.6,<6.0.0)",
     "psycopg2 (>=2.9.11,<3.0.0)",
-    "django-tables2 (>=2.8.0,<3.0.0)",
+    "django-tables2 (>=3.0.0,<4.0.0)",
     "django-filter (>=25.2,<26.0)",
     "tablib (>=3.9.0,<4.0.0)",
     "django-phonenumber-field (>=8.3.0,<9.0.0)",
@@ -27,7 +27,6 @@ dependencies = [
     "django-bootstrap5 (>=26.2,<27.0)",
     "celery (>=5.4.0,<6.0.0)",
     "redis (>=7.3.0,<8.0.0)",
-    "django-chartjs (>=2.3.0,<3.0.0)",
     "unidecode (>=1.3.8,<2.0.0)",
     "python-barcode (>=0.16.1,<0.17.0)",
     "fabric (>=3.2.2,<4.0.0)",
@@ -38,7 +37,9 @@ dependencies = [
     "django-cors-headers (>=4.6.0,<5.0.0)",
     "distinctipy[extras] (==1.3.4)",
     "slack-sdk (>=3.35.0,<4.0.0)",
+    "icecream (>=2.1.8,<3.0.0)",
     "holidays (>=0.93,<0.94)",
+    "drf-spectacular (>=0.29.0,<0.30.0)",
 ]
 
 [tool.poetry.group.dev.dependencies]
@@ -51,12 +52,12 @@ pytest-django = "^4.12.0"
 pytest-sugar = "^1.1.1"
 selenium = "^4.41.0"
 factory-boy = "^3.3.3"
-icecream = "^2.1.8"
 djlint = "^1.36.4"
 pypdf = "^6.9.1"
 django-upgrade = "^1.30.0"
-drf-spectacular = "^0.29.0"
 django-silk = "^5.5.0"
+djangorestframework-stubs = "^3.17.0"
+ruff = "^0.15.14"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -82,3 +83,27 @@ relative_files = true
 DJANGO_SETTINGS_MODULE = "tapir.settings"
 python_files = ["tests.py", "test_*.py", "tests_*.py"]
 testpaths = "tapir"
+
+
+[tool.ruff]
+extend-exclude = ["migrations"]
+line-length = 150
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint]
+extend-select = [
+    "DJ",       # flake8-django: Django-specific bugs
+    "E",        # pycodestyle errors
+    "F",        # Pyflakes
+    "W",        # pycodestyle warnings
+    "I",        # isort
+    "UP",       # pyupgrade
+    "B",        # flake8-bugbear
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/settings.py" = ["E501", "F403", "F405"]
+"**/tests.py" = ["S101"]
+"**/test_*.py" = ["S101"]

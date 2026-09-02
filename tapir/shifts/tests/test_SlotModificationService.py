@@ -1,12 +1,13 @@
 import datetime
 
 from django.utils import timezone
+
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    ShiftTemplate,
-    ShiftSlotTemplate,
     ShiftAttendanceTemplate,
     ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
     ShiftUserCapability,
 )
 from tapir.shifts.services.slot_modification_service import SlotModificationService

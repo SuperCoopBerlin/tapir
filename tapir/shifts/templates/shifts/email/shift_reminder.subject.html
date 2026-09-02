@@ -1,4 +1,4 @@
 {% load i18n %}
-{% blocktranslate with shift_name=shift.get_display_name %}
+{% blocktranslate with shift_name=shift.get_display_url trimmed %}
     Your upcoming {{ coop_name }} shift: {{ shift_name }}
 {% endblocktranslate %}

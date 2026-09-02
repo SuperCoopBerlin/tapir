@@ -2,11 +2,12 @@ import datetime
 
 from django.urls import reverse
 from django.utils import timezone
+
 from tapir.shifts.models import (
-    ShiftUserCapability,
+    ShiftSlotTemplate,
     ShiftSlotWarning,
     ShiftTemplate,
-    ShiftSlotTemplate,
+    ShiftUserCapability,
 )
 from tapir.shifts.tests.factories import ShiftTemplateFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase

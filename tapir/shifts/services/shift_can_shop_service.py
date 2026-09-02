@@ -3,7 +3,7 @@ from __future__ import annotations
 import datetime
 import typing
 
-from django.db.models import QuerySet, Case, When, Value
+from django.db.models import Case, QuerySet, Value, When
 
 from tapir.shifts.models import ShiftUserData
 from tapir.shifts.services.frozen_status_history_service import (

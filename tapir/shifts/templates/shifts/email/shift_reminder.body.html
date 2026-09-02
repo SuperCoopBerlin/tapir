@@ -3,7 +3,7 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short member_infos as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
+    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_url %}
         <p>Hello {{ display_name_short }},</p>
 
         <p>We'll see you on {{ shift_display_name }}</p>

@@ -1,9 +1,7 @@
-from typing import List
-
 from django.utils.translation import gettext_lazy as _
 
 from tapir import settings
-from tapir.coop.models import ShareOwner, MembershipResignation
+from tapir.coop.models import MembershipResignation, ShareOwner
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
 
@@ -25,13 +23,13 @@ class MembershipResignationConfirmation(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return _("Automatically sent after a member has been resigned.")
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return ["coop/email/membershipresignation_confirmation_subject.html"]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return ["coop/email/membershipresignation_confirmation_body.html"]
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         satzung = open("tapir/coop/templates/coop/pdf/SuperCoop_Satzung.pdf", "rb")
         return [("Satzung.pdf", satzung.read(), CONTENT_TYPE_PDF)]
 

@@ -6,11 +6,11 @@ from django.utils import timezone
 
 from tapir.shifts.config import cycle_start_dates
 from tapir.shifts.models import (
-    ShiftUserData,
-    ShiftCycleEntry,
-    ShiftAccountEntry,
     Shift,
+    ShiftAccountEntry,
+    ShiftCycleEntry,
     ShiftTemplateGroup,
+    ShiftUserData,
 )
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.utils.shortcuts import get_monday

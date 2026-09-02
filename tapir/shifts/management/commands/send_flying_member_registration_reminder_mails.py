@@ -11,10 +11,10 @@ from tapir.shifts.emails.flying_member_registration_reminder_email import (
     FlyingMemberRegistrationReminderEmailBuilder,
 )
 from tapir.shifts.models import (
-    ShiftUserData,
+    ShiftAttendance,
     ShiftAttendanceMode,
     ShiftCycleEntry,
-    ShiftAttendance,
+    ShiftUserData,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,

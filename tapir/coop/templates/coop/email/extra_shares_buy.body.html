@@ -1,0 +1,15 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% blocktranslate with display_name_short=display_name_short num_shares=num_shares %}
+        <p>Hello {{ display_name_short }},</p>
+        <p>Thank you for signing {{ num_shares }} additional shares, we truly appreciate your contribution and commitment! You will receive an email confirmation soon.</p>
+        <p>Thank you sincerely for your continued support!</p>
+        <p>
+            Cooperative greetings<br />
+            Your SuperCoop-Board (Vorstand)<br />
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}

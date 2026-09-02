@@ -1,17 +1,17 @@
 import datetime
 
 from django import forms
-from django.core.exceptions import ValidationError, PermissionDenied
+from django.core.exceptions import PermissionDenied, ValidationError
 from django.forms import (
-    ModelChoiceField,
-    CheckboxSelectMultiple,
     BooleanField,
-    ModelMultipleChoiceField,
     CharField,
+    CheckboxSelectMultiple,
+    ModelChoiceField,
+    ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
 from django.utils.translation import gettext_lazy as _
-from django_select2.forms import Select2Widget, Select2MultipleWidget
+from django_select2.forms import Select2MultipleWidget, Select2Widget
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import ShareOwner
@@ -19,25 +19,24 @@ from tapir.core.models import FeatureFlag
 from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.shifts.models import (
-    Shift,
-    ShiftAttendanceTemplate,
-    ShiftAttendance,
-    ShiftUserData,
-    SHIFT_USER_CAPABILITY_CHOICES,
-    ShiftSlotTemplate,
-    ShiftTemplateGroup,
-    ShiftSlot,
-    ShiftAccountEntry,
-    ShiftExemption,
     SHIFT_SLOT_WARNING_CHOICES,
-    ShiftTemplate,
-    ShiftAttendanceMode,
-    ShiftWatch,
-    get_staffingstatus_defaults,
-    get_staffingstatus_choices,
-    RecurringShiftWatch,
+    SHIFT_USER_CAPABILITY_CHOICES,
     WEEKDAY_CHOICES,
+    RecurringShiftWatch,
+    Shift,
+    ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftAttendanceMode,
+    ShiftAttendanceTemplate,
+    ShiftExemption,
+    ShiftSlot,
+    ShiftSlotTemplate,
+    ShiftTemplate,
     ShiftTemplateGroup,
+    ShiftUserData,
+    ShiftWatch,
+    get_staffingstatus_choices,
+    get_staffingstatus_defaults,
 )
 from tapir.utils.forms import DateInputTapir
 from tapir.utils.user_utils import UserUtils
@@ -718,7 +717,7 @@ class ShiftAttendanceTemplateCustomTimeForm(CustomTimeCleanMixin, forms.ModelFor
 class ShiftWatchForm(forms.ModelForm):
     class Meta:
         model = ShiftWatch
-        fields = ["staffing_status"]
+        fields = ["staffing_status", "watched_capabilities"]
 
     staffing_status = forms.MultipleChoiceField(
         required=False,
@@ -726,6 +725,16 @@ class ShiftWatchForm(forms.ModelForm):
         label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
+    )
+    watched_capabilities = forms.MultipleChoiceField(
+        required=False,
+        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        label=_("Notify me when these capabilities become available or unavailable"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+        help_text=_(
+            "Get notified when someone with specific skills registers or unregisters"
+        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -737,8 +746,10 @@ class ShiftWatchForm(forms.ModelForm):
         )
         if last_shiftwatch:
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
+            self.initial["watched_capabilities"] = last_shiftwatch.watched_capabilities
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
+            self.initial["watched_capabilities"] = []
 
 
 class ShiftTemplateField(ModelMultipleChoiceField):
@@ -754,6 +765,7 @@ class RecurringShiftWatchForm(forms.ModelForm):
             "weekdays",
             "shift_template_group",
             "staffing_status",
+            "watched_capabilities",
         ]
 
     weekdays = forms.MultipleChoiceField(
@@ -777,19 +789,33 @@ class RecurringShiftWatchForm(forms.ModelForm):
         label=_("ABCD Week"),
     )
     staffing_status = forms.MultipleChoiceField(
-        required=True,
+        required=False,
         choices=get_staffingstatus_choices,
         label=_("Shift changes you would like to be informed about"),
         widget=CheckboxSelectMultiple(),
         disabled=False,
+    )
+    watched_capabilities = forms.MultipleChoiceField(
+        required=False,
+        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        label=_("Notify me when these capabilities become available or unavailable"),
+        widget=CheckboxSelectMultiple(),
+        disabled=False,
+        help_text=_(
+            "Get notified when someone with specific skills registers or unregisters"
+        ),
     )
 
     WEEKDAYS_ERROR = _(
         "If weekdays or %(shift_template_group)s are selected, "
         "%(shift_templates)s may not be selected, and vice versa."
     )
-    AT_LEAST_ONE_ERROR = _(
+    AT_LEAST_ONE_PATTERN_ERROR = _(
         "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
+    )
+
+    AT_LEAST_ONE_TARGET_ERROR = _(
+        "At least one of the fields staffing_status or required capabilities must be selected."
     )
 
     def _format_field_names(self):
@@ -802,6 +828,8 @@ class RecurringShiftWatchForm(forms.ModelForm):
         cleaned_data = super().clean()
         shift_templates = cleaned_data.get("shift_templates")
         weekdays = cleaned_data.get("weekdays")
+        staffing_status = cleaned_data.get("staffing_status")
+        watched_capabilities = cleaned_data.get("watched_capabilities")
         cleaned_data["weekdays"] = list(map(int, weekdays))
         shift_template_group = cleaned_data.get("shift_template_group")
 
@@ -812,6 +840,10 @@ class RecurringShiftWatchForm(forms.ModelForm):
 
         if not (shift_templates or weekdays or shift_template_group):
             raise forms.ValidationError(
-                self.AT_LEAST_ONE_ERROR % self._format_field_names()
+                self.AT_LEAST_ONE_PATTERN_ERROR % self._format_field_names()
+            )
+        if not (staffing_status or watched_capabilities):
+            raise forms.ValidationError(
+                self.AT_LEAST_ONE_TARGET_ERROR % self._format_field_names()
             )
         return cleaned_data

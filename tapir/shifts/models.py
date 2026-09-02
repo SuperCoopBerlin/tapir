@@ -16,10 +16,9 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
-from tapir.core.models import FeatureFlag
-from tapir.log.models import ModelLogEntry, UpdateModelLogEntry, LogEntry
+from tapir.log.models import LogEntry, ModelLogEntry, UpdateModelLogEntry
 from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link, get_timezone_aware_datetime, get_monday
+from tapir.utils.shortcuts import get_html_link, get_monday, get_timezone_aware_datetime
 
 
 class ShiftUserCapability:
@@ -190,7 +189,7 @@ class ShiftTemplate(models.Model):
     )
 
     def __str__(self):
-        display_name = "%s: %s %s %s-%s" % (
+        display_name = "{}: {} {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             self.get_weekday_display(),
@@ -220,7 +219,7 @@ class ShiftTemplate(models.Model):
         ).order_by("-start_time")
 
     def get_display_name(self):
-        display_name = "%s %s %s - %s" % (
+        display_name = "{} {} {} - {}".format(
             self.name,
             _(self.get_weekday_display()),
             self.start_time.strftime("%H:%M"),
@@ -353,7 +352,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift_template.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def user_can_attend(self, user):
@@ -540,7 +539,7 @@ class Shift(models.Model):
     NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN = 2
 
     def __str__(self):
-        display_name = "%s: %s %s-%s" % (
+        display_name = "{}: {} {}-{}".format(
             self.__class__.__name__,
             self.name,
             timezone.localtime(self.start_time).strftime("%a %Y-%m-%d %H:%M"),
@@ -549,16 +548,12 @@ class Shift(models.Model):
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
 
-        display_name = "%s [%d/%d]" % (
-            display_name,
-            self.get_valid_attendances().count(),
-            self.slots.count(),
-        )
+        display_name = f"{display_name} [{self.get_valid_attendances().count()}/{self.slots.count()}]"
 
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "%s %s - %s" % (
+        display_name = "{} {} - {}".format(
             self.name,
             timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
             timezone.localtime(self.end_time).strftime("%H:%M"),
@@ -572,6 +567,9 @@ class Shift(models.Model):
 
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
+
+    def get_display_url(self):
+        return get_html_link(self.get_absolute_url(), self.get_display_name())
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)
@@ -669,7 +667,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
     def get_display_name(self):
         display_name = self.shift.get_display_name()
         if self.name:
-            display_name = "{} {}".format(self.name, display_name)
+            display_name = f"{self.name} {display_name}"
         return display_name
 
     def get_html_link(self):
@@ -1209,12 +1207,6 @@ class StaffingStatusChoices(models.TextChoices):
     ATTENDANCE_MINUS = "SLOTS_MINUS", _(
         "One attendance or more un-registered, but the shift is neither understaffed nor full or almost full."
     )
-    SHIFT_COORDINATOR_MINUS = "SHIFT_COORDINATOR_MINUS", _(
-        "The Shift Coordinator has unregistered"
-    )
-    SHIFT_COORDINATOR_PLUS = "SHIFT_COORDINATOR_PLUS", _(
-        "A Shift Coordinator has registered"
-    )
 
 
 def get_staffingstatus_choices():
@@ -1223,6 +1215,10 @@ def get_staffingstatus_choices():
 
 def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
+
+
+def get_shift_capability_choices():
+    return list(SHIFT_USER_CAPABILITY_CHOICES.items())
 
 
 class ShiftWatch(models.Model):
@@ -1256,15 +1252,29 @@ class ShiftWatch(models.Model):
         on_delete=models.CASCADE,
     )
 
+    watched_capabilities = ArrayField(
+        models.CharField(
+            max_length=128, choices=get_shift_capability_choices, blank=False
+        ),
+        default=list,
+        blank=True,
+        null=False,
+    )
+
     def __str__(self):
         shift_name = self.shift.get_display_name()
         shift_url = self.shift.get_absolute_url()
+
+        staffing_statuses = ", ".join(status for status in self.staffing_status)
+        watched_caps = ", ".join(cap for cap in self.watched_capabilities)
+
         return format_html(
-            '{} is watching <a href="{}">{}</a> for changes of {}',
+            '{} is watching <a href="{}">{}</a> for changes of {} (capabilities: {})',
             self.user.username,
             shift_url,
             shift_name,
-            ", ".join(status for status in self.staffing_status),
+            staffing_statuses,
+            watched_caps,
         )
 
     class Meta:
@@ -1303,4 +1313,13 @@ class RecurringShiftWatch(models.Model):
         models.CharField(max_length=30, choices=get_staffingstatus_choices),
         blank=False,
         default=get_staffingstatus_defaults,
+    )
+
+    watched_capabilities = ArrayField(
+        models.CharField(
+            max_length=128, choices=get_shift_capability_choices, blank=False
+        ),
+        default=list,
+        blank=True,
+        null=False,
     )

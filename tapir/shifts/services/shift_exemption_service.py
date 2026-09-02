@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import QuerySet, Q, Count, Value, Case, When
+from django.db.models import Case, Count, Q, QuerySet, Value, When
 from django.utils import timezone
 
 from tapir.shifts.models import ShiftUserData

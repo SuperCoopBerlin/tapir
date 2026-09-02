@@ -7,8 +7,8 @@ from tapir import settings
 from tapir.core.views import TapirFormMixin
 from tapir.financingcampaign.forms import (
     FinancingCampaignForm,
-    FinancingSourceForm,
     FinancingSourceDatapointForm,
+    FinancingSourceForm,
 )
 from tapir.financingcampaign.models import (
     FinancingCampaign,

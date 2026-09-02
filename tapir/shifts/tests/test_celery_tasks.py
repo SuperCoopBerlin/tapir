@@ -1,12 +1,12 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
 from tapir.shifts.tasks import (
-    send_shift_reminders,
     apply_shift_cycle_start,
     generate_shifts,
     run_freeze_checks,
+    send_shift_reminders,
 )
 
 

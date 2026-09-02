@@ -1,5 +1,3 @@
-from typing import List
-
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -29,22 +27,23 @@ class MembershipConfirmationForActiveMemberEmailBuilder(TapirEmailBuilderBase):
     def get_description(cls) -> str:
         return ""
 
-    def get_subject_templates(self) -> List:
+    def get_subject_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.active.subject.html",
         ]
 
-    def get_body_templates(self) -> List:
+    def get_body_templates(self) -> list:
         return [
             "coop/email/membership_confirmation.active.body.html",
         ]
 
-    def get_attachments(self) -> List:
+    def get_attachments(self) -> list:
         return [
             (
-                "Mitgliedschaftsbestätigung %s.pdf"
-                % UserUtils.build_display_name(
-                    self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                "Mitgliedschaftsbestätigung {}.pdf".format(
+                    UserUtils.build_display_name(
+                        self.share_owner, UserUtils.DISPLAY_NAME_TYPE_FULL
+                    )
                 ),
                 pdfs.get_shareowner_membership_confirmation_pdf(
                     self.share_owner,

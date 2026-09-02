@@ -1,9 +1,8 @@
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.test import SimpleTestCase
 
-from tapir.statistics.tasks import process_credit_account
-from tapir.statistics.tasks import process_purchase_files
+from tapir.statistics.tasks import process_credit_account, process_purchase_files
 
 
 class TestCeleryTasks(SimpleTestCase):

@@ -1,7 +1,6 @@
 from django.urls import reverse
 from django.utils.html import strip_tags
 
-
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

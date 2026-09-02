@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from tapir.shifts.models import StaffingStatusChoices, ShiftWatch
+from tapir.shifts.models import ShiftWatch, StaffingStatusChoices
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 

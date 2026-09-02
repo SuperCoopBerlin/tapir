@@ -1,7 +1,7 @@
 import django_filters
 import django_tables2
 from django.contrib import messages
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import QuerySet
@@ -10,8 +10,8 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import (
     CreateView,
-    UpdateView,
     FormView,
+    UpdateView,
 )
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
@@ -19,23 +19,23 @@ from django_tables2.export import ExportMixin
 
 from tapir.accounts.models import TapirUser
 from tapir.coop.models import MembershipPause
-from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
-from tapir.settings import PERMISSION_SHIFTS_EXEMPTIONS, PERMISSION_COOP_MANAGE
+from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_SHIFTS_EXEMPTIONS
 from tapir.shifts.forms import (
-    ShiftExemptionForm,
     ConvertShiftExemptionToMembershipPauseForm,
+    ShiftExemptionForm,
 )
 from tapir.shifts.models import (
+    CreateExemptionLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
     ShiftAttendance,
     ShiftAttendanceTemplate,
-    ShiftUserData,
     ShiftExemption,
-    CreateExemptionLogEntry,
+    ShiftUserData,
     UpdateExemptionLogEntry,
-    DeleteShiftAttendanceTemplateLogEntry,
 )
 from tapir.utils.user_utils import UserUtils
 

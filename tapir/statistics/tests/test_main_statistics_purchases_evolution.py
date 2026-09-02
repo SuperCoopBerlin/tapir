@@ -9,34 +9,26 @@ from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 
 
 class TestBasketSumEvolutionData(TapirFactoryTestBase):
-    NOW = datetime.datetime(
-        year=2023, month=4, day=1, hour=12, tzinfo=datetime.timezone.utc
-    )
+    NOW = datetime.datetime(year=2023, month=4, day=1, hour=12, tzinfo=datetime.UTC)
 
     def test_get_basket_sums_per_month(self):
         user = self.login_as_normal_user()
         mock_timezone_now(self, self.NOW)
 
         self.create_payment(
-            date=datetime.datetime(
-                year=2023, month=1, day=1, tzinfo=datetime.timezone.utc
-            ),
+            date=datetime.datetime(year=2023, month=1, day=1, tzinfo=datetime.UTC),
             amount=10.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.datetime(
-                year=2023, month=4, day=1, tzinfo=datetime.timezone.utc
-            ),
+            date=datetime.datetime(year=2023, month=4, day=1, tzinfo=datetime.UTC),
             amount=20.00,
             source_file=self.getSourceFile(),
             user=user,
         )
         self.create_payment(
-            date=datetime.datetime(
-                year=2023, month=4, day=1, tzinfo=datetime.timezone.utc
-            ),
+            date=datetime.datetime(year=2023, month=4, day=1, tzinfo=datetime.UTC),
             amount=10.50,
             source_file=self.getSourceFile(),
             user=user,

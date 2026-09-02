@@ -1,9 +1,8 @@
 import datetime
-from typing import List
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.utils import timezone
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -47,7 +46,7 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
         )
 
     def build_serializer_data(
-        self, queryset, export_columns: List[str], reference_time: datetime.datetime
+        self, queryset, export_columns: list[str], reference_time: datetime.datetime
     ):
         return [
             self.build_single_entry_data(share_owner, export_columns, reference_time)
@@ -57,7 +56,7 @@ class DatasetExportView(LoginRequiredMixin, PermissionRequiredMixin, APIView):
     def build_single_entry_data(
         self,
         share_owner: ShareOwner,
-        export_columns: List[str],
+        export_columns: list[str],
         reference_time: datetime.datetime,
     ):
         return {

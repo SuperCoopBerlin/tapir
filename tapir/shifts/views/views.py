@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
 from django.db import transaction
-from django.db.models import Sum, Count, Q
+from django.db.models import Count, Q, Sum
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -14,10 +14,11 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import (
     CreateView,
-    UpdateView,
+    DetailView,
     RedirectView,
+    TemplateView,
+    UpdateView,
 )
-from django.views.generic import DetailView, TemplateView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
@@ -30,31 +31,28 @@ from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
 from tapir.settings import (
+    PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_MANAGE,
     PERMISSION_SHIFTS_MANAGE,
     PERMISSION_WELCOMEDESK_VIEW,
-    PERMISSION_ACCOUNTS_MANAGE,
 )
 from tapir.shifts.forms import (
-    ShiftUserDataForm,
     CreateShiftAccountEntryForm,
-    ShiftWatchForm,
     RecurringShiftWatchForm,
+    ShiftUserDataForm,
+    ShiftWatchForm,
 )
-
 from tapir.shifts.models import (
-    Shift,
-    ShiftAttendance,
     SHIFT_ATTENDANCE_STATES,
-    ShiftTemplate,
-    ShiftWatch,
     RecurringShiftWatch,
-)
-from tapir.shifts.models import (
-    ShiftSlot,
-    UpdateShiftUserDataLogEntry,
-    ShiftUserData,
+    Shift,
     ShiftAccountEntry,
+    ShiftAttendance,
+    ShiftSlot,
+    ShiftTemplate,
+    ShiftUserData,
+    ShiftWatch,
+    UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
@@ -242,6 +240,9 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             .prefetch_related("slot_template__attendance_template__user")
         )
 
+        if shift.shift_template:
+            self.get_past_shifts_data(shift.shift_template, context)
+
         for slot in slots:
             slot.can_self_register = slot.user_can_attend(self.request.user)
             slot.can_self_unregister = slot.user_can_self_unregister(self.request.user)
@@ -262,6 +263,45 @@ class ShiftDetailView(LoginRequiredMixin, DetailView):
             Shift.NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN
         )
         context["SHIFT_ATTENDANCE_STATES"] = SHIFT_ATTENDANCE_STATES
+
+        return context
+
+    @staticmethod
+    def get_past_shifts_data(shift_template: ShiftTemplate, context: dict = None):
+        if context is None:
+            context = {}
+        past_shifts = (
+            Shift.objects.filter(
+                shift_template=shift_template, end_time__lt=timezone.now()
+            )
+            .annotate(
+                valid_attendance_count=Count(
+                    "slots__attendances",
+                    filter=Q(
+                        slots__attendances__state__in=[
+                            ShiftAttendance.State.DONE,
+                        ]
+                    ),
+                )
+            )
+            .order_by("start_time")
+        )
+        context["no_of_past_shifts"] = past_shifts.count()
+
+        # Sum valid attendances for related shifts
+        total_valid_attendances = sum(s.valid_attendance_count for s in past_shifts)
+
+        context["total_valid_attendances"] = total_valid_attendances
+
+        # Calculate total working hours
+        total_hours = sum(
+            (s.end_time - s.start_time).total_seconds()
+            * s.valid_attendance_count
+            / 3600
+            for s in past_shifts
+        )
+        context["total_hours"] = round(total_hours)
+        context["first_shift_date"] = past_shifts.first().start_time.date()
         return context
 
 

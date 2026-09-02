@@ -6,12 +6,16 @@
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         {% if share_owner %}
             <span>
-                {% blocktranslate with coop_share_owner_id=share_owner.id %}
+                {% blocktranslate with coop_share_owner_id=share_owner.id trimmed %}
                     Member #{{ coop_share_owner_id }}
                 {% endblocktranslate %}
             </span>
             {% if perms.accounts.manage %}
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
+                    <a class="{% tapir_button_link %}"
+                       href="{% url 'coop:user_profile_pdf' share_owner.pk %}">
+                        <span class="material-icons">picture_as_pdf</span>{% translate 'Summary' %}
+                    </a>
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
                         <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
@@ -32,12 +36,12 @@
                 <div class="col-12 col-sm-7" id="share_owner_status">
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
-                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
+                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" trimmed %}
                             (membership starting {{ start_date }})
                         {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
-                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
+                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" trimmed %}
                             (membership ending {{ end_date }})
                         {% endblocktranslate %}
                     {% endif %}
@@ -46,7 +50,7 @@
             {% if object.ratenzahlung %}
                 <div class="row m-1">
                     <div class="col-12 col-sm-3 fw-bold text-sm-end">{% translate "Ratenzahlung" %}:</div>
-                    <div class="col-12 col-sm-9" id="share_owner_email">Yes</div>
+                    <div class="col-12 col-sm-9" id="ratenzahhung">Yes</div>
                 </div>
             {% endif %}
             <div class="row m-1">
@@ -73,9 +77,19 @@
                 <div class="col-12 col-sm-5 fw-bold text-sm-end">
                     <a data-bs-toggle="collapse" href="#shares-table">{% translate "Owned shares" %}:</a>
                 </div>
-                <div class="col-12 col-sm-7">
-                    <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
-                </div>
+                {% feature_flag_enabled "feature_flags.coop.buy_shares" as is_enabled %}
+                {% if is_enabled %}
+                    <div class="col-12 col-sm-7">
+                        <span id="share_owner_num_shares">{{ share_owner.num_shares }}</span>
+                        {% if request.user.pk == share_owner.user.pk %}
+                            <a class="{% tapir_button_link_to_action %} btn-sm"
+                               href="{% url 'coop:share_create' share_owner.pk %}">
+                                <span class="material-icons">add_circle_outline</span>
+                                {% translate "Buy more shares" %}
+                            </a>
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
             <div class="collapse" id="shares-table">
                 <table class="table"
@@ -95,9 +109,7 @@
                         <tr>
                             <td>{{ o.id }}</td>
                             <td>{{ o.start_date }}</td>
-                            <td>
-                                {% if o.end_date %}{{ o.end_date }}{% endif %}
-                            </td>
+                            <td>{% if o.end_date %}{{ o.end_date }}{% endif %}</td>
                             <td>
                                 {% if o.is_active %}
                                     <span class="text-success">{% translate "Active" %}</span>
@@ -123,7 +135,7 @@
                                                 <!-- white-space: normal; to make the long text wrap -->
                                                 <a class="form-inline"
                                                    href="{% url 'coop:shareownership_delete' o.pk %}">
-                                                    <span class="dropdown-item " style="white-space: normal" href="#">
+                                                    <span class="dropdown-item" style="white-space: normal" href="#">
                                                         <span class="text-danger">{% translate "Delete" %}</span>
                                                         <br />
                                                         <small class="text-muted">

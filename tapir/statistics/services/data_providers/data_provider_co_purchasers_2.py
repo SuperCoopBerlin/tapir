@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import QuerySet, Q
+from django.db.models import Q, QuerySet
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser

@@ -1,5 +1,5 @@
 import datetime
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 from django.core import mail
 from django.core.management import call_command
@@ -14,9 +14,9 @@ from tapir.shifts.management.commands.send_flying_member_registration_reminder_m
     Command,
 )
 from tapir.shifts.models import (
+    ShiftAttendance,
     ShiftAttendanceMode,
     ShiftUserData,
-    ShiftAttendance,
 )
 from tapir.shifts.services.shift_attendance_mode_service import (
     ShiftAttendanceModeService,
@@ -25,17 +25,17 @@ from tapir.shifts.services.shift_cycle_service import ShiftCycleService
 from tapir.shifts.services.shift_expectation_service import ShiftExpectationService
 from tapir.shifts.tests.factories import ShiftFactory
 from tapir.utils.tests_utils import (
-    TapirFactoryTestBase,
-    TapirEmailTestMixin,
-    mock_timezone_now,
     FeatureFlagTestMixin,
+    TapirEmailTestMixin,
+    TapirFactoryTestBase,
+    mock_timezone_now,
 )
 
 
 class TestAttendanceUpdateMemberOffice(
     FeatureFlagTestMixin, TapirFactoryTestBase, TapirEmailTestMixin
 ):
-    NOW = datetime.datetime(year=2024, month=6, day=15, tzinfo=datetime.timezone.utc)
+    NOW = datetime.datetime(year=2024, month=6, day=15, tzinfo=datetime.UTC)
 
     def setUp(self) -> None:
         super().setUp()

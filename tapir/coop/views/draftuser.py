@@ -1,10 +1,10 @@
 import django_filters
 import django_tables2
 from django.contrib import messages
-from django.contrib.auth.decorators import permission_required, login_required
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db import transaction
-from django.db.models import QuerySet, Q
+from django.db.models import Q, QuerySet
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.decorators.csrf import csrf_protect
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET, require_POST
 from django_filters.views import FilterView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
@@ -31,13 +31,13 @@ from tapir.coop.forms import (
 )
 from tapir.coop.models import (
     DraftUser,
+    NewMembershipsForAccountingRecap,
     ShareOwner,
     ShareOwnership,
-    NewMembershipsForAccountingRecap,
 )
 from tapir.coop.pdfs import CONTENT_TYPE_PDF
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
-from tapir.core.config import TAPIR_TABLE_TEMPLATE, TAPIR_TABLE_CLASSES
+from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
@@ -130,9 +130,7 @@ class DraftUserDeleteView(
 @permission_required(PERMISSION_COOP_MANAGE)
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
-    filename = "Beteiligungserklärung %s.pdf" % (
-        UserUtils.build_display_name_for_viewer(draft_user, request.user)
-    )
+    filename = f"Beteiligungserklärung {UserUtils.build_display_name_for_viewer(draft_user, request.user)}.pdf"
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     set_header_for_file_download(response, filename)
@@ -295,7 +293,7 @@ class DraftUserFilter(django_filters.FilterSet):
         ]
 
     def __init__(self, *args, **kwargs):
-        super(DraftUserFilter, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     share_owner_can_be_created = django_filters.BooleanFilter(
         method="share_owner_can_be_created_filter", label=_("Member can be created")

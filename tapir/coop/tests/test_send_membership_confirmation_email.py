@@ -9,7 +9,7 @@ from tapir.coop.emails.membership_confirmation_email_for_investing_member import
 )
 from tapir.coop.models import ShareOwner
 from tapir.coop.tests.factories import ShareOwnerFactory
-from tapir.utils.tests_utils import TapirFactoryTestBase, TapirEmailTestMixin
+from tapir.utils.tests_utils import TapirEmailTestMixin, TapirFactoryTestBase
 
 
 class TestSendMembershipConfirmationEmail(TapirFactoryTestBase, TapirEmailTestMixin):

@@ -6,8 +6,8 @@ from django.utils.html import strip_tags
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
-    UpdateShiftUserDataLogEntry,
     ShiftUserCapability,
+    UpdateShiftUserDataLogEntry,
 )
 from tapir.utils.tests_utils import TapirFactoryTestBase, mock_timezone_now
 

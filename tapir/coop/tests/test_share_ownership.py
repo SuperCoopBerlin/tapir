@@ -6,9 +6,9 @@ from django.utils import timezone
 from django.utils.html import strip_tags
 
 from tapir.coop.models import (
-    UpdateShareOwnershipLogEntry,
-    ShareOwnership,
     DeleteShareOwnershipLogEntry,
+    ShareOwnership,
+    UpdateShareOwnershipLogEntry,
 )
 from tapir.coop.tests.factories import ShareOwnerFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase

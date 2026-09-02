@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import UpdateShiftUserDataLogEntry, ShiftUserData
+from tapir.shifts.models import ShiftUserData, UpdateShiftUserDataLogEntry
 from tapir.shifts.services.shift_partner_history_service import (
     ShiftPartnerHistoryService,
 )

@@ -1,6 +1,6 @@
 from distinctipy import distinctipy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from drf_spectacular.utils import extend_schema, OpenApiParameter
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView

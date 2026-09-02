@@ -1,21 +1,21 @@
 import datetime
 
 from django.db.models import (
-    QuerySet,
-    Value,
     Case,
-    When,
     Count,
     F,
     Q,
+    QuerySet,
+    Value,
+    When,
 )
 from django.utils import timezone
 
 from tapir.shifts.models import (
-    ShiftUserData,
-    ShiftAttendanceMode,
-    DeleteShiftAttendanceTemplateLogEntry,
     CreateShiftAttendanceTemplateLogEntry,
+    DeleteShiftAttendanceTemplateLogEntry,
+    ShiftAttendanceMode,
+    ShiftUserData,
 )
 from tapir.shifts.services.frozen_status_history_service import (
     FrozenStatusHistoryService,

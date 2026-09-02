@@ -1,6 +1,6 @@
-from tapir.utils.tests_utils import TapirFactoryTestBase
-from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.accounts.forms import TapirUserForm
+from tapir.accounts.tests.factories.factories import TapirUserFactory
+from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
 class TestCoPurchaserDisabled(TapirFactoryTestBase):
