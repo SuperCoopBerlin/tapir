@@ -9,9 +9,7 @@
 {% block content %}
     <div class="container">
         <div class="card mb-2">
-            <h5 class="card-header bg-warning">
-                {% translate "Cancel entire shift:" %} <a href="{{ form.instance.get_absolute_url }}">{{ form.instance }}</a>
-            </h5>
+            <h5 class="card-header bg-warning">{% translate "Cancel entire shift:" %} {{ form.instance.get_display_url }}</h5>
             <div class="card-body">
                 <div>
                     <p>
