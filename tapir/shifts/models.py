@@ -673,7 +673,13 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return display_name
 
     def get_html_link(self):
-        return get_html_link(self.shift.get_absolute_url(), self.get_display_name())
+        display_name = self.get_display_name()
+        if self.shift.cancelled:
+            display_name = format_html(
+                '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
+                display_name,
+            )
+        return get_html_link(self.shift.get_absolute_url(), display_name)
 
     def get_valid_attendance(self) -> ShiftAttendance:
         if hasattr(self, "valid_attendance"):
