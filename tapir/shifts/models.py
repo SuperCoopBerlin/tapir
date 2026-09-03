@@ -12,6 +12,7 @@ from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy as _
 
@@ -553,11 +554,13 @@ class Shift(models.Model):
         return f"{display_name} (#{self.id})"
 
     def get_display_name(self):
-        display_name = "{} {} - {}".format(
-            self.name,
-            timezone.localtime(self.start_time).strftime("%a, %d %b %Y %H:%M"),
-            timezone.localtime(self.end_time).strftime("%H:%M"),
-        )
+        if self.start_time.date() == self.end_time.date():
+            end_formatted = date_format(self.end_time, format="TIME_FORMAT")
+        else:
+            end_formatted = date_format(self.end_time, format="SHORT_DATETIME_FORMAT")
+
+        display_name = f"{self.name} {date_format(self.start_time, format='SHORT_DATETIME_FORMAT')} - {end_formatted}"
+
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
         return display_name
