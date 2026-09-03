@@ -172,7 +172,7 @@ const Step4Legal: React.FC<Props> = ({
       noValidate
       validated={validated}
     >
-      <h5 className="mb-3">{gettext("Step 2 - Overview & Declarations")}</h5>
+      <h5 className="mb-3">{gettext("Step 4 - Overview & Declarations")}</h5>
       <Overview
         isCompany={isCompany}
         firstName={firstName}

@@ -23,7 +23,7 @@
                 <p>
                     <img style="width: 100%"
                          src="https://supercoop.de/wp-content/uploads/supercoop-header.jpg"
-                         alt="Supercoop Banner"/>
+                         alt="Supercoop Banner" />
                 </p>
                 <p>
                     {% blocktranslate trimmed %}
@@ -39,20 +39,20 @@
                         {% csrf_token %}
                         <input type="hidden"
                                name="next"
-                               value="{% url "coop:member_self_registration_form" %}"/>
-                        <input type="hidden" name="language" value="de"/>
+                               value="{% url "coop:member_self_registration_form" %}" />
+                        <input type="hidden" name="language" value="de" />
                         <button class="{% tapir_button_link %}">🇩🇪 Deutsch</button>
                     </form>
                     <form action="{% url "set_language" %}" method="post">
                         {% csrf_token %}
                         <input type="hidden"
                                name="next"
-                               value="{% url "coop:member_self_registration_form" %}"/>
-                        <input type="hidden" name="language" value="en"/>
+                               value="{% url "coop:member_self_registration_form" %}" />
+                        <input type="hidden" name="language" value="en" />
                         <button class="{% tapir_button_link %}">🇬🇧 English</button>
                     </form>
                 </div>
-                <hr/>
+                <hr />
             </div>
         </div>
     </div>
