@@ -7,6 +7,11 @@
 Tapir is a web application for cooperative member and shift management used by cooperatives such as [SuperCoop Berlin](https://supercoop.de) and [Rizoma](https://www.rizomacoop.pt/).
 It covers member profiles, shift scheduling and booking, automatic emails, and application workflows.
 
+If you're interested in using Tapir for your own cooperative, we'd be happy to help. You can contact us in several ways:
+- feel free to join the Matrix space: https://matrix.to/#/#tapir-fuer-supermrtke:matrix.org
+- create an issue in this Repo and tag [Théo](https://github.com/Theophile-Madet) and [Crosspolar](https://github.com/crosspolar)
+- write an email to [Théo](https://github.com/Theophile-Madet) directly, with the address on his profile.
+
 <img src="https://user-images.githubusercontent.com/18083323/179391686-4cfa724f-4847-4859-aba4-f074722d69ca.png" width="68%"/> <img src="https://user-images.githubusercontent.com/18083323/179391799-96f4e204-9bd2-4739-b8f9-3bc25a70f717.JPG" width="22.6%"/>
 
 ## Key features
@@ -55,8 +60,7 @@ Non-technical contributions
 ## Important links
 - Wiki (setup & how-tos): https://github.com/SuperCoopBerlin/tapir/wiki
 - SuperCoop members can access the system at [https://members.supercoop.de](https://members.supercoop.de)
-- Issues: https://github.com/SuperCoopBerlin/tapir/issues  
-- Contact: If you're interested in using Tapir for your own cooperative, we'd be happy to help. Create an issue in this repo or write to [Théo](https://github.com/Theophile-Madet) directly. 
+- Issues: https://github.com/SuperCoopBerlin/tapir/issues   
 
 
 > Tapir (/ˈteɪpər/) [has a trunk](https://www.youtube.com/watch?v=JgwBecM_E6Q), but not quite such a beautiful one
