@@ -67,12 +67,6 @@ class MembershipPauseTable(django_tables2.Table):
     def value_share_owner(self, value, record: MembershipPause):
         return record.share_owner.get_member_number()
 
-    def render_start_date(self, value, record: MembershipPause):
-        return record.start_date.strftime("%d.%m.%Y")
-
-    def render_end_date(self, value, record: MembershipPause):
-        return record.end_date.strftime("%d.%m.%Y") if record.end_date else _("None")
-
     def render_edit_button(self, value, record: MembershipPause):
         return format_html(
             "<a href='{}' class='{}'><span class='material-icons'>edit</span></a>",
