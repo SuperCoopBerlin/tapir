@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 12:08+0200\n"
+"POT-Creation-Date: 2026-09-03 13:08+0200\n"
 "PO-Revision-Date: 2026-08-26 17:29+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -422,23 +422,24 @@ msgid "Login"
 msgstr ""
 
 #: accounts/templates/registration/login.html:16
-#: accounts/templates/registration/login.html:59
+#: accounts/templates/registration/login.html:58
 msgid "Sign in"
 msgstr "Einloggen"
 
-#: accounts/templates/registration/login.html:45
+#: accounts/templates/registration/login.html:44
 msgid "Click here to show/hide the password"
 msgstr "Hier klicken, um das Passwort ein-/auszublenden"
 
-#: accounts/templates/registration/login.html:55
+#: accounts/templates/registration/login.html:54
 msgid "Forgot your password or your username?"
 msgstr "Passwort oder Benutzername vergessen?"
 
-#: accounts/templates/registration/login.html:67
+#: accounts/templates/registration/login.html:66
 msgid "Not a member yet?"
 msgstr "Noch nicht Mitglied?"
 
-#: accounts/templates/registration/login.html:69
+#: accounts/templates/registration/login.html:68
+#, python-format
 msgid "Become part of %(coop_name)s"
 msgstr "Werde Teil von %(coop_name)s"
 
@@ -2048,7 +2049,7 @@ msgstr ""
 msgid "Become a SuperCoop Member!"
 msgstr "Werde SuperCoop-Mitglied!"
 
-#: coop/templates/coop/member_self_registration_language.html:27
+#: coop/templates/coop/member_self_registration_language.html:29
 msgid "As a member of SuperCoop, you can buy regional and healthy food, be part of our active community and have a say in all decisions. The co-op is a vibrant marketplace. You support day-to-day operations (or other working groups) by putting in three hours’ work per month alongside other members in a great atmosphere. In working groups, you can champion the issues that matter to you and play an active role in shaping the future of the co-op."
 msgstr "Du kannst als Mitglied in der SuperCoop regionale und gesunde Lebensmittel einkaufen, bist Teil unserer aktiven Community und hast bei allen Entscheidungen eine Stimme. Die Coop ist ein lebendiger Marktplatz. Du unterstützt das Alltagsgeschäft (oder andere Arbeitsgruppen) mit drei Stunden Arbeit pro Monat mit anderen Mitgliedern in einer tollen Atmosphäre. In AG’s kannst du deine Themen voranbringen und aktiv die Coop weiterentwickeln."
 
