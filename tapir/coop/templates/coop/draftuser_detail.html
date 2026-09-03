@@ -65,38 +65,38 @@
                             <table class="{% tapir_table_classes %}"
                                    aria-label="{% translate 'List of similar members' %}">
                                 <thead>
-                                    <tr>
-                                        <th>{% translate "Status" %}</th>
-                                        <th>{% translate "Name" %}</th>
-                                        <th>{% translate "Phone number" %}</th>
-                                        <th>{% translate "Address" %}</th>
-                                        <th>{% translate "Email" %}</th>
-                                    </tr>
+                                <tr>
+                                    <th>{% translate "Status" %}</th>
+                                    <th>{% translate "Name" %}</th>
+                                    <th>{% translate "Phone number" %}</th>
+                                    <th>{% translate "Address" %}</th>
+                                    <th>{% translate "Email" %}</th>
+                                </tr>
                                 </thead>
                                 <tbody>
+                                <tr>
+                                    <td>{% translate "Applicant" %}</td>
+                                    <td>{% get_display_name_for_viewer object request.user %}</td>
+                                    <td>{{ object.phone_number }}</td>
+                                    <td>{{ object.get_display_address }}</td>
+                                    <td>{{ object.email }}</td>
+                                </tr>
+                                {% for member in similar_members %}
                                     <tr>
-                                        <td>{% translate "Applicant" %}</td>
-                                        <td>{% get_display_name_for_viewer object request.user %}</td>
-                                        <td>{{ object.phone_number }}</td>
-                                        <td>{{ object.get_display_address }}</td>
-                                        <td>{{ object.email }}</td>
+                                        <td>{% translate "Member" %}</td>
+                                        <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
+                                            {% get_display_name_for_viewer member request.user %}
+                                        </td>
+                                        <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>{{ member.phone_number }}</td>
+                                        <td {% if member.street == object.street %}class="table-warning"{% endif %}>{{ member.get_display_address }}</td>
+                                        <td {% if member.email == object.email %}class="table-warning"{% endif %}>{{ member.email }}</td>
                                     </tr>
-                                    {% for member in similar_members %}
-                                        <tr>
-                                            <td>{% translate "Member" %}</td>
-                                            <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
-                                                {% get_display_name_for_viewer member request.user %}
-                                            </td>
-                                            <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>{{ member.phone_number }}</td>
-                                            <td {% if member.street == object.street %}class="table-warning"{% endif %}>{{ member.get_display_address }}</td>
-                                            <td {% if member.email == object.email %}class="table-warning"{% endif %}>{{ member.email }}</td>
-                                        </tr>
-                                    {% endfor %}
+                                {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" id="confirm_similar_members" class="form-check-input" />
+                            <input type="checkbox" id="confirm_similar_members" class="form-check-input"/>
                             <label for="confirm_similar_members" class="form-check-label">
                                 {% translate "I confirm that I have checked that this is not a duplicate." %}
                             </label>
@@ -128,11 +128,12 @@
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                    <div class="col-9"
+                         id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>
-                    <div class="col-9" id="draft_user_username">{{ object.username }}</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Usage name" %}:</div>
+                    <div class="col-9" id="draft_user_usage_name">{{ object.usage_name }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Email" %}:</div>
@@ -173,13 +174,15 @@
                     </div>
                 </div>
                 <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Is company" %}:</div>
+                    <div class="col-9" id="draft_user_member_type">
+                        <span>{{ object.is_company|yesno:_("Yes,No") }}</span>
+                    </div>
+                </div>
+                <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
                     <div class="col-9" id="draft_user_ratenzahlung">
-                        {% if object.ratenzahlung %}
-                            Yes
-                        {% else %}
-                            No
-                        {% endif %}
+                        <span>{{ object.ratenzahlung|yesno:_("Yes,No") }}</span>
                     </div>
                 </div>
                 <div class="row m-1">
@@ -242,7 +245,8 @@
                       data-bs-target="#confirmDeleteModal">
                     <span class="material-icons">delete</span>Delete
                 </span>
-                <span {% if not object.can_create_user %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ object.must_solve_before_creating_share_owner_display }}" {% endif %}>
+                <span {% if not object.can_create_user %} data-bs-toggle="tooltip" data-bs-html="true"
+                                                          title="{{ object.must_solve_before_creating_share_owner_display }}" {% endif %}>
                     <span class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
                           data-bs-toggle="modal"
                           data-bs-target="#confirmMemberCreationModal">

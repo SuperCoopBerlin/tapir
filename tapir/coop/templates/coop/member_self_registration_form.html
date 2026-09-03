@@ -14,4 +14,12 @@
 {% block content %}
     {% vite_asset 'member_registration/member_registration_entry.tsx' %}
     <span id="member_registration"></span>
+    <span style="display: none"
+          id="self_registration_config"
+          data-share-price="{{ share_price }}"
+          data-membership-fee="{{ membership_fee }}"
+          data-coop-name="{{ coop_name }}"
+          data-coop-street="{{ coop_street }}"
+          data-coop-place="{{ coop_place }}"
+          data-email-address-member-office="{{ email_address_member_office }}"></span>
 {% endblock content %}

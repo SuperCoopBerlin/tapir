@@ -33,7 +33,7 @@ export class CoopApi extends runtime.BaseAPI {
 
     /**
      */
-    async coopMemberSelfRegisterCreateRaw(requestParameters: CoopMemberSelfRegisterCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<boolean>> {
+    async coopMemberSelfRegisterCreateRaw(requestParameters: CoopMemberSelfRegisterCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<{ [key: string]: any; }>> {
         if (requestParameters['memberRegistrationRequest'] == null) {
             throw new runtime.RequiredError(
                 'memberRegistrationRequest',
@@ -55,16 +55,12 @@ export class CoopApi extends runtime.BaseAPI {
             body: MemberRegistrationRequestToJSON(requestParameters['memberRegistrationRequest']),
         }, initOverrides);
 
-        if (this.isJsonMime(response.headers.get('content-type'))) {
-            return new runtime.JSONApiResponse<boolean>(response);
-        } else {
-            return new runtime.TextApiResponse(response) as any;
-        }
+        return new runtime.JSONApiResponse<any>(response);
     }
 
     /**
      */
-    async coopMemberSelfRegisterCreate(requestParameters: CoopMemberSelfRegisterCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<boolean> {
+    async coopMemberSelfRegisterCreate(requestParameters: CoopMemberSelfRegisterCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any; }> {
         const response = await this.coopMemberSelfRegisterCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }

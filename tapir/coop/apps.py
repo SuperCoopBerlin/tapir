@@ -78,6 +78,9 @@ class CoopConfig(AppConfig):
         from tapir.coop.emails.membershipresignation_transferred_shares_confirmation import (
             MembershipResignationTransferredSharesConfirmation,
         )
+        from tapir.coop.emails.self_registration_confirmation_mail import (
+            SelfRegistrationConfirmationMail,
+        )
         from tapir.coop.emails.tapir_account_created_email import (
             TapirAccountCreatedEmailBuilder,
         )
@@ -97,3 +100,4 @@ class CoopConfig(AppConfig):
         TapirEmailBuilderBase.register_email(
             MembershipResignationTransferredSharesConfirmation
         )
+        TapirEmailBuilderBase.register_email(SelfRegistrationConfirmationMail)

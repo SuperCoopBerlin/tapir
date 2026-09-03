@@ -11,8 +11,8 @@
     <link rel="stylesheet" href="{% static 'accounts/css/accounts.css' %}">
 {% endblock head %}
 {% block content %}
-    <div class="d-flex justify-content-center tapir-authentication">
-        <div class="card tapir-login mt-4" id="login-card">
+    <div class="d-flex flex-column align-items-center justify-content-center tapir-authentication">
+        <div class="card tapir-login mt-4 mb-2" id="login-card">
             <h5 class="card-header d-flex justify-content-between align-items-center">{% translate "Sign in" %}</h5>
             <div class="card-body">
                 <form method="post">
@@ -28,8 +28,7 @@
                                class="form-control"
                                placeholder="Nutzer*innenname"
                                required=""
-                               id="id_username"
-                               autocomplete="off">
+                               id="id_username">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="id_password">Passwort</label>
@@ -61,6 +60,17 @@
                 </form>
             </div>
         </div>
+        {% feature_flag_enabled "feature_flags.coop.self_registration_enabled" as self_registration_enabled %}
+        {% if self_registration_enabled %}
+            <p>
+                {% translate "Not a member yet?" %}
+                <a href="{% url "coop:member_self_registration_language" %}">
+                    {% blocktranslate trimmed %}
+                        Become part of {{ coop_name }}
+                    {% endblocktranslate %}
+                </a>
+            </p>
+        {% endif %}
     </div>
     <script>
         const passwordInput = document.getElementById('id_password');
