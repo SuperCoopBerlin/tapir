@@ -207,9 +207,6 @@ class ShiftExemptionTable(django_tables2.Table):
     def value_shift_user_data(self, value, record: ShiftExemption):
         return record.shift_user_data.user.get_member_number()
 
-    def render_start_date(self, value, record: ShiftExemption):
-        return record.start_date.strftime("%d.%m.%Y")
-
     def render_end_date(self, value, record: ShiftExemption):
         return record.end_date.strftime("%d.%m.%Y") if record.end_date else _("None")
 
