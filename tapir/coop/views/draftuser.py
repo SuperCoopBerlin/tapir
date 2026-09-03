@@ -278,10 +278,6 @@ class DraftUserTable(django_tables2.Table):
     def render_display_name(self, value, record: DraftUser):
         return UserUtils.build_html_link_for_viewer(record, self.request.user)
 
-    @staticmethod
-    def render_created_at(value, record: DraftUser):
-        return record.created_at.strftime("%d.%m.%Y %H:%M")
-
 
 class DraftUserFilter(django_filters.FilterSet):
     class Meta:

@@ -1,5 +1,3 @@
-import datetime
-
 import django_filters
 import django_tables2
 from django.contrib.auth.decorators import login_required, permission_required
@@ -98,9 +96,6 @@ class LogTable(django_tables2.Table):
 
     def before_render(self, request):
         self.request = request
-
-    def render_created_date(self, value: datetime.datetime):
-        return value.strftime("%d.%m.%Y %H:%M")
 
     def render_member(self, record):
         # show user or share_owner, depending on what is available
