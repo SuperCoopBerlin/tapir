@@ -32,15 +32,19 @@ FROM base AS builder
 
 WORKDIR /app
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --only main --no-root
+RUN POETRY_INSTALLER_ONLY_BINARY=:all: \
+    POETRY_INSTALLER_NO_BINARY=python-ldap,psycopg2 \
+    poetry install --only main --no-root
 
 
 FROM base AS dev
 
 WORKDIR /app
-
 COPY poetry.lock pyproject.toml ./
-RUN poetry install --no-root
+
+RUN POETRY_INSTALLER_ONLY_BINARY=:all: \
+    POETRY_INSTALLER_NO_BINARY=python-ldap,psycopg2 \
+    poetry install --no-root
 
 ENV PATH="/app/.venv/bin:$PATH"
 
