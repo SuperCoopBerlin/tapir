@@ -135,7 +135,7 @@ export interface MemberRegistrationRequest {
      * @type {string}
      * @memberof MemberRegistrationRequest
      */
-    phone?: string;
+    phone?: string | null;
 }
 
 

@@ -34,4 +34,4 @@ class MemberRegistrationRequestSerializer(serializers.Serializer):
     country = serializers.ChoiceField(choices=COUNTRIES)
 
     email = serializers.EmailField()
-    phone = serializers.CharField(required=False)
+    phone = serializers.CharField(required=False, allow_null=True, allow_blank=True)

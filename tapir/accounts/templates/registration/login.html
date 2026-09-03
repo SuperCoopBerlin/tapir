@@ -28,8 +28,7 @@
                                class="form-control"
                                placeholder="Nutzer*innenname"
                                required=""
-                               id="id_username"
-                               autocomplete="off">
+                               id="id_username">
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="id_password">Passwort</label>
@@ -61,9 +60,17 @@
                 </form>
             </div>
         </div>
-        <p>
-          {% translate "Not a member yet?" %} <a href="/coop/member_self_registration">{% translate "Become part of SuperCoop" %}</a>
-        </p>
+        {% feature_flag_enabled "feature_flags.coop.self_registration_enabled" as self_registration_enabled %}
+        {% if self_registration_enabled %}
+            <p>
+                {% translate "Not a member yet?" %}
+                <a href="{% url "coop:member_self_registration_language" %}">
+                    {% blocktranslate trimmed %}
+                        Become part of {{ coop_name }}
+                    {% endblocktranslate %}
+                </a>
+            </p>
+        {% endif %}
     </div>
     <script>
         const passwordInput = document.getElementById('id_password');

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 18:39+0200\n"
+"POT-Creation-Date: 2026-09-03 12:08+0200\n"
 "PO-Revision-Date: 2026-08-26 17:29+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -434,13 +434,13 @@ msgstr "Hier klicken, um das Passwort ein-/auszublenden"
 msgid "Forgot your password or your username?"
 msgstr "Passwort oder Benutzername vergessen?"
 
-#: accounts/templates/registration/login.html:65
+#: accounts/templates/registration/login.html:67
 msgid "Not a member yet?"
 msgstr "Noch nicht Mitglied?"
 
-#: accounts/templates/registration/login.html:65
-msgid "Become part of SuperCoop"
-msgstr "Werde Teil von SuperCoop"
+#: accounts/templates/registration/login.html:69
+msgid "Become part of %(coop_name)s"
+msgstr "Werde Teil von %(coop_name)s"
 
 #: accounts/templates/registration/password_reset_complete.html:7
 msgid "Password set"
@@ -2025,9 +2025,32 @@ msgstr "Mitgliedschaft pausiert"
 msgid "Membership resignations"
 msgstr "Mitgliedschaftskündigungen"
 
-#: coop/templates/coop/member_self_registration.html:12
+#: coop/templates/coop/member_self_registration_form.html:12
 msgid "Supercoop registration"
 msgstr ""
+
+#: coop/templates/coop/member_self_registration_language.html:12
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        a cooperative share\n"
+#| "    "
+msgid ""
+"\n"
+"        %(coop_name)s registration\n"
+"    "
+msgstr ""
+"\n"
+"        einem Genossenschaftsanteil\n"
+"    "
+
+#: coop/templates/coop/member_self_registration_language.html:19
+msgid "Become a SuperCoop Member!"
+msgstr "Werde SuperCoop-Mitglied!"
+
+#: coop/templates/coop/member_self_registration_language.html:27
+msgid "As a member of SuperCoop, you can buy regional and healthy food, be part of our active community and have a say in all decisions. The co-op is a vibrant marketplace. You support day-to-day operations (or other working groups) by putting in three hours’ work per month alongside other members in a great atmosphere. In working groups, you can champion the issues that matter to you and play an active role in shaping the future of the co-op."
+msgstr "Du kannst als Mitglied in der SuperCoop regionale und gesunde Lebensmittel einkaufen, bist Teil unserer aktiven Community und hast bei allen Entscheidungen eine Stimme. Die Coop ist ein lebendiger Marktplatz. Du unterstützt das Alltagsgeschäft (oder andere Arbeitsgruppen) mit drei Stunden Arbeit pro Monat mit anderen Mitgliedern in einer tollen Atmosphäre. In AG’s kannst du deine Themen voranbringen und aktiv die Coop weiterentwickeln."
 
 #: coop/templates/coop/membership_pause/membership_pause_list.html:34
 msgid "Create a new pause"
@@ -2453,7 +2476,7 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/self_registration.py:75
+#: coop/views/self_registration.py:91
 #, python-brace-format
 msgid "This email address ({email}) is already in use"
 msgstr ""
@@ -2555,10 +2578,8 @@ msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
 #: core/apps.py:85
-#, fuzzy
-#| msgid "Not a member"
 msgid "Become a Member"
-msgstr "Kein Mitlied"
+msgstr "Werde Mitglied"
 
 #: core/models.py:7
 msgid "Flag name"
@@ -6511,15 +6532,6 @@ msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle s
 #~ "   <p>Liebe*r %(display_name)s,</p>\n"
 #~ "   <p>\n"
 #~ "    Willkommen als offizielles investierendes Mitglied von %(coop_full_name)s! Mit dem Zeichnen von\n"
-#~ "    "
-
-#~ msgid ""
-#~ "\n"
-#~ "        a cooperative share\n"
-#~ "    "
-#~ msgstr ""
-#~ "\n"
-#~ "        einem Genossenschaftsanteil\n"
 #~ "    "
 
 #, python-format

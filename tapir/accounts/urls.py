@@ -73,7 +73,7 @@ urlpatterns = [
     path("", include((accounts_urlpatterns, "accounts"))),
     path(
         "login/",
-        auth_views.LoginView.as_view(),
+        views.TapirLoginView.as_view(),
         name="login",
     ),
     path(

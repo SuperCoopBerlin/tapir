@@ -26,8 +26,21 @@ from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
 
 
-class MemberSelfRegistrationTemplateView(TemplateView):
-    template_name = "coop/member_self_registration.html"
+class MemberSelfRegistrationLanguageTemplateView(TemplateView):
+    template_name = "coop/member_self_registration_language.html"
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any):
+        if not FeatureFlag.get_flag_value(
+            config.feature_flag_self_registration_enabled
+        ):
+            raise PermissionDenied("This feature is currently disabled")
+
+        return super().get(request, *args, **kwargs)
+
+
+class MemberSelfRegistrationFormTemplateView(TemplateView):
+    template_name = "coop/member_self_registration_form.html"
 
     @method_decorator(ensure_csrf_cookie)
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any):

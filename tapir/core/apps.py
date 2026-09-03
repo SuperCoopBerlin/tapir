@@ -84,7 +84,7 @@ class CoreConfig(AppConfig):
         register_group.add_link(
             display_name=_("Become a Member"),
             material_icon="person_add",
-            url=reverse_lazy("coop:member_self_registration"),
+            url=reverse_lazy("coop:member_self_registration_language"),
             ordering=8,
             visibility="only_when_not_logged_in",
             required_feature_flag=feature_flag_self_registration_enabled,

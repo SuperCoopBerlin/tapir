@@ -1,7 +1,6 @@
 from django.urls import path
 
 from tapir.coop import views
-from tapir.coop.views import self_registration
 
 app_name = "coop"
 urlpatterns = [
@@ -207,9 +206,14 @@ urlpatterns = [
         name="general_accounts_list",
     ),
     path(
-        "member_self_registration",
-        views.MemberSelfRegistrationTemplateView.as_view(),
-        name="member_self_registration",
+        "member_self_registration_language",
+        views.MemberSelfRegistrationLanguageTemplateView.as_view(),
+        name="member_self_registration_language",
+    ),
+    path(
+        "member_self_registration_form",
+        views.MemberSelfRegistrationFormTemplateView.as_view(),
+        name="member_self_registration_form",
     ),
     path(
         "member_self_register",

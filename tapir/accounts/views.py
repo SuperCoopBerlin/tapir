@@ -1,4 +1,5 @@
 import django.contrib.auth.views as auth_views
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -14,7 +15,6 @@ from django.views import generic
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_GET, require_POST
 
-from tapir import settings
 from tapir.accounts import pdfs
 from tapir.accounts.config import cache_key_open_door, feature_flag_open_door
 from tapir.accounts.forms import (
@@ -497,3 +497,10 @@ class OpenDoorPageView(LoginRequiredMixin, generic.TemplateView):
             hasattr(user, "share_owner") and user.share_owner is not None
         )
         return context
+
+
+class TapirLoginView(auth_views.LoginView):
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data["coop_name"] = settings.COOP_NAME
+        return context_data

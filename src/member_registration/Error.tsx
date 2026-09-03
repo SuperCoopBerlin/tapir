@@ -4,14 +4,10 @@ import { ReactNode } from "react";
 declare let gettext: (english_text: string) => string;
 
 type Props = {
-  emailAddressMemberOffice: string;
   errorMessage: ReactNode;
 };
 
-export default function Error({
-  emailAddressMemberOffice,
-  errorMessage,
-}: Props) {
+export default function Error({ errorMessage }: Props) {
   return (
     <>
       <div

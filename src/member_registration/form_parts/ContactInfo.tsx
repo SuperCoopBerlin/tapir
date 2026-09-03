@@ -120,11 +120,10 @@ export default function ContactInfo({
       <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Phone number")}</Form.Label>
         <Form.Control
-          type={"text"}
+          type={"tel"}
           value={phone}
           name="phone"
           onChange={(event) => setPhone(event.target.value)}
-          autoComplete="tel"
         />
         <Form.Text>
           {gettext(

@@ -246,3 +246,12 @@ export const countries = [
   "ZW", // "Zimbabwe",
   "ZZ", // "Unknown or unspecified country",
 ];
+
+export enum RegistrationStage {
+  INDIVIDUAL_OR_COMPANY,
+  MEMBERSHIP,
+  PERSONAL_DETAILS,
+  LEGAL,
+  SUCCESS,
+  ERROR,
+}
