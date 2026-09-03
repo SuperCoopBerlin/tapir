@@ -54,12 +54,8 @@ class ShiftCreateForm(forms.ModelForm):
             "flexible_time",
         ]
         widgets = {
-            "start_time": forms.widgets.DateTimeInput(
-                attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
-            ),
-            "end_time": forms.widgets.DateTimeInput(
-                attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
-            ),
+            "start_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
+            "end_time": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
         }
 
     def clean_end_time(self):
@@ -463,9 +459,7 @@ class CreateShiftAccountEntryForm(forms.ModelForm):
         model = ShiftAccountEntry
         fields = ["date", "value", "description"]
         widgets = {
-            "date": forms.widgets.DateTimeInput(
-                attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"
-            ),
+            "date": forms.widgets.DateTimeInput(attrs={"type": "datetime-local"}),
         }
 
 
