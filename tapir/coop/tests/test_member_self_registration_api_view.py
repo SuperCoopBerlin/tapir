@@ -94,6 +94,7 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
 
     def test_post_memberTooYoung_returnsError(self):
         post_data = self._build_valid_post_data()
+        post_data["is_company"] = False
         post_data["birthdate"] = "2003-09-01"
         mock_timezone_now(test=self, now=datetime.datetime(year=2020, month=1, day=1))
 
