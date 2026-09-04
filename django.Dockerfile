@@ -5,8 +5,7 @@ ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 
-ENV POETRY_VERSION=2.3.4 \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
+ENV POETRY_VIRTUALENVS_IN_PROJECT=true \
     POETRY_VIRTUALENVS_CREATE=true \
     POETRY_NO_INTERACTION=1 
 
@@ -23,7 +22,7 @@ RUN apt-get update \
     libpq-dev \
     libsasl2-dev
 
-RUN pip install poetry==$POETRY_VERSION
+RUN pip install poetry==2.3.4 --only-binary :all:
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
