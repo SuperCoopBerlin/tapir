@@ -25,6 +25,7 @@ from tapir.coop.models import DraftUser, ShareOwner
 from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
+from tapir.utils.tests_utils import is_running_tests
 
 
 class MemberSelfRegistrationLanguageTemplateView(TemplateView):
@@ -146,6 +147,9 @@ class MemberSelfRegisterApiView(APIView):
 
     @classmethod
     def validate_captcha_response(cls, client_captcha_response: str):
+        if settings.DEBUG and not is_running_tests():
+            return True
+
         response = requests.post(
             "https://global.frcapi.com/api/v2/captcha/siteverify",
             data={
