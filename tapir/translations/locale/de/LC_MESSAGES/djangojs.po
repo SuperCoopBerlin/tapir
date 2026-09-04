@@ -197,7 +197,7 @@ msgstr "Wie möchtest du angesprochen werden? (optional)"
 
 #: dist/assets/member_registration-BCsH9lja.js:2
 msgid "Your preferred name or nickname"
-msgstr "Dein preferierter Name oder Spitzname"
+msgstr "Dein gewählter Name oder Spitzname"
 
 #: dist/assets/member_registration-BCsH9lja.js:2
 msgid ""
@@ -343,7 +343,7 @@ msgstr "Firmenname:"
 
 #: dist/assets/member_registration-BCsH9lja.js:5
 msgid "Preferred name:"
-msgstr "Preferierter Name:"
+msgstr "Gewählter Name:"
 
 #: dist/assets/member_registration-BCsH9lja.js:5
 msgid "Pronouns:"

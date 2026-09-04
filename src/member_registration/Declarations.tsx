@@ -47,7 +47,7 @@ export default function Declarations({
 }: Props) {
   const paymentTotal = useMemo(
     () => shares * sharePrice + membershipFee,
-    [shares],
+    [shares, sharePrice, membershipFee],
   );
 
   return (

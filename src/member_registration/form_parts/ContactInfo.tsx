@@ -1,5 +1,7 @@
 import { Form } from "react-bootstrap";
 import { countries } from "../constants";
+import { useEffect, useRef, useState } from "react";
+import { isPossiblePhoneNumber } from "libphonenumber-js";
 
 declare let gettext: (english_text: string) => string;
 
@@ -39,6 +41,34 @@ export default function ContactInfo({
   phone,
   setPhone,
 }: Props) {
+  const [emailVerification, setEmailVerification] = useState("");
+  const emailVerificationRef = useRef<HTMLInputElement | null>(null);
+  const phoneRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (
+      !emailVerificationRef.current ||
+      email === "" ||
+      emailVerification === ""
+    ) {
+      return;
+    }
+    emailVerificationRef.current.setCustomValidity(
+      email === emailVerification
+        ? ""
+        : gettext("Both email addresses must be the same"),
+    );
+  }, [email, emailVerification]);
+
+  useEffect(() => {
+    if (!phoneRef.current) {
+      return;
+    }
+    phoneRef.current.setCustomValidity(
+      isPossiblePhoneNumber(phone, "DE") ? "" : gettext("Invalid phone number"),
+    );
+  }, [phone]);
+
   return (
     <>
       <h6 className="mt-4 mb-3">{gettext("Address & Contact Info")}</h6>
@@ -118,13 +148,32 @@ export default function ContactInfo({
         </Form.Control.Feedback>
       </Form.Group>
       <Form.Group className={"mt-2"}>
+        <Form.Label>{gettext("E-mail (verification)")}</Form.Label>
+        <Form.Control
+          ref={emailVerificationRef}
+          type={"email"}
+          value={emailVerification}
+          name="emailVerification"
+          onChange={(event) => setEmailVerification(event.target.value)}
+          autoComplete="email"
+          required
+        />
+        <Form.Control.Feedback type="invalid">
+          {gettext("The two email addresses are different")}
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Form.Group className={"mt-2"}>
         <Form.Label>{gettext("Phone number")}</Form.Label>
         <Form.Control
+          ref={phoneRef}
           type={"tel"}
           value={phone}
           name="phone"
           onChange={(event) => setPhone(event.target.value)}
         />
+        <Form.Control.Feedback type="invalid">
+          {gettext("Invalid phone number")}
+        </Form.Control.Feedback>
         <Form.Text>
           {gettext(
             "German phone number don't need a prefix (e.g. (0)1736160646), international always (e.g. +12125552368)",

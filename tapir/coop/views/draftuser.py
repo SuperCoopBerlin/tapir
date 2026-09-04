@@ -216,7 +216,8 @@ class CreateShareOwnerFromDraftUserView(
 
 def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> ShareOwner:
     share_owner = ShareOwner(
-        is_company=False,
+        is_company=draft_user.is_company,
+        company_name=draft_user.company_name,
         is_investing=draft_user.is_investing,
         ratenzahlung=draft_user.ratenzahlung,
         attended_welcome_session=draft_user.attended_welcome_session,

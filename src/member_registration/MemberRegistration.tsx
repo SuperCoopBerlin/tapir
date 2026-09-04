@@ -142,8 +142,8 @@ const MemberRegistration: React.FC = () => {
             country={country}
             email={email}
             phone={phone}
-            shares={0}
-            sharePrice={0}
+            shares={shares}
+            sharePrice={sharePrice}
             setErrorMessage={setErrorMessage}
             coopName={coopName}
             coopStreet={coopStreet}

@@ -65,38 +65,38 @@
                             <table class="{% tapir_table_classes %}"
                                    aria-label="{% translate 'List of similar members' %}">
                                 <thead>
-                                <tr>
-                                    <th>{% translate "Status" %}</th>
-                                    <th>{% translate "Name" %}</th>
-                                    <th>{% translate "Phone number" %}</th>
-                                    <th>{% translate "Address" %}</th>
-                                    <th>{% translate "Email" %}</th>
-                                </tr>
+                                    <tr>
+                                        <th>{% translate "Status" %}</th>
+                                        <th>{% translate "Name" %}</th>
+                                        <th>{% translate "Phone number" %}</th>
+                                        <th>{% translate "Address" %}</th>
+                                        <th>{% translate "Email" %}</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>{% translate "Applicant" %}</td>
-                                    <td>{% get_display_name_for_viewer object request.user %}</td>
-                                    <td>{{ object.phone_number }}</td>
-                                    <td>{{ object.get_display_address }}</td>
-                                    <td>{{ object.email }}</td>
-                                </tr>
-                                {% for member in similar_members %}
                                     <tr>
-                                        <td>{% translate "Member" %}</td>
-                                        <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
-                                            {% get_display_name_for_viewer member request.user %}
-                                        </td>
-                                        <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>{{ member.phone_number }}</td>
-                                        <td {% if member.street == object.street %}class="table-warning"{% endif %}>{{ member.get_display_address }}</td>
-                                        <td {% if member.email == object.email %}class="table-warning"{% endif %}>{{ member.email }}</td>
+                                        <td>{% translate "Applicant" %}</td>
+                                        <td>{% get_display_name_for_viewer object request.user %}</td>
+                                        <td>{{ object.phone_number }}</td>
+                                        <td>{{ object.get_display_address }}</td>
+                                        <td>{{ object.email }}</td>
                                     </tr>
-                                {% endfor %}
+                                    {% for member in similar_members %}
+                                        <tr>
+                                            <td>{% translate "Member" %}</td>
+                                            <td {% if member.last_name == object.last_name %}class="table-warning"{% endif %}>
+                                                {% get_display_name_for_viewer member request.user %}
+                                            </td>
+                                            <td {% if member.phone_number == object.phone_number %}class="table-warning"{% endif %}>{{ member.phone_number }}</td>
+                                            <td {% if member.street == object.street %}class="table-warning"{% endif %}>{{ member.get_display_address }}</td>
+                                            <td {% if member.email == object.email %}class="table-warning"{% endif %}>{{ member.email }}</td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                         <div class="form-check">
-                            <input type="checkbox" id="confirm_similar_members" class="form-check-input"/>
+                            <input type="checkbox" id="confirm_similar_members" class="form-check-input" />
                             <label for="confirm_similar_members" class="form-check-label">
                                 {% translate "I confirm that I have checked that this is not a duplicate." %}
                             </label>
@@ -128,8 +128,7 @@
             <div class="card-body" id="draft_user_detail_card">
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Name" %}:</div>
-                    <div class="col-9"
-                         id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                    <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Usage name" %}:</div>
@@ -179,6 +178,14 @@
                         <span>{{ object.is_company|yesno:_("Yes,No") }}</span>
                     </div>
                 </div>
+                {% if object.is_company %}
+                    <div class="row m-1">
+                        <div class="col-3 fw-bold text-end">{% translate "Company name" %}:</div>
+                        <div class="col-9" id="draft_user_member_type">
+                            <span>{{ object.company_name }}</span>
+                        </div>
+                    </div>
+                {% endif %}
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
                     <div class="col-9" id="draft_user_ratenzahlung">
@@ -245,8 +252,7 @@
                       data-bs-target="#confirmDeleteModal">
                     <span class="material-icons">delete</span>Delete
                 </span>
-                <span {% if not object.can_create_user %} data-bs-toggle="tooltip" data-bs-html="true"
-                                                          title="{{ object.must_solve_before_creating_share_owner_display }}" {% endif %}>
+                <span {% if not object.can_create_user %} data-bs-toggle="tooltip" data-bs-html="true" title="{{ object.must_solve_before_creating_share_owner_display }}" {% endif %}>
                     <span class="{% tapir_button_action %} {% if not object.can_create_user %}disabled{% endif %}"
                           data-bs-toggle="modal"
                           data-bs-target="#confirmMemberCreationModal">
