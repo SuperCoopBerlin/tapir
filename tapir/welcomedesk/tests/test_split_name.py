@@ -1,5 +1,6 @@
-from tapir.welcomedesk.serializers import split_name
 import pytest
+
+from tapir.welcomedesk.serializers import split_name
 
 
 @pytest.mark.parametrize(
