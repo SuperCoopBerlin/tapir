@@ -349,7 +349,3 @@ def create_member_that_is_working(test, reference_time):
         )
     )
     return tapir_user
-
-
-def is_running_tests():
-    return "PYTEST_CURRENT_TEST" in os.environ

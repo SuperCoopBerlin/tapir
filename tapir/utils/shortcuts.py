@@ -250,3 +250,7 @@ def ensure_datetime(obj: datetime.date | datetime.datetime):
 def transfer_attributes(source, target, attributes):
     for attribute in attributes:
         setattr(target, attribute, getattr(source, attribute))
+
+
+def is_running_tests():
+    return "PYTEST_CURRENT_TEST" in os.environ
