@@ -1,5 +1,6 @@
 import datetime
 from http import HTTPStatus
+from unittest.mock import MagicMock, patch
 
 from django.core import mail
 from django.urls import reverse
@@ -45,11 +46,16 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
             "country": "FR",
             "email": "test@example.com",
             "phone": "0176272674529",
+            "client_captcha_response": "test_response",
         }
 
-    def test_post_emailAddressAlreadyInUseShareOwner_returnsError(self):
+    @patch("requests.post", autospec=True)
+    def test_post_emailAddressAlreadyInUseShareOwner_returnsError(
+        self, mock_requests_post: MagicMock
+    ):
         post_data = self._build_valid_post_data()
         ShareOwnerFactory.create(email=post_data["email"])
+        self._mock_captcha_response(mock_requests_post, success=True)
 
         response = self.client.post(
             reverse("coop:member_self_register"), data=post_data
@@ -62,9 +68,13 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
             response.json(),
         )
 
-    def test_post_emailAddressAlreadyInUseTapirUser_returnsError(self):
+    @patch("requests.post", autospec=True)
+    def test_post_emailAddressAlreadyInUseTapirUser_returnsError(
+        self, mock_requests_post: MagicMock
+    ):
         post_data = self._build_valid_post_data()
         TapirUserFactory.create(email=post_data["email"])
+        self._mock_captcha_response(mock_requests_post, success=True)
 
         response = self.client.post(
             reverse("coop:member_self_register"), data=post_data
@@ -77,9 +87,13 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
             response.json(),
         )
 
-    def test_post_emailAddressAlreadyInUseDraftUser_returnsError(self):
+    @patch("requests.post", autospec=True)
+    def test_post_emailAddressAlreadyInUseDraftUser_returnsError(
+        self, mock_requests_post: MagicMock
+    ):
         post_data = self._build_valid_post_data()
         DraftUserFactory.create(email=post_data["email"])
+        self._mock_captcha_response(mock_requests_post, success=True)
 
         response = self.client.post(
             reverse("coop:member_self_register"), data=post_data
@@ -92,11 +106,13 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
             response.json(),
         )
 
-    def test_post_memberTooYoung_returnsError(self):
+    @patch("requests.post", autospec=True)
+    def test_post_memberTooYoung_returnsError(self, mock_requests_post: MagicMock):
         post_data = self._build_valid_post_data()
         post_data["is_company"] = False
         post_data["birthdate"] = "2003-09-01"
         mock_timezone_now(test=self, now=datetime.datetime(year=2020, month=1, day=1))
+        self._mock_captcha_response(mock_requests_post, success=True)
 
         response = self.client.post(
             reverse("coop:member_self_register"), data=post_data
@@ -117,8 +133,12 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
         self.assertStatusCode(response, HTTPStatus.FORBIDDEN)
         self.assertFalse(DraftUser.objects.exists())
 
-    def test_post_default_createsDraftUserAndSendsConfirmationMail(self):
+    @patch("requests.post", autospec=True)
+    def test_post_default_createsDraftUserAndSendsConfirmationMail(
+        self, mock_requests_post: MagicMock
+    ):
         post_data = self._build_valid_post_data()
+        self._mock_captcha_response(mock_requests_post, success=True)
 
         response = self.client.post(
             reverse("coop:member_self_register"), data=post_data
@@ -154,3 +174,27 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
         self.assertEqual("FR", draft_user.country)
         self.assertEqual("test@example.com", draft_user.email)
         self.assertEqual("0176272674529", draft_user.phone_number)
+
+    @classmethod
+    def _mock_captcha_response(cls, mock_requests_post: MagicMock, success: bool):
+        captcha_api_response = MagicMock()
+        mock_requests_post.return_value = captcha_api_response
+        captcha_api_response.status_code = 200
+        captcha_api_response.json.return_value = {"success": success}
+
+    @patch("requests.post", autospec=True)
+    def test_post_captchaFails_returnsError(self, mock_requests_post: MagicMock):
+        post_data = self._build_valid_post_data()
+        ShareOwnerFactory.create(email=post_data["email"])
+        self._mock_captcha_response(mock_requests_post, success=False)
+
+        response = self.client.post(
+            reverse("coop:member_self_register"), data=post_data
+        )
+
+        self.assertStatusCode(response, HTTPStatus.UNPROCESSABLE_CONTENT)
+        self.assertFalse(DraftUser.objects.exists())
+        self.assertEqual(
+            "Captcha failed, try again",
+            response.json(),
+        )

@@ -11,6 +11,7 @@ import {
   MemberRegistrationRequest,
 } from "../../api-client";
 import { useApi } from "../../hooks/useApi.ts";
+import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
 declare let gettext: (english_text: string) => string;
 
@@ -40,6 +41,10 @@ type Props = {
   membershipFee: number;
   ratenzahlung: boolean;
   emailAddressMemberOffice: string;
+  captchaSdk: FriendlyCaptchaSDK;
+  captchaResponse: string;
+  setCaptchaResponse: React.Dispatch<React.SetStateAction<string>>;
+  friendlyCaptchaSiteKey: string;
 };
 
 const Step4Legal: React.FC<Props> = ({
@@ -68,6 +73,10 @@ const Step4Legal: React.FC<Props> = ({
   ratenzahlung,
   emailAddressMemberOffice,
   setErrorMessage,
+  captchaSdk,
+  captchaResponse,
+  setCaptchaResponse,
+  friendlyCaptchaSiteKey,
 }: Props) => {
   const coopApi = useApi(CoopApi);
 
@@ -104,6 +113,7 @@ const Step4Legal: React.FC<Props> = ({
       email,
       phone,
       ratenzahlung,
+      clientCaptchaResponse: captchaResponse,
     };
 
     if (companyName) memberRegistrationRequest.companyName = companyName;
@@ -162,6 +172,7 @@ const Step4Legal: React.FC<Props> = ({
     setStage,
     shares,
     street,
+    captchaResponse,
   ]);
 
   return (
@@ -207,6 +218,9 @@ const Step4Legal: React.FC<Props> = ({
         coopStreet={coopStreet}
         coopPlace={coopPlace}
         membershipFee={membershipFee}
+        captchaSdk={captchaSdk}
+        setCaptchaResponse={setCaptchaResponse}
+        friendlyCaptchaSiteKey={friendlyCaptchaSiteKey}
       />
       <hr></hr>
       <div className={"mt-5"} style={{ display: "flex", gap: "0.5rem" }}>
@@ -235,7 +249,8 @@ const Step4Legal: React.FC<Props> = ({
             !acceptsMembership ||
             !acceptsPayment ||
             !acceptsPeriod ||
-            !acceptsPrivacy
+            !acceptsPrivacy ||
+            !captchaResponse
           }
           loading={loading}
         />

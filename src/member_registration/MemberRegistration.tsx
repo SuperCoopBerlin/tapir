@@ -8,8 +8,11 @@ import Step1IndividualOrCompany from "./steps/Step1IndividualOrCompany.tsx";
 import Step2Membership from "./steps/Step2Membership.tsx";
 import Step3PersonalDetails from "./steps/Step3PersonalDetails.tsx";
 import Step4Legal from "./steps/Step4Legal.tsx";
+import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
 declare let gettext: (english_text: string) => string;
+
+const captchaSdk = new FriendlyCaptchaSDK();
 
 const MemberRegistration: React.FC = () => {
   const [stage, setStage] = useState<RegistrationStage>(
@@ -38,6 +41,7 @@ const MemberRegistration: React.FC = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
 
+  const [captchaResponse, setCaptchaResponse] = useState("");
   const [errorMessage, setErrorMessage] = useState<ReactNode>("");
   const topRef = useRef<HTMLHeadingElement | null>(null);
 
@@ -52,6 +56,8 @@ const MemberRegistration: React.FC = () => {
   const emailAddressMemberOffice =
     configElement?.dataset.emailAddressMemberOffice ??
     "EMAIL ADDRESS NOT FOUND";
+  const friendlyCaptchaSiteKey =
+    configElement?.dataset.friendlycaptchaSiteKey ?? "SITE KEY NOT FOUND";
 
   useEffect(() => {
     if (!topRef.current) {
@@ -151,6 +157,10 @@ const MemberRegistration: React.FC = () => {
             membershipFee={membershipFee}
             ratenzahlung={ratenzahlung}
             emailAddressMemberOffice={emailAddressMemberOffice}
+            captchaSdk={captchaSdk}
+            captchaResponse={captchaResponse}
+            setCaptchaResponse={setCaptchaResponse}
+            friendlyCaptchaSiteKey={friendlyCaptchaSiteKey}
           />
         )}
         {stage === RegistrationStage.SUCCESS && (

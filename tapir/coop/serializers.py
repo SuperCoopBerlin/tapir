@@ -19,7 +19,6 @@ class MemberRegistrationRequestSerializer(serializers.Serializer):
     is_investing = serializers.BooleanField()
     num_shares = serializers.IntegerField()
     ratenzahlung = serializers.BooleanField()
-
     company_name = serializers.CharField(required=False)
     usage_name = serializers.CharField(required=False, allow_blank=True)
     pronouns = serializers.CharField(required=False, allow_blank=True)
@@ -27,11 +26,10 @@ class MemberRegistrationRequestSerializer(serializers.Serializer):
     preferred_language = serializers.ChoiceField(
         required=True, choices=PREFERRED_LANGUAGES
     )
-
     street = serializers.CharField()
     city = serializers.CharField()
     postcode = serializers.CharField()
     country = serializers.ChoiceField(choices=COUNTRIES)
-
     email = serializers.EmailField()
     phone = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    client_captcha_response = serializers.CharField()

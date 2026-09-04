@@ -1,6 +1,7 @@
 import { Form } from "react-bootstrap";
 import DataProcessingAgreement from "./DataProcessingAgreement";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
 
 declare let gettext: (english_text: string) => string;
 
@@ -23,6 +24,9 @@ type Props = {
   coopStreet: string;
   coopPlace: string;
   membershipFee: number;
+  captchaSdk: FriendlyCaptchaSDK;
+  setCaptchaResponse: React.Dispatch<React.SetStateAction<string>>;
+  friendlyCaptchaSiteKey: string;
 };
 
 export default function Declarations({
@@ -44,11 +48,27 @@ export default function Declarations({
   coopStreet,
   coopPlace,
   membershipFee,
+  captchaSdk,
+  setCaptchaResponse,
+  friendlyCaptchaSiteKey,
 }: Props) {
   const paymentTotal = useMemo(
     () => shares * sharePrice + membershipFee,
     [shares, sharePrice, membershipFee],
   );
+
+  useEffect(() => {
+    const widget = captchaSdk.createWidget({
+      element: document.getElementById("captcha")!,
+      sitekey: friendlyCaptchaSiteKey,
+    });
+
+    widget.addEventListener("frc:widget.complete", (event) =>
+      setCaptchaResponse(event.detail.response),
+    );
+    widget.addEventListener("frc:widget.error", () => setCaptchaResponse(""));
+    widget.addEventListener("frc:widget.expire", () => setCaptchaResponse(""));
+  }, [captchaSdk, setCaptchaResponse, friendlyCaptchaSiteKey]);
 
   return (
     <>
@@ -154,6 +174,9 @@ end of the minimum membership period.
           coopStreet={coopStreet}
           coopPlace={coopPlace}
         />
+      </Form.Group>
+      <Form.Group className={"mt-2"}>
+        <div id={"captcha"} />
       </Form.Group>
     </>
   );

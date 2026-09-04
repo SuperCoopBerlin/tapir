@@ -446,3 +446,7 @@ SESSION_COOKIE_AGE = 86400  # one day
 
 # Duration of years, after which shifts are not relevant enough to be saved
 SHIFT_RETENTION_YEARS = 8
+
+# Friendly captcha settings https://developer.friendlycaptcha.com/docs/v2/
+FRIENDLYCAPTCHA_SITE_KEY = env.str("FRIENDLYCAPTCHA_SITE_KEY", default="INVALID_KEY")
+FRIENDLYCAPTCHA_API_KEY = env.str("FRIENDLYCAPTCHA_API_KEY", default="INVALID_KEY")

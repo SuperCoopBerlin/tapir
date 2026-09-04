@@ -1,6 +1,7 @@
 from http import HTTPStatus
 from typing import Any
 
+import requests
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
@@ -61,6 +62,7 @@ class MemberSelfRegistrationFormTemplateView(TemplateView):
         context_data["email_address_member_office"] = (
             settings.EMAIL_ADDRESS_MEMBER_OFFICE
         )
+        context_data["friendlycaptcha_site_key"] = settings.FRIENDLYCAPTCHA_SITE_KEY
 
         return context_data
 
@@ -80,6 +82,14 @@ class MemberSelfRegisterApiView(APIView):
 
         serializer = MemberRegistrationRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        if not self.validate_captcha_response(
+            serializer.validated_data["client_captcha_response"]
+        ):
+            return Response(
+                "Captcha failed, try again",
+                status=HTTPStatus.UNPROCESSABLE_CONTENT,
+            )
 
         email = serializer.validated_data["email"]
         if (
@@ -133,3 +143,18 @@ class MemberSelfRegisterApiView(APIView):
             )
 
         return Response(True, status=HTTPStatus.CREATED)
+
+    @classmethod
+    def validate_captcha_response(cls, client_captcha_response: str):
+        response = requests.post(
+            "https://global.frcapi.com/api/v2/captcha/siteverify",
+            data={
+                "response": client_captcha_response,
+                "sitekey": settings.FRIENDLYCAPTCHA_SITE_KEY,
+            },
+            headers={"X-API-Key": settings.FRIENDLYCAPTCHA_API_KEY},
+        )
+
+        if response.status_code != 200:
+            return False
+        return response.json().get("success", False)
