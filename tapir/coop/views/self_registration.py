@@ -25,7 +25,7 @@ from tapir.coop.models import DraftUser, ShareOwner
 from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
-from tapir.utils.tests_utils import is_running_tests
+from tapir.utils.shortcuts import is_running_tests
 
 
 class MemberSelfRegistrationLanguageTemplateView(TemplateView):
