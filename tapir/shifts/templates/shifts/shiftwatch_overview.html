@@ -5,7 +5,7 @@
 {% load utils %}
 {% load shifts %}
 {% block title %}
-    {% translate "Recurring Shiftwatch List" %}
+    {{ page_title }}
 {% endblock title %}
 {% block head %}
     {{ form.media }}
@@ -16,10 +16,10 @@
         <!-- Recurring Shift Watches Card -->
         <div class="card mb-2">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>{% translate "Recurring Shift Watches" %}</h5>
+                <h5>{{ card_title }}</h5>
                 <div>
                     <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'shifts:create_watch_recurring_shifts' user.pk %}"
+                       href="{% url 'shifts:create_watch_recurring_shifts' tapir_user.pk %}"
                        id="create_recurring_shiftwatch_button">
                         <span class="material-icons">repeat</span>
                         {% translate "Create a rule for recurring Shift Watches" %}
