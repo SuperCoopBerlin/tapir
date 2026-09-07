@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-02 15:09+0200\n"
+"POT-Creation-Date: 2026-09-07 16:46+0200\n"
 "PO-Revision-Date: 2026-08-26 17:29+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -1028,7 +1028,7 @@ msgstr "Filter"
 #: coop/templates/coop/membership_resignation_list.html:62
 #: coop/templates/coop/shareowner_list.html:85
 #: log/templates/log/log_overview.html:46
-#: shifts/templates/shifts/shift_calendar_template.html:85
+#: shifts/templates/shifts/shift_calendar_template.html:89
 #: shifts/templates/shifts/shiftexemption_list.html:50
 msgid "Filter"
 msgstr "Filter"
@@ -3784,30 +3784,30 @@ msgstr ""
 msgid "Past shifts"
 msgstr "Vergangene Schichten"
 
-#: shifts/templates/shifts/shift_calendar_template.html:30
+#: shifts/templates/shifts/shift_calendar_template.html:34
 #: shifts/templates/shifts/shift_template_overview.html:20
 msgid "ABCD annual calendar"
 msgstr "ABCD-Wochenkalender"
 
-#: shifts/templates/shifts/shift_calendar_template.html:37
+#: shifts/templates/shifts/shift_calendar_template.html:41
 #: shifts/templates/shifts/shift_template_overview.html:27
 msgid "Legend & Filters"
 msgstr "Legende & Filter"
 
-#: shifts/templates/shifts/shift_calendar_template.html:60
+#: shifts/templates/shifts/shift_calendar_template.html:64
 msgid "starting"
 msgstr "beginnt"
 
-#: shifts/templates/shifts/shift_calendar_template.html:61
+#: shifts/templates/shifts/shift_calendar_template.html:65
 #: shifts/templates/shifts/shift_template_overview.html:57
 msgid "Week "
 msgstr "Woche "
 
-#: shifts/templates/shifts/shift_calendar_template.html:67
+#: shifts/templates/shifts/shift_calendar_template.html:71
 msgid "From"
 msgstr "Vom"
 
-#: shifts/templates/shifts/shift_calendar_template.html:75
+#: shifts/templates/shifts/shift_calendar_template.html:79
 msgid "To"
 msgstr "Zum"
 
@@ -4238,16 +4238,7 @@ msgstr ""
 msgid "Be careful when creating a shift slot, as you won't be able to delete it afterwards."
 msgstr "Sei vorsichtig, wenn du ein Schicht-Slot anlegst, weil du ihn nachträglich nicht löschen kannst."
 
-#: shifts/templates/shifts/shiftwatch_overview.html:8
-msgid "Recurring Shiftwatch List"
-msgstr "Liste wiederholender Schichtbeobachtungen"
-
-#: shifts/templates/shifts/shiftwatch_overview.html:19
-msgid "Recurring Shift Watches"
-msgstr "Wiederholende Schichtbeobachtungen"
-
 #: shifts/templates/shifts/shiftwatch_overview.html:25
-#: shifts/views/views.py:464
 msgid "Create a rule for recurring Shift Watches"
 msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
 
@@ -4691,10 +4682,22 @@ msgstr "Erzeuge Schicht-Kontoeintrag für: %(link)s"
 msgid "Frozen statuses updated."
 msgstr ""
 
-#: shifts/views/views.py:467
+#: shifts/views/views.py:466
+#, fuzzy, python-format
+#| msgid "Create a rule for recurring Shift Watches"
+msgid "Create a rule for recurring shift watch for %(name)s"
+msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
+
+#: shifts/views/views.py:472
 #, python-format
 msgid "Please select either %(shift_template_group)s and/or weekdays, or alternatively %(shift_templates)s."
 msgstr ""
+
+#: shifts/views/views.py:505 shifts/views/views.py:508
+#, fuzzy, python-format
+#| msgid "Recurring Shiftwatch List"
+msgid "Recurring Shiftwatch List of %(name)s"
+msgstr "Liste wiederholender Schichtbeobachtungen"
 
 #: statistics/apps.py:18
 msgid "Statistics"
@@ -6036,6 +6039,9 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Recurring Shift Watches"
+#~ msgstr "Wiederholende Schichtbeobachtungen"
 
 #, fuzzy, python-format
 #~| msgid ""
