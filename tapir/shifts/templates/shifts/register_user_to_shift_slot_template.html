@@ -42,9 +42,7 @@
                         {% translate 'Already occupied shifts :' %}
                         <ul id="occupied_shifts_list">
                             {% for slot in blocked_slots %}
-                                <li>
-                                    <a href="{{ slot.shift.get_absolute_url }}">{{ slot.shift.get_display_name }}</a>
-                                </li>
+                                <li>{{ slot.shift.get_display_url }}</li>
                             {% endfor %}
                         </ul>
                     </div>

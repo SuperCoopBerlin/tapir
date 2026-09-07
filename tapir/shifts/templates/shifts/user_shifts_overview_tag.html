@@ -248,7 +248,7 @@
         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Next watched Shift" %}:</div>
         <div class="col-12 col-sm-8">
             {% if next_watched_shift %}
-                <a href="{{ next_watched_shift.shift.get_absolute_url }}">{{ next_watched_shift.shift.get_display_name }}</a>
+                {{ next_watched_shift.shift.get_display_url }}
             {% else %}
                 <span class="text-danger">{% translate "No watched shifts" %}</span>
             {% endif %}

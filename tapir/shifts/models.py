@@ -180,8 +180,7 @@ class ShiftTemplate(models.Model):
     flexible_time = models.BooleanField(
         verbose_name=_("Flexible time"),
         help_text=_(
-            "If enabled, members who register for that shift can choose themselves "
-            "the time where they come do their shift."
+            "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
         ),
         default=False,
         blank=False,
@@ -509,8 +508,7 @@ class Shift(models.Model):
     flexible_time = models.BooleanField(
         verbose_name=_("Flexible time"),
         help_text=_(
-            "If enabled, members who register for that shift can choose themselves "
-            "the time where they come do their shift."
+            "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
         ),
         default=False,
         blank=False,
@@ -560,13 +558,20 @@ class Shift(models.Model):
         )
         if self.shift_template and self.shift_template.group:
             display_name = f"{display_name} ({self.shift_template.group.name})"
+
         return display_name
 
     def get_absolute_url(self):
         return reverse("shifts:shift_detail", args=[self.pk])
 
     def get_display_url(self):
-        return get_html_link(self.get_absolute_url(), self.get_display_name())
+        display_name = self.get_display_name()
+        if self.cancelled:
+            display_name = format_html(
+                '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
+                display_name,
+            )
+        return get_html_link(self.get_absolute_url(), display_name)
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)
@@ -668,7 +673,13 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return display_name
 
     def get_html_link(self):
-        return get_html_link(self.shift.get_absolute_url(), self.get_display_name())
+        display_name = self.get_display_name()
+        if self.shift.cancelled:
+            display_name = format_html(
+                '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
+                display_name,
+            )
+        return get_html_link(self.shift.get_absolute_url(), display_name)
 
     def get_valid_attendance(self) -> ShiftAttendance:
         if hasattr(self, "valid_attendance"):
@@ -1259,17 +1270,13 @@ class ShiftWatch(models.Model):
     )
 
     def __str__(self):
-        shift_name = self.shift.get_display_name()
-        shift_url = self.shift.get_absolute_url()
-
         staffing_statuses = ", ".join(status for status in self.staffing_status)
         watched_caps = ", ".join(cap for cap in self.watched_capabilities)
 
         return format_html(
-            '{} is watching <a href="{}">{}</a> for changes of {} (capabilities: {})',
+            "{} is watching {} for changes of {} (capabilities: {})",
             self.user.username,
-            shift_url,
-            shift_name,
+            self.shift.get_display_url(),
             staffing_statuses,
             watched_caps,
         )
