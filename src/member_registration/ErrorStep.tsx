@@ -7,7 +7,7 @@ type Props = {
   errorMessage: ReactNode;
 };
 
-export default function Error({ errorMessage }: Props) {
+export default function ErrorStep({ errorMessage }: Props) {
   return (
     <>
       <div

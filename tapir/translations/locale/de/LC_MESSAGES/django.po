@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-08 10:34+0200\n"
+"POT-Creation-Date: 2026-09-08 11:03+0200\n"
 "PO-Revision-Date: 2026-08-26 17:29+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -71,7 +71,7 @@ msgstr "Pronomen"
 #: accounts/models.py:71 accounts/templates/accounts/user_detail.html:71
 #: coop/models.py:72 coop/models.py:447
 #: coop/templates/coop/draftuser_detail.html:71
-#: coop/templates/coop/draftuser_detail.html:142
+#: coop/templates/coop/draftuser_detail.html:143
 #: coop/templates/coop/shareowner_detail.html:51
 #: coop/templates/coop/user_profile_pdf.html:113
 msgid "Phone number"
@@ -79,7 +79,7 @@ msgstr "Telefonnummer"
 
 #: accounts/models.py:72 accounts/templates/accounts/user_detail.html:81
 #: coop/models.py:73 coop/models.py:448
-#: coop/templates/coop/draftuser_detail.html:146
+#: coop/templates/coop/draftuser_detail.html:147
 #: coop/templates/coop/shareowner_detail.html:55
 #: coop/templates/coop/user_profile_pdf.html:121
 msgid "Birthdate"
@@ -262,8 +262,8 @@ msgid "I agree that my membership card will be scanned at the checkout when I ma
 msgstr "Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an der Kasse gescannt und somit mein Einkauf erfasst und gespeichert wird:"
 
 #: accounts/templates/accounts/purchase_tracking_card.html:30
-#: coop/templates/coop/draftuser_detail.html:178
-#: coop/templates/coop/draftuser_detail.html:192
+#: coop/templates/coop/draftuser_detail.html:179
+#: coop/templates/coop/draftuser_detail.html:193
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:184
 msgid "Yes,No"
@@ -308,7 +308,7 @@ msgid "Edit username"
 msgstr "Benutzername bearbeiten"
 
 #: accounts/templates/accounts/user_detail.html:47
-#: coop/templates/coop/draftuser_detail.html:248
+#: coop/templates/coop/draftuser_detail.html:249
 #: coop/templates/coop/membershipresignation_detail.html:107
 #: coop/templates/coop/shareowner_detail.html:30
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:26
@@ -344,7 +344,7 @@ msgstr "Nutzer*innenname"
 
 #: accounts/templates/accounts/user_detail.html:67
 #: coop/templates/coop/draftuser_detail.html:73
-#: coop/templates/coop/draftuser_detail.html:138
+#: coop/templates/coop/draftuser_detail.html:139
 #: coop/templates/coop/shareowner_detail.html:47
 #: coop/templates/coop/user_profile_pdf.html:105
 msgid "Email"
@@ -353,7 +353,7 @@ msgstr "E-Mail-Adresse"
 #: accounts/templates/accounts/user_detail.html:76
 #: accounts/templates/accounts/user_detail.html:86
 #: accounts/templates/accounts/user_detail.html:96
-#: coop/templates/coop/draftuser_detail.html:161
+#: coop/templates/coop/draftuser_detail.html:162
 #: coop/templates/coop/shareowner_detail.html:60
 #: coop/templates/coop/shareowner_detail.html:70
 #: shifts/templates/shifts/user_shifts_overview_tag.html:45
@@ -364,7 +364,7 @@ msgstr "Fehlend"
 
 #: accounts/templates/accounts/user_detail.html:91
 #: coop/templates/coop/draftuser_detail.html:72
-#: coop/templates/coop/draftuser_detail.html:156
+#: coop/templates/coop/draftuser_detail.html:157
 #: coop/templates/coop/shareowner_detail.html:65
 #: coop/templates/coop/user_profile_pdf.html:125
 msgid "Address"
@@ -739,7 +739,7 @@ msgid "Additional information must not exceed 500 characters."
 msgstr "Zusätzliche Informationen sollten nicht mehr als 500 Zeichen sein."
 
 #: coop/models.py:54 coop/models.py:455
-#: coop/templates/coop/draftuser_detail.html:176
+#: coop/templates/coop/draftuser_detail.html:177
 msgid "Is company"
 msgstr "Ist eine Firma"
 
@@ -752,7 +752,7 @@ msgid "Last name"
 msgstr "Nachname"
 
 #: coop/models.py:65 coop/models.py:440
-#: coop/templates/coop/draftuser_detail.html:134
+#: coop/templates/coop/draftuser_detail.html:135
 msgid "Usage name"
 msgstr "Angezeigter Name"
 
@@ -765,7 +765,7 @@ msgid "Is investing member"
 msgstr "Ist investierendes Mitglied"
 
 #: coop/models.py:90 coop/models.py:480
-#: coop/templates/coop/draftuser_detail.html:190
+#: coop/templates/coop/draftuser_detail.html:191
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:179
 msgid "Ratenzahlung"
@@ -791,11 +791,11 @@ msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
 msgid "Not a member"
 msgstr "Kein Mitlied"
 
-#: coop/models.py:368 coop/templates/coop/draftuser_detail.html:169
+#: coop/models.py:368 coop/templates/coop/draftuser_detail.html:170
 msgid "Investing"
 msgstr "Investierend"
 
-#: coop/models.py:369 coop/templates/coop/draftuser_detail.html:171
+#: coop/models.py:369 coop/templates/coop/draftuser_detail.html:172
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:115
 #: coop/templates/coop/user_profile_pdf.html:161
 msgid "Active"
@@ -999,31 +999,31 @@ msgid "I confirm that I have checked that this is not a duplicate."
 msgstr "Ich bestätige, dass ich auf Dopplungen überprüft habe."
 
 #: coop/templates/coop/draftuser_detail.html:119
-#: coop/templates/coop/draftuser_detail.html:260
+#: coop/templates/coop/draftuser_detail.html:262
 msgid "Create Member"
 msgstr "Mitglied anlegen"
 
-#: coop/templates/coop/draftuser_detail.html:166
+#: coop/templates/coop/draftuser_detail.html:167
 msgid "Member Type"
 msgstr "Art der Mitgliedschaft"
 
-#: coop/templates/coop/draftuser_detail.html:183
+#: coop/templates/coop/draftuser_detail.html:184
 #, fuzzy
 #| msgid "Displayed name"
 msgid "Company name"
 msgstr "Angezeigter Name"
 
-#: coop/templates/coop/draftuser_detail.html:196
+#: coop/templates/coop/draftuser_detail.html:197
 msgid "Shares requested"
 msgstr "Angeforderte Anteile"
 
-#: coop/templates/coop/draftuser_detail.html:200
+#: coop/templates/coop/draftuser_detail.html:201
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:57
 #: shifts/models.py:45
 msgid "Welcome Session"
 msgstr "Willkommenstreffen"
 
-#: coop/templates/coop/draftuser_detail.html:218
+#: coop/templates/coop/draftuser_detail.html:219
 msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 

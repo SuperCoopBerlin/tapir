@@ -7,7 +7,7 @@ type Props = {
   emailAddressMemberOffice: string;
 };
 
-export default function Success({ name, emailAddressMemberOffice }: Props) {
+export default function SuccessStep({ name, emailAddressMemberOffice }: Props) {
   return (
     <>
       <div

@@ -42,7 +42,7 @@ export default function Membership({
           min="1"
           max="1000"
           style={{ width: "auto" }}
-          onChange={(event) => setShares(parseInt(event.target.value))}
+          onChange={(event) => setShares(Number.parseInt(event.target.value))}
           required
         />
         <Form.Control.Feedback type="invalid">

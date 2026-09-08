@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Card } from "react-bootstrap";
-import Success from "./Success.tsx";
-import Error from "./Error.tsx";
+import SuccessStep from "./SuccessStep.tsx";
+import ErrorStep from "./ErrorStep.tsx";
 import { PreferredLanguage, RegistrationStage } from "./constants.ts";
 import { getNavigatorLanguage } from "./util.ts";
 import Step1IndividualOrCompany from "./steps/Step1IndividualOrCompany.tsx";
@@ -46,8 +46,10 @@ const MemberRegistration: React.FC = () => {
   const topRef = useRef<HTMLHeadingElement | null>(null);
 
   const configElement = document.getElementById("self_registration_config");
-  const sharePrice = parseFloat(configElement?.dataset.sharePrice ?? "-1");
-  const membershipFee = parseFloat(
+  const sharePrice = Number.parseFloat(
+    configElement?.dataset.sharePrice ?? "-1",
+  );
+  const membershipFee = Number.parseFloat(
     configElement?.dataset.membershipFee ?? "-1",
   );
   const coopName = configElement?.dataset.coopName ?? "NAME NOT FOUND";
@@ -164,13 +166,13 @@ const MemberRegistration: React.FC = () => {
           />
         )}
         {stage === RegistrationStage.SUCCESS && (
-          <Success
+          <SuccessStep
             name={preferredName || [firstName, lastName].join(" ")}
             emailAddressMemberOffice={emailAddressMemberOffice}
           />
         )}
         {stage === RegistrationStage.ERROR && (
-          <Error errorMessage={errorMessage} />
+          <ErrorStep errorMessage={errorMessage} />
         )}
       </Card.Body>
     </Card>
