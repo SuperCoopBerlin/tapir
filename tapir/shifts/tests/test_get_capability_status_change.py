@@ -37,7 +37,9 @@ def set_up_slots(db):
             [1, 2],
             [2],
             [ShiftUserCapability.SHIFT_COORDINATOR],
-            [f"Member with capability added: {ShiftUserCapability.SHIFT_COORDINATOR}"],
+            [
+                f"Member with capability registered: {ShiftUserCapability.SHIFT_COORDINATOR}"
+            ],
         ),
         (
             [2],
@@ -52,7 +54,9 @@ def set_up_slots(db):
             [3],
             [2],
             [ShiftUserCapability.HANDLING_CHEESE],
-            [f"Member with capability added: {ShiftUserCapability.HANDLING_CHEESE}"],
+            [
+                f"Member with capability registered: {ShiftUserCapability.HANDLING_CHEESE}"
+            ],
         ),
         (
             [3],
