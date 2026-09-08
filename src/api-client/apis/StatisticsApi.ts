@@ -38,10 +38,18 @@ export interface StatisticsExportDatasetListRequest {
     exportColumns: Array<string>;
 }
 
+export interface StatisticsFinancingCampaignJsonRetrieveRequest {
+    id: number;
+}
+
 export interface StatisticsGraphPointRetrieveRequest {
     atDate: Date;
     dataset: string;
     relative: boolean;
+}
+
+export interface StatisticsUserBasketSumEvolutionJsonRetrieveRequest {
+    id: number;
 }
 
 /**
@@ -139,6 +147,29 @@ export class StatisticsApi extends runtime.BaseAPI {
     }
 
     /**
+     */
+    async statisticsCoPurchasersJsonRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/co_purchasers_json`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async statisticsCoPurchasersJsonRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsCoPurchasersJsonRetrieveRaw(initOverrides);
+    }
+
+    /**
      * Verify that the current user is authenticated.
      */
     async statisticsExportDatasetListRaw(requestParameters: StatisticsExportDatasetListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatapointExport>>> {
@@ -195,6 +226,59 @@ export class StatisticsApi extends runtime.BaseAPI {
     async statisticsExportDatasetList(requestParameters: StatisticsExportDatasetListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatapointExport>> {
         const response = await this.statisticsExportDatasetListRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async statisticsFinancingCampaignJsonRetrieveRaw(requestParameters: StatisticsFinancingCampaignJsonRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling statisticsFinancingCampaignJsonRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/financing_campaign_json/{id}`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async statisticsFinancingCampaignJsonRetrieve(requestParameters: StatisticsFinancingCampaignJsonRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsFinancingCampaignJsonRetrieveRaw(requestParameters, initOverrides);
+    }
+
+    /**
+     */
+    async statisticsFrozenMembersJsonRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/frozen_members_json`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async statisticsFrozenMembersJsonRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsFrozenMembersJsonRetrieveRaw(initOverrides);
     }
 
     /**
@@ -258,6 +342,84 @@ export class StatisticsApi extends runtime.BaseAPI {
     async statisticsGraphPointRetrieve(requestParameters: StatisticsGraphPointRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<number> {
         const response = await this.statisticsGraphPointRetrieveRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async statisticsMemberCountEvolutionJsonRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/member_count_evolution_json`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async statisticsMemberCountEvolutionJsonRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsMemberCountEvolutionJsonRetrieveRaw(initOverrides);
+    }
+
+    /**
+     */
+    async statisticsNewMembersPerMonthJsonRetrieveRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/new_members_per_month_json`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async statisticsNewMembersPerMonthJsonRetrieve(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsNewMembersPerMonthJsonRetrieveRaw(initOverrides);
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsUserBasketSumEvolutionJsonRetrieveRaw(requestParameters: StatisticsUserBasketSumEvolutionJsonRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling statisticsUserBasketSumEvolutionJsonRetrieve().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/statistics/user/{id}/basket_sum_evolution_json`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     * Verify that the current user is authenticated.
+     */
+    async statisticsUserBasketSumEvolutionJsonRetrieve(requestParameters: StatisticsUserBasketSumEvolutionJsonRetrieveRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.statisticsUserBasketSumEvolutionJsonRetrieveRaw(requestParameters, initOverrides);
     }
 
 }

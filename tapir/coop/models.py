@@ -451,6 +451,10 @@ class DraftUser(models.Model):
     postcode = models.CharField(_("Postcode"), max_length=32, blank=True)
     city = models.CharField(_("City"), max_length=50, blank=True)
     country = CountryField(_("Country"), blank=True, default="DE")
+    is_company = models.BooleanField(
+        verbose_name=_("Is company"), default=False, blank=False
+    )
+    company_name = models.CharField(max_length=150, blank=True)
 
     preferred_language = models.CharField(
         _("Preferred Language"),

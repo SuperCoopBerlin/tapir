@@ -131,8 +131,8 @@
                     <div class="col-9" id="draft_user_display_name">{% get_display_name_for_viewer object request.user %}</div>
                 </div>
                 <div class="row m-1">
-                    <div class="col-3 fw-bold text-end">{% translate "Username" %}:</div>
-                    <div class="col-9" id="draft_user_username">{{ object.username }}</div>
+                    <div class="col-3 fw-bold text-end">{% translate "Usage name" %}:</div>
+                    <div class="col-9" id="draft_user_usage_name">{{ object.usage_name }}</div>
                 </div>
                 <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Email" %}:</div>
@@ -173,13 +173,23 @@
                     </div>
                 </div>
                 <div class="row m-1">
+                    <div class="col-3 fw-bold text-end">{% translate "Is company" %}:</div>
+                    <div class="col-9" id="draft_user_member_type">
+                        <span>{{ object.is_company|yesno:_("Yes,No") }}</span>
+                    </div>
+                </div>
+                {% if object.is_company %}
+                    <div class="row m-1">
+                        <div class="col-3 fw-bold text-end">{% translate "Company name" %}:</div>
+                        <div class="col-9" id="draft_user_member_type">
+                            <span>{{ object.company_name }}</span>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="row m-1">
                     <div class="col-3 fw-bold text-end">{% translate "Ratenzahlung" %}:</div>
                     <div class="col-9" id="draft_user_ratenzahlung">
-                        {% if object.ratenzahlung %}
-                            Yes
-                        {% else %}
-                            No
-                        {% endif %}
+                        <span>{{ object.ratenzahlung|yesno:_("Yes,No") }}</span>
                     </div>
                 </div>
                 <div class="row m-1">

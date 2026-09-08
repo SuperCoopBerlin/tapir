@@ -5,7 +5,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.utils import translation
 
 from tapir.accounts.models import TapirUser
-from tapir.coop.models import ShareOwner
+from tapir.coop.models import DraftUser, ShareOwner
 from tapir.core.services.optional_mails_for_user_service import (
     OptionalMailsForUserService,
 )
@@ -105,5 +105,20 @@ class SendMailService:
             ),
             member_infos=recipient,
             tapir_user=recipient,
+            email_builder=email_builder,
+        )
+
+    @classmethod
+    def send_to_draft_user(
+        cls,
+        actor: TapirUser | User | None,
+        recipient: DraftUser,
+        email_builder: TapirEmailBuilderBase,
+    ):
+        cls.__send(
+            actor=actor,
+            share_owner=None,
+            member_infos=recipient,
+            tapir_user=None,
             email_builder=email_builder,
         )

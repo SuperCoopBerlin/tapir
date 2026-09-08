@@ -76,6 +76,7 @@ MIDDLEWARE = [
     "tapir.core.middleware.SendExceptionsToSlackMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -445,3 +446,7 @@ SESSION_COOKIE_AGE = 86400  # one day
 
 # Duration of years, after which shifts are not relevant enough to be saved
 SHIFT_RETENTION_YEARS = 8
+
+# Friendly captcha settings https://developer.friendlycaptcha.com/docs/v2/
+FRIENDLYCAPTCHA_SITE_KEY = env.str("FRIENDLYCAPTCHA_SITE_KEY", default="INVALID_KEY")
+FRIENDLYCAPTCHA_API_KEY = env.str("FRIENDLYCAPTCHA_API_KEY", default="INVALID_KEY")

@@ -15,3 +15,4 @@ URL_MEMBER_MANUAL = "https://wiki.supercoop.de/wiki/Member_Manual"
 
 feature_flag_membership_resignation = "feature_flags.coop.membership_resignation"
 feature_flag_buy_shares = "feature_flags.coop.buy_shares"
+feature_flag_self_registration_enabled = "feature_flags.coop.self_registration_enabled"

@@ -15,6 +15,11 @@ urlpatterns = [
         name="share_create",
     ),
     path(
+        "member/request-share/",
+        views.RequestShareGenericView.as_view(),
+        name="share_create_generic",
+    ),
+    path(
         "share/<int:pk>/delete",
         views.ShareOwnershipDeleteView.as_view(),
         name="shareownership_delete",
@@ -201,9 +206,14 @@ urlpatterns = [
         name="general_accounts_list",
     ),
     path(
-        "member_self_registration",
-        views.MemberSelfRegistrationTemplateView.as_view(),
-        name="member_self_registration",
+        "member_self_registration_language",
+        views.MemberSelfRegistrationLanguageTemplateView.as_view(),
+        name="member_self_registration_language",
+    ),
+    path(
+        "member_self_registration_form",
+        views.MemberSelfRegistrationFormTemplateView.as_view(),
+        name="member_self_registration_form",
     ),
     path(
         "member_self_register",

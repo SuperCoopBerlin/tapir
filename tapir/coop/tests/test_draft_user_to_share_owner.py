@@ -148,3 +148,35 @@ class TestsDraftUserToShareOwner(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(draft_user.first_name, recap_entry.member.first_name)
         self.assertEqual(timezone.now().date(), recap_entry.date)
         self.assertEqual(3, recap_entry.number_of_shares)
+
+    def test_post_draftUserIsACompany_shareOwnerIsACompanyToo(self):
+        self.login_as_member_office_user()
+        draft_user = DraftUserFactory.create(
+            is_company=True,
+            company_name="FirmaCorpInc.",
+            signed_membership_agreement=True,
+        )
+
+        response = self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertStatusCode(response, 302)
+
+        self.assertEqual(2, ShareOwner.objects.count())
+        share_owner = ShareOwner.objects.get(first_name=draft_user.first_name)
+        self.assertTrue(share_owner.is_company)
+        self.assertEqual("FirmaCorpInc.", draft_user.company_name)
+
+    def test_post_draftUserIsNotACompany_shareOwnerIsNotACompanyEither(self):
+        self.login_as_member_office_user()
+        draft_user = DraftUserFactory.create(
+            is_company=False,
+            company_name="",
+            signed_membership_agreement=True,
+        )
+
+        response = self.client.get(reverse(self.VIEW_NAME, args=[draft_user.pk]))
+        self.assertStatusCode(response, 302)
+
+        self.assertEqual(2, ShareOwner.objects.count())
+        share_owner = ShareOwner.objects.get(first_name=draft_user.first_name)
+        self.assertFalse(share_owner.is_company)
+        self.assertEqual("", draft_user.company_name)

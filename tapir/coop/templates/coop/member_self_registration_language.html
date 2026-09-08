@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+{% load django_vite %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+{% endblock head %}
+{% block title %}
+    {% blocktranslate %}
+        {{ coop_name }} registration
+    {% endblocktranslate %}
+{% endblock title %}
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h5>{% translate "Become a SuperCoop Member!" %}</h5>
+        </div>
+        <div class="card-body">
+            <div class="mb-4" style="width: 100%; max-width: 700px;">
+                <p>
+                    <img style="width: 100%"
+                         src="https://supercoop.de/wp-content/uploads/supercoop-header.jpg"
+                         alt="Supercoop Banner" />
+                </p>
+                <p>
+                    {% blocktranslate trimmed %}
+                        As a member of SuperCoop, you can buy regional and healthy food, be part of our active community
+                        and have a say in all decisions. The co-op is a vibrant marketplace. You support day-to-day
+                        operations (or other working groups) by putting in three hours’ work per month alongside other
+                        members in a great atmosphere. In working groups, you can champion the issues that matter to you
+                        and play an active role in shaping the future of the co-op.
+                    {% endblocktranslate %}
+                </p>
+                <div class="d-flex gap-2">
+                    <form action="{% url "set_language" %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden"
+                               name="next"
+                               value="{% url "coop:member_self_registration_form" %}" />
+                        <input type="hidden" name="language" value="de" />
+                        <button class="{% tapir_button_link %}">🇩🇪 Deutsch</button>
+                    </form>
+                    <form action="{% url "set_language" %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden"
+                               name="next"
+                               value="{% url "coop:member_self_registration_form" %}" />
+                        <input type="hidden" name="language" value="en" />
+                        <button class="{% tapir_button_link %}">🇬🇧 English</button>
+                    </form>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+{% endblock content %}

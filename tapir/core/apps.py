@@ -4,6 +4,7 @@ from django.apps import AppConfig
 from django.urls import reverse_lazy
 from django.utils.translation import gettext_lazy as _
 
+from tapir.coop.config import feature_flag_self_registration_enabled
 from tapir.core.config import sidebar_link_groups
 from tapir.settings import PERMISSION_COOP_ADMIN, PERMISSION_COOP_MANAGE
 
@@ -76,4 +77,15 @@ class CoreConfig(AppConfig):
             material_icon="help",
             url=reverse_lazy("coop:about"),
             ordering=7,
+            visibility="always",
+        )
+
+        register_group = sidebar_link_groups.get_group(_("Register"), 0)
+        register_group.add_link(
+            display_name=_("Become a Member"),
+            material_icon="person_add",
+            url=reverse_lazy("coop:member_self_registration_language"),
+            ordering=8,
+            visibility="only_when_not_logged_in",
+            required_feature_flag=feature_flag_self_registration_enabled,
         )
