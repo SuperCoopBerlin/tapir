@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-08 11:03+0200\n"
-"PO-Revision-Date: 2026-08-26 17:29+0000\n"
+"PO-Revision-Date: 2026-09-08 19:35+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -150,6 +151,10 @@ msgstr "Benutzername bearbeiten: %(display_name_full)s"
 #, python-format
 msgid "<p>Your old username is %(old_username)s.</p> <p> If you ever updated the wiki, please contact the Wiki team on Slack <a href=\"https://supercoopberlin.slack.com/archives/C01UCL82XMF\">#wiki</a> to keep your member's page there and the history of your changes. </p>"
 msgstr ""
+"<p>Dein vorheriger Nutzername ist %(old_username)s.</p><p> Solltest du mal "
+"das Wiki updaten, bitte kontaktiere das Wiki-team auf Slack <a "
+"href=\"https://supercoopberlin.slack.com/archives/C01UCL82XMF\">#wiki</a> um "
+"deine Mitgliedsseite dort und die Historie der Änderungen zu behalten.</p>"
 
 #: accounts/templates/accounts/edit_username.default.html:43
 #: accounts/templates/registration/password_update.html:16
@@ -436,7 +441,7 @@ msgstr "Passwort oder Benutzername vergessen?"
 
 #: accounts/templates/registration/login.html:66
 msgid "Not a member yet?"
-msgstr "Noch nicht Mitglied?"
+msgstr "Noch kein Mitglied?"
 
 #: accounts/templates/registration/login.html:68
 #, python-format
@@ -594,14 +599,14 @@ msgid "Automatically sent to the member who received shares after a resignation.
 msgstr "Wird automatisch an das Mitglied geschickt, das nach einem Austritt Anteile erhalten hat."
 
 #: coop/emails/self_registration_confirmation_mail.py:19
-#, fuzzy
-#| msgid "Registration confirmed"
 msgid "Self registration confirmation"
-msgstr "Anmeldung bestätigt"
+msgstr "Registrierung bestätigt"
 
 #: coop/emails/self_registration_confirmation_mail.py:24
 msgid "Sent to a user when they register by themselves. The user is not a member yet."
 msgstr ""
+"Wird an ein selbst-registrierende Nutzende geschickt. Der User ist noch kein "
+"Mitglied."
 
 #: coop/emails/tapir_account_created_email.py:23
 msgid "Tapir account created"
@@ -785,7 +790,7 @@ msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
 #: coop/models.py:215
 msgid "User info should be stored in associated Tapir account"
-msgstr "Benutzer Infos sollen in dem Tapir Konto gespeichert warden"
+msgstr "Benutzerinformationen sollten im Tapir.Konto gespeichert werden"
 
 #: coop/models.py:367
 msgid "Not a member"
@@ -1008,10 +1013,8 @@ msgid "Member Type"
 msgstr "Art der Mitgliedschaft"
 
 #: coop/templates/coop/draftuser_detail.html:184
-#, fuzzy
-#| msgid "Displayed name"
 msgid "Company name"
-msgstr "Angezeigter Name"
+msgstr "Name der Firma"
 
 #: coop/templates/coop/draftuser_detail.html:197
 msgid "Shares requested"
@@ -1823,18 +1826,7 @@ msgid "%(resigned_member_full)s bequeathed her / his share(s) to you because of 
 msgstr "%(resigned_member_full)s hat dir seinen/ihren Anteil wegen seines/ihres Rücktritts vermacht"
 
 #: coop/templates/coop/email/self_registration_confirmation.body.default.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Hi %(display_name_short)s,</p>\n"
-#| "\n"
-#| "        <p>This is an automated email from %(coop_name)s.</p>\n"
-#| "\n"
-#| "        <p>\n"
-#| "            Your next shift at %(coop_name)s is: <br/>\n"
-#| "            <strong>%(shift_display_name)s</strong>\n"
-#| "        </p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>Dear %(name_short)s,</p>\n"
@@ -1854,20 +1846,32 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"    <p>Hallo %(display_name_short)s,</p>\n"
+"        <p>Hallo %(name_short)s,</p>\n"
+"        <p>\n"
+"            Wir freuen uns über dein Interesse   %(coop_name)s beizutreten!\n"
+"        </p>\n"
+"        <p>\n"
+"            Deine Bewerbung wird bald (normalerweise innerhalb weniger Tage) "
+"überprüft und du erhältst eine E-Mail, sobald es abgeschlossen ist.\n"
+"        </p>\n"
+"        <p>Solltest du bereits Fragen haben, kontaktiere das Mitgliederbüro "
+"unter <a\n"
+"                href=\"mailto:%(contact_email_address)s\">%"
+"(contact_email_address)s</a></p>\n"
+"        <p>\n"
 "\n"
-"    <p>Dies ist eine automatische E-Mail von der %(coop_name)s.</p>\n"
+"            Kooperative Grüße,<br/>\n"
 "\n"
-"    <p>\n"
-"        Deine nächste Schicht am Supercoop ist bald!<br/>\n"
-"        Deine Schicht ist: %(shift_display_name)s\n"
-"    </p>\n"
-"  "
+"            Dein %(coop_name)s-Vorstand\n"
+"\n"
+"        </p>\n"
+"    "
 
 #: coop/templates/coop/email/self_registration_confirmation.subject.default.html:2
 #, python-format
 msgid "We have received your application for a membership to %(coop_name)s"
 msgstr ""
+"Wir haben die Bewerbung für eine Mitgliedschaft für %(coop_name)s erhalten"
 
 #: coop/templates/coop/email/tapir_account_created.body.html:6
 #, python-format
@@ -2037,18 +2041,14 @@ msgid "Supercoop registration"
 msgstr ""
 
 #: coop/templates/coop/member_self_registration_language.html:12
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        a cooperative share\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        %(coop_name)s registration\n"
 "    "
 msgstr ""
 "\n"
-"        einem Genossenschaftsanteil\n"
+"        %(coop_name)s-Registrierung\n"
 "    "
 
 #: coop/templates/coop/member_self_registration_language.html:19
@@ -2486,7 +2486,7 @@ msgstr "Beende Mitgliedschaft von %(name)s"
 #: coop/views/self_registration.py:102
 #, python-brace-format
 msgid "This email address ({email}) is already in use"
-msgstr ""
+msgstr "Die Emailadresse {email} ist bereits in Verwendung"
 
 #: coop/views/shareowner.py:147 coop/views/shareowner.py:152
 #, python-format
@@ -2827,10 +2827,12 @@ msgid "Flying member registration reminder"
 msgstr "Registrierungserinnerung für ein fliegendes Mitglied"
 
 #: shifts/emails/flying_member_registration_reminder_email.py:20
-#, fuzzy, python-brace-format
-#| msgid "Sent to flying members %(nb_days)s days after a cycle has begun, if they haven't registered to a shift for this cycle."
+#, python-brace-format
 msgid "Sent to flying members {nb_days} days after a cycle has begun, if they haven't registered to a shift for this cycle."
-msgstr "Wird an fliegende Mitglieder %(nb_days)s Tage nach Beginn des Schichtzyklus, wenn sie sich nicht bereits für eine Schicht in diesem Zyklus registriert haben."
+msgstr ""
+"Wird an fliegende Mitglieder {nb_days} Tage nach Beginn des Schichtzyklus, "
+"wenn sie sich nicht bereits für eine Schicht in diesem Zyklus registriert "
+"haben."
 
 #: shifts/emails/freeze_warning_email.py:26
 msgid "Freeze warning"
@@ -3226,6 +3228,8 @@ msgstr "Ganze Schicht absagen:"
 #: shifts/templates/shifts/cancel_shift.html:16
 msgid "This will cancel the entire shift for that day. It will not affect other shifts that come from the same ABCD shift."
 msgstr ""
+"Dies sagt alle Schichten des ganzen Tages ab. Es hat keinen Effekt auf "
+"andere Schichten derselben ABCD-Schicht."
 
 #: shifts/templates/shifts/cancel_shift.html:22
 msgid ""
@@ -3840,6 +3844,8 @@ msgstr "Mitglieder mit Verwarnung"
 #: shifts/templates/shifts/members_on_alert_list.html:31
 msgid "The members in this list are on alert relative to their shift account : the current balance is -2 or less."
 msgstr ""
+"Die Mitglieder in dieser Liste sind hinsichtlich ihres Schichtkontostands "
+"verwarnt: Der aktuelle Kontostand sind -2 oder weniger."
 
 #: shifts/templates/shifts/register_user_to_shift_slot.html:7
 #: shifts/templates/shifts/register_user_to_shift_slot.html:16
@@ -3948,6 +3954,8 @@ msgstr "Schicht absagen für:"
 #: shifts/templates/shifts/shift_day_cancel.html:16
 msgid "This will cancel all selected shifts for that day. It will not affect other shifts that come from the same ABCD shift."
 msgstr ""
+"Dies sagt alle Schichten für den ganzen Tag ab. Es hat keinen Einfluss auf "
+"andere Schichten von derselben ABCD-Schicht."
 
 #: shifts/templates/shifts/shift_day_cancel.html:22
 msgid ""
@@ -4099,6 +4107,9 @@ msgstr "Beende die Suche nach Vertretung"
 #, python-format
 msgid "You can only look for a stand-in %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s days before the shift. If you can't attend, contact your shift leader as soon as possible."
 msgstr ""
+"Du kannst maximal %(NB_DAYS_FOR_SELF_LOOK_FOR_STAND_IN)s Tage vor einer "
+"Schicht nach Vertretung suchen. Wenn du nicht teilnehmen kannst, kontaktiere "
+"deine Teamleitung so früh wie möglich."
 
 #: shifts/templates/shifts/shift_detail.html:208
 msgid "Look for a stand-in"
@@ -4108,6 +4119,10 @@ msgstr "Suche nach Vertretung"
 #, python-format
 msgid "You can only unregister yourself %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also, ABCD-Shifts can't be unregistered from. If you can't attend, look for a stand-in or contact your shift leader as soon as possible."
 msgstr ""
+"Du kannst dich nur %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht "
+"selbst abmelden. Von ABCD-Schichen kann man generell nicht abgemeldet "
+"werden. Wenn du nicht teilnehmen kannst, suche dir eine Vertretung oder "
+"kontaktiere deine Teamleitung so früh wie möglich."
 
 #: shifts/templates/shifts/shift_detail.html:234
 msgid "Unregister myself"
@@ -4411,49 +4426,31 @@ msgid "Available"
 msgstr "Verfügbar"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:17
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        <p>There is %(available_solidarity_shifts)s solidarity shift available at the moment</p>\n"
-#| "                        "
+#, python-format
 msgid "There is %(no_available_solidarity_shifts)s solidarity shift available at the moment"
 msgid_plural "There are %(no_available_solidarity_shifts)s solidarity shifts available at the moment"
 msgstr[0] ""
-"\n"
-"                        <p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht verfügbar</p>\n"
-"                        "
+"<p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht "
+"verfügbar</p>"
 msgstr[1] ""
-"\n"
-"                        <p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht verfügbar</p>\n"
-"                        "
+"<p>Es sind zurzeit %(available_solidarity_shifts)s Solidaritäts-Schichten "
+"verfügbar</p>"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:28
 msgid "Used"
 msgstr "Bisher genutzt"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:32
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        <p>%(used_solidarity_shifts_total)s solidarity shift has been used in total</p>\n"
-#| "                        "
+#, python-format
 msgid "%(used_solidarity_shifts_total)s solidarity shift has been used in total"
 msgstr ""
-"\n"
-"                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher genutzt</p>\n"
-"                        "
+"%(used_solidarity_shifts_total)s Solidaritätsschichten wurde bisher genutzt"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:38
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        <p>%(used_solidarity_shifts_total)s solidarity shifts have been used in total</p>\n"
-#| "                        "
+#, python-format
 msgid "%(used_solidarity_shifts_total)s solidarity shifts have been used in total"
 msgstr ""
-"\n"
-"                        <p>%(used_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher genutzt</p>\n"
-"                        "
+"%(used_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher genutzt"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:43
 #: shifts/views/solidarity.py:202
@@ -4465,28 +4462,18 @@ msgid "Gifted"
 msgstr "Bisher gespendet"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:56
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        <p>%(gifted_solidarity_shifts_total)s solidarity shift has been gifted in total</p>\n"
-#| "                        "
+#, python-format
 msgid "%(gifted_solidarity_shifts_total)s solidarity shift has been gifted in total"
 msgstr ""
-"\n"
-"                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher gespendet</p>\n"
-"                        "
+"%(gifted_solidarity_shifts_total)s Solidaritäts-Schicht wurde bisher "
+"gespendet"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:62
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        <p>%(gifted_solidarity_shifts_total)s solidarity shifts have been gifted in total</p>\n"
-#| "                        "
+#, python-format
 msgid "%(gifted_solidarity_shifts_total)s solidarity shifts have been gifted in total"
 msgstr ""
-"\n"
-"                        <p>%(gifted_solidarity_shifts_total)s Solidaritäts-Schichten wurden bisher gespendet</p>\n"
-"                        "
+"%(gifted_solidarity_shifts_total)s Solidaritätsschichten wurden bisher "
+"gespendet"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:67
 #: shifts/views/solidarity.py:178
@@ -4531,16 +4518,9 @@ msgid "Shift for ongoing cycle pending"
 msgstr "Shift für aktuellen Zyklus ausstehend"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:86
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                        %(num_banked_shifts)s banked shifts\n"
-#| "                    "
+#, python-format
 msgid "%(num_banked_shifts)s banked shifts"
-msgstr ""
-"\n"
-"                        %(num_banked_shifts)s Schicht(en) gut geschrieben\n"
-"                    "
+msgstr "%(num_banked_shifts)s Schicht(en) gut geschrieben"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:91
 msgid "On alert"
@@ -4597,62 +4577,36 @@ msgid "Solidarity Status"
 msgstr "Status Solidaritäts-Schichten"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:195
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            <p>You already used %(used_solidarity_shifts_current_year)s out of 2 Solidarity Shifts\n"
-#| "                                this year</p>\n"
-#| "                        "
+#, python-format
 msgid "You already used %(used_solidarity_shifts_current_year)s out of 2 Solidarity Shifts this year"
 msgstr ""
-"\n"
-"                            <p>Du hast dieses Jahr bereits %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
-"                        "
+"Du hast dieses Jahr bereits %(used_solidarity_shifts_current_year)s von 2 "
+"Solidaritäts-Schichten genutzt"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:202
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "                            <p>There are Solidarity Shifts available for you to use. You\n"
-#| "                                used %(used_solidarity_shifts_current_year)s out of 2 Solidarity Shifts this year</p>\n"
-#| "                        "
+#, python-format
 msgid "There are Solidarity Shifts available for you to use. You used %(used_solidarity_shifts_current_year)s out of 2 Solidarity Shifts this year"
 msgstr ""
-"\n"
-"                            <p>Es sind Solidaritäts-Schichten verfügbar. Du hast dieses Jahr bisher %(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt</p>\n"
-"                        "
+"Es sind Solidaritätsschichten verfügbar. Du hast dieses Jahr bisher %"
+"(used_solidarity_shifts_current_year)s von 2 Solidaritäts-Schichten genutzt"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:211
 msgid "You cannot receive a Solidarity Shift at the moment"
-msgstr ""
+msgstr "Du kannst aktuell keine Solidaritätsschicht erhalten"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:217
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                            <p>There are no Solidarity Shifts available at the moment</p>\n"
-#| "                        "
 msgid "There are no Solidarity Shifts available at the moment"
-msgstr ""
-"\n"
-"                            <p>Zurzeit sind keine Solidaritäts-Schichten verfügbar</p>\n"
-"                        "
+msgstr "Zurzeit sind keine Solidaritäts-Schichten verfügbar"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:228
 msgid "Shift partner"
 msgstr "Schicht-Partner"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:235
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "                                    Each member can designate one person (whether in their own household or not) to shop\n"
-#| "                                    under the same membership number. This can be investing members or non-members.\n"
-#| "                                "
 msgid "You can email the member office to ask for a shift partner to be registered. <br /> See member manual section III.F.6"
 msgstr ""
-"\n"
-"Jedes Mitglied kann eine Person (egal, ob im eigenen Haushalt oder nicht) bestimmen, die unter der gleichen Mitgliedsnummer einkaufen kann. Das können investierende Mitglieder oder Nichtmitglieder sein. "
+"Du kannst dem Mitgliedsbüro schreiben, um ein:e Schichtpartner:in zu "
+"registieren.<br /> Siehe Mitgliedshandbuch Kapitel III.F.6"
 
 #: shifts/templates/shifts/user_shifts_overview_tag.html:241
 msgctxt "No shift partner"
@@ -4678,10 +4632,9 @@ msgid "Shift attendance: %(name)s"
 msgstr "Schicht-Anwesenheit: %(name)s"
 
 #: shifts/views/attendance.py:221 shifts/views/attendance.py:371
-#, fuzzy, python-brace-format
-#| msgid "Updating shift attendance: %(member_link)s, %(slot_link)s"
+#, python-brace-format
 msgid "Updating shift attendance: {member_link}, {slot_link}"
-msgstr "Schichtanwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
+msgstr "Schichtanwesenheit aktualisieren: {member_link}, {slot_link}"
 
 #: shifts/views/attendance.py:404
 #, python-format
@@ -4689,10 +4642,9 @@ msgid "ABCD attendance: %(name)s"
 msgstr "ABCD-Anwesenheit: %(name)s"
 
 #: shifts/views/attendance.py:411
-#, fuzzy, python-brace-format
-#| msgid "Updating ABCD attendance: %(member_link)s, %(slot_link)s"
+#, python-brace-format
 msgid "Updating ABCD attendance: {member_link}, {slot_link}"
-msgstr "ABCD-Anwesenheit aktualisieren: %(member_link)s, %(slot_link)s"
+msgstr "ABCD-Anwesenheit aktualisieren: {member_link}, {slot_link}"
 
 #: shifts/views/exemptions.py:83
 msgid "Is covered by shift exemption: "
@@ -4790,10 +4742,10 @@ msgid "Frozen statuses updated."
 msgstr ""
 
 #: shifts/views/views.py:466
-#, fuzzy, python-format
-#| msgid "Create a rule for recurring Shift Watches"
+#, python-format
 msgid "Create a rule for recurring shift watch for %(name)s"
-msgstr "Erstelle eine Regel für sich wiederholende Schichtbeobachtungen"
+msgstr ""
+"Erstelle eine Regel für sich wiederholende Schichtbeobachtungen für %(name)s"
 
 #: shifts/views/views.py:472
 #, python-format
@@ -4801,10 +4753,9 @@ msgid "Please select either %(shift_template_group)s and/or weekdays, or alterna
 msgstr ""
 
 #: shifts/views/views.py:505 shifts/views/views.py:508
-#, fuzzy, python-format
-#| msgid "Recurring Shiftwatch List"
+#, python-format
 msgid "Recurring Shiftwatch List of %(name)s"
-msgstr "Liste wiederholender Schichtbeobachtungen"
+msgstr "Liste wiederholender Schichtbeobachtungen von %(name)s"
 
 #: statistics/apps.py:18
 msgid "Statistics"
@@ -6086,7 +6037,7 @@ msgstr ""
 
 #: utils/models.py:253
 msgid "Unknown or unspecified country"
-msgstr ""
+msgstr "Unbekanntes und nicht-spezifiziertes land"
 
 #: utils/models.py:257
 msgid "🇩🇪 Deutsch"
