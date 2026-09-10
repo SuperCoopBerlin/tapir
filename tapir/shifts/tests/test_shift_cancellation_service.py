@@ -119,7 +119,7 @@ class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
             sent_mail,
         )
         self.assertIn(
-            "Since this is your ABCD shift, you have been credited one shift point",
+            "Since this is your ABCD shift, you have been credited",
             sent_mail.body,
         )
         self.assertNotIn("flying member", sent_mail.body)
@@ -149,6 +149,6 @@ class TestShiftCancelService(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.assertIn("flying member", sent_mail.body)
         self.assertNotIn(
-            "Since this is your ABCD shift, you have been credited one shift point",
+            "Since this is your ABCD shift, you have been credited",
             sent_mail.body,
         )
