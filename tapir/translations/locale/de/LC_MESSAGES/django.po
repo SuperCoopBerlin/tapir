@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-10 14:48+0200\n"
+"POT-Creation-Date: 2026-09-10 14:58+0200\n"
 "PO-Revision-Date: 2026-09-08 19:35+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -171,29 +171,52 @@ msgid "Hi %(name)s,"
 msgstr "Hi %(name)s"
 
 #: accounts/templates/accounts/email/create_account_reminder.body.html:11
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p>We've noticed that you've been a SuperCoop member for a month/week but haven't set up a Tapir account to sign up for your first shift.</p>\n"
+#| "        <p>\n"
+#| "            As a reminder, to sign up for your first shift (or indicate that you are eligible for an\n"
+#| "            <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa\">exemption</a>),\n"
+#| "            please visit the Member Office in our shop.\n"
+#| "            There, an account will be set up for you on Tapir, our online shift management system, \n"
+#| "            and you will be guided through the steps to select your shift and working group.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            For general questions about your membership, please contact the Member Office by email <a href=\"mailto:mitglied@supercoop.de\">(mitglied@supercoop.de)</a>\n"
+#| "            or feel free to drop by and meet other SuperCoopies in person! Opening hours are:\n"
+#| "            <ul>\n"
+#| "                <li>Monday - Friday from 16:30 to 19:30</li>\n"
+#| "                <li>Saturdays from 11:00 to 14:00</li>\n"
+#| "            </ul>\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            You can find our shop at %(coop_street)s, %(coop_place)s.\n"
+#| "        </p>\n"
+#| "        "
 msgid ""
 "\n"
-"        <p>We've noticed that you've been a SuperCoop member for a month/week but haven't set up a Tapir account to sign up for your first shift.</p>\n"
+"        <p>We've noticed that you've been a SuperCoop member for a month/week but haven't set up a Tapir account to sign\n"
+"            up for your first shift.</p>\n"
 "        <p>\n"
 "            As a reminder, to sign up for your first shift (or indicate that you are eligible for an\n"
 "            <a href=\"https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit#heading=h.rjj2v2m92fqa\">exemption</a>),\n"
 "            please visit the Member Office in our shop.\n"
-"            There, an account will be set up for you on Tapir, our online shift management system, \n"
+"            There, an account will be set up for you on Tapir, our online shift management system,\n"
 "            and you will be guided through the steps to select your shift and working group.\n"
 "        </p>\n"
 "        <p>\n"
 "            For general questions about your membership, please contact the Member Office by email <a href=\"mailto:mitglied@supercoop.de\">(mitglied@supercoop.de)</a>\n"
 "            or feel free to drop by and meet other SuperCoopies in person! Opening hours are:\n"
-"            <ul>\n"
-"                <li>Monday - Friday from 16:30 to 19:30</li>\n"
-"                <li>Saturdays from 11:00 to 14:00</li>\n"
-"            </ul>\n"
+"        <ul>\n"
+"            <li>Monday - Friday from 16:30 to 19:30</li>\n"
+"            <li>Saturdays from 11:00 to 14:00</li>\n"
+"        </ul>\n"
 "        </p>\n"
 "        <p>\n"
 "            You can find our shop at %(coop_street)s, %(coop_place)s.\n"
 "        </p>\n"
-"        "
+"    "
 msgstr ""
 "\n"
 "        <p>wir haben festgestellt, dass du bereits seit einem Monat/einer Woche Mitglied bei SuperCoop bist, aber noch kein Tapir Konto eingerichtet hast, um dich für deine erste Schicht anzumelden.</p>\n"
@@ -218,9 +241,9 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: accounts/templates/accounts/email/create_account_reminder.body.html:33
+#: accounts/templates/accounts/email/create_account_reminder.body.html:34
 #: coop/templates/coop/email/membership_confirmation.active.body.html:213
-#: shifts/templates/shifts/email/shift_cancelled.body.html:20
+#: shifts/templates/shifts/email/shift_cancelled.body.html:23
 msgid "Cooperative Greetings,<br />The Membership Office"
 msgstr "Kooperative Grüße,<br />Das Mitgliederbüro"
 
@@ -264,8 +287,8 @@ msgstr "Ich bin damit einverstanden, dass meine Mitgliedskarte beim Einkauf an d
 #: accounts/templates/accounts/purchase_tracking_card.html:30
 #: coop/templates/coop/draftuser_detail.html:178
 #: coop/templates/coop/draftuser_detail.html:192
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:184
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:181
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:185
 msgid "Yes,No"
 msgstr "Ja, Nein"
 
@@ -765,7 +788,7 @@ msgstr "Ist investierendes Mitglied"
 #: coop/models.py:90 coop/models.py:480
 #: coop/templates/coop/draftuser_detail.html:190
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:52
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:179
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:180
 msgid "Ratenzahlung"
 msgstr "Ratenzahlung"
 
@@ -1722,15 +1745,24 @@ msgid "Confirmation of the investing membership at %(organization_name)s!"
 msgstr "Bestätigung der Fördermitgliedschaft bei %(organization_name)s!"
 
 #: coop/templates/coop/email/membershipresignation_confirmation_body.html:6
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "            <p>Dear %(display_name)s,</p>\n"
+#| "            <p>\n"
+#| "                what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop Berlin eG.\n"
+#| "                <br>\n"
+#| "            </p>\n"
+#| "        "
 msgid ""
 "\n"
-"            <p>Dear %(display_name)s,</p>\n"
-"            <p>\n"
-"                what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop Berlin eG.\n"
-"                <br>\n"
-"            </p>\n"
-"        "
+"        <p>Dear %(display_name)s,</p>\n"
+"        <p>\n"
+"            what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop\n"
+"            Berlin eG.\n"
+"            <br>\n"
+"        </p>\n"
+"    "
 msgstr ""
 "\n"
 "            <p>Liebe*r %(display_name)s,</p>\n"
@@ -1740,31 +1772,40 @@ msgstr ""
 "            </p>\n"
 "        "
 
-#: coop/templates/coop/email/membershipresignation_confirmation_body.html:15
+#: coop/templates/coop/email/membershipresignation_confirmation_body.html:16
 msgid "As you stated in your letter of cancellation that you want to transfer your shares to SuperCoop, your termination is effective immediately."
 msgstr "Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an SuperCoop übertragen. Somit ist deine Kündigung ab sofort gültig."
 
-#: coop/templates/coop/email/membershipresignation_confirmation_body.html:23
+#: coop/templates/coop/email/membershipresignation_confirmation_body.html:24
 #, python-format
 msgid "You stated in your letter of cancellation that you want to transfer your shares to another member. We've informed %(transferred_member)s about this separately. Your termination is effective immediately."
 msgstr "Wie in deinem Kündigungsschreiben angegeben, möchtest Du deine Anteile an ein anderes Mitglied übertragen. Wir haben %(transferred_member)s darüber gesondert informiert. Deine Kündigung ist ab sofort gültig."
 
-#: coop/templates/coop/email/membershipresignation_confirmation_body.html:30
+#: coop/templates/coop/email/membershipresignation_confirmation_body.html:32
 #, python-format
 msgid "<p> As you wished in your cancellation letter your membership will run until the end of the regular cancellation period specified in our Articles of Association, i.e. until the end of the financial year in three years. Please note the passage stated in our Articles of Association under <b>§4 Termination of membership, transfer of business assets, death and exclusion</b>. As a precaution, the articles of association are attached to this e-mail. </p> <p> <b>As your membership will continue to run as normal for the next three years and is still entered as \"active\" in Tapir, we would like to take this opportunity to point out that you can continue to complete shifts in the next three years and therefore retain your right to shop. If you no longer wish to complete shifts or shop in Supercoop, we would ask you to apply to the member-office (%(contact_email_address)s) to switch your membership to \"investing\". </b> </p> <p> This will prevent your shift backlog from going into the red and you from receiving emails with warnings from us in the future. </p>"
 msgstr "<p> Da Du in deinem Kündigungsschreiben angegeben hast, dass Du deine Anteile wieder zurückerstattet haben möchtest, läuft deine Mitgliedschaft bis zum Ablauf der in unserer Satzung angegebenen regulären Kündigungsfrist, d.h. bis zum Abschluss des Geschäftsjahres in drei Jahren.<b>Bitte beachte dazu den in unserer Satzung angegebenen Passus unter §4 Beendigung der Mitgliedschaft, Übertragung des Geschäftsguthabens, Tod und Ausschluss.</b>Vorsorglich ist an diese Mail die Satzung angehängt.</p> <p> <b>Da deine Mitgliedschaft im Falle der regulären Kündigungsfrist und damit einhergehenden Auseinandersetzung (siehe Satzung) über drei Jahre weiterläuft und auch in Tapir weiterhin als \"aktiv\" eingetragen ist, möchten wir dich an dieser Stelle darauf hinweisen, dass Du innerhalb der nächsten drei Jahre auch weiterhin Schichten absolvieren kannst und damit auch dein Einkaufsrecht weiterhin behältst. Solltest Du keine Schichten mehr absolvieren und auch nicht mehr in der Supercoop einkaufen wollen, möchten wir dich bitten, beim Mitgliederbüro (%(contact_email_address)s) zu beantragen, dass deine Mitgliedschaft auf \"investierend\" umgestellt wird.</b> </p> <p> Damit wird verhindert, dass dein Schichtstatus ins Minus gerät und Du in Zukunft Emails mit Warnungen von uns erhältst. </p>"
 
-#: coop/templates/coop/email/membershipresignation_confirmation_body.html:49
-#, python-format
+#: coop/templates/coop/email/membershipresignation_confirmation_body.html:57
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "            <p>\n"
+#| "                We wish you all the best for the future and please do not hesitate to contact the member-office\n"
+#| "                (%(contact_email_address)s) if you have any further questions.\n"
+#| "            </p>\n"
+#| "            <p>Cooperative greetings,</p>\n"
+#| "            <p>Your SuperCoop-Board</p>\n"
+#| "        "
 msgid ""
 "\n"
-"            <p>\n"
-"                We wish you all the best for the future and please do not hesitate to contact the member-office\n"
-"                (%(contact_email_address)s) if you have any further questions.\n"
-"            </p>\n"
-"            <p>Cooperative greetings,</p>\n"
-"            <p>Your SuperCoop-Board</p>\n"
-"        "
+"        <p>\n"
+"            We wish you all the best for the future and please do not hesitate to contact the member-office\n"
+"            (%(contact_email_address)s) if you have any further questions.\n"
+"        </p>\n"
+"        <p>Cooperative greetings,</p>\n"
+"        <p>Your SuperCoop-Board</p>\n"
+"    "
 msgstr ""
 "\n"
 "         <p>\n"
@@ -1863,12 +1904,21 @@ msgid "We have received your application for a membership to %(coop_name)s"
 msgstr "Wir haben die Bewerbung für eine Mitgliedschaft für %(coop_name)s erhalten"
 
 #: coop/templates/coop/email/tapir_account_created.body.html:6
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p>Dear %(user_display_name)s,</p>\n"
+#| "        <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts, book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go on vacation). <br />\n"
+#| "            Please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> section III for more information on the Stand-in System.</p>\n"
+#| "    "
 msgid ""
 "\n"
 "        <p>Dear %(user_display_name)s,</p>\n"
-"        <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts, book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you go on vacation). <br />\n"
-"            Please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> section III for more information on the Stand-in System.</p>\n"
+"        <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts,\n"
+"            book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you\n"
+"            go on vacation). <br />\n"
+"            Please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> section III for more\n"
+"            information on the Stand-in System.</p>\n"
 "    "
 msgstr ""
 "\n"
@@ -1876,20 +1926,28 @@ msgstr ""
 "<p>wir haben soeben ein Konto für dich in unserem SuperCoop Mitgliedersystem erstellt. Hier kannst du deine anstehenden Schichten einsehen, eine zusätzliche Schicht buchen, wenn du möchtest, oder deine Schicht als „Vertretung gesucht“ markieren (z.B. wenn du in Urlaub gehst).<br />\n"
 "Weitere Informationen zum Vertretungssystem findest du im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>.</p> "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:14
+#: coop/templates/coop/email/tapir_account_created.body.html:17
 #, python-format
 msgid "Your regular ABCD-shift is: %(slot_display_name)s. You will receive a reminder email in advance of your first shift."
 msgstr "Deine regelmäßige ABCD-Schicht ist: %(slot_display_name)s. Vor deiner ersten Schicht wirst du nochmal eine Erinnerungsmail erhalten."
 
-#: coop/templates/coop/email/tapir_account_created.body.html:19
+#: coop/templates/coop/email/tapir_account_created.body.html:23
 msgid "Flying members: Please keep in mind that you must have at least one shift “banked” for each shift cycle. For more information please see the <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Member Manual</a> ."
 msgstr "Fliegende Mitglieder: Bitte achtet darauf, zu jedem Zyklus-Ende mindestens ein Schichtguthaben auf eurem Schichtkonto zu haben. Mehr Infos findet ihr im <a href=\"https://wiki.supercoop.de/wiki/Member_Manual\">Mitgliederhandbuch</a>."
 
-#: coop/templates/coop/email/tapir_account_created.body.html:27
-#, python-format
+#: coop/templates/coop/email/tapir_account_created.body.html:33
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "            <p>Your username is *%(username)s* . In order to login to your account, you first have to set a password : <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Click here to set your password</a></p>\n"
+#| "            <p>This link is only valid for a few weeks. Should it expire, you can get a new one here : <a href=\"%(site_url)s%(password_reset_request_url)s\">Click here to get a new link</a></p>\n"
+#| "            <p>You can also login to the SuperCoop wiki with that account.</p>\n"
+#| "            <p>Alternatively, as for any other question, you can always contact the <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Member Office</a></p>\n"
+#| "        "
 msgid ""
 "\n"
-"            <p>Your username is *%(username)s* . In order to login to your account, you first have to set a password : <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Click here to set your password</a></p>\n"
+"            <p>Your username is *%(username)s* . In order to login to your account, you first have to set a password :\n"
+"                <a href=\"%(site_url)s%(password_reset_confirm_url)s\">Click here to set your password</a></p>\n"
 "            <p>This link is only valid for a few weeks. Should it expire, you can get a new one here : <a href=\"%(site_url)s%(password_reset_request_url)s\">Click here to get a new link</a></p>\n"
 "            <p>You can also login to the SuperCoop wiki with that account.</p>\n"
 "            <p>Alternatively, as for any other question, you can always contact the <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Member Office</a></p>\n"
@@ -1902,7 +1960,7 @@ msgstr ""
 "<p>Alternativ, und auch bei allen anderen Fragen, kannst du dich jederzeit an das <a href=\"https://wiki.supercoop.de/wiki/Mitgliederb%%C3%%BCro_-_Member_Office\">Mitgliederbüro</a> wenden.</p>\n"
 " "
 
-#: coop/templates/coop/email/tapir_account_created.body.html:35
+#: coop/templates/coop/email/tapir_account_created.body.html:42
 msgid "Cooperative regards, <br /> Your SuperCoop Berlin Member Office team."
 msgstr "Kooperative Grüße,<br /> dein Team vom Mitgliederbüro SuperCoop Berlin."
 
@@ -1949,7 +2007,7 @@ msgid "General Tapir Accounts"
 msgstr "Allgemeine Tapir-Konten"
 
 #: coop/templates/coop/incoming_payment_list.html:10
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:172
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:173
 #: coop/templates/coop/user_profile_pdf.html:175
 msgid "Payments"
 msgstr "Zahlungen"
@@ -2283,32 +2341,42 @@ msgid "Sold or future"
 msgstr ""
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:142
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "                                                            Only use this to correct mistakes, i.e. if the share was\n"
+#| "                                                            erroneously\n"
+#| "                                                            entered into the system and the person never actually\n"
+#| "                                                            bought it. If the person simply sold their share back to the\n"
+#| "                                                            coop, please mark the share as sold instead.\n"
+#| "                                                        "
 msgid ""
 "\n"
-"                                                            Only use this to correct mistakes, i.e. if the share was\n"
-"                                                            erroneously\n"
-"                                                            entered into the system and the person never actually\n"
-"                                                            bought it. If the person simply sold their share back to the\n"
-"                                                            coop, please mark the share as sold instead.\n"
-"                                                        "
+"                                                                Only use this to correct mistakes, i.e. if the share was\n"
+"                                                                erroneously\n"
+"                                                                entered into the system and the person never actually\n"
+"                                                                bought it. If the person simply sold their share back to\n"
+"                                                                the\n"
+"                                                                coop, please mark the share as sold instead.\n"
+"                                                            "
 msgstr ""
 "\n"
 "Bitte nur verwenden, wenn ein tatsächlicher Fehler vorliegt, z.B. ein Anteil eingetragen wurde, der nie gekauft wurde. Wenn die Person ihren Anteil einfach an den Coop zurückverkauft hat, markiere den Anteil bitte als 'verkauft'.\n"
 " "
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:165
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:166
 msgid "Add Shares"
 msgstr "Anteile hinzufügen"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:183
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:184
 msgid "Willing to gift a share"
 msgstr "Bereit Anteile zu schenken"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:193
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:194
 msgid "Send membership confirmation email"
 msgstr "Mitgliedsbestätigung per Mail senden"
 
-#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:199
+#: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:200
 msgid "User is not a cooperative member."
 msgstr "Benutzer*in ist kein Genossenschaftsmitglied."
 
@@ -3455,24 +3523,35 @@ msgid "Pending shifts older than %(nb_days_threshold)s days"
 msgstr "Ausstehende Schichteinträge älter als %(nb_days_threshold)s Tage"
 
 #: shifts/templates/shifts/email/shift_cancelled.body.html:7
-#, python-format
-msgid "This is an automated email from %(coop_name)s."
+#, fuzzy, python-format
+#| msgid "This is an automated email from %(coop_name)s."
+msgid ""
+"This is an automated email from %(coop_name)s\n"
+"        ."
 msgstr "Dies ist eine automatische Mail von %(coop_name)s."
 
-#: shifts/templates/shifts/email/shift_cancelled.body.html:9
+#: shifts/templates/shifts/email/shift_cancelled.body.html:10
 #, python-format
 msgid "Your shift %(shift_name)s was cancelled! Reason: %(reason)s."
 msgstr "Deine Schicht %(shift_name)s wurde abgesagt! Grund: %(reason)s."
 
-#: shifts/templates/shifts/email/shift_cancelled.body.html:14
-msgid "Since this is your ABCD shift, you have been credited one shift point."
+#: shifts/templates/shifts/email/shift_cancelled.body.html:15
+#, fuzzy
+#| msgid "Since this is your ABCD shift, you have been credited one shift point."
+msgid ""
+"Since this is your ABCD shift, you have been credited one shift\n"
+"            point."
 msgstr "Weil das deine ABCD-Schicht ist, wurde dir ein Schichtpunkt gutgeschrieben."
 
-#: shifts/templates/shifts/email/shift_cancelled.body.html:16
-msgid "Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point."
+#: shifts/templates/shifts/email/shift_cancelled.body.html:18
+#, fuzzy
+#| msgid "Since you are a flying member (or you're ABCD but this is not your ABCD shift), you generally won't be credited with a shift point."
+msgid ""
+"Since you are a flying member (or you're ABCD but this is not your ABCD shift), you\n"
+"            generally won't be credited with a shift point."
 msgstr "Da du fliegendes Mitglied bist (oder du normalerweise ABCD-Schichten machst aber dies keine ABCD-Schicht ist), wird dir normalerweise kein Schichtpunkt gutgeschrieben."
 
-#: shifts/templates/shifts/email/shift_cancelled.body.html:18
+#: shifts/templates/shifts/email/shift_cancelled.body.html:21
 msgid "See you next time!"
 msgstr "Bis zum nächsten Mal!"
 
@@ -4399,9 +4478,11 @@ msgid "Available"
 msgstr "Verfügbar"
 
 #: shifts/templates/shifts/solidarity_shifts_overview.html:17
-#, python-format
-msgid "There is %(no_available_solidarity_shifts)s solidarity shift available at the moment"
-msgid_plural "There are %(no_available_solidarity_shifts)s solidarity shifts available at the moment"
+#, fuzzy, python-format
+#| msgid "There is %(no_available_solidarity_shifts)s solidarity shift available at the moment"
+#| msgid_plural "There are %(no_available_solidarity_shifts)s solidarity shifts available at the moment"
+msgid "There is %(available_solidarity_shifts)s solidarity shift available at the moment"
+msgid_plural "There are %(available_solidarity_shifts)s solidarity shifts available at the moment"
 msgstr[0] "<p>Es ist zurzeit %(available_solidarity_shifts)s Solidaritäts-Schicht verfügbar</p>"
 msgstr[1] "<p>Es sind zurzeit %(available_solidarity_shifts)s Solidaritäts-Schichten verfügbar</p>"
 
