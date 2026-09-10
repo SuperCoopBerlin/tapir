@@ -83,7 +83,7 @@
                     {% if user.shift_user_data.get_account_balance < 0 %}
                         ({% translate "Shift for ongoing cycle pending" %})
                     {% elif user.shift_user_data.get_account_balance > 0 %}
-                        ({% blocktranslate with num_banked_shifts=user.shift_user_data.get_account_balance trimmed %}
+                        ({% blocktranslate trimmed with num_banked_shifts=user.shift_user_data.get_account_balance %}
                             {{ num_banked_shifts }} banked shifts
                     {% endblocktranslate %})
                 {% endif %}
@@ -192,14 +192,14 @@
                 {% get_used_solidarity_shifts_current_year user.shift_user_data as used_solidarity_shifts_current_year %}
                 {% if used_solidarity_shifts_current_year >= 2 %}
                     <p>
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year trimmed %}
+                        {% blocktranslate trimmed with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
                             You already used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts
                             this year
                         {% endblocktranslate %}
                     </p>
                 {% elif used_solidarity_shifts_current_year < 2 and user.shift_user_data.get_available_solidarity_shifts and user.shift_user_data.get_account_balance < 0 %}
                     <p>
-                        {% blocktranslate with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year trimmed %}
+                        {% blocktranslate trimmed with used_solidarity_shifts_current_year=used_solidarity_shifts_current_year %}
                             There are Solidarity Shifts available for you to use. You
                             used {{ used_solidarity_shifts_current_year }} out of 2 Solidarity Shifts this year
                         {% endblocktranslate %}

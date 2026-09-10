@@ -6,7 +6,7 @@
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         {% if share_owner %}
             <span>
-                {% blocktranslate with coop_share_owner_id=share_owner.id trimmed %}
+                {% blocktranslate trimmed with coop_share_owner_id=share_owner.id %}
                     Member #{{ coop_share_owner_id }}
                 {% endblocktranslate %}
             </span>
@@ -36,12 +36,12 @@
                 <div class="col-12 col-sm-7" id="share_owner_status">
                     {% member_status_colored_text share_owner %}
                     {% if share_owner.get_membership_start_date %}
-                        {% blocktranslate with start_date=share_owner.get_membership_start_date|date:"d.m.Y" trimmed %}
+                        {% blocktranslate trimmed with start_date=share_owner.get_membership_start_date|date:"d.m.Y" %}
                             (membership starting {{ start_date }})
                         {% endblocktranslate %}
                     {% endif %}
                     {% if share_owner.get_membership_end_date %}
-                        {% blocktranslate with end_date=share_owner.get_membership_end_date|date:"d.m.Y" trimmed %}
+                        {% blocktranslate trimmed with end_date=share_owner.get_membership_end_date|date:"d.m.Y" %}
                             (membership ending {{ end_date }})
                         {% endblocktranslate %}
                     {% endif %}
@@ -140,12 +140,13 @@
                                                         <br />
                                                         <small class="text-muted">
                                                             {% blocktrans %}
-                                                            Only use this to correct mistakes, i.e. if the share was
-                                                            erroneously
-                                                            entered into the system and the person never actually
-                                                            bought it. If the person simply sold their share back to the
-                                                            coop, please mark the share as sold instead.
-                                                        {% endblocktrans %}
+                                                                Only use this to correct mistakes, i.e. if the share was
+                                                                erroneously
+                                                                entered into the system and the person never actually
+                                                                bought it. If the person simply sold their share back to
+                                                                the
+                                                                coop, please mark the share as sold instead.
+                                                            {% endblocktrans %}
                                                         </small>
                                                     </span>
                                                 </a>

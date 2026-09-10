@@ -19,7 +19,7 @@
                 <h5 class="card-header">{% translate "Total number of members" %}</h5>
                 <div class="card-body">
                     <p>
-                        {% blocktranslate with number_of_members_now=number_of_members_now trimmed %}
+                        {% blocktranslate trimmed with number_of_members_now=number_of_members_now %}
                             All members of the cooperative - whether investing or active: {{ number_of_members_now }}.
                         {% endblocktranslate %}
                     </p>
@@ -41,7 +41,7 @@
                     <li class="list-group-item">
                         <h5>{% translate 'Shopping basket' %}</h5>
                         <p>
-                            {% blocktranslate with target_basket=target_average_monthly_basket trimmed %}
+                            {% blocktranslate trimmed with target_basket=target_average_monthly_basket %}
                                 The current target food basket value per member and per month to reach the break-even is
                                 {{ target_basket }}€. If you have enabled purchase tracking, you can see your average
                                 basket value on your profile page.
@@ -89,7 +89,7 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <p>
-                            {% blocktranslate with target_count=working_members.target_count trimmed %}
+                            {% blocktranslate trimmed with target_count=working_members.target_count %}
                                 Working members are active members who do not have an exemption. Exemptions are, for
                                 example, one year of parental leave, prolonged illness or members over 70 years of age.
                                 Required number of working members to fulfil all shift placements: {{ target_count }}.
