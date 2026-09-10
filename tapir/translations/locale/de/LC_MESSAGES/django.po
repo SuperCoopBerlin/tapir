@@ -806,7 +806,7 @@ msgstr "Kann keine Firma sein und ein Tapir-Konto haben"
 
 #: coop/models.py:215
 msgid "User info should be stored in associated Tapir account"
-msgstr "Benutzerinformationen sollten im Tapir.Konto gespeichert werden"
+msgstr "Benutzerinformationen sollten im Tapir-Konto gespeichert werden"
 
 #: coop/models.py:367
 msgid "Not a member"
