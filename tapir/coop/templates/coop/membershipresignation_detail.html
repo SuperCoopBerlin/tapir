@@ -25,7 +25,7 @@
                 <div class="modal-body">
                     <p>
                         {% get_display_name_for_viewer object.share_owner request.user as display_name %}
-                        {% blocktranslate with member_name=display_name trimmed %}
+                        {% blocktranslate trimmed with member_name=display_name %}
                             Are you sure you want to
                             cancel the resignation of {{ member_name }}?
                             The person's shares will be reactivated.
