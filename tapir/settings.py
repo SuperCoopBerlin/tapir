@@ -450,3 +450,12 @@ SHIFT_RETENTION_YEARS = 8
 # Friendly captcha settings https://developer.friendlycaptcha.com/docs/v2/
 FRIENDLYCAPTCHA_SITE_KEY = env.str("FRIENDLYCAPTCHA_SITE_KEY", default="INVALID_KEY")
 FRIENDLYCAPTCHA_API_KEY = env.str("FRIENDLYCAPTCHA_API_KEY", default="INVALID_KEY")
+
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
+    },
+}

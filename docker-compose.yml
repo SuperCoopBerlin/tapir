@@ -26,6 +26,7 @@ services:
       - poetry-cache:/home/appuser/.cache/pypoetry
       - ./dist:/app/dist
       - ./schema.yml:/app/schema.yml
+      - ./static:/app/static
     environment:
       VIRTUAL_HOST: localhost
       DEBUG: 1

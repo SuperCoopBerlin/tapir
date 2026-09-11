@@ -17,7 +17,7 @@
             {% endblock title %}
         </title>
         <link rel="stylesheet"
-              href="{% static 'core/bootstrap/5.2.2/css/bootstrap.min.css' %}">
+              href="{% static 'core/bootstrap/5.3.8/css/bootstrap.min.css' %}">
         <link rel="shortcut icon"
               type="image/png"
               href="{% static 'core/favicon.ico' %}" />
@@ -48,7 +48,8 @@
         <header class="navbar navbar-expand-md navbar-dark sticky-top shadow px-3">
             <div class="container-fluid">
                 <span class="navbar-brand">
-                    <img alt="SuperCoop Berlin Logo" height=30" src="{% static 'core/images/supercoop_logo_white.svg' %}">
+                    <img alt="SuperCoop Berlin Logo" height=30"
+                        src="{% static 'core/images/supercoop_logo_white.svg' %}">
                     </span>
                     <button class="navbar-toggler"
                         type="button"
@@ -85,14 +86,17 @@
                             {% endif %}
                             {% if request.user.is_authenticated %}
                                 <li class="nav-item">
-                                    <a class="text-light nav-link" href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
+                                    <a class="text-light nav-link"
+                                    href="{% url 'accounts:user_me' %}">{% get_display_name_full request.user %}</a>
                                 </li>
                                 <li class="nav-item">
                                     <form method="post" action="{% url 'logout' %}">
                                         {% csrf_token %}
                                         <a class="text-light nav-link" href="#" id="logout">Logout</a>
                                         <script>
-                                        document.getElementById("logout").addEventListener("click", (event) => {event.target.parentNode.submit()})
+                                document.getElementById("logout").addEventListener("click", (event) => {
+                                    event.target.parentNode.submit()
+                                })
                                         </script>
                                     </form>
                                 </li>
@@ -125,5 +129,5 @@
                 </div>
             </div>
         </body>
-        <script src="{% static 'core/bootstrap/5.2.2/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'core/bootstrap/5.3.8/js/bootstrap.bundle.min.js' %}"></script>
     </html>
