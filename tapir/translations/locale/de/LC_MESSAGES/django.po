@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-16 09:03+0200\n"
+"POT-Creation-Date: 2026-09-16 10:52+0200\n"
 "PO-Revision-Date: 2026-09-08 19:35+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -2188,12 +2188,12 @@ msgstr "Nur der Vorstand, das Mitgliedsbüro und die Mitarbeiter können Kündig
 msgid "Confirmation acquisition of additional shares in %(coop_name)s for %(display_name)s"
 msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_name)s für %(display_name)s"
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:55
+#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:63
 #, python-format
 msgid "Confirmation acquisition of additional shares in %(coop_full_name)s"
 msgstr "Bestätigung Erwerb zusätzlicher Anteile bei %(coop_full_name)s"
 
-#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:60
+#: coop/templates/coop/pdf/extra_shares_confirmation_pdf.default.html:68
 #, python-format
 msgid ""
 "\n"
@@ -2251,8 +2251,8 @@ msgstr ""
 "        </p>\n"
 "    "
 
-#: coop/templates/coop/pdf/membership_agreement_pdf.default.html:53
-#: coop/templates/coop/pdf/membership_confirmation_pdf.default.html:45
+#: coop/templates/coop/pdf/membership_agreement_pdf.default.html:61
+#: coop/templates/coop/pdf/membership_confirmation_pdf.default.html:53
 msgid "Organisation logo"
 msgstr "Organisations-Logo"
 
