@@ -3,6 +3,7 @@ from __future__ import annotations
 import calendar
 import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
@@ -571,7 +572,9 @@ class Shift(models.Model):
                 '<span aria-label="This shift is cancelled" title="This shift is cancelled"><del>{}</del></span>',
                 display_name,
             )
-        return get_html_link(self.get_absolute_url(), display_name)
+        return get_html_link(
+            f"{settings.SITE_URL}{self.get_absolute_url()}", display_name
+        )
 
     def get_attendances(self) -> ShiftAttendance.ShiftAttendanceQuerySet:
         return ShiftAttendance.objects.filter(slot__shift=self)

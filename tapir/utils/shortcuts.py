@@ -61,7 +61,7 @@ def set_header_for_file_download(response: HttpResponse, filename: str):
 
 
 def get_html_link(url: str, text: str):
-    return format_html("<a href={}>{}</a>", url, text)
+    return format_html('<a href="{}">{}</a>', url, text)
 
 
 def get_timezone_aware_datetime(
