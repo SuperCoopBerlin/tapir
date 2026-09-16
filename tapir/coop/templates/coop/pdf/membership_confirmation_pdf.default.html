@@ -7,6 +7,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Mitgliedschaftsbestätigung {% get_display_name_full share_owner %}</title>
+        <style>@font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url("{% static 'core/material-icons/MaterialSymbolsRounded.woff2' %}") format('woff2');
+    }
+        </style>
         <link rel="stylesheet"
               href="{% static 'coop/css/membership_agreement_pdf.css' %}">
     </head>
@@ -68,7 +75,8 @@
             <p>
                 Wir freuen uns sehr, dich als Mitglied der <strong>Organisation</strong> begrüßen zu dürfen und bestätigen die
                 Aufnahme in die
-                Genossenschaft mit der <strong>Mitgliedsnummer {{ share_owner.id }}</strong>. Über diese Nummer wird auch die Ausübung
+                Genossenschaft mit der <strong>Mitgliedsnummer {{ share_owner.id }}</strong>. Über diese Nummer wird auch die
+                Ausübung
                 deiner Rechte und
                 Pflichten als Mitglied erfolgen. Bitte merke oder notiere dir deine Nummer deshalb.
             </p>

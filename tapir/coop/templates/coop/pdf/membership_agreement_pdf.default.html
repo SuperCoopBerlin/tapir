@@ -10,6 +10,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Beteiligungserklärung {{ display_name_legal }}</title>
+        <style>@font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url("{% static 'core/material-icons/MaterialSymbolsRounded.woff2' %}") format('woff2');
+    }
+        </style>
         <link rel="stylesheet"
               href="{% static 'coop/css/membership_agreement_pdf.css' %}">
     </head>
@@ -69,7 +76,9 @@
                     <div style="border-bottom: 2px solid black;
                                 flex: 1;
                                 vertical-align: bottom">
-                        <span style="margin-left: 5mm;">{% if share_owner.birthdate %}{{ share_owner.birthdate }}{% endif %}</span>
+                        <span style="margin-left: 5mm;">
+                            {% if share_owner.birthdate %}
+                            {{ share_owner.birthdate }}{% endif %}</span>
                     </div>
                 </div>
                 <div style="color: grey; display: flex; flex-direction: row;">
@@ -187,7 +196,8 @@
             <div style="display: flex; flex-direction: row; margin-top: 5mm;">
                 <div style="margin-right: 8mm; width: 5mm;">
                     <span style="position: absolute; left: 2mm;" class="material-icons">check_box_outline_blank</span>
-                    {% if share_owner %}<span style="position: absolute; left: 2mm;" class="material-icons">close</span>{% endif %}
+                    {% if share_owner %}
+                        <span style="position: absolute; left: 2mm;" class="material-icons">close</span>{% endif %}
                 </div>
                 <div style="flex: 1">
                     Ich nehme zur Kenntnis, dass die Satzung eine Kündigungsfrist von <strong>3 Jahren zum Ende des
@@ -216,7 +226,8 @@
             <div style="display: flex; flex-direction: row; margin-top: 5mm;">
                 <div style="margin-right: 8mm; width: 5mm;">
                     <span class="material-icons">check_box_outline_blank</span>
-                    {% if share_owner %}<span style="position: absolute; left: 2mm;" class="material-icons">close</span>{% endif %}
+                    {% if share_owner %}
+                        <span style="position: absolute; left: 2mm;" class="material-icons">close</span>{% endif %}
                 </div>
                 <div style="flex: 1">
                     Ich werde meine (Rest-)Zahlungen per Überweisung leisten und auf folgendes Konto überweisen:
