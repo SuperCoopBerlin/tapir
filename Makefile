@@ -5,6 +5,7 @@ check-formatting:
 	poetry run black --check .
 
 test:
+    poetry run python manage.py collectstatic
 	poetry run pytest --cov-report xml:coverage.xml --cov=tapir --cov-config=pyproject.toml
 
 check-translations:
