@@ -71,6 +71,7 @@ RUN apt-get update \
     libpangoft2-1.0-0 \
     libpq-dev \
     libsasl2-dev \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/* } && \
     groupadd --gid 1001 appuser && \
     useradd --uid 1001 --gid 1001 -m appuser
