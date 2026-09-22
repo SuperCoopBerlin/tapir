@@ -22,7 +22,7 @@ RUN apt-get update \
     libpq-dev \
     libsasl2-dev
 
-RUN pip install poetry==2.3.4 --only-binary :all:
+RUN pip install poetry==2.5.1 --only-binary :all:
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
