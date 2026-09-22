@@ -20,47 +20,45 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **options):
-        with tempfile.TemporaryFile(
+        with tempfile.NamedTemporaryFile(
             mode="w",
         ) as temp_file:
-            self.write_users_to_file(filename=temp_file.name)
+            self.write_users_to_file(temp_file=temp_file)
+            temp_file.flush()
             send_file_to_storage_server(temp_file.name, "u326634-sub4")
 
     @classmethod
-    def write_users_to_file(cls, filename):
-        with open(filename, "w", newline="") as csvfile:
-            writer = csv.writer(csvfile, delimiter=";", quoting=csv.QUOTE_MINIMAL)
+    def write_users_to_file(cls, temp_file):
+        writer = csv.writer(temp_file, delimiter=";", quoting=csv.QUOTE_MINIMAL)
+        writer.writerow(
+            [
+                "AdressID",  # Must be exactly 12 characters long and start with a 2. Fill with 0
+                "Nachname",
+                "Vorname",
+                "RabattN",
+                "Strasse",
+                "PLZ",
+                "Ort",
+                "eMail",
+            ]
+        )
+
+        connection = get_admin_ldap_connection()
+        for user in TapirUser.objects.filter(
+            allows_purchase_tracking=True, share_owner__isnull=False
+        ):
+            rabatt = 18 if is_member_in_group(connection, user, GROUP_VORSTAND) else 0
             writer.writerow(
                 [
-                    "AdressID",  # Must be exactly 12 characters long and start with a 2. Fill with 0
-                    "Nachname",
-                    "Vorname",
-                    "RabattN",
-                    "Strasse",
-                    "PLZ",
-                    "Ort",
-                    "eMail",
+                    user.share_owner.get_id_for_biooffice(),
+                    user.last_name,
+                    UserUtils.build_display_name(
+                        user, UserUtils.DISPLAY_NAME_TYPE_SHORT
+                    ),
+                    rabatt,
+                    UserUtils.get_full_street(user.street, user.street_2),
+                    user.postcode,
+                    user.city,
+                    user.email,
                 ]
             )
-
-            connection = get_admin_ldap_connection()
-            for user in TapirUser.objects.filter(
-                allows_purchase_tracking=True, share_owner__isnull=False
-            ):
-                rabatt = (
-                    18 if is_member_in_group(connection, user, GROUP_VORSTAND) else 0
-                )
-                writer.writerow(
-                    [
-                        user.share_owner.get_id_for_biooffice(),
-                        user.last_name,
-                        UserUtils.build_display_name(
-                            user, UserUtils.DISPLAY_NAME_TYPE_SHORT
-                        ),
-                        rabatt,
-                        UserUtils.get_full_street(user.street, user.street_2),
-                        user.postcode,
-                        user.city,
-                        user.email,
-                    ]
-                )
