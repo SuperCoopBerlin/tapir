@@ -13,6 +13,7 @@ from tapir.coop.emails.self_registration_confirmation_mail import (
 from tapir.coop.models import DraftUser
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.core.models import FeatureFlag
+from tapir.log.models import EmailLogEntry
 from tapir.utils.tests_utils import (
     TapirEmailTestMixin,
     TapirFactoryTestBase,
@@ -174,6 +175,10 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
         self.assertEqual("FR", draft_user.country)
         self.assertEqual("test@example.com", draft_user.email)
         self.assertEqual("0176272674529", draft_user.phone_number)
+
+        self.assertEqual(1, EmailLogEntry.objects.count())
+        email_log_entry = EmailLogEntry.objects.get()
+        self.assertEqual(draft_user, email_log_entry.draft_user)
 
     @classmethod
     def _mock_captcha_response(cls, mock_requests_post: MagicMock, success: bool):

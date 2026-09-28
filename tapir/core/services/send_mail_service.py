@@ -21,6 +21,7 @@ class SendMailService:
         tapir_user: TapirUser,
         share_owner: ShareOwner,
         email_builder: TapirEmailBuilderBase,
+        draft_user: DraftUser,
     ):
         if not email_builder.include_email_body_in_log_entry():
             email = None
@@ -31,6 +32,7 @@ class SendMailService:
             actor=actor,
             tapir_user=tapir_user,
             share_owner=share_owner,
+            draft_user=draft_user,
         ).save()
 
     @classmethod
@@ -41,6 +43,7 @@ class SendMailService:
         share_owner: ShareOwner,
         member_infos,
         tapir_user: TapirUser,
+        draft_user: DraftUser,
     ):
         context = email_builder.get_full_context(
             share_owner=share_owner, member_infos=member_infos, tapir_user=tapir_user
@@ -69,6 +72,7 @@ class SendMailService:
             tapir_user=tapir_user,
             share_owner=share_owner,
             email_builder=email_builder,
+            draft_user=draft_user,
         )
 
     @classmethod
@@ -84,6 +88,7 @@ class SendMailService:
             member_infos=recipient.get_info(),
             tapir_user=recipient.user,
             email_builder=email_builder,
+            draft_user=None,
         )
 
     @classmethod
@@ -106,6 +111,7 @@ class SendMailService:
             member_infos=recipient,
             tapir_user=recipient,
             email_builder=email_builder,
+            draft_user=None,
         )
 
     @classmethod
@@ -117,6 +123,7 @@ class SendMailService:
     ):
         cls.__send(
             actor=actor,
+            draft_user=recipient,
             share_owner=None,
             member_infos=recipient,
             tapir_user=None,

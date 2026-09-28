@@ -39,6 +39,12 @@ class LogEntry(models.Model):
         null=True,
         on_delete=models.CASCADE,
     )
+    draft_user = models.ForeignKey(
+        "coop.DraftUser",
+        related_name="log_entries",
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     log_class_type = models.ForeignKey(
         ContentType, on_delete=models.PROTECT, related_name="+"
@@ -78,7 +84,9 @@ class LogEntry(models.Model):
         else:
             return self
 
-    def populate_base(self, actor=None, tapir_user=None, share_owner=None):
+    def populate_base(
+        self, actor=None, tapir_user=None, share_owner=None, draft_user=None
+    ):
         """Populate the log entry model fields.
 
         This should be used instead of the normal model creation mechanism to do event-specific info extraction logic
@@ -89,6 +97,7 @@ class LogEntry(models.Model):
         self.actor = actor
         self.user = tapir_user
         self.share_owner = share_owner
+        self.draft_user = draft_user
 
         if self.share_owner and hasattr(self.share_owner, "user"):
             self.user = self.share_owner.user
@@ -130,13 +139,17 @@ class EmailLogEntry(LogEntry):
         actor=None,
         tapir_user=None,
         share_owner=None,
+        draft_user=None,
     ):
         self.email_id = email_id
         if email_message is not None:
             self.subject = email_message.subject[:128]
             self.email_content = email_message.message().as_bytes()
         return super().populate_base(
-            actor=actor, tapir_user=tapir_user, share_owner=share_owner
+            actor=actor,
+            tapir_user=tapir_user,
+            share_owner=share_owner,
+            draft_user=draft_user,
         )
 
     def get_name(self) -> str:

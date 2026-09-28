@@ -21,6 +21,7 @@ from tapir.log.forms import CreateTextLogEntryForm
 from tapir.log.models import EmailLogEntry, LogEntry, TextLogEntry
 from tapir.log.util import freeze_for_log
 from tapir.settings import PERMISSION_COOP_MANAGE, PERMISSION_COOP_VIEW
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.filters import ShareOwnerModelChoiceFilter, TapirUserModelChoiceFilter
 from tapir.utils.shortcuts import (
     safe_redirect,
@@ -103,8 +104,19 @@ class LogTable(django_tables2.Table):
         return value.strftime("%d.%m.%Y %H:%M")
 
     def render_member(self, record):
-        # show user or share_owner, depending on what is available
-        person = record.user or record.share_owner.get_info()
+        person = None
+        if record.user is not None:
+            person = record.user
+        if record.share_owner is not None:
+            person = record.share_owner.get_info()
+        if record.draft_user is not None:
+            person = record.draft_user.get_info()
+
+        if person is None:
+            raise TapirException(
+                f"Log entry {record} has no user, no share owner and no draft user"
+            )
+
         return UserUtils.build_html_link_for_viewer(person, self.request.user)
 
     def render_actor(self, value: TapirUser):
