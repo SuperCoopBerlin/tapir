@@ -3,13 +3,13 @@
 {% load utils %}
 {% block body %}
     {% get_display_name_short tapir_user as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name shift_display_name=shift.get_display_name reason=reason %}
+    {% blocktranslate with display_name_short=display_name_short coop_name=coop_name shift_display_name=shift.get_display_url reason=reason %}
         <p>
             Hi {{ display_name_short }},
         </p>
 
         <p>
-            {{ reason }}
+            {{ reason }}: {{ shift_display_name }}
         </p>
 
         <p>
