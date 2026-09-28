@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-09-10 15:14+0200\n"
-"PO-Revision-Date: 2024-11-05 11:14+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"PO-Revision-Date: 2026-09-10 15:43+0000\n"
+"Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir-"
+"js/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.5\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.8.1\n"
 
 #: dist/assets/fancy_export-Dqc5yTkX.js:3
 msgid "Fancy export"
@@ -101,7 +101,8 @@ msgid ""
 "          Should you have any questions about your membership, please write to"
 msgstr ""
 "Wir haben deine Daten empfangen und sagen dir per E-Mail Bescheid, \n"
-"sobald wir sie bearbeitet haben.Solltest du weitere Fragen zu deiner Mitgliedschaft haben, melde dich bitte bei"
+"sobald wir sie bearbeitet haben. Solltest du weitere Fragen zu deiner "
+"Mitgliedschaft haben, melde dich bitte bei"
 
 #: dist/assets/member_registration-DISMqnsn.js:2
 msgid "Oops! We could not process your application :("
@@ -141,7 +142,7 @@ msgstr "Du musst mit mindestens 1 Anteil beitreten."
 
 #: dist/assets/member_registration-DISMqnsn.js:2
 msgid "You are joining with"
-msgstr "Du tretest die Genossenschaft mit Anteil(en) im Wert von"
+msgstr "Du trittst die Genossenschaft mit Anteil(en) im Wert von"
 
 #: dist/assets/member_registration-DISMqnsn.js:2
 msgid "worth of shares."
@@ -205,7 +206,12 @@ msgid ""
 "                    be shown on your profile and administrative documents, which are visible only by you and the organization's admins. Your\n"
 "                    preferred name will be used everywhere else (on the shift's timetable, at the welcome\n"
 "                    desk...)"
-msgstr "Dieses Feld ist optional. Wenn du einen gewählter Namen angibst, wird dein administrativer Name nur in deinem Profil und in Verwaltungsdokumenten angezeigt –diese sind ausschließlich für dich und die Administratoren der Organisation sichtbar. Überall sonst (im Dienstplan, am Empfang usw.) wird dein bevorzugter Name verwendet."
+msgstr ""
+"Dieses Feld ist optional. Wenn du einen gewählten Namen angibst, wird dieser "
+"nur in deinem Profil und in Verwaltungsdokumenten angezeigt –diese sind "
+"ausschließlich für dich und die Administratoren der Organisation sichtbar. "
+"Überall sonst (im Dienstplan, am Empfang usw.) wird dein bevorzugter Name "
+"verwendet."
 
 #: dist/assets/member_registration-DISMqnsn.js:5
 msgid "What are your pronouns? (optional)"
@@ -233,7 +239,7 @@ msgstr "Welche Sprache möchtest du für Tapir verwenden?"
 
 #: dist/assets/member_registration-DISMqnsn.js:5
 msgid "Please specify your preferred language."
-msgstr "Bitte gebe deine bevorzugte Sprache an."
+msgstr "Bitte gib deine bevorzugte Sprache an."
 
 #: dist/assets/member_registration-DISMqnsn.js:5
 msgid "What is your company name?"
@@ -241,11 +247,11 @@ msgstr "Wie heißt deine Firma?"
 
 #: dist/assets/member_registration-DISMqnsn.js:5
 msgid "Please enter the official company name"
-msgstr "Bitte, gebe den offiziellen Name der Firma an"
+msgstr "Bitte gib den offiziellen Name der Firma an"
 
 #: dist/assets/member_registration-DISMqnsn.js:5
 msgid "Please specify the official company name."
-msgstr "Bitte, gebe den offiziellen Name der Firma an"
+msgstr "Bitte gib den offiziellen Name der Firma an"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Both email addresses must be the same"
@@ -253,7 +259,7 @@ msgstr "Beide E-Mail Adressen müssen gleich sein."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Invalid phone number"
-msgstr "Telefonnummer"
+msgstr "Ungültige Telefonnummer"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Address & Contact Info"
@@ -265,7 +271,7 @@ msgstr "Straße & Hausnummer"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify the street address."
-msgstr "Bitte gebe die Straße und Hausnummer an."
+msgstr "Bitte gib die Straße und Hausnummer an."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Postcode"
@@ -273,7 +279,7 @@ msgstr "PLZ"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify the postal code."
-msgstr "Bitte gebe die PLZ an."
+msgstr "Bitte gib die PLZ an."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "City"
@@ -281,7 +287,7 @@ msgstr "Ort"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify the town or city name."
-msgstr "Bitte gebe den Wohnort an."
+msgstr "Bitte gib den Wohnort an."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Country"
@@ -289,7 +295,7 @@ msgstr "Land"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify the country name."
-msgstr "Bitte, gebe den Staat, wo du wohnst an"
+msgstr "Bitte gib den Staat an, in dem du wohnst"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "E-mail"
@@ -297,7 +303,7 @@ msgstr "E-mail"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please provide a valid e-mail address."
-msgstr "Bitte gebe eine gültige E-Mail-Adresse."
+msgstr "Bitte gib eine gültige E-Mail-Adresse."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "E-mail (verification)"
@@ -329,11 +335,11 @@ msgstr "Vorname"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify your first name."
-msgstr "Bitte gebe deinen Vornamen an."
+msgstr "Bitte gib deinen Vornamen an."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please give your \"administrative\" name, as it is on your ID."
-msgstr ""
+msgstr "Bitte gib uns deinen offiziellen Namen wie er in deinem Ausweis steht."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Last name"
@@ -341,7 +347,7 @@ msgstr "Nachname"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Please specify your last name."
-msgstr "Bitte gebe deinen Nachnamen an."
+msgstr "Bitte gib deinen Nachnamen an."
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Next - Legal"
@@ -385,7 +391,9 @@ msgstr "Erklärungen"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "I hereby request membership in the SuperCoop. I would like to take part with"
-msgstr "Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit insgesamt "
+msgstr ""
+"Ich beantrage hiermit die Aufnahme in die SuperCoop. Ich möchte mich mit "
+"insgesamt"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "share(s)."
@@ -401,7 +409,9 @@ msgstr " je Geschäftsanteil plus einem Eintrittsgeld in Höhe von "
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid ", which will be used to cover administrative costs. I agree to transfer "
-msgstr " zu leisten, das der Deckung von Verwaltungskosten dient. Insgesamt verpflichte ich mich daher, "
+msgstr ""
+"zu leisten, das der Deckung von Verwaltungskosten dient. Insgesamt "
+"verpflichte ich mich daher, "
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid " in total"
@@ -409,7 +419,9 @@ msgstr " zu leisten"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "I have been provided with a copy of the Bylaws of SuperCoop (either in digital or print form), which can be accessed below:"
-msgstr "Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) ausgehändigt worden kann hier eingesehen werden:"
+msgstr ""
+"Die Satzung von SuperCoop ist mir (entweder digital oder in gedruckter Form) "
+"ausgehändigt worden und kann hier eingesehen werden:"
 
 #: dist/assets/member_registration-DISMqnsn.js:10
 msgid "Bylaws"
@@ -482,7 +494,7 @@ msgstr "Mitgliedsdetails"
 
 #: dist/assets/welcome_desk-CDfXXJGb.js:1
 msgid "Member"
-msgstr "Mitgleid"
+msgstr "Mitglied"
 
 #: dist/assets/welcome_desk-CDfXXJGb.js:1
 msgid "yes"
@@ -510,7 +522,10 @@ msgstr "Miteinkäufer*in 2: "
 
 #: dist/assets/welcome_desk-CDfXXJGb.js:1
 msgid "Whoops! Something went wrong. Please try again. If it keeps happening, please write in the #tapir channel on Slack with your current search: "
-msgstr "Hoppla! Es ist was schiefgegangen. Bitte versuche es nochmal. Wenn das wieder passiert, schreib bitte in der #tapir-Kanal bei Slack mit deine aktuelle Suche: "
+msgstr ""
+"Hoppla! Es ist was schiefgegangen. Bitte versuche es nochmal. Wenn das "
+"wieder passiert, schreib bitte in den #tapir-Kanal bei Slack mit deiner "
+"aktuelle Suche: "
 
 #: dist/assets/welcome_desk-CDfXXJGb.js:1
 msgid "Welcome Desk"
