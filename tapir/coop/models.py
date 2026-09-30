@@ -109,6 +109,7 @@ class ShareOwner(models.Model):
                     | Q(user__first_name__unaccent__icontains=search)
                     | Q(user__usage_name__unaccent__icontains=search)
                     | Q(user__last_name__unaccent__icontains=search)
+                    | Q(user__email__unaccent__icontains=search)
                     | Q(company_name__unaccent__icontains=search)
                 )
                 combined_filters = combined_filters & word_filter
