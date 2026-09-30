@@ -768,7 +768,7 @@ components:
         * `ZM` - Zambia
         * `ZR` - Zaire
         * `ZW` - Zimbabwe
-        * `ZZ` - Unknown or unspecified country
+        * `ZZ` - Unbekanntes und nicht-spezifiziertes land
     DatapointExport:
       type: object
       properties:
@@ -926,12 +926,13 @@ components:
         phone:
           type: string
           nullable: true
-        client_captcha_response:
+        altcha:
           type: string
+          writeOnly: true
       required:
+      - altcha
       - birthdate
       - city
-      - client_captcha_response
       - country
       - email
       - first_name

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Form } from "react-bootstrap";
 import { ChevronLeft, Send } from "react-bootstrap-icons";
 import { PreferredLanguage, RegistrationStage } from "../constants.ts";
@@ -11,7 +11,7 @@ import {
   MemberRegistrationRequest,
 } from "../../api-client";
 import { useApi } from "../../hooks/useApi.ts";
-import { FriendlyCaptchaSDK } from "@friendlycaptcha/sdk";
+import { WidgetAttributes, WidgetMethods } from "altcha/lib";
 
 declare let gettext: (english_text: string) => string;
 
@@ -19,7 +19,7 @@ type Props = {
   shares: number;
   sharePrice: number;
   setStage: React.Dispatch<React.SetStateAction<RegistrationStage>>;
-  setErrorMessage: React.Dispatch<React.SetStateAction<ReactNode>>;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
   isCompany: boolean;
   isInvesting: boolean;
   firstName: string;
@@ -41,10 +41,7 @@ type Props = {
   membershipFee: number;
   ratenzahlung: boolean;
   emailAddressMemberOffice: string;
-  captchaSdk: FriendlyCaptchaSDK;
-  captchaResponse: string;
-  setCaptchaResponse: React.Dispatch<React.SetStateAction<string>>;
-  friendlyCaptchaSiteKey: string;
+  altchaChallengeUrl: string;
 };
 
 const Step4Legal: React.FC<Props> = ({
@@ -73,12 +70,12 @@ const Step4Legal: React.FC<Props> = ({
   ratenzahlung,
   emailAddressMemberOffice,
   setErrorMessage,
-  captchaSdk,
-  captchaResponse,
-  setCaptchaResponse,
-  friendlyCaptchaSiteKey,
+  altchaChallengeUrl,
 }: Props) => {
   const coopApi = useApi(CoopApi);
+  const altchaRef = useRef<WidgetAttributes & WidgetMethods & HTMLElement>(
+    null,
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -87,8 +84,25 @@ const Step4Legal: React.FC<Props> = ({
   const [acceptsConstitution, setAcceptsConstitution] = useState(false);
   const [acceptsPayment, setAcceptsPayment] = useState(false);
   const [acceptsPrivacy, setAcceptsPrivacy] = useState(false);
+  const [altchaResponse, setAltchaResponse] = useState<string | null>(null);
 
   const [validated, setValidated] = useState(false);
+
+  useEffect(() => {
+    const handleStateChange = (ev: Event | CustomEvent) => {
+      if ("detail" in ev) {
+        setAltchaResponse(ev.detail.payload || null);
+      }
+    };
+
+    const currentAltcha = altchaRef.current;
+
+    if (currentAltcha) {
+      currentAltcha.addEventListener("statechange", handleStateChange);
+      return () =>
+        currentAltcha.removeEventListener("statechange", handleStateChange);
+    }
+  }, [setAltchaResponse]);
 
   const onConfirmRegister = useCallback(() => {
     setLoading(true);
@@ -113,7 +127,7 @@ const Step4Legal: React.FC<Props> = ({
       email,
       phone,
       ratenzahlung,
-      clientCaptchaResponse: captchaResponse,
+      altcha: altchaResponse!,
     };
 
     if (companyName) memberRegistrationRequest.companyName = companyName;
@@ -133,7 +147,7 @@ const Step4Legal: React.FC<Props> = ({
         setStage(RegistrationStage.ERROR);
         let newErrorMessage;
         if (error.response.status < 500) {
-          newErrorMessage = await error.response.json();
+          newErrorMessage = await error.response.text();
         } else {
           console.error(error);
           newErrorMessage = (
@@ -172,7 +186,7 @@ const Step4Legal: React.FC<Props> = ({
     setStage,
     shares,
     street,
-    captchaResponse,
+    altchaResponse,
   ]);
 
   return (
@@ -218,11 +232,12 @@ const Step4Legal: React.FC<Props> = ({
         coopStreet={coopStreet}
         coopPlace={coopPlace}
         membershipFee={membershipFee}
-        captchaSdk={captchaSdk}
-        setCaptchaResponse={setCaptchaResponse}
-        friendlyCaptchaSiteKey={friendlyCaptchaSiteKey}
       />
-      <hr></hr>
+      <hr />
+      <Form.Group className={"mt-2"}>
+        <altcha-widget ref={altchaRef} challenge={altchaChallengeUrl} />
+      </Form.Group>
+      <hr />
       <div className={"mt-5"} style={{ display: "flex", gap: "0.5rem" }}>
         <TapirButton
           icon={ChevronLeft}
@@ -250,7 +265,7 @@ const Step4Legal: React.FC<Props> = ({
             !acceptsPayment ||
             !acceptsPeriod ||
             !acceptsPrivacy ||
-            !captchaResponse
+            !altchaResponse
           }
           loading={loading}
         />

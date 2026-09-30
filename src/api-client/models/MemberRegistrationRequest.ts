@@ -141,7 +141,7 @@ export interface MemberRegistrationRequest {
      * @type {string}
      * @memberof MemberRegistrationRequest
      */
-    clientCaptchaResponse: string;
+    altcha: string;
 }
 
 
@@ -163,7 +163,7 @@ export function instanceOfMemberRegistrationRequest(value: object): value is Mem
     if (!('postcode' in value) || value['postcode'] === undefined) return false;
     if (!('country' in value) || value['country'] === undefined) return false;
     if (!('email' in value) || value['email'] === undefined) return false;
-    if (!('clientCaptchaResponse' in value) || value['clientCaptchaResponse'] === undefined) return false;
+    if (!('altcha' in value) || value['altcha'] === undefined) return false;
     return true;
 }
 
@@ -194,7 +194,7 @@ export function MemberRegistrationRequestFromJSONTyped(json: any, ignoreDiscrimi
         'country': CountryEnumFromJSON(json['country']),
         'email': json['email'],
         'phone': json['phone'] == null ? undefined : json['phone'],
-        'clientCaptchaResponse': json['client_captcha_response'],
+        'altcha': json['altcha'],
     };
 }
 
@@ -226,7 +226,7 @@ export function MemberRegistrationRequestFromJSONTyped(json: any, ignoreDiscrimi
         'country': CountryEnumToJSON(value['country']),
         'email': value['email'],
         'phone': value['phone'],
-        'client_captcha_response': value['clientCaptchaResponse'],
+        'altcha': value['altcha'],
     };
 }
 

@@ -40,6 +40,7 @@ dependencies = [
     "icecream (>=2.1.8,<3.0.0)",
     "holidays (>=0.93,<0.94)",
     "drf-spectacular (>=0.29.0,<0.30.0)",
+    "altcha-django[drf] (>=1.0.0,<2.0.0)",
 ]
 
 [tool.poetry.group.dev.dependencies]

@@ -252,7 +252,7 @@
  * * `ZM` - Zambia
  * * `ZR` - Zaire
  * * `ZW` - Zimbabwe
- * * `ZZ` - Unknown or unspecified country
+ * * `ZZ` - Unbekanntes und nicht-spezifiziertes land
  * @export
  */
 export const CountryEnum = {

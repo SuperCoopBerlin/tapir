@@ -1,10 +1,9 @@
 import { XCircleFill } from "react-bootstrap-icons";
-import { ReactNode } from "react";
 
 declare let gettext: (english_text: string) => string;
 
 type Props = {
-  errorMessage: ReactNode;
+  errorMessage: string;
 };
 
 export default function ErrorStep({ errorMessage }: Props) {

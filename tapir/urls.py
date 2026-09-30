@@ -34,6 +34,7 @@ urlpatterns = [
     path("welcomedesk/", include("tapir.welcomedesk.urls")),
     path("financingcampaign/", include("tapir.financingcampaign.urls")),
     path("i18n/", include("django.conf.urls.i18n")),
+    path("altcha/", include("altcha_django.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if ENABLE_SILK_PROFILING:

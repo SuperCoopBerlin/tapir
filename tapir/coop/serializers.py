@@ -1,3 +1,4 @@
+from altcha_django.contrib.rest_framework import AltchaField
 from rest_framework import serializers
 
 from tapir.accounts.models import TapirUser
@@ -32,4 +33,4 @@ class MemberRegistrationRequestSerializer(serializers.Serializer):
     country = serializers.ChoiceField(choices=COUNTRIES)
     email = serializers.EmailField()
     phone = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-    client_captcha_response = serializers.CharField()
+    altcha = AltchaField()

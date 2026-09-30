@@ -22,5 +22,5 @@
           data-coop-street="{{ coop_street }}"
           data-coop-place="{{ coop_place }}"
           data-email-address-member-office="{{ email_address_member_office }}"
-          data-friendlycaptcha-site-key="{{ friendlycaptcha_site_key }}"></span>
+          data-altcha-challenge-url='{% url "altcha_django:challenge" %}'></span>
 {% endblock content %}
