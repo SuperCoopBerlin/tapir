@@ -4,7 +4,7 @@ on: push
 
 jobs:
   test:
-    runs-on: codeberg-small-lazy
+    runs-on: codeberg-medium-lazy
     services:
       db:
         image: postgres:14
@@ -22,12 +22,20 @@ jobs:
       selenium:
         image: selenium/standalone-firefox-debug:latest
     steps:
+      # Configuration
       - name: Install ubuntu packages
         run: apt-get update && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
-      - run: pip install poetry==2.4.1
-      - run: poetry install --no-root
-      - run: poetry run pytest
+
+      # Poetry
+      - name: Install poetry
+        run: pip install poetry==2.4.1
+      - name: Install poetry dependencies
+        run: poetry install --no-root
+      - name: Run poetry tests with DEBUG=1 variable
+        env:
+          DEBUG: 1
+        run: poetry run pytest
