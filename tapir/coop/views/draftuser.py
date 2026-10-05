@@ -42,7 +42,9 @@ from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.settings import PERMISSION_COOP_MANAGE
 from tapir.utils.models import copy_user_info
-from tapir.utils.shortcuts import set_header_for_file_download
+from tapir.utils.shortcuts import (
+    set_header_for_file_download,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -134,6 +136,7 @@ def draftuser_membership_agreement(request, pk):
 
     response = HttpResponse(content_type=CONTENT_TYPE_PDF)
     set_header_for_file_download(response, filename)
+    response["X-Frame-Options"] = "SAMEORIGIN"
     response.write(pdfs.get_membership_agreement_pdf(draft_user).write_pdf())
     return response
 

@@ -226,10 +226,20 @@
                         {% else %}
                             <span class="text-warning">Pending</span>
                         {% endif %}
+                        <button class="{% tapir_button_link %} ms-3"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#membership_agreement_preview"
+                                aria-expanded="false"
+                                aria-controls="membership_agreement_preview">
+                            <span class="material-icons">preview</span>
+                            {% translate "Membership agreement (preview)" %}
+                        </button>
                         <a class="{% tapir_button_link %} ms-3"
-                           href="{% url 'coop:draftuser_membership_agreement' object.pk %}">
-                            <span class="material-icons">file_present</span>
-                            Beteiligungserklärung
+                           href="{% url 'coop:draftuser_membership_agreement' object.pk %}"
+                           target="_blank">
+                            <span class="material-icons">download</span>
+                            {% translate "Membership agreement (download)" %}
                         </a>
                         {% if not object.signed_membership_agreement %}
                             <form style="display: inline"
@@ -242,6 +252,16 @@
                                 </button>
                             </form>
                         {% endif %}
+                    </div>
+                </div>
+                <div class="row m-1 collapse" id="membership_agreement_preview">
+                    <div class="col">
+                        <object type="application/pdf"
+                                data="{% url 'coop:draftuser_membership_agreement' object.pk %}"
+                                style="width: 100%;
+                                       min-height: 1000px">
+                            <span>{% translate "Failed to load membership agreement" %}</span>
+                        </object>
                     </div>
                 </div>
             </div>
