@@ -10,7 +10,7 @@ from tapir.coop.config import feature_flag_self_registration_enabled
 from tapir.coop.emails.self_registration_confirmation_mail import (
     SelfRegistrationConfirmationMail,
 )
-from tapir.coop.models import DraftUser
+from tapir.coop.models import DraftUser, RegistrationOriginChoices
 from tapir.coop.tests.factories import DraftUserFactory, ShareOwnerFactory
 from tapir.core.models import FeatureFlag
 from tapir.log.models import EmailLogEntry
@@ -161,6 +161,10 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
         self.assertEqual("FR", draft_user.country)
         self.assertEqual("test@example.com", draft_user.email)
         self.assertEqual("0176272674529", draft_user.phone_number)
+        self.assertEqual(
+            RegistrationOriginChoices.ONLINE_SELF_REGISTRATION.value,
+            draft_user.registration_origin,
+        )
 
         self.assertEqual(1, EmailLogEntry.objects.count())
         email_log_entry = EmailLogEntry.objects.get()

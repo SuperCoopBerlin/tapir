@@ -243,12 +243,11 @@ class DraftUserTable(django_tables2.Table):
     class Meta:
         model = DraftUser
         template_name = TAPIR_TABLE_TEMPLATE
-        fields = [
-            "created_at",
-        ]
+        fields = ["created_at", "registration_origin"]
         sequence = (
             "display_name",
             "share_owner_can_be_created",
+            "registration_origin",
             "created_at",
         )
         order_by = "-created_at"
@@ -291,6 +290,7 @@ class DraftUserFilter(django_filters.FilterSet):
             "is_investing",
             "attended_welcome_session",
             "signed_membership_agreement",
+            "registration_origin",
         ]
 
     def __init__(self, *args, **kwargs):

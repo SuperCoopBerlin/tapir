@@ -1,6 +1,6 @@
 from django.urls import reverse
 
-from tapir.coop.models import DraftUser
+from tapir.coop.models import DraftUser, RegistrationOriginChoices
 from tapir.coop.tests.factories import DraftUserFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
@@ -47,6 +47,9 @@ class TestCreateDraftUser(TapirFactoryTestBase):
                 getattr(draft_user, attribute),
                 f"The mock user and the created user should have the same {attribute}.",
             )
+        self.assertEqual(
+            RegistrationOriginChoices.PAPER.value, draft_user.registration_origin
+        )
 
     def visit_view(self, mock_draft_user: DraftUser):
         post_data = {}

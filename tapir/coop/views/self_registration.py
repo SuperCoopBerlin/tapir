@@ -20,7 +20,7 @@ from tapir.coop import config
 from tapir.coop.emails.self_registration_confirmation_mail import (
     SelfRegistrationConfirmationMail,
 )
-from tapir.coop.models import DraftUser, ShareOwner
+from tapir.coop.models import DraftUser, RegistrationOriginChoices, ShareOwner
 from tapir.coop.serializers import MemberRegistrationRequestSerializer
 from tapir.core.models import FeatureFlag
 from tapir.core.services.send_mail_service import SendMailService
@@ -124,6 +124,7 @@ class MemberSelfRegisterApiView(APIView):
                 company_name=serializer.validated_data.get("company_name", ""),
                 preferred_language=serializer.validated_data["preferred_language"],
                 ratenzahlung=serializer.validated_data["ratenzahlung"],
+                registration_origin=RegistrationOriginChoices.ONLINE_SELF_REGISTRATION,
             )
 
             email_builder = SelfRegistrationConfirmationMail(draft_user=draft_user)

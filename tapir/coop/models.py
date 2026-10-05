@@ -424,6 +424,11 @@ class DeleteShareOwnershipLogEntry(ModelLogEntry):
         return self.populate_base(share_owner=share_owner, actor=actor, model=model)
 
 
+class RegistrationOriginChoices(models.TextChoices):
+    ONLINE_SELF_REGISTRATION = "online_self_registration", _("Online")
+    PAPER = "offline_form", _("Paper form")
+
+
 class DraftUser(models.Model):
     class MustSolveBeforeCreatingShareOwner:
         NO_EMAIL = "no_email"
@@ -456,20 +461,16 @@ class DraftUser(models.Model):
         verbose_name=_("Is company"), default=False, blank=False
     )
     company_name = models.CharField(max_length=150, blank=True)
-
     preferred_language = models.CharField(
         _("Preferred Language"),
         choices=utils.models.PREFERRED_LANGUAGES,
         default="de",
         max_length=16,
     )
-
     num_shares = models.IntegerField(_("Number of Shares"), blank=False, default=1)
-
     is_investing = models.BooleanField(
         verbose_name=_("Investing member"), default=False
     )
-
     attended_welcome_session = models.BooleanField(
         _("Attended Welcome Session"), default=False
     )
@@ -477,15 +478,19 @@ class DraftUser(models.Model):
         _("Signed Beteiligungserklärung"), default=False
     )
     paid_membership_fee = models.BooleanField(_("Paid Entrance Fee"), default=False)
-
     ratenzahlung = models.BooleanField(verbose_name=_("Ratenzahlung"), default=False)
-
     created_at = models.DateTimeField(auto_now_add=True)
     share_owner = models.OneToOneField(
         ShareOwner,
         related_name="draft_user",
         null=True,
         on_delete=models.CASCADE,
+    )
+    registration_origin = models.CharField(
+        _("Registration origin"),
+        choices=RegistrationOriginChoices.choices,
+        max_length=40,
+        default=RegistrationOriginChoices.PAPER,
     )
 
     def get_absolute_url(self):
