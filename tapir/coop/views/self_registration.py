@@ -125,6 +125,7 @@ class MemberSelfRegisterApiView(APIView):
                 preferred_language=serializer.validated_data["preferred_language"],
                 ratenzahlung=serializer.validated_data["ratenzahlung"],
                 registration_origin=RegistrationOriginChoices.ONLINE_SELF_REGISTRATION,
+                signed_membership_agreement=True,
             )
 
             email_builder = SelfRegistrationConfirmationMail(draft_user=draft_user)

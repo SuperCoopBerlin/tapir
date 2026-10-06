@@ -165,6 +165,7 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
             RegistrationOriginChoices.ONLINE_SELF_REGISTRATION.value,
             draft_user.registration_origin,
         )
+        self.assertTrue(draft_user.signed_membership_agreement)
 
         self.assertEqual(1, EmailLogEntry.objects.count())
         email_log_entry = EmailLogEntry.objects.get()
