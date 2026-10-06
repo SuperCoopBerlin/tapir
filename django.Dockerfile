@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM python:3.13 AS base
+FROM python:3.14 AS base
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
@@ -55,7 +55,7 @@ COPY tapir ./tapir
 RUN poetry run python manage.py compilemessages
 
 
-FROM python:3.13-slim AS prod
+FROM python:3.14-slim AS prod
 ARG ARG_VERSION
 ENV TAPIR_VERSION=${ARG_VERSION}
 ENV PYTHONUNBUFFERED=1 \
