@@ -4417,5 +4417,5 @@ test = ["pytest"]
 
 [metadata]
 lock-version = "2.1"
-python-versions = "^3.14.7"
-content-hash = "6c21519b5d8acdd71ab71d07949e5583b0556e46d95ac94670f7e51a0d042978"
+python-versions = ">=3.14,<3.15"
+content-hash = "8cf414a948e9a5a067acc321281a13fb62b5b62f393eb9bac508b0ccdcb8db0d"
