@@ -824,11 +824,13 @@ class MembershipResignation(models.Model):
 
     class MembershipResignationQuerySet(models.QuerySet):
         def with_name_or_id(self, search_string: str):
-            id_filter = Q(share_owner__id=search_string)
-            member_filter = Q(
-                share_owner__in=ShareOwner.objects.with_name(search_string)
+            share_owner = ShareOwner.objects.with_name(search_string)
+            resignations = MembershipResignation.objects.filter(
+                share_owner__in=share_owner
             )
-            combined_filters = id_filter | member_filter
+            combined_filters = Q(id__in=resignations.values_list("id", flat=True))
+            if search_string.isdigit():
+                combined_filters |= Q(share_owner__id=search_string)
             return self.filter(combined_filters)
 
     objects = MembershipResignationQuerySet.as_manager()
