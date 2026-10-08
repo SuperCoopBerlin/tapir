@@ -17,6 +17,7 @@ class SidebarLink:
     on_render: Callable
     required_feature_flag: str | None
     visibility: LinkVisibility
+    open_in_a_new_tab: bool
 
 
 class SidebarLinkGroup:
@@ -40,6 +41,7 @@ class SidebarLinkGroup:
         html_id=None,
         on_render=None,
         visibility: LinkVisibility = "only_when_logged_in",
+        open_in_a_new_tab=False,
     ):
         if self.links is None:
             self.links = []
@@ -57,6 +59,7 @@ class SidebarLinkGroup:
         link.on_render = on_render
         link.required_feature_flag = required_feature_flag
         link.visibility = visibility
+        link.open_in_a_new_tab = open_in_a_new_tab
         self.links.append(link)
 
 

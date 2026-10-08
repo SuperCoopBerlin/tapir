@@ -40,6 +40,7 @@ class CoreConfig(AppConfig):
             material_icon="feed",
             url="https://wiki.supercoop.de",
             ordering=2,
+            open_in_a_new_tab=True,
         )
 
         misc_group.add_link(
@@ -47,6 +48,7 @@ class CoreConfig(AppConfig):
             material_icon="menu_book",
             url="https://wiki.supercoop.de/wiki/Member_Manual",
             ordering=3,
+            open_in_a_new_tab=True,
         )
 
         misc_group.add_link(
@@ -54,6 +56,7 @@ class CoreConfig(AppConfig):
             material_icon="access_time",
             url="https://wiki.supercoop.de/wiki/%C3%96ffnungszeiten",
             ordering=4,
+            open_in_a_new_tab=True,
         )
 
         misc_group.add_link(
@@ -61,6 +64,7 @@ class CoreConfig(AppConfig):
             material_icon="question_answer",
             url="https://supercoopberlin.slack.com",
             ordering=5,
+            open_in_a_new_tab=True,
         )
 
         misc_group.add_link(
