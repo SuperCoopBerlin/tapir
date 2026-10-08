@@ -19,20 +19,20 @@ jobs:
           LDAP_DOMAIN: "supercoop.de"
           LDAP_ADMIN_PASSWORD: "admin"
           LDAP_READONLY_USER: "true"
-        volumes:
-          - ./ldap_testdata.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-testdata.ldif
-        cmd:
-          - --copy-service
       selenium:
         image: selenium/standalone-firefox-debug:latest
     steps:
       # Configuration
       - name: Install ubuntu packages
-        run: apt-get update && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0
+        run: apt-get update && apt-get install --no-install-recommends -y libpq-dev gettext libldap2-dev libsasl2-dev  libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 ldap-utils
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
           python-version: '3.14'
+      # The file containing the ldap test data is in the repo and therefore only available after actions/checkout, which is only run after the services are started
+      # That means we must import the ldap test data manually
+      - name: Load LDAP test data
+        run: ldapadd -x -H ldap://openldap:389 -D "cn=admin,dc=supercoop,dc=de" -w admin -f ldap_testdata.ldif
 
       # Poetry
       - name: Install poetry
