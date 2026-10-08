@@ -21,7 +21,7 @@ jobs:
           LDAP_READONLY_USER: "true"
         volumes:
           - ./ldap_testdata.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-testdata.ldif
-        cmd: --copy-service
+        cmd: "--copy-service"
       selenium:
         image: selenium/standalone-firefox-debug:latest
     steps:
