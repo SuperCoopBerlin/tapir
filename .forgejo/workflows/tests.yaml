@@ -41,7 +41,8 @@ jobs:
         run: poetry install --no-root
       - name: Collect static files
         run: poetry run python manage.py collectstatic
-      - name: Run poetry tests with DEBUG=1 variable
+      - name: Run poetry tests with debug enabled
         env:
           DEBUG: 1
+          DJANGO_VITE_DEBUG: 1
         run: poetry run pytest
