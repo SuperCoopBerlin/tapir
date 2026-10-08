@@ -19,6 +19,8 @@ jobs:
           LDAP_DOMAIN: "supercoop.de"
           LDAP_ADMIN_PASSWORD: "admin"
           LDAP_READONLY_USER: "true"
+        volumes:
+          - ./ldap_testdata.ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom/50-testdata.ldif
       selenium:
         image: selenium/standalone-firefox-debug:latest
     steps:
@@ -28,7 +30,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       # Poetry
       - name: Install poetry
