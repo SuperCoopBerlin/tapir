@@ -39,6 +39,8 @@ jobs:
         run: pip install poetry==2.4.1
       - name: Install poetry dependencies
         run: poetry install --no-root
+      - name: Collect static files
+        run: poetry run python manage.py collectstatic
       - name: Run poetry tests with DEBUG=1 variable
         env:
           DEBUG: 1
