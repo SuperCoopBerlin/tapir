@@ -1,0 +1,11 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    <p>Liebes Mitgliederbüro,</p>
+    <p>dies ist eine automatische E-Mail von Tapir.</p>
+    <p>
+        Es hat sich eine neue Person als Mitglied beworben:
+        <a href="{{ site_url }}{% url "coop:draftuser_detail" draft_user.id %}">{% get_display_name_full draft_user %} </a>.
+    </p>
+{% endblock body %}

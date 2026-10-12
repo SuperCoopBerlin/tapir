@@ -1,6 +1,7 @@
 import datetime
 from http import HTTPStatus
 
+from django.conf import settings
 from django.core import mail
 from django.test import override_settings
 from django.urls import reverse
@@ -135,11 +136,14 @@ class TestMemberSelfRegistrationView(TapirEmailTestMixin, TapirFactoryTestBase):
 
         self.assertEqual(1, DraftUser.objects.count())
 
-        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(2, len(mail.outbox))
+        # The first email is a notification to the member office, the mail to the user is sent second.
+        self.assertEqual([settings.EMAIL_ADDRESS_MEMBER_OFFICE], mail.outbox[0].to)
+
         self.assertEmailOfClass_GotSentTo(
             expected_class=SelfRegistrationConfirmationMail,
             target_email_address="test@example.com",
-            mail=mail.outbox[0],
+            mail=mail.outbox[1],
         )
 
         draft_user = DraftUser.objects.get()
