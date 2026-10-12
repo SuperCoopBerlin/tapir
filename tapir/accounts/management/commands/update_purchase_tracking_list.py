@@ -56,7 +56,7 @@ class Command(BaseCommand):
                         user, UserUtils.DISPLAY_NAME_TYPE_SHORT
                     ),
                     rabatt,
-                    UserUtils.get_full_street(user.street, user.street_2),
+                    UserUtils.get_full_street(user.street, user.street_2)[:50],
                     user.postcode,
                     user.city,
                     user.email,
