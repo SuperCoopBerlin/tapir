@@ -27,7 +27,7 @@
         <div class="card-header">
             <div class="d-flex justify-content-between align-items-center">
                 <h5>
-                    <span id="shift_card_title">{% translate 'Shift' %}: {{ shift.get_display_name }}</span>
+                    <span id="shift_card_title">{% translate "Shift" %}: {{ shift.get_display_name }}</span>
                 </h5>
                 {% if total_valid_attendances and total_hours and no_of_past_shifts %}
                     <span data-bs-toggle="tooltip"
@@ -40,40 +40,40 @@
                               action="{% url 'shifts:unwatch_shift' shift.pk %}">
                             {% csrf_token %}
                             <button type="submit" class="{% tapir_button_action %}">
-                                <span class="material-icons">visibility_off</span>{% translate 'Unwatch' %}
+                                <span class="material-icons">visibility_off</span>{% translate "Unwatch" %}
                             </button>
                         </form>
                     {% else %}
                         <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'shifts:watch_shift' shift.pk %}"
                            title="{% translate 'You will get mail-notifications when shifts you follow change — tailored to the types of updates you choose (e.g., needs help, is full, cancellations).' %}">
-                            <span class="material-icons">visibility</span>{% translate 'Watch' %}
+                            <span class="material-icons">visibility</span>{% translate "Watch" %}
                         </a>
                     {% endif %}
                     {% if perms.shifts.manage %}
                         <a class="{% tapir_button_link %}"
                            href="{% url 'shifts:shift_detail_printable' shift.pk %}">
-                            <span class="material-icons">print</span>{% translate 'Get printable version' %}
+                            <span class="material-icons">print</span>{% translate "Get printable version" %}
                         </a>
                         <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'shifts:create_slot' shift.pk %}">
-                            <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
+                            <span class="material-icons">add_circle_outline</span>{% translate "Add a slot" %}
                         </a>
                         <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'shifts:shift_edit' shift.pk %}"
                            id="shift_edit_button">
-                            <span class="material-icons">edit</span>{% translate 'Edit' %}
+                            <span class="material-icons">edit</span>{% translate "Edit" %}
                         </a>
                         {% if not shift.cancelled and not shift.deleted %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'shifts:cancel_shift' shift.pk %}">
-                                <span class="material-icons">cancel</span>{% translate 'Cancel the entire shift' %}
+                                <span class="material-icons">cancel</span>{% translate "Cancel the entire shift" %}
                             </a>
                         {% endif %}
                         {% if not shift.deleted %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'shifts:shift_delete' shift.pk %}">
-                                <span class="material-icons">delete</span>{% translate 'Delete the entire shift' %}
+                                <span class="material-icons">delete</span>{% translate "Delete the entire shift" %}
                             </a>
                         {% endif %}
                         </span>
@@ -93,12 +93,12 @@
                 {% endif %}
                 {% if shift.cancelled %}
                     <li class="list-group-item bg-warning">
-                        {% translate 'This shift has been cancelled: ' %}
+                        {% translate "This shift has been cancelled: " %}
                         {{ shift.cancelled_reason }}
                     </li>
                 {% endif %}
                 {% if shift.deleted %}
-                    <li class="list-group-item bg-danger">{% translate 'This shift has been deleted.' %}</li>
+                    <li class="list-group-item bg-danger">{% translate "This shift has been deleted." %}</li>
                 {% endif %}
                 <li class="list-group-item table-responsive"
                     style="padding-left: 0px;
@@ -108,18 +108,18 @@
                            aria-label="{% translate 'List of slots for this shift' %}">
                         <thead>
                             <tr>
-                                <th>{% translate "Slot" %}-{% translate 'Number' %}</th>
-                                <th>{% translate 'Details' %}</th>
-                                <th>{% translate 'Registered user' %}</th>
-                                <th>{% translate 'Attendance' %}</th>
-                                <th>{% translate 'Actions' %}</th>
-                                <th>{% translate 'Do you meet the requirements?' %}</th>
+                                <th>{% translate "Slot" %}-{% translate "Number" %}</th>
+                                <th>{% translate "Details" %}</th>
+                                <th>{% translate "Registered user" %}</th>
+                                <th>{% translate "Attendance" %}</th>
+                                <th>{% translate "Actions" %}</th>
+                                <th>{% translate "Do you meet the requirements?" %}</th>
                                 {% if shift.flexible_time %}
                                     <th>{% translate "Chosen time" %}</th>
                                 {% endif %}
                                 {% if perms.shifts.manage %}
-                                    <th>{% translate 'Member-Office actions' %}</th>
-                                    <th>{% translate 'Previous attendances' %}</th>
+                                    <th>{% translate "Member-Office actions" %}</th>
+                                    <th>{% translate "Previous attendances" %}</th>
                                 {% endif %}
                             </tr>
                         </thead>
@@ -150,7 +150,7 @@
                                                 <span class="shift-centered-content">
                                                     {{ attendance.get_state_display }}
                                                     {% if attendance.state == attendance_states.LOOKING_FOR_STAND_IN %}
-                                                        {% translate 'since' %}
+                                                        {% translate "since" %}
                                                         {{ attendance.last_state_update|date:"d.m.Y H:i" }}
                                                     {% endif %}
                                                     {% if attendance.state == attendance_states.DONE %}
@@ -266,7 +266,7 @@
                                     <!-- Requirements -->
                                     <td>
                                         {% for key, value in slot.get_required_capabilities_dict.items %}
-                                            {% if key in request.user.shift_user_data.capabilities %}
+                                            {% if key in request.user.shift_user_data.capabilities.all %}
                                                 <span class="d-flex align-items-center"><span class="material-icons">check</span><span>{{ value }}</span></span>
                                             {% else %}
                                                 <span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span>
@@ -356,7 +356,8 @@
                                                                   method="post"
                                                                   action="{% url 'shifts:update_shift_attendance_state' attendance.pk attendance.State.CANCELLED %}">
                                                                 {% csrf_token %}
-                                                                <button type="submit" class="{% tapir_button_custom 'secondary' %}">
+                                                                <button type="submit"
+                                                                        class="{% tapir_button_custom 'secondary' %}">
                                                                     <span class="material-icons">person_remove</span>
                                                                     {% translate "Cancelled" %}
                                                                 </button>
@@ -366,7 +367,7 @@
                                                 {% endif %}
                                                 <a class="{% tapir_button_link_to_action %}"
                                                    href="{% url 'shifts:edit_slot' slot.pk %}">
-                                                    <span class="material-icons">edit</span>{% translate 'Edit slot' %}
+                                                    <span class="material-icons">edit</span>{% translate "Edit slot" %}
                                                 </a>
                                             </span>
                                         </td>

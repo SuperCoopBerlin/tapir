@@ -211,9 +211,9 @@
     <div class="att-controls-header" aria-hidden="true">
         <div style="flex:1"></div>
         <div class="label-set">
-            <div class="attendance-label">{% translate 'Attended' %}</div>
+            <div class="attendance-label">{% translate "Attended" %}</div>
             <div class="attendance-label">
-                {% translate 'Excused' %} <span style="color: red;">*</span>
+                {% translate "Excused" %} <span style="color: red;">*</span>
             </div>
         </div>
     </div>
@@ -227,8 +227,9 @@
                         <div class="slot-info" title="{{ slot.name }}">
                             <div style="line-height:1.0;font-weight: bold;">{{ slot.name }}</div>
                             <div class="small-text" style="line-height:1.0;">
-                                {% if slot.required_capabilities|length > 0 %}
-                                    <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ slot.get_required_capabilities_display }}
+                                {% if slot.required_capabilities.all|length > 0 %}
+                                    <i class="material-icons small-text"
+                                       style="vertical-align: middle">school</i> {{ slot.get_required_capabilities_display }}
                                 {% endif %}
                             </div>
                         </div>
@@ -250,7 +251,8 @@
                                                 {% translate "Expected to come at" %} {{ attendance.custom_time|time:"H:i" }}
                                             </div>
                                         {% else %}
-                                            <div class="small-text" style="line-height:1.0;">{% translate "Flexible time not specified" %}</div>
+                                            <div class="small-text"
+                                                 style="line-height:1.0">{% translate "Flexible time not specified" %}</div>
                                         {% endif %}
                                     {% endif %}
                                     {% feature_flag_enabled "feature_flags.shifts.shift_partner" as shift_partner_enabled %}
@@ -261,10 +263,11 @@
                                         </div>
                                     {% endif %}
                                     {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
-                                        <div class="small-text" style="line-height:1.0;">({% translate "Looking for a stand-in" %})</div>
+                                        <div class="small-text"
+                                             style="line-height:1.0">({% translate "Looking for a stand-in" %})</div>
                                     {% endif %}
                                     <div class="small-text" style="line-height:1.0;">
-                                        {% if attendance.user.shift_user_data.capabilities|length > 0 %}
+                                        {% if attendance.user.shift_user_data.capabilities.all|length > 0 %}
                                             <i class="material-icons small-text" style="vertical-align: middle;">school</i> {{ attendance.user.shift_user_data.get_capabilities_display }}
                                         {% endif %}
                                     </div>
@@ -280,7 +283,7 @@
                                         text-align: center"></div>
                             <label class="att-checkbox" title="{% translate 'Excused' %}">
                                 <input type="checkbox" name="attendance_{{ slot.id }}_excused" />
-                                <span>{% translate 'Excused' %}</span>
+                                <span>{% translate "Excused" %}</span>
                             </label>
                         </div>
                     </div>
@@ -291,8 +294,8 @@
     <div class="legend" style="text-align: right; font-size: 10px;">
         <span>
             <i class="material-icons small-text" style="vertical-align: middle;">school</i>
-            - {% translate 'Qualifications' %}
+            - {% translate "Qualifications" %}
             <span style="margin: 0 4px;"></span>
-            <span style="margin-left: 4px;">* {% translate 'Only to be filled by teamleader, member office or employees.' %}</span>
+            <span style="margin-left: 4px">* {% translate "Only to be filled by teamleader, member office or employees." %}</span>
         </div>
     </div>
