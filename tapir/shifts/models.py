@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 import datetime
+from functools import cmp_to_key
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -14,12 +15,18 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import LogEntry, ModelLogEntry, UpdateModelLogEntry
-from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link, get_monday, get_timezone_aware_datetime
+from tapir.utils.models import PREFERRED_LANGUAGES, DurationModelMixin
+from tapir.utils.shortcuts import (
+    compare_languages_english_goes_first,
+    get_html_link,
+    get_monday,
+    get_timezone_aware_datetime,
+)
 
 
 class ShiftUserCapability:
@@ -297,6 +304,34 @@ class ShiftTemplate(models.Model):
             )
 
 
+class Capability(models.Model):
+    def get_current_translation(self) -> CapabilityTranslation | None:
+        current_language = get_language()
+        translations = list(self.capabilitytranslation_set.all())
+
+        if len(translations) == 0:
+            return None
+
+        for translation in translations:
+            if translation.language == current_language or not current_language:
+                return translation
+
+        translations.sort(key=cmp_to_key(compare_languages_english_goes_first))
+        return translations[0]
+
+
+class CapabilityTranslation(models.Model):
+    language = models.CharField(
+        _("Language"),
+        choices=PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
+    name = models.CharField(_("Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    capability = models.ForeignKey(Capability, on_delete=models.CASCADE)
+
+
 class RequiredCapabilitiesMixin:
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
     # the data from ShiftSlot and ShiftSlotTemplate to it first
@@ -336,6 +371,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+    required_capabilities_new = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -659,6 +695,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         blank=True,
         null=False,
     )
+    required_capabilities_new = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -1006,6 +1043,8 @@ class ShiftUserData(models.Model):
         ),
         default=list,
     )
+    capabilities_new = models.ManyToManyField(Capability, through="UserCapability")
+
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
@@ -1067,6 +1106,25 @@ class ShiftUserData(models.Model):
 
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
+
+
+class UserCapability(models.Model):
+    shift_user_data = models.ForeignKey(
+        ShiftUserData, on_delete=models.CASCADE, related_name="capability_assignments"
+    )
+    capability = models.ForeignKey(
+        Capability,
+        on_delete=models.CASCADE,
+    )
+    assigned_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("shift_user_data", "capability")
+        verbose_name = _("Shift User Capability Assignment")
+        verbose_name_plural = _("Shift User Capability Assignments")
+
+    def __str__(self):
+        return f"{self.shift_user_data.user} - {self.capability.get_current_translation().name}"
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
@@ -1271,6 +1329,7 @@ class ShiftWatch(models.Model):
         blank=True,
         null=False,
     )
+    watched_capabilities_new = models.ManyToManyField(Capability)
 
     def __str__(self):
         staffing_statuses = ", ".join(status for status in self.staffing_status)
@@ -1330,3 +1389,4 @@ class RecurringShiftWatch(models.Model):
         blank=True,
         null=False,
     )
+    watched_capabilities_new = models.ManyToManyField(Capability)
