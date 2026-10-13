@@ -363,15 +363,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    required_capabilities_new = models.ManyToManyField(Capability)
+    required_capabilities = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -687,15 +679,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    required_capabilities_new = models.ManyToManyField(Capability)
+    required_capabilities = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -1037,13 +1021,8 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-    capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-    )
-    capabilities_new = models.ManyToManyField(Capability, through="UserCapability")
+
+    capabilities = models.ManyToManyField(Capability, through="UserCapability")
 
     shift_partner = models.OneToOneField(
         "self",
@@ -1321,15 +1300,7 @@ class ShiftWatch(models.Model):
         on_delete=models.CASCADE,
     )
 
-    watched_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=get_shift_capability_choices, blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    watched_capabilities_new = models.ManyToManyField(Capability)
+    watched_capabilities = models.ManyToManyField(Capability)
 
     def __str__(self):
         staffing_statuses = ", ".join(status for status in self.staffing_status)
@@ -1381,12 +1352,4 @@ class RecurringShiftWatch(models.Model):
         default=get_staffingstatus_defaults,
     )
 
-    watched_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=get_shift_capability_choices, blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
-    watched_capabilities_new = models.ManyToManyField(Capability)
+    watched_capabilities = models.ManyToManyField(Capability)
