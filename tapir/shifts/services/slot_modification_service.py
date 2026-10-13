@@ -109,11 +109,10 @@ class SlotModificationService:
         if parameter_set.target_capabilities is None:
             return
 
-        slot_template.generated_slots.filter(shift_is_in_the_future_filter).update(
-            required_capabilities=list(parameter_set.target_capabilities)
-        )
-        slot_template.required_capabilities = list(parameter_set.target_capabilities)
-        slot_template.save()
+        for slot in slot_template.generated_slots.filter(shift_is_in_the_future_filter):
+            slot.required_capabilities.set(parameter_set.target_capabilities)
+
+        slot_template.required_capabilities.set(parameter_set.target_capabilities)
 
     @classmethod
     def pick_slots_to_modify(

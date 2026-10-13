@@ -48,13 +48,13 @@ def check_watched_capabilities(
     notification_reasons: list[str],
 ) -> None:
     """Check for watched capability changes and add notifications if needed."""
-    if len(shift_watch_data.watched_capabilities) == 0:
+    if len(shift_watch_data.watched_capabilities.all()) == 0:
         return
 
     capability_notifications = ShiftWatchCreator.get_capability_status_changes(
         this_valid_slot_ids=this_valid_slot_ids,
         last_valid_slot_ids=shift_watch_data.last_valid_slot_ids,
-        watched_capabilities=shift_watch_data.watched_capabilities,
+        watched_capabilities=shift_watch_data.watched_capabilities.all(),
     )
     if capability_notifications:
         notification_reasons.extend(capability_notifications)

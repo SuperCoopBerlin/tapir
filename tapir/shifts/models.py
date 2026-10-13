@@ -29,35 +29,6 @@ from tapir.utils.shortcuts import (
 )
 
 
-class ShiftUserCapability:
-    SHIFT_COORDINATOR = "shift_coordinator"
-    CASHIER = "cashier"
-    MEMBER_OFFICE = "member_office"
-    BREAD_DELIVERY = "bread_delivery"
-    RED_CARD = "red_card"
-    FIRST_AID = "first_aid"
-    WELCOME_SESSION = "welcome_session"
-    HANDLING_CHEESE = "handling_cheese"
-    TRAIN_CHEESE_HANDLERS = "train_cheese_handlers"
-    INVENTORY = "inventory"
-    NEBENAN_DE_SUPPORT = "nebenan_de_support"
-
-
-SHIFT_USER_CAPABILITY_CHOICES = {
-    ShiftUserCapability.SHIFT_COORDINATOR: _("Teamleader"),
-    ShiftUserCapability.CASHIER: _("Cashier"),
-    ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
-    ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
-    ShiftUserCapability.RED_CARD: _("Red Card"),
-    ShiftUserCapability.FIRST_AID: _("First Aid"),
-    ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
-    ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
-    ShiftUserCapability.TRAIN_CHEESE_HANDLERS: _("Train cheese handlers"),
-    ShiftUserCapability.INVENTORY: _("Inventory"),
-    ShiftUserCapability.NEBENAN_DE_SUPPORT: _("Nebenan.de-Support"),
-}
-
-
 class ShiftSlotWarning:
     IN_THE_MORNING_EVERYONE_HELPS_STORAGE = "in_the_morning_everyone_helps_storage"
     IN_THE_EVENING_EVERYONE_HELPS_CLEAN = "in_the_evening_everyone_helps_clean"
@@ -335,21 +306,25 @@ class CapabilityTranslation(models.Model):
 class RequiredCapabilitiesMixin:
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
     # the data from ShiftSlot and ShiftSlotTemplate to it first
-    def get_required_capabilities_display(self):
+    def get_required_capabilities_display(self: ShiftSlotTemplate | ShiftSlot):
         return ", ".join(
             [
-                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
+                capability.get_current_translation().name
+                for capability in self.required_capabilities.all().prefetch_related(
+                    "capabilitytranslation_set"
+                )
             ]
         )
 
-    def get_required_capabilities_dict(self):
+    def get_required_capabilities_dict(self: ShiftSlotTemplate | ShiftSlot):
         """
-        returns required capabilites as dictionary with corresponding translatiom
+        returns required capabilities as dictionary with corresponding translation
         """
         return {
-            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
+            capability: capability.get_current_translation().name
+            for capability in self.required_capabilities.all().prefetch_related(
+                "capabilitytranslation_set"
+            )
         }
 
 
@@ -394,7 +369,9 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             .exists()
             and
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            set(self.required_capabilities.all()).issubset(
+                user.shift_user_data.capabilities.all()
+            )
         )
 
     def get_attendance_template(self):
@@ -414,13 +391,14 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             slot.update_attendance_from_template()
 
     def create_slot_from_template(self, shift: Shift):
-        return ShiftSlot.objects.create(
+        slot = ShiftSlot.objects.create(
             slot_template=self,
             name=self.name,
             shift=shift,
-            required_capabilities=self.required_capabilities,
             warnings=self.warnings,
         )
+        slot.required_capabilities.set(self.required_capabilities.all())
+        return slot
 
 
 class ShiftAttendanceTemplate(models.Model):
@@ -712,27 +690,42 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return self.valid_attendance
 
     def user_can_attend(self, user):
-        return (
+        if (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().state
+            != ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        ):
             # Slot must not be attended yet
-            (
-                not self.get_valid_attendance()
-                or self.get_valid_attendance().state
-                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            )
-            and
+            return False
+
+        if self.shift.get_attendances().filter(user=user).with_valid_state().exists():
             # User isn't already registered for this shift
-            not self.shift.get_attendances()
-            .filter(user=user)
-            .with_valid_state()
-            .exists()
-            and
+            return False
+
+        if not set(self.required_capabilities.all()).issubset(
+            set(user.shift_user_data.capabilities.all())
+        ):
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
-            and self.shift.is_in_the_future()
-            and not self.shift.cancelled
-            and hasattr(user, "share_owner")
-            and user.share_owner.is_active(self.shift.start_time)
-        )
+            return False
+
+        if not self.shift.is_in_the_future():
+            return False
+
+        if self.shift.cancelled:
+            return False
+
+        if not hasattr(user, "share_owner") or user.share_owner is None:
+            return False
+
+        from tapir.coop.models import MemberStatus
+
+        if (
+            user.share_owner.get_member_status(self.shift.start_time)
+            != MemberStatus.ACTIVE
+        ):
+            return False
+
+        return True
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
@@ -801,7 +794,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
     def update_slot_from_template(self):
         self.name = self.slot_template.name
-        self.required_capabilities = self.slot_template.required_capabilities
+        self.required_capabilities.set(self.slot_template.required_capabilities.all())
         self.warnings = self.slot_template.warnings
         self.save()
 
@@ -1037,7 +1030,12 @@ class ShiftUserData(models.Model):
 
     def get_capabilities_display(self):
         return ", ".join(
-            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.capabilities]
+            [
+                capability.get_current_translation().name
+                for capability in self.capabilities.all().prefetch_related(
+                    "capabilitytranslation_set"
+                )
+            ]
         )
 
     def get_upcoming_shift_attendances(self):
@@ -1266,7 +1264,12 @@ def get_staffingstatus_defaults():
 
 
 def get_shift_capability_choices():
-    return list(SHIFT_USER_CAPABILITY_CHOICES.items())
+    return [
+        capability.get_current_translation().name
+        for capability in ShiftUserData.capabilities.all().prefetch_related(
+            "capabilitytranslation_set"
+        )
+    ]
 
 
 class ShiftWatch(models.Model):
@@ -1304,7 +1307,10 @@ class ShiftWatch(models.Model):
 
     def __str__(self):
         staffing_statuses = ", ".join(status for status in self.staffing_status)
-        watched_caps = ", ".join(cap for cap in self.watched_capabilities)
+        watched_caps = ", ".join(
+            cap.get_current_translation().name
+            for cap in self.watched_capabilities.all()
+        )
 
         return format_html(
             "{} is watching {} for changes of {} (capabilities: {})",

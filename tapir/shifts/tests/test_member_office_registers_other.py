@@ -12,9 +12,12 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftSlotTemplate,
     ShiftTemplate,
-    ShiftUserCapability,
 )
-from tapir.shifts.tests.factories import ShiftFactory, ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    CapabilityFactory,
+    ShiftFactory,
+    ShiftTemplateFactory,
+)
 from tapir.shifts.tests.utils import (
     check_registration_successful,
     check_registration_successful_template,
@@ -37,7 +40,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift = ShiftFactory.create()
         slot = ShiftSlot.objects.filter(shift=shift).first()
-        slot.required_capabilities = [ShiftUserCapability.CASHIER]
+        slot.required_capabilities.set([CapabilityFactory.create()])
         slot.save()
 
         self.login_as_member_office_user()
@@ -92,8 +95,8 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         shift_template = ShiftTemplateFactory.create()
         slot_template = ShiftSlotTemplate.objects.filter(
             shift_template=shift_template
-        ).first()
-        slot_template.required_capabilities = [ShiftUserCapability.RED_CARD]
+        ).get()
+        slot_template.required_capabilities.set([CapabilityFactory.create()])
         slot_template.save()
 
         self.login_as_member_office_user()

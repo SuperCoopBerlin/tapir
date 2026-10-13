@@ -7,10 +7,10 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
+    Capability,
     ShiftAccountEntry,
     ShiftAttendance,
     ShiftTemplateGroup,
-    ShiftUserCapability,
 )
 from tapir.utils.shortcuts import get_monday
 
@@ -127,7 +127,7 @@ def update_shift_account_depending_on_welcome_session_status(share_owner: ShareO
 
 
 def get_ids_of_users_registered_to_a_shift_with_capability(
-    capability: ShiftUserCapability,
+    capability: Capability,
 ):
     return (
         ShiftAttendance.objects.filter(

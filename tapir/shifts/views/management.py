@@ -341,12 +341,16 @@ class ShiftTemplateDuplicateView(
             ShiftSlotTemplate(
                 shift_template=shift_template_copy_destination,
                 name=slot_template.name,
-                required_capabilities=slot_template.required_capabilities,
                 warnings=slot_template.warnings,
             )
             for slot_template in slot_templates_source
         ]
-        ShiftSlotTemplate.objects.bulk_create(slot_templates_to_create)
+        created_slots = ShiftSlotTemplate.objects.bulk_create(slot_templates_to_create)
+
+        for created_slot, source_slot in zip(created_slots, slot_templates_source):
+            created_slot.required_capabilities.set(
+                source_slot.required_capabilities.all()
+            )
 
         return shift_template_copy_destination.id
 

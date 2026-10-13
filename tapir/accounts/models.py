@@ -48,9 +48,7 @@ class TapirUserQuerySet(models.QuerySet):
         return self.filter(id__in=user_ids).distinct()
 
     def has_capability(self, capability: str):
-        return self.filter(
-            shift_user_data__capabilities__contains=[capability]
-        ).distinct()
+        return self.filter(shift_user_data__capabilities=capability).distinct()
 
 
 class TapirUserManager(UserManager.from_queryset(TapirUserQuerySet)):

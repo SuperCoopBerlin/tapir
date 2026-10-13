@@ -1,6 +1,7 @@
 from django.db.models import Q
 
 from tapir.shifts.models import (
+    Capability,
     RecurringShiftWatch,
     Shift,
     ShiftAttendance,
@@ -130,22 +131,22 @@ class ShiftWatchCreator:
 
         new_watches = []
         for shift in shifts_to_create:
-            new_watches.append(
-                ShiftWatch(
-                    user=recurring.user,
-                    shift=shift,
-                    staffing_status=recurring.staffing_status,
-                    watched_capabilities=recurring.watched_capabilities,
-                    last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
-                        shift=shift
-                    ),
-                    recurring_template=recurring,
-                    last_valid_slot_ids=cls.get_valid_slot_ids(shift),
-                )
+            watch = ShiftWatch(
+                user=recurring.user,
+                shift=shift,
+                staffing_status=recurring.staffing_status,
+                last_staffing_status=ShiftWatchCreator.get_initial_staffing_status_for_shift(
+                    shift=shift
+                ),
+                recurring_template=recurring,
+                last_valid_slot_ids=cls.get_valid_slot_ids(shift),
             )
+            new_watches.append(watch)
 
-        if new_watches:
-            ShiftWatch.objects.bulk_create(new_watches)
+        ShiftWatch.objects.bulk_create(new_watches)
+
+        for watch in new_watches:
+            watch.watched_capabilities.set(recurring.watched_capabilities.all())
 
     @classmethod
     def get_valid_slot_ids(cls, shift: Shift) -> list[int]:
@@ -204,7 +205,7 @@ class ShiftWatchCreator:
         cls,
         this_valid_slot_ids: list[int],
         last_valid_slot_ids: list[int],
-        watched_capabilities: list[str],
+        watched_capabilities: list[Capability],
     ) -> list[str]:
         if not watched_capabilities:
             return []
@@ -213,28 +214,31 @@ class ShiftWatchCreator:
 
         current_slots = ShiftSlot.objects.filter(
             id__in=this_valid_slot_ids
-        ).values_list("required_capabilities", flat=True)
+        ).prefetch_related("required_capabilities")
 
-        last_slots = ShiftSlot.objects.filter(id__in=last_valid_slot_ids).values_list(
-            "required_capabilities", flat=True
-        )
+        last_slots = ShiftSlot.objects.filter(
+            id__in=last_valid_slot_ids
+        ).prefetch_related("required_capabilities")
 
         current_capabilities_set = set()
-        for capabilities in current_slots:
-            current_capabilities_set.update(capabilities)
+        for slot in current_slots:
+            current_capabilities_set.update(slot.required_capabilities.all())
 
         last_capabilities_set = set()
-        for capabilities in last_slots:
-            last_capabilities_set.update(capabilities)
+        for slot in last_slots:
+            last_capabilities_set.update(slot.required_capabilities.all())
 
         for capability in watched_capabilities:
             has_now = capability in current_capabilities_set
             had_before = capability in last_capabilities_set
 
             if has_now and not had_before:
-                notifications.append(f"Member with capability added: {capability}")
+                notifications.append(
+                    f"Member with capability added: {capability.get_current_translation().name}"
+                )
             elif not has_now and had_before:
                 notifications.append(
-                    f"Member with capability unregistered: {capability}"
+                    f"Member with capability unregistered: {capability.get_current_translation().name}"
                 )
+
         return notifications

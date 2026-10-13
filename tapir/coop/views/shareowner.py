@@ -91,7 +91,7 @@ from tapir.settings import (
 )
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
-    SHIFT_USER_CAPABILITY_CHOICES,
+    Capability,
     Shift,
     ShiftAccountEntry,
     ShiftExemption,
@@ -593,6 +593,18 @@ class ShareOwnerFilter(django_filters.FilterSet):
             }
         )
 
+        capability_choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in Capability.objects.all()
+        }
+        self.filters["has_capability"].extra.update({"choices": capability_choices})
+        self.filters["registered_to_abcd_slot_with_capability"].extra.update(
+            {"choices": capability_choices}
+        )
+        self.filters["registered_to_slot_with_capability"].extra.update(
+            {"choices": capability_choices}
+        )
+
     status = ChoiceFilter(
         choices=MEMBER_STATUS_CHOICES,
         method="status_filter",
@@ -603,38 +615,6 @@ class ShareOwnerFilter(django_filters.FilterSet):
         choices=SHIFT_ATTENDANCE_MODE_CHOICES,
         method="shift_attendance_mode_filter",
         label=_("Shift Status"),
-    )
-    registered_to_abcd_slot_with_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="registered_to_abcd_slot_with_capability_filter",
-        label=_("Is registered to an ABCD-slot that requires a qualification"),
-    )
-    registered_to_slot_with_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="registered_to_slot_with_capability_filter",
-        label=_("Is registered to a slot that requires a qualification"),
-    )
-    has_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="has_capability_filter",
-        label=_("Has qualification"),
-    )
-    not_has_capability = ChoiceFilter(
-        choices=[
-            (capability, capability_name)
-            for capability, capability_name in SHIFT_USER_CAPABILITY_CHOICES.items()
-        ],
-        method="not_has_capability_filter",
-        label=_("Does not have qualification"),
     )
     has_tapir_account = BooleanFilter(
         method="has_tapir_account_filter", label="Has a Tapir account"
@@ -669,6 +649,18 @@ class ShareOwnerFilter(django_filters.FilterSet):
     )
     user_date_joined = DateFromToRangeFilterTapir(
         method="filter_by_user_date_joined", label="Account creation date"
+    )
+    has_capability = ChoiceFilter(
+        method="has_capability_filter",
+        label=_("Has qualification"),
+    )
+    registered_to_abcd_slot_with_capability = ChoiceFilter(
+        method="registered_to_abcd_slot_with_capability_filter",
+        label=_("Is registered to an ABCD-slot that requires a qualification"),
+    )
+    registered_to_slot_with_capability = ChoiceFilter(
+        method="registered_to_slot_with_capability_filter",
+        label=_("Is registered to a slot that requires a qualification"),
     )
 
     @staticmethod
@@ -707,36 +699,30 @@ class ShareOwnerFilter(django_filters.FilterSet):
 
     @staticmethod
     def registered_to_abcd_slot_with_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, capability_id
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_abcd_shift_slot_with_capability(
-                value
+                capability_id
             )
         ).distinct()
 
     @staticmethod
     def registered_to_slot_with_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, capability_id
     ):
         return queryset.filter(
-            user__in=TapirUser.objects.registered_to_shift_slot_with_capability(value)
+            user__in=TapirUser.objects.registered_to_shift_slot_with_capability(
+                capability_id
+            )
         ).distinct()
 
     @staticmethod
     def has_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
+        queryset: ShareOwner.ShareOwnerQuerySet, name, capability_id
     ):
         return queryset.filter(
-            user__in=TapirUser.objects.has_capability(value)
-        ).distinct()
-
-    @staticmethod
-    def not_has_capability_filter(
-        queryset: ShareOwner.ShareOwnerQuerySet, name, value: str
-    ):
-        return queryset.exclude(
-            user__in=TapirUser.objects.has_capability(value)
+            user__in=TapirUser.objects.has_capability(capability_id)
         ).distinct()
 
     @staticmethod

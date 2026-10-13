@@ -5,10 +5,12 @@ from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.forms import RecurringShiftWatchForm
 from tapir.shifts.models import (
     RecurringShiftWatch,
-    ShiftUserCapability,
     StaffingStatusChoices,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    CapabilityFactory,
+    ShiftTemplateFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -138,13 +140,15 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertEqual(RecurringShiftWatch.objects.count(), 1)
 
     def test_createRecurringShiftWatch_withWatchedCapabilities_entrySaved(self):
+        capability_1 = CapabilityFactory.create()
+        capability_2 = CapabilityFactory.create()
         form_data = {
             **self.default_form_data,
             "weekdays": [1, 2],
             "shift_template_group": ["A"],
             "watched_capabilities": [
-                ShiftUserCapability.CASHIER,
-                ShiftUserCapability.BREAD_DELIVERY,
+                str(capability_1.id),
+                str(capability_2.id),
             ],
         }
 
@@ -157,8 +161,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         created_watch = RecurringShiftWatch.objects.first()
 
         self.assertEqual(
-            set(created_watch.watched_capabilities),
-            {ShiftUserCapability.CASHIER, ShiftUserCapability.BREAD_DELIVERY},
+            set(created_watch.watched_capabilities.all()),
+            {capability_1, capability_2},
         )
 
     def test_createRecurringShiftWatch_noCapabilitiesSelected_entryCreated(self):
@@ -175,7 +179,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
 
         self.assertEqual(response.status_code, 302)
         created_watch = RecurringShiftWatch.objects.first()
-        self.assertEqual(created_watch.watched_capabilities, [])
+        # check for empty Queryset
+        self.assertFalse(created_watch.watched_capabilities.all().exists())
 
     def test_createRecurringShiftWatch_invalidCapability_validationError(self):
         form_data = {
@@ -196,6 +201,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
     def test_createRecurringShiftWatch_withCapabilitiesAndStaffingStatus_entrySaved(
         self,
     ):
+        cap1 = CapabilityFactory.create()
+        cap2 = CapabilityFactory.create()
         form_data = {
             **self.default_form_data,
             "weekdays": [1, 2],
@@ -205,8 +212,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
                 StaffingStatusChoices.FULL,
             ],
             "watched_capabilities": [
-                ShiftUserCapability.CASHIER,
-                ShiftUserCapability.BREAD_DELIVERY,
+                cap1.id,
+                cap2.id,
             ],
         }
 
@@ -222,9 +229,10 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
             set(created_watch.staffing_status),
             {StaffingStatusChoices.UNDERSTAFFED, StaffingStatusChoices.FULL},
         )
-        self.assertEqual(
-            set(created_watch.watched_capabilities),
-            {ShiftUserCapability.CASHIER, ShiftUserCapability.BREAD_DELIVERY},
+        self.assertQuerySetEqual(
+            created_watch.watched_capabilities.all(),
+            [cap1, cap2],
+            ordered=False,
         )
 
     def test_createRecurringShiftWatch_neitherStaffingStatusNorCapabilities_validationError(

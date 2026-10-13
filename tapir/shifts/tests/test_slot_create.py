@@ -4,9 +4,8 @@ from tapir.shifts.models import (
     Shift,
     ShiftSlot,
     ShiftSlotWarning,
-    ShiftUserCapability,
 )
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.tests.factories import CapabilityFactory, ShiftFactory
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -26,7 +25,7 @@ class TestSlotCreate(TapirFactoryTestBase):
         shift: Shift = ShiftFactory.create(nb_slots=0)
         self.assertEqual(shift.slots.count(), 0)
 
-        required_capabilities = [ShiftUserCapability.CASHIER]
+        required_capabilities = [CapabilityFactory.create().id]
         warnings = [ShiftSlotWarning.IN_THE_MORNING_EVERYONE_HELPS_STORAGE]
 
         response = self.client.post(
@@ -44,7 +43,11 @@ class TestSlotCreate(TapirFactoryTestBase):
 
         slot: ShiftSlot = shift.slots.first()
         self.assertEqual(slot.name, self.SLOT_NAME)
-        self.assertEqual(slot.required_capabilities, required_capabilities)
+        self.assertEqual(
+            list(slot.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+            "difference in capabilities",
+        )
         self.assertEqual(slot.warnings, warnings)
 
     def test_normal_user_access_denied(self):
