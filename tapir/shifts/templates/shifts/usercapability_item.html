@@ -2,13 +2,21 @@
 <div class="list-group-item {% if grayed_out %}text-muted{% endif %}">
     <div class="d-flex w-100 justify-content-between align-items-start">
         <div class="flex-grow-1">
-            <h5 class="mb-1">{{ capability.capability.get_current_translation.name }}</h5>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                {% if capability.is_active %}
+                    <span class="badge bg-success">{% translate "Active" %}</span>
+                {% elif capability.days_until_expiration <= 0 %}
+                    <span class="badge bg-danger">{% translate "Expired" %}</span>
+                {% else %}
+                    <span class="badge bg-warning">{% translate "Not started" %}</span>
+                {% endif %}
+            </div>
             <p class="mb-0">
                 <small>
                     {{ capability.start_date }}
                     {% if capability.get_effective_end_date %}
                         → {{ capability.get_effective_end_date }}
-                        {% if capability.days_until_expiration %}
+                        {% if capability.days_until_expiration >= 0 %}
                             ({{ capability.days_until_expiration }} {% translate "days left" %})
                         {% endif %}
                     {% else %}

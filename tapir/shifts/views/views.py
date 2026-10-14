@@ -566,17 +566,36 @@ class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
         user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
 
         capabilities = context["capabilities"]
-        context["active"] = [c for c in capabilities if c.is_active()]
-        context["expired"] = [
-            c
-            for c in capabilities
-            if not c.is_active() and c.days_until_expiration() <= 0
-        ]
-        context["not_started"] = [
-            c
-            for c in capabilities
-            if not c.is_active() and c.start_date > timezone.now().date()
-        ]
+
+        # Gruppiere nach Capability
+        from collections import defaultdict
+
+        capabilities_by_type = defaultdict(list)
+
+        for c in capabilities:
+            capabilities_by_type[c.capability].append(c)
+
+        def sort_key(user_capability):
+            if user_capability.is_active():
+                status_order = 0
+            elif user_capability.days_until_expiration() > 0:
+                status_order = 1  # not started
+            else:
+                status_order = 2  # expired
+
+            return (status_order, user_capability.start_date)
+
+        for capability_type in capabilities_by_type:
+            capabilities_by_type[capability_type].sort(key=sort_key)
+
+        sorted_capabilities = dict(
+            sorted(
+                capabilities_by_type.items(),
+                key=lambda x: x[0].get_current_translation().name,
+            )
+        )
+
+        context["capabilities_grouped"] = sorted_capabilities
 
         context["page_title"] = _("Expirable capabilities of %(name)s") % {
             "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)

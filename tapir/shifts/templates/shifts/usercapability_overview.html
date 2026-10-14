@@ -1,4 +1,4 @@
-{% extends "shifts/base.html" %}
+{% extends "core/base.html" %}
 {% load django_bootstrap5 %}
 {% load i18n %}
 {% load core %}
@@ -11,8 +11,7 @@
     {{ form.media }}
 {% endblock head %}
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
+    <div class="container">
         <div class="card mb-2">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5>{{ card_title }}</h5>
@@ -25,34 +24,15 @@
                 {% endif %}
             </div>
             <div class="card-body">
-                {% if active %}
-                    <h3>{% translate "Active" %}</h3>
-                    <div class="list-group mb-4">
-                        {% for cap in active %}
+                {% for capability, user_capabilities in capabilities_grouped.items %}
+                    <h6 class="mt-3 mb-2">{{ capability.get_current_translation.name }}</h6>
+                    <div class="list-group">
+                        {% for cap in user_capabilities %}
                             {% include "shifts/usercapability_item.html" with capability=cap %}
                         {% endfor %}
                     </div>
-                {% endif %}
-                {% if not_started %}
-                    <h3>{% translate "Not Yet Started" %}</h3>
-                    <div class="list-group mb-4">
-                        {% for cap in not_started %}
-                            {% include "shifts/usercapability_item.html" with capability=cap status="secondary" %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if expired %}
-                    <h3>{% translate "Expired" %}</h3>
-                    <div class="list-group mb-4">
-                        {% for cap in expired %}
-                            {% include "shifts/usercapability_item.html" with capability=cap status="danger" grayed_out=True %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                {% if not capabilities %}
-                    <div class="alert alert-info">{% translate "No capabilities assigned." %}</div>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
-    </form>
+    </div>
 {% endblock content %}
