@@ -14,6 +14,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import generic
 from django.views.generic import (
     CreateView,
+    DeleteView,
     DetailView,
     RedirectView,
     TemplateView,
@@ -41,6 +42,7 @@ from tapir.shifts.forms import (
     RecurringShiftWatchForm,
     ShiftUserDataForm,
     ShiftWatchForm,
+    UserCapabilityForm,
 )
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
@@ -53,6 +55,7 @@ from tapir.shifts.models import (
     ShiftUserData,
     ShiftWatch,
     UpdateShiftUserDataLogEntry,
+    UserCapability,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
@@ -535,3 +538,120 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
         ShiftWatch.objects.filter(id__in=selected_watch_ids, user__id=user_pk).delete()
 
         return redirect("shifts:shiftwatch_overview", pk=user_pk)
+
+
+class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
+
+    model = UserCapability
+    template_name = "shifts/usercapability_overview.html"
+    context_object_name = "capabilities"
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_queryset(self):
+        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+        return (
+            UserCapability.objects.filter(shift_user_data=user.shift_user_data)
+            .select_related("capability")
+            .prefetch_related("capability")
+            .order_by("-start_date")
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+        capabilities = context["capabilities"]
+        context["active"] = [c for c in capabilities if c.is_active()]
+        context["expired"] = [
+            c
+            for c in capabilities
+            if not c.is_active() and c.days_until_expiration() <= 0
+        ]
+        context["not_started"] = [
+            c
+            for c in capabilities
+            if not c.is_active() and c.start_date > timezone.now().date()
+        ]
+
+        context["page_title"] = _("Expirable capabilities of %(name)s") % {
+            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
+        context["card_title"] = _("Expirable capabilities of %(name)s") % {
+            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
+
+        return context
+
+
+class UserCapabilityCreateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
+):
+    model = UserCapability
+    form_class = UserCapabilityForm
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+
+        context["title"] = _("Add New Assignment")
+        context["page_title"] = _("Register new capability for: %(link)s") % {
+            "link": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
+        context["card_title"] = _("Register new capability for: %(link)s") % {
+            "link": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+        }
+
+        return context
+
+    def form_valid(self, form):
+        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        form.instance.shift_user_data = user.shift_user_data
+
+        if (
+            not form.instance.end_date
+            and form.instance.capability.get_current_translation().can_expire
+        ):
+            form.instance.end_date = form.instance.start_date + datetime.timedelta(
+                days=form.instance.capability.get_current_translation().default_validity_days
+            )
+
+        messages.success(self.request, _("Assignment added successfully."))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "shifts:usercapability_overview", kwargs={"pk": self.kwargs["pk"]}
+        )
+
+
+class UserCapabilityDeleteView(
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+    DeleteView,
+    UpdateViewLogMixin,
+):
+
+    model = UserCapability
+
+    def get_permission_required(self):
+        if self.request.user.pk == self.kwargs["pk"]:
+            return []
+        return [PERMISSION_ACCOUNTS_MANAGE]
+
+    def get_success_url(self):
+
+        messages.success(self.request, _("Assignment removed successfully."))
+        return reverse_lazy(
+            "shifts:usercapability_overview",
+            kwargs={"pk": self.object.shift_user_data.user.pk},
+        )

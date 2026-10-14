@@ -1,0 +1,58 @@
+{% extends "shifts/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load core %}
+{% load utils %}
+{% load shifts %}
+{% block title %}
+    {{ page_title }}
+{% endblock title %}
+{% block head %}
+    {{ form.media }}
+{% endblock head %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>{{ card_title }}</h5>
+                {% if perms.shifts.manage %}
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:usercapability_create' user.pk %}">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Register new capability" %}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                {% if active %}
+                    <h3>{% translate "Active" %}</h3>
+                    <div class="list-group mb-4">
+                        {% for cap in active %}
+                            {% include "shifts/usercapability_item.html" with capability=cap %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if not_started %}
+                    <h3>{% translate "Not Yet Started" %}</h3>
+                    <div class="list-group mb-4">
+                        {% for cap in not_started %}
+                            {% include "shifts/usercapability_item.html" with capability=cap status="secondary" %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if expired %}
+                    <h3>{% translate "Expired" %}</h3>
+                    <div class="list-group mb-4">
+                        {% for cap in expired %}
+                            {% include "shifts/usercapability_item.html" with capability=cap status="danger" grayed_out=True %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if not capabilities %}
+                    <div class="alert alert-info">{% translate "No capabilities assigned." %}</div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}

@@ -35,6 +35,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftUserData,
     ShiftWatch,
+    UserCapability,
     get_staffingstatus_choices,
     get_staffingstatus_defaults,
 )
@@ -898,3 +899,26 @@ class RecurringShiftWatchForm(forms.ModelForm):
                 self.AT_LEAST_ONE_TARGET_ERROR % self._format_field_names()
             )
         return cleaned_data
+
+
+class UserCapabilityForm(forms.ModelForm):
+    capability = (forms.ModelChoiceField(queryset=Capability.objects.all()),)
+
+    class Meta:
+        model = UserCapability
+        fields = ["capability", "start_date", "end_date"]
+        widgets = {
+            "start_date": DateInputTapir(),
+            "end_date": DateInputTapir(),
+        }
+        help_texts = {
+            "end_date": _("Leave empty to use the default validity period."),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["capability"].choices = {
+            capability.id: capability.get_current_translation().name
+            for capability in Capability.objects.all()
+        }
+        self.fields["capability"].empty_label = "---Please select your color---"

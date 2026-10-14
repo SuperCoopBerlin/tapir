@@ -240,4 +240,19 @@ urlpatterns = [
         views.RecurringShiftwatchListView.as_view(),
         name="shiftwatch_overview",
     ),
+    path(
+        "capabilities/<int:pk>",
+        views.UserCapabilityListView.as_view(),
+        name="usercapability_overview",
+    ),
+    path(
+        "capabilities/<int:pk>/add/",
+        views.UserCapabilityCreateView.as_view(),
+        name="usercapability_create",
+    ),
+    path(
+        "capabilities/<int:pk>/delete/",
+        views.UserCapabilityDeleteView.as_view(),
+        name="usercapability_delete",
+    ),
 ]

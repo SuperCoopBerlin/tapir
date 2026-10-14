@@ -1,0 +1,28 @@
+{% load i18n %}
+<div class="list-group-item {% if grayed_out %}text-muted{% endif %}">
+    <div class="d-flex w-100 justify-content-between align-items-start">
+        <div class="flex-grow-1">
+            <h5 class="mb-1">{{ capability.capability.get_current_translation.name }}</h5>
+            <p class="mb-0">
+                <small>
+                    {{ capability.start_date }}
+                    {% if capability.get_effective_end_date %}
+                        → {{ capability.get_effective_end_date }}
+                        {% if capability.days_until_expiration %}
+                            ({{ capability.days_until_expiration }} {% translate "days left" %})
+                        {% endif %}
+                    {% else %}
+                        → {% translate "No expiration" %}
+                    {% endif %}
+                </small>
+            </p>
+        </div>
+        {% if perms.shifts.manage %}
+            <a href="{% url 'shifts:usercapability_delete' capability.pk %}"
+               class="btn btn-sm btn-link text-danger ms-2"
+               title="{% translate 'Delete assignment' %}">
+                <span class="material-icons">delete</span>
+            </a>
+        {% endif %}
+    </div>
+</div>

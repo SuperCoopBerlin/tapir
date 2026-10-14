@@ -301,6 +301,23 @@ class CapabilityTranslation(models.Model):
     name = models.CharField(_("Name"), max_length=255)
     description = models.TextField(_("Description"))
     capability = models.ForeignKey(Capability, on_delete=models.CASCADE)
+    can_expire = models.BooleanField(
+        _("Can Expire"),
+        default=False,
+        help_text=_("Whether this capability can expire."),
+    )
+    default_validity_days = models.PositiveIntegerField(
+        _("Default Validity Period (months)"),
+        null=True,
+        blank=True,
+        help_text=_("Default validity period in days if no explicit end date is set."),
+    )
+
+    def clean(self):
+        if self.can_expire and not self.default_validity_days:
+            raise ValidationError(
+                _("Default validity period is required for expiring capabilities.")
+            )
 
 
 class RequiredCapabilitiesMixin:
@@ -1095,13 +1112,63 @@ class UserCapability(models.Model):
     )
     assigned_at = models.DateTimeField(auto_now_add=True)
 
+    start_date = models.DateField(
+        _("Start Date"),
+        default=timezone.now,
+        help_text=_("Date when this capability becomes active."),
+    )
+    end_date = models.DateField(
+        _("End Date"),
+        null=True,
+        blank=True,
+        help_text=_(
+            "Date when this capability expires. If empty, calculated from start_date + default_validity_days."
+        ),
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
-        unique_together = ("shift_user_data", "capability")
+        unique_together = ("shift_user_data", "capability", "start_date", "end_date")
         verbose_name = _("Shift User Capability Assignment")
         verbose_name_plural = _("Shift User Capability Assignments")
 
     def __str__(self):
         return f"{self.shift_user_data.user} - {self.capability.get_current_translation().name}"
+
+    def clean(self):
+        """Validate that start_date is before end_date."""
+        if self.end_date and self.start_date > self.end_date:
+            raise ValidationError(_("Start date must be before end date."))
+
+    def get_effective_end_date(self) -> datetime.date | None:
+        """
+        Returns the effective end date of this User-capability. Returns None (never expires).
+        """
+        if self.end_date:
+            return self.end_date
+
+        return None
+
+    def is_active(self) -> bool:
+
+        today = timezone.now().date()
+
+        if self.start_date > today:
+            return False
+
+        effective_end_date = self.get_effective_end_date()
+        if effective_end_date is None:
+            return True  # Never expires
+
+        return today <= effective_end_date
+
+    def days_until_expiration(self) -> int | None:
+        effective_end_date = self.get_effective_end_date()
+        if effective_end_date is None:
+            return None
+
+        today = timezone.now().date()
+        return (effective_end_date - today).days
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
