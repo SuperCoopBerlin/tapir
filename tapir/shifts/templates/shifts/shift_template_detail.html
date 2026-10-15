@@ -99,10 +99,11 @@
                                                     <span>{% translate "Not specified" %}</span>
                                                 {% endif %}
                                                 {% if request.user == attendance.user or perms.shifts.manage %}
-                                                    <a href="{% url 'shifts:attendance_template_custom_time' attendance.id %}">
-                                                        <button type="button" class="{% tapir_button_link_to_action %}">
-                                                            <span class="material-icons button-icon">edit</span>
-                                                        </button>
+                                                    <a class="{% tapir_button_link_to_action %}"
+                                                       href="{% url 'shifts:attendance_template_custom_time' attendance.id %}"
+                                                       aria-label="{% translate 'Edit attendance' %}">
+                                                        <span class="material-icons button-icon"
+                                                              aria-hidden="true">edit</span>
                                                     </a>
                                                 {% endif %}
                                             {% endif %}
