@@ -926,3 +926,15 @@ class UserCapabilityForm(forms.ModelForm):
             for capability in Capability.objects.all()
             if capability.get_current_translation().can_expire
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        if UserCapability.objects.filter(
+            capability=cleaned_data.get("capability"),
+            start_date=cleaned_data.get("start_date"),
+            end_date=cleaned_data.get("end_date"),
+        ).exists():
+            raise ValidationError(_("A capability with these dates already exists."))
+
+        return cleaned_data
