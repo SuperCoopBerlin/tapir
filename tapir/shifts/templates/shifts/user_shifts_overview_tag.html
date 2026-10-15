@@ -9,6 +9,11 @@
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {% if perms.shifts.manage and user.shift_user_data %}
                 <a class="{% tapir_button_link_to_action %}"
+                   id="edit_capabilities"
+                   href="{% url 'shifts:usercapability_overview' user.shift_user_data.pk %}">
+                    <span class="material-icons button-icon">school</span>{% translate "Qualifications" %}
+                </a>
+                <a class="{% tapir_button_link_to_action %}"
                    id="edit_shift_user_data_button"
                    href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                     <span class="material-icons button-icon">edit</span>{% translate "Edit" %}
