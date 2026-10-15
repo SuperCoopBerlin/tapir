@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import Prefetch, Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -1046,14 +1046,31 @@ class ShiftUserData(models.Model):
     objects = ShiftUserDataQuerySet.as_manager()
 
     def get_capabilities_display(self):
-        return ", ".join(
-            [
-                capability.get_current_translation().name
-                for capability in self.capabilities.all().prefetch_related(
-                    "capabilitytranslation_set"
-                )
-            ]
+
+        user_capabilities_prefetch = Prefetch(
+            "usercapability_set",
+            queryset=UserCapability.objects.filter(shift_user_data=self),
         )
+
+        capabilities_list = []
+        for capability in (
+            self.capabilities.all()
+            .distinct()
+            .prefetch_related("capabilitytranslation_set", user_capabilities_prefetch)
+        ):
+            name = capability.get_current_translation().name
+
+            is_active = any(
+                user_capability.is_active()
+                for user_capability in capability.usercapability_set.all()
+            )
+
+            if is_active:
+                capabilities_list.append(name)
+            else:
+                capabilities_list.append(f"⚠️ {name}")
+
+        return ", ".join(capabilities_list)
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
