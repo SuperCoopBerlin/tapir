@@ -376,7 +376,11 @@ def generate_test_shift_templates():
 
     cashier_capability = Capability.objects.create()
     CapabilityTranslation.objects.create(
-        capability=cashier_capability, language="en", name="Cashier"
+        capability=cashier_capability,
+        language="en",
+        name="Cashier",
+        can_expire=True,
+        default_validity=24,
     )
 
     slot_templates = []
