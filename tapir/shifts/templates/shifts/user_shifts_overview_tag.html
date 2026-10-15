@@ -11,7 +11,7 @@
                 <a class="{% tapir_button_link_to_action %}"
                    id="edit_shift_user_data_button"
                    href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
-                    <span class="material-icons button-icon">edit</span>{% translate 'Edit' %}
+                    <span class="material-icons button-icon">edit</span>{% translate "Edit" %}
                 </a>
             {% endif %}
             <a class="{% tapir_button_link_to_action %}"
@@ -39,7 +39,7 @@
                         {% if not forloop.last %},{% endif %}
                     {% endfor %}
                 </div>
-            {% elif user.shift_user_data.attendance_mode == 'regular' %}
+            {% elif user.shift_user_data.attendance_mode == "regular" %}
                 <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "ABCD Shift" %}:</div>
                 <div class="col-12 col-sm-8">
                     <span class="text-danger">{% translate "Missing" %}</span>
@@ -58,7 +58,8 @@
             <div class="col-12 col-sm-8">
                 {% with next_slot=user.shift_user_data.get_upcoming_shift_attendances.first.slot %}
                     {% if next_slot %}
-                        <a href="{{ next_slot.shift.get_absolute_url }}" id="upcoming_shift">{{ next_slot.get_display_name }}</a>
+                        <a href="{{ next_slot.shift.get_absolute_url }}"
+                           id="upcoming_shift">{{ next_slot.get_display_name }}</a>
                         (in {{ next_slot.shift.start_time|timeuntil }})
                         <br />
                         <a data-bs-toggle="collapse" href="#upcoming-shifts">{% translate "Show more" %}</a>
@@ -91,7 +92,7 @@
                 <span class="text-danger">{% translate "On alert" %} ({{ user.shift_user_data.get_account_balance|stringformat:"+d" }})</span>
             {% endif %}
             <a href="{% url 'shifts:user_shift_account_log' user.pk %}"
-               class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate 'log' %}</a>
+               class="{% tapir_button_link %} btn-sm"><span class="material-icons">visibility</span>{% translate "log" %}</a>
         </div>
     </div>
     <div class="row m-1">
@@ -110,7 +111,7 @@
             <span id="shift_exemption_value">
                 {% with exemption=user.shift_user_data.get_current_shift_exemption %}
                     {% if exemption %}
-                        {{ exemption.description }} {% translate 'until' %}
+                        {{ exemption.description }} {% translate "until" %}
                         {% if exemption.end_date %}
                             {{ user.shift_user_data.get_current_shift_exemption.end_date|date:"d.m.y" }}
                         {% else %}
@@ -125,7 +126,7 @@
                class="{% tapir_button_link %} btn-sm"
                id="shift_exemption_list_button">
                 <span class="material-icons">visibility</span>
-                {% translate 'View all' %}
+                {% translate "View all" %}
             </a>
         </div>
     </div>
@@ -139,7 +140,7 @@
                     {% csrf_token %}
                     <button type="submit"
                             class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_receive_solidarity user %}">
-                        <span class="material-icons">favorite</span>{% translate 'Receive Solidarity' %}
+                        <span class="material-icons">favorite</span>{% translate "Receive Solidarity" %}
                     </button>
                 </form>
                 <form method="post"
@@ -149,7 +150,7 @@
                             class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}"
                             data-bs-toggle="modal"
                             data-bs-target="#modalSubmitGiveSolidarity">
-                        <span class="material-icons">favorite</span>{% translate 'Give Solidarity' %}
+                        <span class="material-icons">favorite</span>{% translate "Give Solidarity" %}
                     </button>
                     <div class="modal fade"
                          id="modalSubmitGiveSolidarity"
@@ -169,15 +170,15 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    {% translate 'One of your banked shifts will be donated as a solidarity shift. Do you want to continue?' %}
+                                    {% translate "One of your banked shifts will be donated as a solidarity shift. Do you want to continue?" %}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button"
                                             class="{% tapir_button_link %} btn-sm"
-                                            data-bs-dismiss="modal">{% translate 'Cancel' %}</button>
+                                            data-bs-dismiss="modal">{% translate "Cancel" %}</button>
                                     <button type="submit"
                                             class="{% tapir_button_action %} btn-sm {% disabled_if_user_cant_give_solidarity user %}">
-                                        {% translate 'Confirm' %}
+                                        {% translate "Confirm" %}
                                     </button>
                                 </div>
                             </div>

@@ -17,7 +17,7 @@
     <script src="{% static 'statistics/tapir_charts.js' %}" defer></script>
 {% endblock head %}
 {% block title %}
-    {% translate 'Member' %}: {% get_display_name_for_viewer object request.user %}
+    {% translate "Member" %}: {% get_display_name_for_viewer object request.user %}
 {% endblock title %}
 {% block content %}
     <div class="row">
@@ -28,28 +28,28 @@
                     <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                         <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'accounts:mail_settings' object.pk %}">
-                            <span class="material-icons">mail</span>{% translate 'Mails' %}
+                            <span class="material-icons">mail</span>{% translate "Mails" %}
                         </a>
                         {% if perms.group.manage %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'accounts:edit_user_ldap_groups' object.pk %}">
-                                <span class="material-icons">badge</span>{% translate 'Edit groups' %}
+                                <span class="material-icons">badge</span>{% translate "Edit groups" %}
                             </a>
                         {% endif %}
                         <a class="{% tapir_button_link_to_action %}"
                            href="{% url 'accounts:edit_username' object.pk %}">
-                            <span class="material-icons">fingerprint</span>{% translate 'Edit username' %}
+                            <span class="material-icons">fingerprint</span>{% translate "Edit username" %}
                         </a>
                         {% if perms.accounts.manage %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'accounts:user_update' object.pk %}"
                                id="tapir_user_edit_button">
-                                <span class="material-icons">edit</span>{% translate 'Edit' %}
+                                <span class="material-icons">edit</span>{% translate "Edit" %}
                             </a>
                         {% else %}
                             <a class="{% tapir_button_link_to_action %}"
                                href="{% url 'accounts:user_update_self' object.pk %}">
-                                <span class="material-icons">edit</span>{% translate 'Edit name and pronouns' %}
+                                <span class="material-icons">edit</span>{% translate "Edit name and pronouns" %}
                             </a>
                         {% endif %}
                     </span>
@@ -57,7 +57,8 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Name" %}:</div>
-                        <div class="col-12 col-sm-8" id="tapir_user_display_name">{% get_display_name_full object %}</div>
+                        <div class="col-12 col-sm-8"
+                             id="tapir_user_display_name">{% get_display_name_full object %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Username" %}:</div>

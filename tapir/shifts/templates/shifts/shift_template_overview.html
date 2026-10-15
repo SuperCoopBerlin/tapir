@@ -10,7 +10,7 @@
     <script src="{% static 'shifts/ShiftFiltersManager.js' %}?version=2" defer></script>
 {% endblock head %}
 {% block title %}
-    {% translate 'ABCD week-plan' %}
+    {% translate "ABCD week-plan" %}
 {% endblock title %}
 {% block content %}
     <div class="d-flex align-items-center justify-content-end m-2">
@@ -54,7 +54,7 @@
                 <tr>
                     <th class="text-center">Time</th>
                     {% for group in shift_template_groups %}
-                        <th class="text-center">{% translate 'Week ' %}{{ group }}</th>
+                        <th class="text-center">{% translate "Week " %}{{ group }}</th>
                     {% endfor %}
                 </tr>
             </thead>

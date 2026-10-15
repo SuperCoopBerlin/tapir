@@ -41,7 +41,8 @@
                 <div class="card-body">
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Name" %}:</div>
-                        <div class="col-8" id="share_owner_display_name">{% get_display_name_for_viewer object request.user %}</div>
+                        <div class="col-8"
+                             id="share_owner_display_name">{% get_display_name_for_viewer object request.user %}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Email" %}:</div>
@@ -49,7 +50,8 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Phone number" %}:</div>
-                        <div class="col-8" id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
+                        <div class="col-8"
+                             id="share_owner_phone_number">{{ object.get_info.phone_number|format_phone_number }}</div>
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Birthdate" %}:</div>
@@ -73,7 +75,8 @@
                     </div>
                     <div class="row m-1">
                         <div class="col-4 fw-bold text-end">{% translate "Preferred Language" %}:</div>
-                        <div class="col-8" id="user_preferred_language">{{ object.get_info.get_preferred_language_display }}</div>
+                        <div class="col-8"
+                             id="user_preferred_language">{{ object.get_info.get_preferred_language_display }}</div>
                     </div>
                 </div>
             </div>

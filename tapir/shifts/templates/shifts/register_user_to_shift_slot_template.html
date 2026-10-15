@@ -23,7 +23,7 @@
                     <div class="d-flex justify-content-end">
                         <button type="submit" class="{% tapir_button_action %}">
                             <span class="material-icons">person_add</span>
-                            {% translate 'Register' %}
+                            {% translate "Register" %}
                         </button>
                     </div>
                 </form>
@@ -31,7 +31,7 @@
         </div>
         {% if blocked_slots|length > 0 %}
             <div class="card mb-2 border-warning">
-                <h5 class="card-header bg-warning">{% translate 'Some shifts are already occupied' %}</h5>
+                <h5 class="card-header bg-warning">{% translate "Some shifts are already occupied" %}</h5>
                 <div class="card-body">
                     {% blocktranslate %}
                         <p>A flying member has already registered to the shifts linked below.</p>
@@ -39,7 +39,7 @@
                         <p>IMPORTANT: If a flying member had previously signed up for the same shift, the ABCD member will have to sign up for a different shift for that particular cycle.</p>
                     {% endblocktranslate %}
                     <div>
-                        {% translate 'Already occupied shifts :' %}
+                        {% translate "Already occupied shifts :" %}
                         <ul id="occupied_shifts_list">
                             {% for slot in blocked_slots %}
                                 <li>{{ slot.shift.get_display_url }}</li>
