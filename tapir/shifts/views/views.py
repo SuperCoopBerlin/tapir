@@ -580,7 +580,10 @@ class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
         def sort_key(user_capability):
             if user_capability.is_active():
                 status_order = 0
-            elif user_capability.days_until_expiration() > 0:
+            elif (
+                user_capability.days_until_expiration() is not None
+                and user_capability.days_until_expiration() > 0
+            ):
                 status_order = 1  # not started
             else:
                 status_order = 2  # expired
@@ -634,19 +637,24 @@ class UserCapabilityCreateView(
 
         return context
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["target_user"] = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        return kwargs
+
     def form_valid(self, form):
         user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
         form.instance.shift_user_data = user.shift_user_data
 
         if (
-            not form.instance.end_date
+            not form.cleaned_data.get("unlimited")
+            and form.instance.start_date
             and form.instance.capability.get_current_translation().can_expire
         ):
             form.instance.end_date = form.instance.start_date + relativedelta(
                 months=form.instance.capability.get_current_translation().default_validity
             )
 
-        messages.success(self.request, _("Assignment added successfully."))
         return super().form_valid(form)
 
     def get_success_url(self):

@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Prefetch, Sum
+from django.db.models import Prefetch, Q, Sum, UniqueConstraint
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -1151,7 +1151,18 @@ class UserCapability(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("shift_user_data", "capability", "start_date", "end_date")
+        constraints = [
+            UniqueConstraint(
+                fields=["shift_user_data", "capability", "start_date", "end_date"],
+                condition=Q(end_date__isnull=False),
+                name="unique_capability_with_end_date",
+            ),
+            UniqueConstraint(
+                fields=["shift_user_data", "capability", "start_date"],
+                condition=Q(end_date__isnull=True),
+                name="unique_capability_without_end_date",
+            ),
+        ]
         verbose_name = _("Shift User Capability Assignment")
         verbose_name_plural = _("Shift User Capability Assignments")
 
@@ -1170,7 +1181,14 @@ class UserCapability(models.Model):
             return CapabilityStatus.NOT_STARTED
 
         effective_end_date = self.get_effective_end_date()
-        if effective_end_date and today > effective_end_date:
+        if (
+            effective_end_date is None
+            and self.capability.get_current_translation().can_expire
+        ):
+            # No end date but can expire: placeholder
+            # else: Never expires
+            return CapabilityStatus.EXPIRED
+        if effective_end_date is not None and today > effective_end_date:
             return CapabilityStatus.EXPIRED
 
         return CapabilityStatus.ACTIVE
@@ -1189,7 +1207,7 @@ class UserCapability(models.Model):
 
     def get_effective_end_date(self) -> datetime.date | None:
         """
-        Returns the effective end date of this User-capability. Returns None (never expires).
+        Returns the effective end date of this User-capability. Returns None (never expires or placeholder).
         """
         if self.end_date:
             return self.end_date
@@ -1205,7 +1223,9 @@ class UserCapability(models.Model):
 
         effective_end_date = self.get_effective_end_date()
         if effective_end_date is None:
-            return True  # Never expires
+            # No end date but can expire: placeholder --> not active
+            # else: Never expires --> active
+            return not self.capability.get_current_translation().can_expire
 
         return today <= effective_end_date
 

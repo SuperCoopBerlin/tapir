@@ -10,6 +10,7 @@ from django.forms import (
     ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2MultipleWidget, Select2Widget
 
@@ -908,6 +909,14 @@ class UserCapabilityForm(forms.ModelForm):
         label=_("Qualifications (with possibility to expire)"),
     )
 
+    unlimited = forms.BooleanField(
+        required=False,
+        label=_("Placeholder validity"),
+        help_text=_(
+            "If checked, no expiration date will be set. The resulting qualification will be ruled as expired."
+        ),
+    )
+
     class Meta:
         model = UserCapability
         fields = ["capability", "start_date", "end_date"]
@@ -920,7 +929,10 @@ class UserCapabilityForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        self.target_user = kwargs.pop("target_user", None)
+
         super().__init__(*args, **kwargs)
+        self.fields["end_date"].required = False
         self.fields["capability"].choices = {
             capability.id: capability.get_current_translation().name
             for capability in Capability.objects.all()
@@ -929,12 +941,26 @@ class UserCapabilityForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        unlimited = cleaned_data.get("unlimited")
 
-        if UserCapability.objects.filter(
-            capability=cleaned_data.get("capability"),
-            start_date=cleaned_data.get("start_date"),
-            end_date=cleaned_data.get("end_date"),
-        ).exists():
+        if unlimited:
+            cleaned_data["start_date"] = timezone.now().date
+            cleaned_data["end_date"] = None
+
+        capability = cleaned_data.get("capability")
+        start_date = cleaned_data.get("start_date")
+        end_date = cleaned_data.get("end_date")
+
+        duplicate = UserCapability.objects.filter(
+            shift_user_data__user=self.target_user,
+            capability=capability,
+            start_date=start_date,
+            end_date=end_date,
+        ).exists()
+        if duplicate:
             raise ValidationError(_("A capability with these dates already exists."))
 
         return cleaned_data
+
+    class Media:
+        js = ("shifts/user_capability_form.js",)
