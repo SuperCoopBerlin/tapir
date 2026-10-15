@@ -366,7 +366,7 @@ class ShiftUserDataForm(forms.ModelForm):
     capabilities = forms.ModelMultipleChoiceField(
         queryset=Capability.objects.all(),
         widget=CheckboxSelectMultiple,
-        label=_("Qualifications"),
+        label=_("Qualifications (without possibility to expire)"),
         required=False,
     )
     shift_partner = TapirUserChoiceField(required=False)
@@ -378,6 +378,7 @@ class ShiftUserDataForm(forms.ModelForm):
         self.fields["capabilities"].choices = {
             capability.id: capability.get_current_translation().name
             for capability in Capability.objects.all()
+            if not capability.get_current_translation().can_expire
         }
         self.fields["capabilities"].initial = [
             capability.id for capability in self.instance.capabilities.all()
