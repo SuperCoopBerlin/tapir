@@ -546,17 +546,13 @@ class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
     model = UserCapability
     template_name = "shifts/usercapability_overview.html"
     context_object_name = "capabilities"
-
-    def get_permission_required(self):
-        if self.request.user.pk == self.kwargs["pk"]:
-            return []
-        return [PERMISSION_ACCOUNTS_MANAGE]
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_queryset(self):
-        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
 
         return (
-            UserCapability.objects.filter(shift_user_data=user.shift_user_data)
+            UserCapability.objects.filter(shift_user_data=shift_user_data)
             .select_related("capability")
             .prefetch_related("capability")
             .order_by("-start_date")
@@ -564,8 +560,8 @@ class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
-        context["target_user"] = user
+        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
+        context["target_user"] = shift_user_data.user
 
         capabilities = context["capabilities"]
 
@@ -603,10 +599,14 @@ class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
         context["capabilities_grouped"] = sorted_capabilities
 
         context["page_title"] = _("Expirable capabilities of %(name)s") % {
-            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+            "name": UserUtils.build_display_name(
+                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+            )
         }
         context["card_title"] = _("Expirable capabilities of %(name)s") % {
-            "name": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+            "name": UserUtils.build_display_name(
+                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+            )
         }
 
         return context
@@ -617,22 +617,22 @@ class UserCapabilityCreateView(
 ):
     model = UserCapability
     form_class = UserCapabilityForm
-
-    def get_permission_required(self):
-        if self.request.user.pk == self.kwargs["pk"]:
-            return []
-        return [PERMISSION_ACCOUNTS_MANAGE]
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
+        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
 
         context["title"] = _("Add New Assignment")
         context["page_title"] = _("Register new capability for: %(link)s") % {
-            "link": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+            "link": UserUtils.build_display_name(
+                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+            )
         }
         context["card_title"] = _("Register new capability for: %(link)s") % {
-            "link": UserUtils.build_display_name(user, UserUtils.DISPLAY_NAME_TYPE_FULL)
+            "link": UserUtils.build_display_name(
+                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+            )
         }
 
         return context
@@ -643,8 +643,8 @@ class UserCapabilityCreateView(
         return kwargs
 
     def form_valid(self, form):
-        user = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
-        form.instance.shift_user_data = user.shift_user_data
+        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
+        form.instance.shift_user_data = shift_user_data
 
         if (
             not form.cleaned_data.get("unlimited")
@@ -671,11 +671,7 @@ class UserCapabilityDeleteView(
 ):
 
     model = UserCapability
-
-    def get_permission_required(self):
-        if self.request.user.pk == self.kwargs["pk"]:
-            return []
-        return [PERMISSION_ACCOUNTS_MANAGE]
+    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):
 
