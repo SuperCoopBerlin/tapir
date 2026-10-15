@@ -1102,6 +1102,12 @@ class ShiftUserData(models.Model):
         return self.get_current_shift_exemption(date) is not None
 
 
+class CapabilityStatus(models.TextChoices):
+    ACTIVE = "active", _("Active")
+    EXPIRED = "expired", _("Expired")
+    NOT_STARTED = "not_started", _("Not started")
+
+
 class UserCapability(models.Model):
     shift_user_data = models.ForeignKey(
         ShiftUserData, on_delete=models.CASCADE, related_name="capability_assignments"
@@ -1139,6 +1145,30 @@ class UserCapability(models.Model):
         """Validate that start_date is before end_date."""
         if self.end_date and self.start_date > self.end_date:
             raise ValidationError(_("Start date must be before end date."))
+
+    def get_status(self) -> CapabilityStatus:
+        today = timezone.now().date()
+
+        if self.start_date > today:
+            return CapabilityStatus.NOT_STARTED
+
+        effective_end_date = self.get_effective_end_date()
+        if effective_end_date and today > effective_end_date:
+            return CapabilityStatus.EXPIRED
+
+        return CapabilityStatus.ACTIVE
+
+    def get_status_label(self) -> str:
+        return CapabilityStatus(self.get_status()).label
+
+    def get_badge_class(self) -> str:
+        """Returns the Bootstrap badge CSS class for this capability's status."""
+        status_classes = {
+            CapabilityStatus.ACTIVE: "bg-success",
+            CapabilityStatus.EXPIRED: "bg-danger",
+            CapabilityStatus.NOT_STARTED: "bg-warning",
+        }
+        return status_classes[self.get_status()]
 
     def get_effective_end_date(self) -> datetime.date | None:
         """

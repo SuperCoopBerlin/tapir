@@ -3,21 +3,15 @@
     <div class="d-flex w-100 justify-content-between align-items-start">
         <div class="flex-grow-1">
             <div class="d-flex align-items-center gap-2 mb-1">
-                {% if capability.is_active %}
-                    <span class="badge bg-success">{% translate "Active" %}</span>
-                {% elif capability.days_until_expiration <= 0 %}
-                    <span class="badge bg-danger">{% translate "Expired" %}</span>
-                {% else %}
-                    <span class="badge bg-warning">{% translate "Not started" %}</span>
-                {% endif %}
+                <span class="badge {{ user_capability.get_badge_class }}">{{ user_capability.get_status_label }}</span>
             </div>
             <p class="mb-0">
                 <small>
-                    {{ capability.start_date }}
-                    {% if capability.get_effective_end_date %}
-                        → {{ capability.get_effective_end_date }}
-                        {% if capability.days_until_expiration >= 0 %}
-                            ({{ capability.days_until_expiration }} {% translate "days left" %})
+                    {{ user_capability.start_date }}
+                    {% if user_capability.get_effective_end_date %}
+                        → {{ user_capability.get_effective_end_date }}
+                        {% if user_capability.days_until_expiration >= 0 %}
+                            ({{ user_capability.days_until_expiration }} {% translate "days left" %})
                         {% endif %}
                     {% else %}
                         → {% translate "No expiration" %}
@@ -26,7 +20,7 @@
             </p>
         </div>
         {% if perms.shifts.manage %}
-            <a href="{% url 'shifts:usercapability_delete' capability.pk %}"
+            <a href="{% url 'shifts:usercapability_delete' user_capability.pk %}"
                class="btn btn-sm btn-link text-danger ms-2"
                title="{% translate 'Delete assignment' %}">
                 <span class="material-icons">delete</span>
