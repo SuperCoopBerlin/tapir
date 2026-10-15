@@ -17,7 +17,7 @@
                 <h5>{{ card_title }}</h5>
                 {% if perms.shifts.manage %}
                     <a class="{% tapir_button_link_to_action %}"
-                       href="{% url 'shifts:usercapability_create' user.pk %}">
+                       href="{% url 'shifts:usercapability_create' target_user.pk %}">
                         <span class="material-icons">person_add</span>
                         {% translate "Register new expirable capability" %}
                     </a>
