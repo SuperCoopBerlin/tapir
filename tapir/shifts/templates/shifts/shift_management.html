@@ -17,11 +17,11 @@
             <div class="card-body">
                 <a class="{% tapir_button_link_to_action %}"
                    href="{% url 'shifts:create_shift' %}">
-                    <span class="material-icons button-icon">add_circle_outline</span>{% translate 'Add a shift' %}
+                    <span class="material-icons button-icon">add_circle_outline</span>{% translate "Add a shift" %}
                 </a>
                 <a class="{% tapir_button_link_to_action %}"
                    href="{% url 'shifts:shift_template_create' %}">
-                    <span class="material-icons button-icon">add_circle_outline</span>{% translate 'Add an ABCD shift' %}
+                    <span class="material-icons button-icon">add_circle_outline</span>{% translate "Add an ABCD shift" %}
                 </a>
             </div>
         </div>
@@ -30,11 +30,11 @@
             <div class="card-body">
                 <a class="{% tapir_button_link %}"
                    href="{% url 'shifts:members_on_alert' %}">
-                    <span class="material-icons button-icon">priority_high</span>{% translate 'Members on alert' %}
+                    <span class="material-icons button-icon">priority_high</span>{% translate "Members on alert" %}
                 </a>
                 <a class="{% tapir_button_link %}"
                    href="{% url 'shifts:shift_exemption_list' %}">
-                    <span class="material-icons button-icon">beach_access</span>{% translate 'Shift exemptions' %}
+                    <span class="material-icons button-icon">beach_access</span>{% translate "Shift exemptions" %}
                 </a>
             </div>
         </div>
@@ -53,7 +53,7 @@
                         {% endblocktranslate %}
                         <a class="{% tapir_button_action %}"
                            href="{% url 'shifts:run_freeze_checks_manually' %}">
-                            <span class="material-icons button-icon">ac_unit</span>{% translate 'Update frozen statuses' %}
+                            <span class="material-icons button-icon">ac_unit</span>{% translate "Update frozen statuses" %}
                         </a>
                     </li>
                 </ul>
@@ -70,7 +70,7 @@
                     {% endblocktranslate %}
                     <a class="{% tapir_button_action %}"
                        href="{% url 'shifts:generate_shifts_manually' %}">
-                        <span class="material-icons button-icon">date_range</span>{% translate 'Generate shifts' %}
+                        <span class="material-icons button-icon">date_range</span>{% translate "Generate shifts" %}
                     </a>
                 </li>
             </ul>

@@ -14,9 +14,14 @@
                    aria-label="{% translate 'List of last charged credits' %}">
                 <thead>
                     <tr>
-                        <th>{% translate 'Date' %}</th>
-                        <th>{% translate 'Action' %}</th>
-                        <th>{% translate 'Credit amount' %}</th>
+                        <th>{% translate "Date" %}</th>
+                        <th>{% translate "Action" %}</th>
+                        <th>{% translate "Credit amount" %}</th>
+                        <th>
+                            <span data-bs-toggle="tooltip"
+                                  title="{% translate 'Balance shows the amount of money available in your account over time' %}">
+                            {% translate "Balance" %}</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,6 +30,7 @@
                             <td>{{ credit.credit_date|date:"d.m.Y H:i" }}</td>
                             <td>{{ credit.info }}</td>
                             <td>{{ credit.credit_amount }}€</td>
+                            <td>{{ credit.balance }}€</td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -2,19 +2,19 @@
 {% load core %}
 <div class="card mb-2" id="purchases-tracking-card">
     <h5 class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <span>{% translate 'Member card' %}</span>
+        <span>{% translate "Member card" %}</span>
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {% if tapir_user.share_owner and tapir_user.allows_purchase_tracking and is_allowed_to_see_purchase_tracking %}
                 <a class="{% tapir_button_link %}"
                    href="{% url "accounts:member_card_barcode_pdf" tapir_user.pk %}">
                     <span class="material-icons">download</span>
-                    {% translate 'Get barcode as PDF' %}
+                    {% translate "Get barcode as PDF" %}
                 </a>
             {% endif %}
             <a class="{% tapir_button_link %}"
                href="https://wiki.supercoop.de/wiki/Mitgliederkarte">
                 <span class="material-icons">link</span>
-                {% translate 'More information' %}
+                {% translate "More information" %}
             </a>
         </span>
     </h5>
@@ -55,7 +55,7 @@
         </div>
     {% else %}
         <div class="card-body alert alert-info row m-3">
-            {% translate 'You can only look at your own barcode unless you have admin rights' %}
+            {% translate "You can only look at your own barcode unless you have admin rights" %}
         </div>
     {% endif %}
 </div>

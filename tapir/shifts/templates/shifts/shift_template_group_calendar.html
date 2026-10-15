@@ -6,7 +6,7 @@
 {% load coop %}
 {% load core %}
 {% block title %}
-    {% translate 'ABCD weeks calendar' %}
+    {% translate "ABCD weeks calendar" %}
 {% endblock title %}
 {% block head %}
     {{ block.super }}
@@ -15,7 +15,7 @@
 {% block content %}
     <div class="card mb-2">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>{% translate 'ABCD weeks calendar' %}</span>
+            <span>{% translate "ABCD weeks calendar" %}</span>
             <span>
                 <a class="{% tapir_button_link %} ms-3"
                    href="{% url 'shifts:shift_template_group_calendar' displayed_year|add:-1 %}">
@@ -24,7 +24,7 @@
                 <a class="{% tapir_button_link %} ms-3"
                    href="{% url 'shifts:calendarpdf' displayed_year %}">
                     <span class="material-icons">file_present</span>
-                    {{ displayed_year }} {% translate 'as pdf' %}
+                    {{ displayed_year }} {% translate "as pdf" %}
                 </a>
                 <a class="{% tapir_button_link %} ms-3"
                    href="{% url 'shifts:shift_template_group_calendar' displayed_year|add:1 %}">

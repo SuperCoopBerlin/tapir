@@ -33,7 +33,8 @@
             <span class="material-icons">table_view</span>
             {% translate "ABCD annual calendar" %}
         </a>
-        <button class="{% tapir_button_link %}"
+        <button type="button"
+                class="{% tapir_button_link %}"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapseCalendarInfo"
                 aria-expanded="false"
@@ -61,8 +62,8 @@
             {% with week_group=week_to_group|dictionary_get:week %}
                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
                     <h5 style="margin-bottom: 0">
-                        KW {{ week|date:"W" }} {% translate 'starting' %} {{ week }},
-                        {% translate 'Week ' %}{{ week_group.name }}
+                        KW {{ week|date:"W" }} {% translate "starting" %} {{ week }},
+                        {% translate "Week " %}{{ week_group.name }}
                     </h5>
                     {% if forloop.counter == 1 %}
                         <div class="d-flex flex-wrap align-items-end align-items-center">
