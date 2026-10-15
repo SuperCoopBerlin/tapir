@@ -4,7 +4,7 @@
 {% load core %}
 {% load utils %}
 {% block title %}
-    {% translate 'ABCD Shift' %}: {{ object.get_display_name }}
+    {% translate "ABCD Shift" %}: {{ object.get_display_name }}
 {% endblock title %}
 {% block head %}
     {{ form.media }}
@@ -12,16 +12,16 @@
 {% block content %}
     <div class="card mb-2" id="shift_detail_card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
-            <span>{% translate 'ABCD Shift' %}: {{ object.get_display_name }}</span>
+            <span>{% translate "ABCD Shift" %}: {{ object.get_display_name }}</span>
             {% if perms.shifts.manage %}
                 <div class="float-right">
                     <a class="{% tapir_button_link_to_action %}"
                        href="{% url 'shifts:shift_template_duplicate' object.pk %}">
-                        <span class="material-icons">content_copy</span>{% translate 'Duplicate' %}
+                        <span class="material-icons">content_copy</span>{% translate "Duplicate" %}
                     </a>
                     <a class="{% tapir_button_link_to_action %}"
                        href="{% url 'shifts:create_slot_template' object.pk %}">
-                        <span class="material-icons">add_circle_outline</span>{% translate 'Add a slot' %}
+                        <span class="material-icons">add_circle_outline</span>{% translate "Add a slot" %}
                     </a>
                     <a class="{% tapir_button_link_to_action %}"
                        href="{% url 'shifts:shift_template_edit' object.pk %}">
@@ -39,14 +39,14 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th>{% translate 'Details' %}</th>
-                            <th>{% translate 'Requirements' %}</th>
-                            <th>{% translate 'Registered user' %}</th>
+                            <th>{% translate "Details" %}</th>
+                            <th>{% translate "Requirements" %}</th>
+                            <th>{% translate "Registered user" %}</th>
                             {% if object.flexible_time %}
                                 <th>{% translate "Chosen time" %}</th>
                             {% endif %}
                             {% if perms.shifts.manage %}
-                                <th>{% translate 'Member-Office actions' %}</th>
+                                <th>{% translate "Member-Office actions" %}</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -99,10 +99,11 @@
                                                     <span>{% translate "Not specified" %}</span>
                                                 {% endif %}
                                                 {% if request.user == attendance.user or perms.shifts.manage %}
-                                                    <a href="{% url 'shifts:attendance_template_custom_time' attendance.id %}">
-                                                        <button class="{% tapir_button_link_to_action %}">
-                                                            <span class="material-icons button-icon">edit</span>
-                                                        </button>
+                                                    <a class="{% tapir_button_link_to_action %}"
+                                                       href="{% url 'shifts:attendance_template_custom_time' attendance.id %}"
+                                                       aria-label="{% translate 'Edit attendance' %}">
+                                                        <span class="material-icons button-icon"
+                                                              aria-hidden="true">edit</span>
                                                     </a>
                                                 {% endif %}
                                             {% endif %}

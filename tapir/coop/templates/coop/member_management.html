@@ -18,22 +18,22 @@
                 {% if perms.group.manage %}
                     <a class="{% tapir_button_link %}"
                        href="{% url 'accounts:ldap_group_list' %}">
-                        <span class="material-icons button-icon">badge</span>{% translate 'Access right groups' %}
+                        <span class="material-icons button-icon">badge</span>{% translate "Access right groups" %}
                     </a>
                 {% endif %}
                 <a class="{% tapir_button_link %}"
                    href="{% url 'coop:membership_pauses' %}">
-                    <span class="material-icons button-icon">pause</span>{% translate 'Membership pauses' %}
+                    <span class="material-icons button-icon">pause</span>{% translate "Membership pauses" %}
                 </a>
                 <a class="{% tapir_button_link %}"
                    href="{% url 'coop:matching_program_list' %}">
-                    <span class="material-icons button-icon">card_giftcard</span>{% translate 'Matching program' %}
+                    <span class="material-icons button-icon">card_giftcard</span>{% translate "Matching program" %}
                 </a>
                 {% feature_flag_enabled "feature_flags.coop.membership_resignation" as membership_resignation_enabled %}
                 {% if membership_resignation_enabled %}
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:membership_resignation_list' %}">
-                        <span class="material-icons button-icon">person_cancel</span>{% translate 'Membership resignations' %}
+                        <span class="material-icons button-icon">person_cancel</span>{% translate "Membership resignations" %}
                 {% endif %}
             </a>
         </div>

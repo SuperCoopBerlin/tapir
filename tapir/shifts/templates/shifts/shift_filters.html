@@ -13,21 +13,21 @@
                        autocomplete="off"
                        value="no-filter"
                        id="btn_no_filter">
-                <label class="btn btn-outline-dark" for="btn_no_filter">{% translate 'No filter' %}</label>
+                <label class="btn btn-outline-dark" for="btn_no_filter">{% translate "No filter" %}</label>
                 <input type="radio"
                        class="btn-check"
                        name="slot_status_options"
                        autocomplete="off"
                        value="free-slot"
                        id="btn_free_slot">
-                <label class="btn btn-outline-dark" for="btn_free_slot">{% translate 'Has a free slot' %}</label>
+                <label class="btn btn-outline-dark" for="btn_free_slot">{% translate "Has a free slot" %}</label>
                 <input type="radio"
                        class="btn-check active-on-load"
                        name="slot_status_options"
                        autocomplete="off"
                        value="needs-help"
                        id="btn_most_help">
-                <label class="btn btn-outline-dark" for="btn_most_help">{% translate 'Most help needed' %}</label>
+                <label class="btn btn-outline-dark" for="btn_most_help">{% translate "Most help needed" %}</label>
             </div>
         </fieldset>
         <!-- If 'Has a free slot' -->
@@ -65,25 +65,30 @@
                   id="legend-highlighted">Text set on load</span>
             <span class="btn shift-filter-legend"
                   style="color: black"
-                  id="legend-hidden">{% translate 'Other shifts' context "Filters" %}</span>
+                  id="legend-hidden">{% translate "Other shifts" context "Filters" %}</span>
             <span class="btn shift-filter-legend"
                   style="color: black"
-                  id="legend-cancelled">{% translate 'Cancelled' context "Filters" %}</span>
+                  id="legend-cancelled">{% translate "Cancelled" context "Filters" %}</span>
         </p>
         <div>
-            <span class="material-icons" style="font-size: 14px;">radio_button_unchecked</span><span>{% translate 'Free slot' %}</span>
+            <span class="material-icons"
+                  style="font-size: 14px">radio_button_unchecked</span><span>{% translate "Free slot" %}</span>
         </div>
         <div>
-            <span class="material-icons" style="font-size: 14px;">offline_pin</span><span>{% translate 'ABCD attendance' %}</span>
+            <span class="material-icons"
+                  style="font-size: 14px">offline_pin</span><span>{% translate "ABCD attendance" %}</span>
         </div>
         <div>
-            <span class="material-icons" style="font-size: 14px;">check_circle</span><span>{% translate 'Flying attendance' %}</span>
+            <span class="material-icons"
+                  style="font-size: 14px">check_circle</span><span>{% translate "Flying attendance" %}</span>
         </div>
         <div>
-            <span class="material-icons" style="font-size: 14px;">sync</span><span>{% translate 'Looking for a stand-in' %}</span>
+            <span class="material-icons"
+                  style="font-size: 14px">sync</span><span>{% translate "Looking for a stand-in" %}</span>
         </div>
         <div>
-            <span class="material-icons" style="font-size: 14px;">visibility</span><span>{% translate 'Shift is watched for changes' %}</span>
+            <span class="material-icons"
+                  style="font-size: 14px">visibility</span><span>{% translate "Shift is watched for changes" %}</span>
         </div>
     </div>
 </div>

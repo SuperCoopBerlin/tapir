@@ -6,7 +6,7 @@
 {% load i18n %}
 {% load utils %}
 {% block title %}
-    {% translate 'Main statistics' %}
+    {% translate "Main statistics" %}
 {% endblock title %}
 {% block head %}
     <script src="{% static 'statistics/chart.umd.min.js' %}"></script>
@@ -39,7 +39,7 @@
                 <h5 class="card-header">{% translate "Targets for break-even" %}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <h5>{% translate 'Shopping basket' %}</h5>
+                        <h5>{% translate "Shopping basket" %}</h5>
                         <p>
                             {% blocktranslate trimmed with target_basket=target_average_monthly_basket %}
                                 The current target food basket value per member and per month to reach the break-even is
@@ -49,7 +49,7 @@
                         </p>
                     </li>
                     <li class="list-group-item">
-                        <h5>{% translate 'Members eligible to purchase' %}</h5>
+                        <h5>{% translate "Members eligible to purchase" %}</h5>
                         <p>
                             {% blocktranslate with target_count=purchasing_members.target_count current_count=purchasing_members.current_count %}
                                 <p>

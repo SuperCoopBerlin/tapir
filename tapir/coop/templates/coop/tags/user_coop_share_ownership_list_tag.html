@@ -14,16 +14,16 @@
                 <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:user_profile_pdf' share_owner.pk %}">
-                        <span class="material-icons">picture_as_pdf</span>{% translate 'Summary' %}
+                        <span class="material-icons">picture_as_pdf</span>{% translate "Summary" %}
                     </a>
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:shareowner_membership_confirmation' share_owner.pk %}">
-                        <span class="material-icons">file_present</span>{% translate 'Membership confirmation' %}
+                        <span class="material-icons">file_present</span>{% translate "Membership confirmation" %}
                     </a>
                     <a class="{% tapir_button_link_to_action %}"
                        href="{% url 'coop:shareowner_update' share_owner.pk %}"
                        id="share_owner_edit_button">
-                        <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        <span class="material-icons">edit</span>{% translate "Edit" %}
                     </a>
                 </span>
             {% endif %}
@@ -101,7 +101,7 @@
                             <th scope="col">{% translate "Ends at" %}</th>
                             <th scope="col">{% translate "Status" %}</th>
                             {% if perms.coop.manage %}
-                                <th scope="col">{% translate 'Edit' %}</th>
+                                <th scope="col">{% translate "Edit" %}</th>
                             {% endif %}
                         </tr>
                     </thead>
@@ -191,7 +191,7 @@
                           action="{% url 'coop:send_shareowner_membership_confirmation_welcome_email' share_owner.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="{% tapir_button_action %} align-self-right">
-                            <span class="material-icons">send</span>{% translate 'Send membership confirmation email' %}
+                            <span class="material-icons">send</span>{% translate "Send membership confirmation email" %}
                         </button>
                     </form>
                 </div>

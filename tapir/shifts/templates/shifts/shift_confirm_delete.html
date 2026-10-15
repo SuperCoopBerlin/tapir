@@ -4,7 +4,7 @@
 {% load core %}
 {% load utils %}
 {% block title %}
-    {% translate 'Delete shift' %}: {{ shift.get_display_name }}
+    {% translate "Delete shift" %}: {{ shift.get_display_name }}
 {% endblock title %}
 {% block content %}
     <form method="post">
@@ -27,7 +27,7 @@
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn tapir-btn btn-danger">
                         <span class="material-icons">delete</span>
-                        {% translate 'Delete' %}
+                        {% translate "Delete" %}
                     </button>
                 </div>
             </div>
