@@ -1,6 +1,7 @@
 import datetime
 
 import django_tables2
+from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
@@ -640,7 +641,7 @@ class UserCapabilityCreateView(
             not form.instance.end_date
             and form.instance.capability.get_current_translation().can_expire
         ):
-            form.instance.end_date = form.instance.start_date + datetime.timedelta(
+            form.instance.end_date = form.instance.start_date + relativedelta(
                 months=form.instance.capability.get_current_translation().default_validity
             )
 
