@@ -903,7 +903,10 @@ class RecurringShiftWatchForm(forms.ModelForm):
 
 
 class UserCapabilityForm(forms.ModelForm):
-    capability = (forms.ModelChoiceField(queryset=Capability.objects.all()),)
+    capability = forms.ModelChoiceField(
+        queryset=Capability.objects.all(),
+        label=_("Qualifications (with possibility to expire)"),
+    )
 
     class Meta:
         model = UserCapability
@@ -921,5 +924,5 @@ class UserCapabilityForm(forms.ModelForm):
         self.fields["capability"].choices = {
             capability.id: capability.get_current_translation().name
             for capability in Capability.objects.all()
+            if capability.get_current_translation().can_expire
         }
-        self.fields["capability"].empty_label = "---Please select your color---"
