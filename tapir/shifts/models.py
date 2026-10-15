@@ -306,7 +306,7 @@ class CapabilityTranslation(models.Model):
         default=False,
         help_text=_("Whether this capability can expire."),
     )
-    default_validity_days = models.PositiveIntegerField(
+    default_validity = models.PositiveIntegerField(
         _("Default Validity Period (months)"),
         null=True,
         blank=True,
@@ -314,7 +314,7 @@ class CapabilityTranslation(models.Model):
     )
 
     def clean(self):
-        if self.can_expire and not self.default_validity_days:
+        if self.can_expire and not self.default_validity:
             raise ValidationError(
                 _("Default validity period is required for expiring capabilities.")
             )

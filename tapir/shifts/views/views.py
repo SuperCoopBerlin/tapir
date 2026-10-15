@@ -641,7 +641,7 @@ class UserCapabilityCreateView(
             and form.instance.capability.get_current_translation().can_expire
         ):
             form.instance.end_date = form.instance.start_date + datetime.timedelta(
-                days=form.instance.capability.get_current_translation().default_validity_days
+                months=form.instance.capability.get_current_translation().default_validity
             )
 
         messages.success(self.request, _("Assignment added successfully."))
