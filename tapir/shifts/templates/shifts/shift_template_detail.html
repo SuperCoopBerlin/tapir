@@ -100,7 +100,7 @@
                                                 {% endif %}
                                                 {% if request.user == attendance.user or perms.shifts.manage %}
                                                     <a href="{% url 'shifts:attendance_template_custom_time' attendance.id %}">
-                                                        <button class="{% tapir_button_link_to_action %}">
+                                                        <button type="button" class="{% tapir_button_link_to_action %}">
                                                             <span class="material-icons button-icon">edit</span>
                                                         </button>
                                                     </a>
