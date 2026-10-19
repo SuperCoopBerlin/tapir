@@ -457,7 +457,7 @@ msgstr "Schritt 4 - Übersicht & Erklärungen"
 
 #: dist/assets/member_registration-BNGjFyPm.js:15
 msgid "Submit your application"
-msgstr "Kostenpflichtig absenden"
+msgstr "Mitgliedschaft beantragen"
 
 #: dist/assets/member_registration-BNGjFyPm.js:15
 msgid "Become a SuperCoop Member!"
