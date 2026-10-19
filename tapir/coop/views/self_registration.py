@@ -42,7 +42,7 @@ class MemberSelfRegistrationLanguageTemplateView(TemplateView):
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        context_data = super().get_context_data()
+        context_data = super().get_context_data(**kwargs)
         context_data["coop_name"] = settings.COOP_NAME
         return context_data
 
