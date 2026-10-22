@@ -12,6 +12,7 @@ import {
 } from "../../api-client";
 import { useApi } from "../../hooks/useApi.ts";
 import { WidgetAttributes, WidgetMethods } from "altcha/lib";
+import "altcha";
 
 declare let gettext: (english_text: string) => string;
 
