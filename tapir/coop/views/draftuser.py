@@ -127,9 +127,10 @@ class DraftUserDeleteView(
     model = DraftUser
 
 
-@require_GET
+
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
+@require_GET
 def draftuser_membership_agreement(request, pk):
     draft_user = get_object_or_404(DraftUser, pk=pk)
     filename = f"Beteiligungserklärung {UserUtils.build_display_name_for_viewer(draft_user, request.user)}.pdf"
@@ -141,24 +142,28 @@ def draftuser_membership_agreement(request, pk):
     return response
 
 
-@require_POST
-@csrf_protect
+
+
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
+@csrf_protect
+@require_POST
 def mark_signed_membership_agreement(_, pk):
-    user = DraftUser.objects.get(pk=pk)
+    user = get_object_or_404(DraftUser, pk=pk)
     user.signed_membership_agreement = True
     user.save()
 
     return redirect(user)
 
 
-@require_POST
-@csrf_protect
+
+
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
+@csrf_protect
+@require_POST
 def mark_attended_welcome_session(_, pk):
-    user = DraftUser.objects.get(pk=pk)
+    user = get_object_or_404(DraftUser, pk=pk)
     user.attended_welcome_session = True
     user.save()
 
@@ -228,14 +233,15 @@ def create_share_owner_and_shares_from_draft_user(draft_user: DraftUser) -> Shar
 
     copy_user_info(draft_user, share_owner)
     share_owner.save()
+    starting_date = timezone.now().date()
 
     ShareOwnership.objects.bulk_create(
         [
             ShareOwnership(
                 share_owner=share_owner,
-                start_date=timezone.now().date(),
+                start_date=starting_date,
             )
-            for _ in range(0, draft_user.num_shares)
+            for _ in range(draft_user.num_shares)
         ]
     )
 
