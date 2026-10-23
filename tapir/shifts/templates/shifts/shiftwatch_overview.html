@@ -62,7 +62,7 @@
                                 <strong>{% translate "Observed changes:" %}</strong>
                                 <ul>
                                     {% for status in recurringshiftwatch.staffing_status %}<li>{{ status }}</li>{% endfor %}
-                                    {% for status in recurringshiftwatch.watched_capabilities.all %}<li>{{ status }}</li>{% endfor %}
+                                    {% for status in recurringshiftwatch.watched_capabilities.all %}<li>{{ status.get_current_translation.name }}</li>{% endfor %}
                                 </ul>
                             </div>
                         </li>
