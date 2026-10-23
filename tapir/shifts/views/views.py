@@ -1,4 +1,5 @@
 import datetime
+from typing import Any
 
 import django_tables2
 from django.contrib import messages
@@ -6,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Count, Q, Sum
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
@@ -19,6 +21,7 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
+from django.views.generic.edit import FormView
 from django_tables2 import SingleTableView
 from django_tables2.export import ExportMixin
 
@@ -27,6 +30,7 @@ from tapir.core.config import (
     TAPIR_TABLE_CLASSES,
     TAPIR_TABLE_TEMPLATE,
 )
+from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
 from tapir.log.util import freeze_for_log
 from tapir.log.views import UpdateViewLogMixin
@@ -34,13 +38,17 @@ from tapir.settings import (
     PERMISSION_ACCOUNTS_MANAGE,
     PERMISSION_COOP_MANAGE,
     PERMISSION_SHIFTS_MANAGE,
+    PERMISSION_TEAMLEADERPAGE_MANAGE,
+    PERMISSION_TEAMLEADERPAGE_VIEW,
     PERMISSION_WELCOMEDESK_VIEW,
 )
+from tapir.shifts.emails.teamleader_page_updated_email import TeamleaderPageUpdatedEmail
 from tapir.shifts.forms import (
     CreateShiftAccountEntryForm,
     RecurringShiftWatchForm,
     ShiftUserDataForm,
     ShiftWatchForm,
+    TeamleaderPageForm,
 )
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
@@ -50,12 +58,16 @@ from tapir.shifts.models import (
     ShiftAttendance,
     ShiftSlot,
     ShiftTemplate,
+    ShiftUserCapability,
     ShiftUserData,
     ShiftWatch,
+    TeamleaderPageContent,
+    TeamleaderPageContentStatus,
     UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
+from tapir.utils.expection_utils import TapirException
 from tapir.utils.user_utils import UserUtils
 
 
@@ -535,3 +547,105 @@ class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
         ShiftWatch.objects.filter(id__in=selected_watch_ids, user__id=user_pk).delete()
 
         return redirect("shifts:shiftwatch_overview", pk=user_pk)
+
+
+class TeamleaderPageTemplateView(
+    LoginRequiredMixin, PermissionRequiredMixin, TemplateView
+):
+    template_name = "shifts/teamleader_page.html"
+    permission_required = [PERMISSION_TEAMLEADERPAGE_VIEW]
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context_data = super().get_context_data(**kwargs)
+        content_object = TeamleaderPageContent.objects.filter(
+            status=TeamleaderPageContentStatus.LIVE
+        ).first()
+        if content_object is None:
+            context_data["updated_on"] = timezone.now()
+            context_data["page_content"] = _("No content published yet")
+        else:
+            context_data["updated_on"] = content_object.updated_on
+            context_data["page_content"] = content_object.content
+        return context_data
+
+
+class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormView):
+    template_name = "shifts/teamleader_page_edit.html"
+    permission_required = [PERMISSION_TEAMLEADERPAGE_MANAGE]
+    form_class = TeamleaderPageForm
+
+    def get_success_url(self) -> str:
+        return reverse("shifts:teamleader_page_edit")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        draft_content = TeamleaderPageContent.objects.filter(
+            status=TeamleaderPageContentStatus.DRAFT
+        ).first()
+        kwargs.update({"draft_content": draft_content})
+        return kwargs
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context_data = super().get_context_data(**kwargs)
+
+        self.add_content_context(
+            status=TeamleaderPageContentStatus.LIVE, context_data=context_data
+        )
+        self.add_content_context(
+            status=TeamleaderPageContentStatus.DRAFT, context_data=context_data
+        )
+        return context_data
+
+    @classmethod
+    def add_content_context(
+        cls, status: TeamleaderPageContentStatus, context_data: dict
+    ):
+        page_object = TeamleaderPageContent.objects.filter(status=status).first()
+        if page_object is None:
+            return
+
+        context = {
+            "updated_by": page_object.updated_by,
+            "updated_on": page_object.updated_on,
+            "page_content": page_object.content,
+        }
+
+        context_data[status.value] = context
+
+    def form_valid(self, form: TeamleaderPageForm) -> HttpResponse:
+        if "save_draft" in form.data:
+            self.save_content(
+                form.data["draft_content"], status=TeamleaderPageContentStatus.DRAFT
+            )
+        elif "publish" in form.data:
+            self.publish(form)
+        else:
+            raise TapirException("Unknown action in TeamleaderPageEditView")
+
+        return super().form_valid(form)
+
+    def save_content(self, content: str, status: TeamleaderPageContentStatus):
+        content_object = TeamleaderPageContent.objects.filter(status=status).first()
+        if content_object is None:
+            content_object = TeamleaderPageContent(status=status)
+        content_object.content = content
+        content_object.updated_by = self.request.user
+        content_object.save()
+
+    def publish(self, form: TeamleaderPageForm):
+        self.save_content(
+            form.data["draft_content"], status=TeamleaderPageContentStatus.DRAFT
+        )
+        self.save_content(
+            form.data["draft_content"], status=TeamleaderPageContentStatus.LIVE
+        )
+
+        for teamleader in TapirUser.objects.has_capability(
+            ShiftUserCapability.SHIFT_COORDINATOR
+        ):
+            email_builder = TeamleaderPageUpdatedEmail()
+            SendMailService.send_to_tapir_user(
+                actor=self.request.user,
+                recipient=teamleader,
+                email_builder=email_builder,
+            )
