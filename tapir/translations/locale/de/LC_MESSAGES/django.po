@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 13:57+0200\n"
+"POT-Creation-Date: 2026-10-23 14:34+0200\n"
 "PO-Revision-Date: 2026-09-08 19:35+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -354,7 +354,7 @@ msgstr "Name und Pronomen bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43
-#: coop/templates/coop/user_profile_pdf.html:101 coop/views/draftuser.py:267
+#: coop/templates/coop/user_profile_pdf.html:101 coop/views/draftuser.py:262
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -2219,12 +2219,12 @@ msgid "Paid out"
 msgstr "Ausbezahlt"
 
 #: coop/templates/coop/membershipresignation_detail.html:85
-#: coop/views/draftuser.py:282
+#: coop/views/draftuser.py:277
 msgid "Yes"
 msgstr "Ja"
 
 #: coop/templates/coop/membershipresignation_detail.html:87
-#: coop/views/draftuser.py:282
+#: coop/views/draftuser.py:277
 msgid "No"
 msgstr "Nein"
 
@@ -2518,11 +2518,11 @@ msgstr "Erzeugt am"
 msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
-#: coop/views/draftuser.py:193
+#: coop/views/draftuser.py:188
 msgid "Can't create member: "
 msgstr "Kann Mitglied nicht erstellen: "
 
-#: coop/views/draftuser.py:272 coop/views/draftuser.py:309
+#: coop/views/draftuser.py:267 coop/views/draftuser.py:304
 msgid "Member can be created"
 msgstr "Mitglied kann erstellt werden: "
 
