@@ -131,7 +131,7 @@ def get_ids_of_users_registered_to_a_shift_with_capability(
 ):
     return (
         ShiftAttendance.objects.filter(
-            slot__required_capabilities__contains=[capability],
+            slot__required_capabilities=capability,
             state__in=ShiftAttendance.STATES_WHERE_THE_MEMBER_IS_EXPECTED_TO_SHOW_UP,
         )
         .distinct()

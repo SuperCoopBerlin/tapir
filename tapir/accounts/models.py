@@ -1,4 +1,9 @@
 import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    # ignore at runtime to avoid circular import
+    from tapir.shifts.models import Capability
 
 import ldap
 from django.contrib.auth.models import AbstractUser, User, UserManager
@@ -36,18 +41,16 @@ class TapirUserQuerySet(models.QuerySet):
             shift_attendance_templates__slot_template__name=slot_name
         ).distinct()
 
-    def registered_to_abcd_shift_slot_with_capability(self, capability: str):
+    def registered_to_abcd_shift_slot_with_capability(self, capability: Capability):
         return self.filter(
-            shift_attendance_templates__slot_template__required_capabilities__contains=[
-                capability
-            ]
+            shift_attendance_templates__slot_template__required_capabilities=capability
         ).distinct()
 
-    def registered_to_shift_slot_with_capability(self, capability: str):
+    def registered_to_shift_slot_with_capability(self, capability: Capability):
         user_ids = get_ids_of_users_registered_to_a_shift_with_capability[0](capability)
         return self.filter(id__in=user_ids).distinct()
 
-    def has_capability(self, capability: str):
+    def has_capability(self, capability: Capability):
         return self.filter(shift_user_data__capabilities=capability).distinct()
 
 
