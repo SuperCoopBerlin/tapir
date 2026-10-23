@@ -226,13 +226,13 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     def test_handle_noStaffingStatusSelected_noMailSent(self):
         # Only for watched capabilities
 
-        cap = CapabilityFactory.create()
+        capability = CapabilityFactory.create()
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=[],
-            watched_capabilities=[cap],
+            watched_capabilities=[capability],
         )
 
         Command().handle()
@@ -251,17 +251,17 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
         self.assertEqual(0, len(mail.outbox))
 
     def test_handle_watchedCapability_MailSent(self):
-        cap = CapabilityFactory.create()
+        capability = CapabilityFactory.create()
         slot_to_unregister = self.slots[0]
         slot_to_unregister.save()
-        slot_to_unregister.required_capabilities.set([cap])
+        slot_to_unregister.required_capabilities.set([capability])
 
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift_ok_first,
             last_valid_slot_ids=self.slots,
             staffing_status=[],
-            watched_capabilities=[cap],
+            watched_capabilities=[capability],
         )
 
         Command().handle()
@@ -269,7 +269,7 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
         self.assertQuerySetEqual(
             slot_to_unregister.required_capabilities.all(),
-            [cap],
+            [capability],
         )
         self.unregister_slot(slot=slot_to_unregister)
         Command().handle()
