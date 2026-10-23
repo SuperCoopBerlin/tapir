@@ -21,7 +21,6 @@ def set_up_slots(db):
 
     slot_1 = ShiftSlotFactory.create(id=1, shift=shift)
     slot_1.required_capabilities.set([coordinator_cap])
-    print(f"slot 1: {slot_1.required_capabilities.all()}")
     slot_2 = ShiftSlotFactory.create(id=2, shift=shift)
     slot_2.required_capabilities.set([])
     slot_3 = ShiftSlotFactory.create(id=3, shift=shift)
