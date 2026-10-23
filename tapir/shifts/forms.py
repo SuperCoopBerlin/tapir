@@ -116,6 +116,13 @@ class ShiftDeleteForm(forms.ModelForm):
 
 
 class ShiftSlotForm(forms.ModelForm):
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+        required=False,
+    )
+
     class Meta:
         model = ShiftSlot
         fields = ["name", "required_capabilities", "warnings"]
@@ -124,12 +131,6 @@ class ShiftSlotForm(forms.ModelForm):
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),
         }
-        required_capabilities = forms.ModelMultipleChoiceField(
-            queryset=Capability.objects.all(),
-            widget=CheckboxSelectMultiple,
-            label=_("Qualifications"),
-            required=False,
-        )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
