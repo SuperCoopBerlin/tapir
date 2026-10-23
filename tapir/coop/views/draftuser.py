@@ -127,7 +127,6 @@ class DraftUserDeleteView(
     model = DraftUser
 
 
-
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 @require_GET
@@ -142,8 +141,6 @@ def draftuser_membership_agreement(request, pk):
     return response
 
 
-
-
 @login_required
 @permission_required(PERMISSION_COOP_MANAGE)
 @csrf_protect
@@ -154,8 +151,6 @@ def mark_signed_membership_agreement(_, pk):
     user.save()
 
     return redirect(user)
-
-
 
 
 @login_required
