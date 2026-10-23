@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name="watched_capabilities",
             field=django.contrib.postgres.fields.ArrayField(
                 base_field=models.CharField(
-                    choices=tapir.shifts.models.get_shift_capability_choices,
+                    choices=[],
                     max_length=128,
                 ),
                 blank=True,

@@ -1263,15 +1263,6 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
-def get_shift_capability_choices():
-    return [
-        capability.get_current_translation().name
-        for capability in ShiftUserData.capabilities.all().prefetch_related(
-            "capabilitytranslation_set"
-        )
-    ]
-
-
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
