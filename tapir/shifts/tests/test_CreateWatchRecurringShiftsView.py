@@ -180,7 +180,7 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertEqual(response.status_code, 302)
         created_watch = RecurringShiftWatch.objects.first()
         # check for empty Queryset
-        self.assertFalse(created_watch.watched_capabilities.all().exists())
+        self.assertFalse(created_watch.watched_capabilities.exists())
 
     def test_createRecurringShiftWatch_invalidCapability_validationError(self):
         form_data = {
