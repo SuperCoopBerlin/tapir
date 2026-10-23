@@ -145,8 +145,10 @@ class ShiftWatchCreator:
 
         ShiftWatch.objects.bulk_create(new_watches)
 
+        watched_capabilities = list(recurring.watched_capabilities.all())
+
         for watch in new_watches:
-            watch.watched_capabilities.set(recurring.watched_capabilities.all())
+            watch.watched_capabilities.set(watched_capabilities)
 
     @classmethod
     def get_valid_slot_ids(cls, shift: Shift) -> list[int]:
