@@ -52,13 +52,13 @@ from tapir.shifts.forms import (
 )
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
+    CapabilityTranslation,
     RecurringShiftWatch,
     Shift,
     ShiftAccountEntry,
     ShiftAttendance,
     ShiftSlot,
     ShiftTemplate,
-    ShiftUserCapability,
     ShiftUserData,
     ShiftWatch,
     TeamleaderPageContent,
@@ -641,7 +641,7 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
         )
 
         for teamleader in TapirUser.objects.has_capability(
-            ShiftUserCapability.SHIFT_COORDINATOR
+            CapabilityTranslation.objects.get(name="Teamleader").capability
         ):
             email_builder = TeamleaderPageUpdatedEmail()
             SendMailService.send_to_tapir_user(
