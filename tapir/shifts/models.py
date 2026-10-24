@@ -1484,3 +1484,18 @@ class RecurringShiftWatch(models.Model):
     )
 
     watched_capabilities = models.ManyToManyField(Capability)
+
+
+class TeamleaderPageContentStatus(models.TextChoices):
+    LIVE = "live", _("Live")
+    DRAFT = "draft", _("Draft")
+
+
+class TeamleaderPageContent(models.Model):
+    content = models.TextField()
+    status = models.CharField(choices=TeamleaderPageContentStatus, unique=True)
+    updated_on = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(TapirUser, on_delete=models.PROTECT)
+
+    def __str__(self) -> str:
+        return f"Status: {self.status}, Content:{self.content}"

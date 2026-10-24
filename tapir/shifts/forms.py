@@ -36,6 +36,7 @@ from tapir.shifts.models import (
     ShiftTemplateGroup,
     ShiftUserData,
     ShiftWatch,
+    TeamleaderPageContent,
     UserCapability,
     get_staffingstatus_choices,
     get_staffingstatus_defaults,
@@ -893,6 +894,16 @@ class RecurringShiftWatchForm(forms.ModelForm):
                 self.AT_LEAST_ONE_TARGET_ERROR % self._format_field_names()
             )
         return cleaned_data
+
+
+class TeamleaderPageForm(forms.Form):
+    draft_content = forms.CharField(widget=forms.Textarea, label=_("Draft content"))
+
+    def __init__(self, *args, **kwargs):
+        draft_content: TeamleaderPageContent = kwargs.pop("draft_content")
+        super().__init__(*args, **kwargs)
+        if draft_content is not None:
+            self.fields["draft_content"].initial = draft_content.content
 
 
 class UserCapabilityForm(forms.ModelForm):

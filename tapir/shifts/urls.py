@@ -241,6 +241,16 @@ urlpatterns = [
         name="shiftwatch_overview",
     ),
     path(
+        "teamleader_page",
+        views.TeamleaderPageTemplateView.as_view(),
+        name="teamleader_page",
+    ),
+    path(
+        "teamleader_page_edit",
+        views.TeamleaderPageEditView.as_view(),
+        name="teamleader_page_edit",
+    ),
+    path(
         "capabilities/<int:pk>",
         views.UserCapabilityListView.as_view(),
         name="usercapability_overview",

@@ -80,6 +80,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "tapir.shifts.teamleader_middleware.TeamleaderPermsMiddleware",
     "tapir.welcomedesk.middleware.WelcomeDeskPermsMiddleware",
     "tapir.accounts.models.language_middleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -273,6 +274,8 @@ REG_GROUP_OBJECT_CLASSES = ["groupOfNames"]
 
 PERMISSION_SHIFTS_MANAGE = "shifts.manage"
 PERMISSION_SHIFTS_EXEMPTIONS = "shifts.exemptions"
+PERMISSION_TEAMLEADERPAGE_VIEW = "teamleaderpage.view"
+PERMISSION_TEAMLEADERPAGE_MANAGE = "teamleaderpage.manage"
 PERMISSION_COOP_VIEW = "coop.view"
 PERMISSION_COOP_MANAGE = "coop.manage"
 PERMISSION_COOP_ADMIN = "coop.admin"
@@ -366,6 +369,8 @@ PERMISSIONS = {
         GROUP_EMPLOYEES,
         GROUP_MEMBER_OFFICE,
     },
+    PERMISSION_TEAMLEADERPAGE_VIEW: {GROUP_VORSTAND, GROUP_EMPLOYEES},
+    PERMISSION_TEAMLEADERPAGE_MANAGE: {GROUP_VORSTAND, GROUP_EMPLOYEES},
 }
 
 AUTH_USER_MODEL = "accounts.TapirUser"

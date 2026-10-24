@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block title %}
+    {% translate "Teamleader information page" %}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="card mb-2">
+            <div class="card-header">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex flex-column">
+                        <h5>{% translate "Teamleader information page" %}</h5>
+                        <small>{% translate "Last updated on: " %}{{ updated_on|date:"d.m.Y" }}</small>
+                    </div>
+                    {% if perms.teamleaderpage.manage %}
+                        <a class="{% tapir_button_link_to_action %}"
+                           href="{% url "shifts:teamleader_page_edit" %}">
+                            <span class="material-icons">edit</span>{% translate 'Edit' %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">{{ page_content }}</div>
+        </div>
+    </div>
+{% endblock content %}

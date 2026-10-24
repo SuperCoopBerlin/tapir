@@ -1,0 +1,18 @@
+{% extends "core/email_base.html" %}
+{% load i18n %}
+{% load utils %}
+{% block body %}
+    {% get_display_name_short member_infos as display_name_short %}
+    {% url "shifts:teamleader_page" as teamleader_page_url %}
+    {% blocktranslate with display_name_short=display_name_short teamleader_page_url=site_url|add:teamleader_page_url %}
+        <p>Hi {{ display_name_short }},</p>
+        <p>
+            the teamleader page has been updated, have a look at the new information here:
+            <a href="{{ teamleader_page_url }}">{{ teamleader_page_url }}</a>
+        </p>
+        <p>
+            Cooperative greetings,<br />
+            The A-Team
+        </p>
+    {% endblocktranslate %}
+{% endblock body %}
