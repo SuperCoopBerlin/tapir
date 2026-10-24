@@ -499,6 +499,9 @@ class DraftUser(models.Model):
     def get_initial_amount(self):
         return self.num_shares * COOP_SHARE_PRICE + COOP_ENTRY_AMOUNT
 
+    def get_display_name(self, display_type):
+        return UserUtils.build_display_name(self, display_type)
+
     def get_display_address(self):
         return UserUtils.build_display_address(
             self.street, self.street_2, self.postcode, self.city

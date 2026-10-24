@@ -240,4 +240,14 @@ urlpatterns = [
         views.RecurringShiftwatchListView.as_view(),
         name="shiftwatch_overview",
     ),
+    path(
+        "teamleader_page",
+        views.TeamleaderPageTemplateView.as_view(),
+        name="teamleader_page",
+    ),
+    path(
+        "teamleader_page_edit",
+        views.TeamleaderPageEditView.as_view(),
+        name="teamleader_page_edit",
+    ),
 ]

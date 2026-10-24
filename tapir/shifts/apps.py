@@ -7,7 +7,7 @@ from tapir.coop.config import (
     on_welcome_session_attendance_update,
 )
 from tapir.core.config import feature_flag_solidarity_shifts, sidebar_link_groups
-from tapir.settings import PERMISSION_SHIFTS_MANAGE
+from tapir.settings import PERMISSION_SHIFTS_MANAGE, PERMISSION_TEAMLEADERPAGE_VIEW
 
 
 class ShiftConfig(AppConfig):
@@ -65,6 +65,14 @@ class ShiftConfig(AppConfig):
             ordering=6,
         )
 
+        shifts_group.add_link(
+            display_name=_("Teamleaders"),
+            material_icon="pinboard",
+            url=reverse_lazy("shifts:teamleader_page"),
+            required_permissions=[PERMISSION_TEAMLEADERPAGE_VIEW],
+            ordering=6,
+        )
+
     @staticmethod
     def register_emails():
         from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
@@ -93,6 +101,9 @@ class ShiftConfig(AppConfig):
         from tapir.shifts.emails.stand_in_found_email import (
             StandInFoundEmailBuilder,
         )
+        from tapir.shifts.emails.teamleader_page_updated_email import (
+            TeamleaderPageUpdatedEmail,
+        )
         from tapir.shifts.emails.unfreeze_notification_email import (
             UnfreezeNotificationEmailBuilder,
         )
@@ -109,3 +120,4 @@ class ShiftConfig(AppConfig):
             FlyingMemberRegistrationReminderEmailBuilder
         )
         TapirEmailBuilderBase.register_email(ShiftWatchEmailBuilder)
+        TapirEmailBuilderBase.register_email(TeamleaderPageUpdatedEmail)

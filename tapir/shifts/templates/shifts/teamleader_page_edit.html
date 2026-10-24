@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load core %}
+{% block title %}
+    {% translate "Teamleader information page" %}
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column">
+                                <h5>{% translate "Live content" %}</h5>
+                                <span>
+                                    {% translate "Last updated on " %}{{ live.updated_on|date:"d.m.Y" }} {% translate "by" %} {{ live.updated_by.first_name }} {{ live.updated_by.last_name }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">{{ live.page_content }}</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card mb-2">
+                    <div class="card-header">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-column">
+                                <h5>{% translate "Draft content" %}</h5>
+                                <span>
+                                    {% translate "Last updated on " %}{{ draft.updated_on|date:"d.m.Y" }} {% translate "by" %} {{ draft.updated_by.first_name }} {{ draft.updated_by.last_name }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post">
+                        <div class="card-body">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="{% tapir_button_action %}" name="save_draft">
+                                    <span class="material-icons">edit_document</span>
+                                    {% translate 'Save draft' %}
+                                </button>
+                                {% translate "Publishing the changes will make them visible to the teamleaders and will send them a mail telling them there is new information. Saving the draft won't send anything." as tooltip %}
+                                <span data-bs-toggle="tooltip" data-bs-html="false" title="{{ tooltip }}">
+                                    <button type="submit" class="{% tapir_button_action %}" name="publish">
+                                        <span class="material-icons">send</span>
+                                        {% translate 'Publish changes' %}
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
