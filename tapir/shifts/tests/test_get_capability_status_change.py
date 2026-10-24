@@ -12,27 +12,28 @@ from tapir.shifts.tests.factories import (
 def set_up_slots(db):
     shift = ShiftFactory.create(nb_slots=0)
 
-    coordinator_cap = CapabilityFactory.create()
-    coordinator_cap.capabilitytranslation_set.create(
+    coordinator_capability = CapabilityFactory.create()
+    coordinator_capability.capabilitytranslation_set.create(
         name="SHIFT_COORDINATOR", language="en"
     )
-    cheese_cap = CapabilityFactory.create()
-    cheese_cap.capabilitytranslation_set.create(name="HANDLING_CHEESE", language="en")
+    cheese_capability = CapabilityFactory.create()
+    cheese_capability.capabilitytranslation_set.create(
+        name="HANDLING_CHEESE", language="en"
+    )
 
     slot_1 = ShiftSlotFactory.create(id=1, shift=shift)
-    slot_1.required_capabilities.set([coordinator_cap])
-    print(f"slot 1: {slot_1.required_capabilities.all()}")
+    slot_1.required_capabilities.set([coordinator_capability])
     slot_2 = ShiftSlotFactory.create(id=2, shift=shift)
     slot_2.required_capabilities.set([])
     slot_3 = ShiftSlotFactory.create(id=3, shift=shift)
-    slot_3.required_capabilities.set([cheese_cap])
+    slot_3.required_capabilities.set([cheese_capability])
 
     return {
         "slot_1": slot_1.id,
         "slot_2": slot_2.id,
         "slot_3": slot_3.id,
-        "coordinator_cap": coordinator_cap,
-        "cheese_cap": cheese_cap,
+        "coordinator_cap": coordinator_capability,
+        "cheese_cap": cheese_capability,
     }
 
 

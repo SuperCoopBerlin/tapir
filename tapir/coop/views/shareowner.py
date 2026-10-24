@@ -703,7 +703,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_abcd_shift_slot_with_capability(
-                capability_id
+                Capability.objects.get(pk=capability_id)
             )
         ).distinct()
 
@@ -713,7 +713,7 @@ class ShareOwnerFilter(django_filters.FilterSet):
     ):
         return queryset.filter(
             user__in=TapirUser.objects.registered_to_shift_slot_with_capability(
-                capability_id
+                Capability.objects.get(pk=capability_id)
             )
         ).distinct()
 
@@ -722,7 +722,9 @@ class ShareOwnerFilter(django_filters.FilterSet):
         queryset: ShareOwner.ShareOwnerQuerySet, name, capability_id
     ):
         return queryset.filter(
-            user__in=TapirUser.objects.has_capability(capability_id)
+            user__in=TapirUser.objects.has_capability(
+                Capability.objects.get(pk=capability_id)
+            )
         ).distinct()
 
     @staticmethod

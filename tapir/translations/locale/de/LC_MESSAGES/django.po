@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-15 13:17+0200\n"
+"POT-Creation-Date: 2026-10-19 14:02+0200\n"
 "PO-Revision-Date: 2026-09-08 19:35+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -2588,7 +2588,7 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/self_registration.py:95
+#: coop/views/self_registration.py:100
 #, python-brace-format
 msgid "This email address ({email}) is already in use"
 msgstr "Die Emailadresse {email} ist bereits in Verwendung"

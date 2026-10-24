@@ -41,7 +41,7 @@
                                name="next"
                                value="{% url "coop:member_self_registration_form" %}" />
                         <input type="hidden" name="language" value="de" />
-                        <button type="button" class="{% tapir_button_link %}">🇩🇪 Deutsch</button>
+                        <button type="submit" class="{% tapir_button_link %}">🇩🇪 Deutsch</button>
                     </form>
                     <form action="{% url "set_language" %}" method="post">
                         {% csrf_token %}
@@ -49,7 +49,7 @@
                                name="next"
                                value="{% url "coop:member_self_registration_form" %}" />
                         <input type="hidden" name="language" value="en" />
-                        <button type="button" class="{% tapir_button_link %}">🇬🇧 English</button>
+                        <button type="submit" class="{% tapir_button_link %}">🇬🇧 English</button>
                     </form>
                 </div>
                 <hr />

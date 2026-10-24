@@ -117,7 +117,21 @@ class ShiftDeleteForm(forms.ModelForm):
         return super().clean()
 
 
+def get_capability_choices():
+    return {
+        capability.id: capability.get_current_translation().name
+        for capability in Capability.objects.all()
+    }
+
+
 class ShiftSlotForm(forms.ModelForm):
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+        required=False,
+    )
+
     class Meta:
         model = ShiftSlot
         fields = ["name", "required_capabilities", "warnings"]
@@ -126,20 +140,11 @@ class ShiftSlotForm(forms.ModelForm):
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),
         }
-        required_capabilities = forms.ModelMultipleChoiceField(
-            queryset=Capability.objects.all(),
-            widget=CheckboxSelectMultiple,
-            label=_("Qualifications"),
-            required=False,
-        )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.fields["required_capabilities"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-        }
+        self.fields["required_capabilities"].choices = get_capability_choices()
         if self.instance and self.instance.id:
             self.fields["required_capabilities"].initial = (
                 self.instance.required_capabilities.values_list("id", flat=True)
@@ -376,11 +381,7 @@ class ShiftUserDataForm(forms.ModelForm):
         self.request_user = kwargs.pop("request_user", None)
         super().__init__(**kwargs)
 
-        self.fields["capabilities"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-            if not capability.get_current_translation().can_expire
-        }
+        self.fields["capabilities"].choices = get_capability_choices()
         self.fields["capabilities"].initial = [
             capability.id for capability in self.instance.capabilities.all()
         ]
@@ -719,10 +720,7 @@ class ShiftSlotTemplateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["required_capabilities"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-        }
+        self.fields["required_capabilities"].choices = get_capability_choices()
         if self.instance and self.instance.id:
             self.fields["required_capabilities"].initial = (
                 self.instance.required_capabilities.values_list("id", flat=True)
@@ -782,10 +780,7 @@ class ShiftWatchForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
-        self.fields["watched_capabilities"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-        }
+        self.fields["watched_capabilities"].choices = get_capability_choices()
         last_shiftwatch = (
             ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
         )
@@ -873,10 +868,7 @@ class RecurringShiftWatchForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["watched_capabilities"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-        }
+        self.fields["watched_capabilities"].choices = get_capability_choices()
 
     def clean(self):
         cleaned_data = super().clean()
