@@ -655,73 +655,109 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
             )
 
 
-class UserCapabilityListView(LoginRequiredMixin, generic.ListView):
+class UserCapabilityTable(django_tables2.Table):
+    class Meta:
+        model = UserCapability
+        template_name = TAPIR_TABLE_TEMPLATE
+        fields = [
+            "id",
+            "shift_user_data",
+            "capability",
+            "start_date",
+            "end_date",
+        ]
+        sequence = (
+            "id",
+            "shift_user_data",
+            "capability",
+            "start_date",
+            "end_date",
+        )
+        order_by = "id"
+        attrs = {"class": TAPIR_TABLE_CLASSES}
+
+    shift_user_data = django_tables2.Column(verbose_name="Member")
+
+    # actions = django_tables2.TemplateColumn(
+    #     template_name="shifts/exemption_table_actions_column.html",
+    #     verbose_name="Actions",
+    #     orderable=False,
+    #     exclude_from_export=True,
+    # )
+
+    def before_render(self, request):
+        self.request = request
+
+    def render_shift_user_data(self, value, record: UserCapability):
+        return UserUtils.build_html_link_for_viewer(
+            record.shift_user_data.user, self.request.user
+        )
+
+    def value_shift_user_data(self, value, record: UserCapability):
+        return record.shift_user_data.user.get_member_number()
+
+    def render_capability(self, value, record: UserCapability):
+        return record.capability.get_current_translation().name
+
+    def render_start_date(self, value, record: UserCapability):
+        return record.start_date.strftime("%d.%m.%Y")
+
+    def render_end_date(self, value, record: UserCapability):
+        return record.end_date.strftime("%d.%m.%Y") if record.end_date else _("None")
+
+
+class UserCapabilityListView(
+    LoginRequiredMixin,
+    ExportMixin,
+    SingleTableView,
+):
 
     model = UserCapability
+    table_class = UserCapabilityTable
     template_name = "shifts/usercapability_overview.html"
     context_object_name = "capabilities"
-    permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_queryset(self):
-        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            capability__capabilitytranslation__can_expire=True
+        ).distinct()
 
+        if not self.request.user.has_perm(PERMISSION_SHIFTS_MANAGE):
+            queryset = queryset.filter(
+                shift_user_data__id=self.request.user.shift_user_data.id
+            )
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            queryset = queryset.filter(shift_user_data__id=shift_user_data_id)
         return (
-            UserCapability.objects.filter(shift_user_data=shift_user_data)
-            .select_related("capability")
+            queryset.select_related("capability")
             .prefetch_related("capability")
             .order_by("-start_date")
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
-        context["target_user"] = shift_user_data.user
 
-        capabilities = context["capabilities"]
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            shift_user_data = ShiftUserData.objects.get(pk=shift_user_data_id)
+            context["shift_user_data"] = shift_user_data
+            context["target_user"] = shift_user_data.user
 
-        # Gruppiere nach Capability
-        from collections import defaultdict
-
-        capabilities_by_type = defaultdict(list)
-
-        for c in capabilities:
-            capabilities_by_type[c.capability].append(c)
-
-        def sort_key(user_capability):
-            if user_capability.is_active():
-                status_order = 0
-            elif (
-                user_capability.days_until_expiration() is not None
-                and user_capability.days_until_expiration() > 0
-            ):
-                status_order = 1  # not started
-            else:
-                status_order = 2  # expired
-
-            return (status_order, user_capability.start_date)
-
-        for capability_type in capabilities_by_type:
-            capabilities_by_type[capability_type].sort(key=sort_key)
-
-        sorted_capabilities = dict(
-            sorted(
-                capabilities_by_type.items(),
-                key=lambda x: x[0].get_current_translation().name,
-            )
-        )
-
-        context["capabilities_grouped"] = sorted_capabilities
-
-        context["page_title"] = _("Expirable capabilities of %(name)s") % {
-            "name": UserUtils.build_display_name(
-                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
-            )
-        }
-        context["card_title"] = _("Expirable capabilities of %(name)s") % {
-            "name": UserUtils.build_display_name(
-                shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
-            )
-        }
+            context["page_title"] = _("Expirable capabilities of %(name)s") % {
+                "name": UserUtils.build_display_name(
+                    shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+            }
+            context["card_title"] = _("Expirable capabilities of %(name)s") % {
+                "name": UserUtils.build_display_name(
+                    shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+            }
+        else:
+            context["page_title"] = _("Expirable capabilities")
+            context["card_title"] = _("Expirable capabilities")
 
         return context
 

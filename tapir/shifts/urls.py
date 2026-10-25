@@ -251,7 +251,7 @@ urlpatterns = [
         name="teamleader_page_edit",
     ),
     path(
-        "capabilities/<int:pk>",
+        "capabilities",
         views.UserCapabilityListView.as_view(),
         name="usercapability_overview",
     ),
