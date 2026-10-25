@@ -2,7 +2,6 @@ import datetime
 from typing import Any
 
 import django_tables2
-from dateutil.relativedelta import relativedelta
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.management import call_command
@@ -51,7 +50,7 @@ from tapir.shifts.forms import (
     ShiftUserDataForm,
     ShiftWatchForm,
     TeamleaderPageForm,
-    UserCapabilityForm,
+    UserCapabilityValidityForm,
 )
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_STATES,
@@ -67,7 +66,7 @@ from tapir.shifts.models import (
     TeamleaderPageContent,
     TeamleaderPageContentStatus,
     UpdateShiftUserDataLogEntry,
-    UserCapability,
+    UserCapabilityValidity,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
@@ -655,37 +654,48 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
             )
 
 
-class UserCapabilityTable(django_tables2.Table):
+class UserCapabilityValidityTable(django_tables2.Table):
+    """Tabelle für Gültigkeitszeiträume einer Capability."""
+
     class Meta:
-        model = UserCapability
+        model = UserCapabilityValidity
         template_name = TAPIR_TABLE_TEMPLATE
         fields = [
             "id",
-            "shift_user_data",
-            "capability",
+            "user_capability__shift_user_data__user",
+            "user_capability__capability__get_current_translation__name",
             "start_date",
             "end_date",
         ]
         sequence = (
             "id",
-            "shift_user_data",
-            "capability",
+            "user_capability__shift_user_data__user",
+            "user_capability__capability__get_current_translation__name",
             "start_date",
             "end_date",
+            "status",
+            "actions",
         )
-        order_by = "id"
+        order_by = "-start_date"
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
-    shift_user_data = django_tables2.Column(verbose_name="Member")
+    user_capability__shift_user_data__user = django_tables2.Column(
+        verbose_name=_("Member")
+    )
+
+    user_capability__capability__get_current_translation__name = django_tables2.Column(
+        verbose_name=_("Qualification")
+    )
     status = django_tables2.TemplateColumn(
-        template_code='<span class="badge {{ record.get_badge_class }}">{{ record.get_status_label }}</span>',
+        template_code='<span class="badge {{ record.user_capability.get_badge_class }}">{{ record.user_capability.get_status_label }}</span>',
         verbose_name="Status",
         orderable=False,
     )
+
     actions = django_tables2.TemplateColumn(
         template_code="""
             {% load core %}
-            <a href="{% url "shifts:usercapability_delete" pk=record.pk %}"
+            <a href="{% url "shifts:usercapabilityvalidity_delete" pk=record.pk %}"
                 class="{% tapir_button_custom "outline-danger" %}">
                 <span class="material-icons">delete</span>
             </a>
@@ -693,61 +703,56 @@ class UserCapabilityTable(django_tables2.Table):
         verbose_name="Aktionen",
         orderable=False,
     )
-    # actions = django_tables2.TemplateColumn(
-    #     template_name="shifts/exemption_table_actions_column.html",
-    #     verbose_name="Actions",
-    #     orderable=False,
-    #     exclude_from_export=True,
-    # )
 
     def before_render(self, request):
         self.request = request
 
-    def render_shift_user_data(self, value, record: UserCapability):
+    def render_user_capability__shift_user_data__user(
+        self, value, record: UserCapabilityValidity
+    ):
         return UserUtils.build_html_link_for_viewer(
-            record.shift_user_data.user, self.request.user
+            record.user_capability.shift_user_data.user, self.request.user
         )
 
-    def value_shift_user_data(self, value, record: UserCapability):
-        return record.shift_user_data.user.get_member_number()
-
-    def render_capability(self, value, record: UserCapability):
-        return record.capability.get_current_translation().name
-
-    def render_start_date(self, value, record: UserCapability):
+    def render_start_date(self, value, record: UserCapabilityValidity):
         return record.start_date.strftime("%d.%m.%Y")
 
-    def render_end_date(self, value, record: UserCapability):
-        return record.end_date.strftime("%d.%m.%Y") if record.end_date else _("None")
+    def render_end_date(self, value, record: UserCapabilityValidity):
+        return record.end_date.strftime("%d.%m.%Y")
 
 
-class UserCapabilityListView(
+class UserCapabilityValidityListView(
     LoginRequiredMixin,
     ExportMixin,
     SingleTableView,
 ):
-
-    model = UserCapability
-    table_class = UserCapabilityTable
+    model = UserCapabilityValidity
+    table_class = UserCapabilityValidityTable
     template_name = "shifts/usercapability_overview.html"
     context_object_name = "capabilities"
 
     def get_queryset(self):
         queryset = super().get_queryset()
+
+        # Nur Gültigkeitszeiträume von Capabilities mit can_expire=True
         queryset = queryset.filter(
-            capability__capabilitytranslation__can_expire=True
+            user_capability__capability__capabilitytranslation__can_expire=True
         ).distinct()
 
         if not self.request.user.has_perm(PERMISSION_SHIFTS_MANAGE):
             queryset = queryset.filter(
-                shift_user_data__id=self.request.user.shift_user_data.id
+                user_capability__shift_user_data__id=self.request.user.shift_user_data.id
             )
+
         shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
         if shift_user_data_id is not None:
-            queryset = queryset.filter(shift_user_data__id=shift_user_data_id)
+            queryset = queryset.filter(
+                user_capability__shift_user_data__id=shift_user_data_id
+            )
+
         return (
-            queryset.select_related("capability")
-            .prefetch_related("capability")
+            queryset.select_related("user_capability__capability")
+            .prefetch_related("user_capability__capability")
             .order_by("-start_date")
         )
 
@@ -777,63 +782,47 @@ class UserCapabilityListView(
         return context
 
 
-class UserCapabilityCreateView(
+class UserCapabilityValidityCreateView(
     LoginRequiredMixin, PermissionRequiredMixin, TapirFormMixin, CreateView
 ):
-    model = UserCapability
-    form_class = UserCapabilityForm
+    model = UserCapabilityValidity
+    form_class = UserCapabilityValidityForm
     permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
 
-        context["title"] = _("Add New Assignment")
-        context["page_title"] = _("Register new capability for: %(link)s") % {
-            "link": UserUtils.build_display_name(
+        context["title"] = _("Add Validity Period")
+        context["page_title"] = _("Add validity period for: %(name)s") % {
+            "name": UserUtils.build_display_name(
                 shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
             )
         }
-        context["card_title"] = _("Register new capability for: %(link)s") % {
-            "link": UserUtils.build_display_name(
+        context["card_title"] = _("Add validity period for: %(name)s") % {
+            "name": UserUtils.build_display_name(
                 shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
             )
         }
-
         return context
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs["target_user"] = get_object_or_404(TapirUser, pk=self.kwargs["pk"])
-        return kwargs
-
-    def form_valid(self, form):
         shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
-        form.instance.shift_user_data = shift_user_data
-
-        if (
-            not form.cleaned_data.get("unlimited")
-            and form.instance.start_date
-            and form.instance.capability.get_current_translation().can_expire
-        ):
-            form.instance.end_date = form.instance.start_date + relativedelta(
-                months=form.instance.capability.get_current_translation().default_validity
-            )
-
-        return super().form_valid(form)
+        kwargs["target_user"] = shift_user_data.user
+        return kwargs
 
     def get_success_url(self):
         return reverse("shifts:usercapability_overview")
 
 
-class UserCapabilityDeleteView(
+class UserCapabilityValidityDeleteView(
     LoginRequiredMixin,
     PermissionRequiredMixin,
     DeleteView,
     UpdateViewLogMixin,
 ):
-
-    model = UserCapability
+    model = UserCapabilityValidity
     permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):

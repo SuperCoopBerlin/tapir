@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Prefetch, Q, Sum, UniqueConstraint
+from django.db.models import Prefetch, Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -1134,35 +1134,9 @@ class UserCapability(models.Model):
         on_delete=models.CASCADE,
     )
     assigned_at = models.DateTimeField(auto_now_add=True)
-
-    start_date = models.DateField(
-        _("Start Date"),
-        default=timezone.now,
-        help_text=_("Date when this capability becomes active."),
-    )
-    end_date = models.DateField(
-        _("End Date"),
-        null=True,
-        blank=True,
-        help_text=_(
-            "Date when this capability expires. If empty, calculated from start_date + default_validity_days."
-        ),
-    )
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        constraints = [
-            UniqueConstraint(
-                fields=["shift_user_data", "capability", "start_date", "end_date"],
-                condition=Q(end_date__isnull=False),
-                name="unique_capability_with_end_date",
-            ),
-            UniqueConstraint(
-                fields=["shift_user_data", "capability", "start_date"],
-                condition=Q(end_date__isnull=True),
-                name="unique_capability_without_end_date",
-            ),
-        ]
         verbose_name = _("Shift User Capability Assignment")
         verbose_name_plural = _("Shift User Capability Assignments")
 
@@ -1174,22 +1148,18 @@ class UserCapability(models.Model):
         if self.end_date and self.start_date > self.end_date:
             raise ValidationError(_("Start date must be before end date."))
 
-    def get_status(self) -> CapabilityStatus:
+    def get_current_validity_period(self) -> UserCapabilityValidity | None:
+        """Gibt den aktuellen (aktiven) Gültigkeitszeitraum zurück."""
         today = timezone.now().date()
+        return self.validity_periods.filter(
+            start_date__lte=today,
+            end_date__gte=today,
+        ).first()
 
-        if self.start_date > today:
-            return CapabilityStatus.NOT_STARTED
-
-        effective_end_date = self.get_effective_end_date()
-        if (
-            effective_end_date is None
-            and self.capability.get_current_translation().can_expire
-        ):
-            # No end date but can expire: placeholder
-            # else: Never expires
-            return CapabilityStatus.EXPIRED
-        if effective_end_date is not None and today > effective_end_date:
-            return CapabilityStatus.EXPIRED
+    def get_status(self):
+        current = self.get_current_validity_period()
+        if current is None:
+            return CapabilityStatus.EXPIRED  # Kein aktiver Zeitraum
 
         return CapabilityStatus.ACTIVE
 
@@ -1197,7 +1167,6 @@ class UserCapability(models.Model):
         return CapabilityStatus(self.get_status()).label
 
     def get_badge_class(self) -> str:
-        """Returns the Bootstrap badge CSS class for this capability's status."""
         status_classes = {
             CapabilityStatus.ACTIVE: "bg-success",
             CapabilityStatus.EXPIRED: "bg-danger",
@@ -1209,25 +1178,16 @@ class UserCapability(models.Model):
         """
         Returns the effective end date of this User-capability. Returns None (never expires or placeholder).
         """
-        if self.end_date:
-            return self.end_date
+        current = self.get_current_validity_period()
+        if current is not None and current.end_date:
+            return current.end_date
 
         return None
 
     def is_active(self) -> bool:
 
-        today = timezone.now().date()
-
-        if self.start_date > today:
-            return False
-
-        effective_end_date = self.get_effective_end_date()
-        if effective_end_date is None:
-            # No end date but can expire: placeholder --> not active
-            # else: Never expires --> active
-            return not self.capability.get_current_translation().can_expire
-
-        return today <= effective_end_date
+        current = self.get_current_validity_period()
+        return current is not None
 
     def days_until_expiration(self) -> int | None:
         effective_end_date = self.get_effective_end_date()
@@ -1236,6 +1196,43 @@ class UserCapability(models.Model):
 
         today = timezone.now().date()
         return (effective_end_date - today).days
+
+
+class UserCapabilityValidity(models.Model):
+    user_capability = models.ForeignKey(
+        UserCapability,
+        on_delete=models.CASCADE,
+        related_name="validity_periods",
+    )
+    start_date = models.DateField()
+    end_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["start_date"]
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(start_date__lte=models.F("end_date")),
+                name="start_before_end",
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.user_capability} ({self.start_date} - {self.end_date})"
+
+    @property
+    def is_active(self) -> bool:
+        """Ist dieser Zeitraum aktuell gültig?"""
+        today = timezone.now().date()
+        return self.start_date <= today <= self.end_date
+
+    @property
+    def days_until_expiration(self) -> int | None:
+        """Tage bis zum Ende dieses Zeitraums."""
+        if not self.is_active:
+            return None
+        return (self.end_date - timezone.now().date()).days
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):

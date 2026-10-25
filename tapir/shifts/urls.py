@@ -252,17 +252,17 @@ urlpatterns = [
     ),
     path(
         "capabilities",
-        views.UserCapabilityListView.as_view(),
+        views.UserCapabilityValidityListView.as_view(),
         name="usercapability_overview",
     ),
     path(
         "capabilities/<int:pk>/add/",
-        views.UserCapabilityCreateView.as_view(),
+        views.UserCapabilityValidityCreateView.as_view(),
         name="usercapability_create",
     ),
     path(
         "capabilities/<int:pk>/delete/",
-        views.UserCapabilityDeleteView.as_view(),
-        name="usercapability_delete",
+        views.UserCapabilityValidityDeleteView.as_view(),
+        name="usercapabilityvalidity_delete",
     ),
 ]

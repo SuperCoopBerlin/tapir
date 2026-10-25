@@ -10,7 +10,6 @@ from django.forms import (
     ModelMultipleChoiceField,
 )
 from django.forms.widgets import HiddenInput
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django_select2.forms import Select2MultipleWidget, Select2Widget
 
@@ -38,6 +37,7 @@ from tapir.shifts.models import (
     ShiftWatch,
     TeamleaderPageContent,
     UserCapability,
+    UserCapabilityValidity,
     get_staffingstatus_choices,
     get_staffingstatus_defaults,
 )
@@ -906,64 +906,63 @@ class TeamleaderPageForm(forms.Form):
             self.fields["draft_content"].initial = draft_content.content
 
 
-class UserCapabilityForm(forms.ModelForm):
-    capability = forms.ModelChoiceField(
-        queryset=Capability.objects.all(),
-        label=_("Qualifications (with possibility to expire)"),
-    )
+class UserCapabilityValidityForm(forms.ModelForm):
+    """Form für neue Gültigkeitszeiträume einer bestehenden UserCapability."""
 
-    unlimited = forms.BooleanField(
-        required=False,
-        label=_("Placeholder validity"),
-        help_text=_(
-            "If checked, no expiration date will be set. The resulting qualification will be ruled as expired."
-        ),
+    user_capability = forms.ModelChoiceField(
+        queryset=UserCapability.objects.none(),
+        label=_("Capability Assignment"),
+        help_text=_("Select an already assigned capability"),
     )
 
     class Meta:
-        model = UserCapability
-        fields = ["capability", "start_date", "end_date"]
+        model = UserCapabilityValidity
+        fields = ["user_capability", "start_date", "end_date"]
         widgets = {
             "start_date": DateInputTapir(),
             "end_date": DateInputTapir(),
         }
-        help_texts = {
-            "end_date": _("Leave empty to use the default validity period."),
-        }
 
     def __init__(self, *args, **kwargs):
         self.target_user = kwargs.pop("target_user", None)
-
         super().__init__(*args, **kwargs)
-        self.fields["end_date"].required = False
-        self.fields["capability"].choices = {
-            capability.id: capability.get_current_translation().name
-            for capability in Capability.objects.all()
-            if capability.get_current_translation().can_expire
-        }
+
+        # Dropdown mit bestehenden UserCapabilities (nur can_expire=True)
+        if self.target_user:
+            self.fields["user_capability"].queryset = (
+                UserCapability.objects.filter(
+                    shift_user_data__user=self.target_user,
+                    capability__capabilitytranslation__can_expire=True,
+                )
+                .distinct()
+                .select_related("capability")
+            )
+
+        # Custom Label für Dropdown
+        self.fields["user_capability"].label_from_instance = (
+            lambda obj: f"{obj.capability.get_current_translation().name}"
+        )
 
     def clean(self):
         cleaned_data = super().clean()
-        unlimited = cleaned_data.get("unlimited")
-
-        if unlimited:
-            cleaned_data["start_date"] = timezone.now().date
-            cleaned_data["end_date"] = None
-
-        capability = cleaned_data.get("capability")
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
+        user_capability = cleaned_data.get("user_capability")
 
-        duplicate = UserCapability.objects.filter(
-            shift_user_data__user=self.target_user,
-            capability=capability,
-            start_date=start_date,
-            end_date=end_date,
-        ).exists()
-        if duplicate:
-            raise ValidationError(_("A capability with these dates already exists."))
+        if start_date and end_date and start_date > end_date:
+            raise ValidationError(_("Start date must be before end date."))
+
+        # Check für überschneidende Zeiträume
+        if user_capability and start_date and end_date:
+            overlapping = UserCapabilityValidity.objects.filter(
+                user_capability=user_capability,
+            ).exclude(
+                end_date__lt=start_date,  # Endet vor unserem Start
+                start_date__gt=end_date,  # Startet nach unserem Ende
+            )
+            if overlapping.exists():
+                raise ValidationError(
+                    _("This time period overlaps with an existing assignment.")
+                )
 
         return cleaned_data
-
-    class Media:
-        js = ("shifts/user_capability_form.js",)
