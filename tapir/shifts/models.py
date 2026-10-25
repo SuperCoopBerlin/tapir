@@ -1159,7 +1159,7 @@ class UserCapability(models.Model):
     def get_status(self):
         current = self.get_current_validity_period()
         if current is None:
-            return CapabilityStatus.EXPIRED  # Kein aktiver Zeitraum
+            return CapabilityStatus.EXPIRED
 
         return CapabilityStatus.ACTIVE
 

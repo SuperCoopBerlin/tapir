@@ -373,7 +373,7 @@ class ShiftUserDataForm(forms.ModelForm):
     capabilities = forms.ModelMultipleChoiceField(
         queryset=Capability.objects.all(),
         widget=CheckboxSelectMultiple,
-        label=_("Qualifications (without possibility to expire)"),
+        label=_("Qualifications"),
         required=False,
     )
     shift_partner = TapirUserChoiceField(required=False)
@@ -907,7 +907,6 @@ class TeamleaderPageForm(forms.Form):
 
 
 class UserCapabilityValidityForm(forms.ModelForm):
-    """Form für neue Gültigkeitszeiträume einer bestehenden UserCapability."""
 
     user_capability = forms.ModelChoiceField(
         queryset=UserCapability.objects.none(),
@@ -927,7 +926,6 @@ class UserCapabilityValidityForm(forms.ModelForm):
         self.target_user = kwargs.pop("target_user", None)
         super().__init__(*args, **kwargs)
 
-        # Dropdown mit bestehenden UserCapabilities (nur can_expire=True)
         if self.target_user:
             self.fields["user_capability"].queryset = (
                 UserCapability.objects.filter(
@@ -938,7 +936,6 @@ class UserCapabilityValidityForm(forms.ModelForm):
                 .select_related("capability")
             )
 
-        # Custom Label für Dropdown
         self.fields["user_capability"].label_from_instance = (
             lambda obj: f"{obj.capability.get_current_translation().name}"
         )
@@ -952,13 +949,13 @@ class UserCapabilityValidityForm(forms.ModelForm):
         if start_date and end_date and start_date > end_date:
             raise ValidationError(_("Start date must be before end date."))
 
-        # Check für überschneidende Zeiträume
+        # Check for overlapping time periods
         if user_capability and start_date and end_date:
             overlapping = UserCapabilityValidity.objects.filter(
                 user_capability=user_capability,
             ).exclude(
-                end_date__lt=start_date,  # Endet vor unserem Start
-                start_date__gt=end_date,  # Startet nach unserem Ende
+                end_date__lt=start_date,
+                start_date__gt=end_date,
             )
             if overlapping.exists():
                 raise ValidationError(
