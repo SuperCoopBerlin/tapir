@@ -4,7 +4,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from tapir.shifts.models import (
-    ShiftUserCapability,
+    CapabilityTranslation,
     TeamleaderPageContent,
     TeamleaderPageContentStatus,
 )
@@ -50,7 +50,9 @@ class TestTeamleaderPage(TapirFactoryTestBase):
 
     def test_get_loggedInAsNormalMemberWithTeamleaderQualification_returns200(self):
         user = self.login_as_normal_user()
-        user.shift_user_data.capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        user.shift_user_data.capabilities.set(
+            [CapabilityTranslation.objects.get(name="Teamleader").capability]
+        )
         user.shift_user_data.save()
 
         response = self.client.get(reverse("shifts:teamleader_page"))

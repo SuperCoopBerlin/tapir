@@ -180,7 +180,7 @@ def populate_all_new_fields(apps, _):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("shifts", "0077_capability_and_more"),
+        ("shifts", "0078_capability_and_more"),
     ]
 
     operations = [

@@ -7,7 +7,8 @@ from rest_framework import status
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.teamleader_page_updated_email import TeamleaderPageUpdatedEmail
 from tapir.shifts.models import (
-    ShiftUserCapability,
+    Capability,
+    CapabilityTranslation,
     TeamleaderPageContent,
     TeamleaderPageContentStatus,
 )
@@ -57,7 +58,9 @@ class TestTeamleaderPage(TapirEmailTestMixin, TapirFactoryTestBase):
 
     def test_get_loggedInAsNormalMemberWithTeamleaderQualification_returns403(self):
         user = self.login_as_normal_user()
-        user.shift_user_data.capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        user.shift_user_data.capabilities.set(
+            [CapabilityTranslation.objects.get(name="Teamleader").capability]
+        )
         user.shift_user_data.save()
 
         response = self.client.get(reverse("shifts:teamleader_page_edit"))
@@ -104,9 +107,9 @@ class TestTeamleaderPage(TapirEmailTestMixin, TapirFactoryTestBase):
 
         self.assertEqual(0, len(mail.outbox))
 
-    def _create_user_with_capabilities(self, capabilities: list[str]):
+    def _create_user_with_capabilities(self, capabilities: list[Capability]):
         user = TapirUserFactory.create()
-        user.shift_user_data.capabilities = capabilities
+        user.shift_user_data.capabilities.set(capabilities)
         user.shift_user_data.save()
         return user
 
@@ -115,12 +118,17 @@ class TestTeamleaderPage(TapirEmailTestMixin, TapirFactoryTestBase):
         other_user = TapirUserFactory.create()
 
         teamleader_1 = self._create_user_with_capabilities(
-            [ShiftUserCapability.SHIFT_COORDINATOR]
+            [CapabilityTranslation.objects.get(name="Teamleader").capability]
         )
         teamleader_2 = self._create_user_with_capabilities(
-            [ShiftUserCapability.SHIFT_COORDINATOR, ShiftUserCapability.CASHIER]
+            [
+                CapabilityTranslation.objects.get(name="Teamleader").capability,
+                CapabilityTranslation.objects.get(name="Cashier").capability,
+            ]
         )
-        self._create_user_with_capabilities([ShiftUserCapability.CASHIER])
+        self._create_user_with_capabilities(
+            [CapabilityTranslation.objects.get(name="Cashier").capability]
+        )
 
         now = mock_timezone_now(
             test=self, now=datetime.datetime(year=2012, month=3, day=4)
