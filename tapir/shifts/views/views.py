@@ -682,6 +682,17 @@ class UserCapabilityTable(django_tables2.Table):
         verbose_name="Status",
         orderable=False,
     )
+    actions = django_tables2.TemplateColumn(
+        template_code="""
+            {% load core %}
+            <a href="{% url "shifts:usercapability_delete" pk=record.pk %}"
+                class="{% tapir_button_custom "outline-danger" %}">
+                <span class="material-icons">delete</span>
+            </a>
+        """,
+        verbose_name="Aktionen",
+        orderable=False,
+    )
     # actions = django_tables2.TemplateColumn(
     #     template_name="shifts/exemption_table_actions_column.html",
     #     verbose_name="Actions",
