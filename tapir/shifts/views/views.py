@@ -823,9 +823,7 @@ class UserCapabilityCreateView(
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy(
-            "shifts:usercapability_overview", kwargs={"pk": self.kwargs["pk"]}
-        )
+        return reverse("shifts:usercapability_overview")
 
 
 class UserCapabilityDeleteView(
@@ -839,9 +837,4 @@ class UserCapabilityDeleteView(
     permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):
-
-        messages.success(self.request, _("Assignment removed successfully."))
-        return reverse_lazy(
-            "shifts:usercapability_overview",
-            kwargs={"pk": self.object.shift_user_data.user.pk},
-        )
+        return reverse("shifts:usercapability_overview")
