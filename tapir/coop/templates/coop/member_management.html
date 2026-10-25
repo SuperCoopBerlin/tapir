@@ -34,20 +34,25 @@
                     <a class="{% tapir_button_link %}"
                        href="{% url 'coop:membership_resignation_list' %}">
                         <span class="material-icons button-icon">person_cancel</span>{% translate "Membership resignations" %}
+                    </a>
                 {% endif %}
-            </a>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'shifts:usercapability_overview' %}">
+                    <span class="material-icons">school</span>
+                    {% translate "Qualification validity periods" %}
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="card mb-2">
-        <div class="card-header d-flex justify-content-between">
-            <h5>General Tapir Accounts</h5>
+        <div class="card mb-2">
+            <div class="card-header d-flex justify-content-between">
+                <h5>General Tapir Accounts</h5>
+            </div>
+            <div class="card-body">
+                <a class="{% tapir_button_link_to_action %}"
+                   href="{% url 'coop:create_general_account' %}"><span class="material-icons button-icon">add</span>Create new Tapir account</a>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'coop:general_accounts_list' %}"><span class="material-icons button-icon">list</span>Show general Tapir accounts</a>
+            </div>
         </div>
-        <div class="card-body">
-            <a class="{% tapir_button_link_to_action %}"
-               href="{% url 'coop:create_general_account' %}"><span class="material-icons button-icon">add</span>Create new Tapir account</a>
-            <a class="{% tapir_button_link %}"
-               href="{% url 'coop:general_accounts_list' %}"><span class="material-icons button-icon">list</span>Show general Tapir accounts</a>
-        </div>
-    </div>
     </div>
 {% endblock content %}
