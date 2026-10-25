@@ -677,7 +677,11 @@ class UserCapabilityTable(django_tables2.Table):
         attrs = {"class": TAPIR_TABLE_CLASSES}
 
     shift_user_data = django_tables2.Column(verbose_name="Member")
-
+    status = django_tables2.TemplateColumn(
+        template_code='<span class="badge {{ record.get_badge_class }}">{{ record.get_status_label }}</span>',
+        verbose_name="Status",
+        orderable=False,
+    )
     # actions = django_tables2.TemplateColumn(
     #     template_name="shifts/exemption_table_actions_column.html",
     #     verbose_name="Actions",
