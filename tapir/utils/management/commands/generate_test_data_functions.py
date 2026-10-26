@@ -35,7 +35,6 @@ from tapir.shifts.models import (
     Shift,
     ShiftAccountEntry,
     ShiftAttendance,
-    ShiftAttendanceMode,
     ShiftAttendanceTemplate,
     ShiftCycleEntry,
     ShiftSlotTemplate,
@@ -225,10 +224,6 @@ def generate_shift_user_datas(tapir_users):
 
     shift_user_datas = ShiftUserData.objects.bulk_create(shift_user_datas)
     for shift_user_data in shift_user_datas:
-        if random.randint(1, 2) == 1:
-            shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
-        else:
-            shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
         if random.randint(1, 7) == 1:
             shift_user_data.capabilities.add(capability_teamleader)
         if random.randint(1, 4) == 1:
