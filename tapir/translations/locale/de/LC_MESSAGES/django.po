@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-10-23 14:34+0200\n"
-"PO-Revision-Date: 2026-09-08 19:35+0000\n"
+"PO-Revision-Date: 2026-10-26 19:34+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.1\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #: accounts/apps.py:18 core/apps.py:36 statistics/apps.py:15
 msgid "Miscellaneous"
@@ -42,15 +43,19 @@ msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt 
 
 #: accounts/forms.py:74
 msgid "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
-msgstr "Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld leer bleiben."
+msgstr ""
+"Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld leer "
+"bleiben"
 
 #: accounts/forms.py:86
 msgid "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
-msgstr "Wenn es keinen Mitkäufer 2 gibt, muss auch das Feld „Mitkäufer-E-Mail 2” leer sein."
+msgstr ""
+"Wenn es keinen Mitkäufer 2 gibt, muss auch das Feld „Mitkäufer-E-Mail 2” "
+"leer sein"
 
 #: accounts/forms.py:145
 msgid "This username is not available."
-msgstr "Dieser Benutzername ist nicht verfügbar"
+msgstr "Dieser Benutzername ist nicht verfügbar."
 
 #: accounts/forms.py:155
 msgid "Optional Mails"
@@ -833,7 +838,7 @@ msgstr ""
 
 #: coop/models.py:429
 msgid "Paper form"
-msgstr ""
+msgstr "Papierform"
 
 #: coop/models.py:472
 msgid "Investing member"
@@ -848,10 +853,8 @@ msgid "Paid Entrance Fee"
 msgstr "Eintrittsgeld bezahlt"
 
 #: coop/models.py:490 coop/templates/coop/draftuser_detail.html:201
-#, fuzzy
-#| msgid "Registration confirmed"
 msgid "Registration origin"
-msgstr "Anmeldung bestätigt"
+msgstr "Registrierungsherkunft"
 
 #: coop/models.py:541
 msgid "Email address must be set."
@@ -1062,22 +1065,16 @@ msgid "Beteiligungserklärung"
 msgstr "Beteiligungserklärung"
 
 #: coop/templates/coop/draftuser_detail.html:237
-#, fuzzy
-#| msgid "Membership agreement must be signed."
 msgid "Membership agreement (preview)"
-msgstr "Mitgliedsantrag muss unterschrieben sein."
+msgstr "Mitgliedschaftsvereinbarung (Vorschau)"
 
 #: coop/templates/coop/draftuser_detail.html:243
-#, fuzzy
-#| msgid "Membership agreement must be signed."
 msgid "Membership agreement (download)"
-msgstr "Mitgliedsantrag muss unterschrieben sein."
+msgstr "Mitgliedschaftsvereinbarung (Download)"
 
 #: coop/templates/coop/draftuser_detail.html:264
-#, fuzzy
-#| msgid "List of membership resignations"
 msgid "Failed to load membership agreement"
-msgstr "Liste der Austritte von Mitgliedern"
+msgstr "Die Mitgliedschaftsvereinbarung konnte nicht geladen werden"
 
 #: coop/templates/coop/draftuser_list.html:22
 #: coop/templates/coop/incoming_payment_list.html:26
@@ -1125,7 +1122,7 @@ msgstr "Alle Filter entfernen"
 #: coop/templates/coop/draftuser_list.html:63
 #, python-format
 msgid "Filtered %(filtered)s of %(total)s"
-msgstr ""
+msgstr "%(filtered)s von %(total)s wurden gefiltert"
 
 #: coop/templates/coop/draftuser_register_form.default.html:27
 msgid "Create Applicant"
@@ -1820,16 +1817,7 @@ msgid "<p> As you wished in your cancellation letter your membership will run un
 msgstr "<p> Da Du in deinem Kündigungsschreiben angegeben hast, dass Du deine Anteile wieder zurückerstattet haben möchtest, läuft deine Mitgliedschaft bis zum Ablauf der in unserer Satzung angegebenen regulären Kündigungsfrist, d.h. bis zum Abschluss des Geschäftsjahres in drei Jahren.<b>Bitte beachte dazu den in unserer Satzung angegebenen Passus unter §4 Beendigung der Mitgliedschaft, Übertragung des Geschäftsguthabens, Tod und Ausschluss.</b>Vorsorglich ist an diese Mail die Satzung angehängt.</p> <p> <b>Da deine Mitgliedschaft im Falle der regulären Kündigungsfrist und damit einhergehenden Auseinandersetzung (siehe Satzung) über drei Jahre weiterläuft und auch in Tapir weiterhin als \"aktiv\" eingetragen ist, möchten wir dich an dieser Stelle darauf hinweisen, dass Du innerhalb der nächsten drei Jahre auch weiterhin Schichten absolvieren kannst und damit auch dein Einkaufsrecht weiterhin behältst. Solltest Du keine Schichten mehr absolvieren und auch nicht mehr in der Supercoop einkaufen wollen, möchten wir dich bitten, beim Mitgliederbüro (%(contact_email_address)s) zu beantragen, dass deine Mitgliedschaft auf \"investierend\" umgestellt wird.</b> </p> <p> Damit wird verhindert, dass dein Schichtstatus ins Minus gerät und Du in Zukunft Emails mit Warnungen von uns erhältst. </p>"
 
 #: coop/templates/coop/email/membershipresignation_confirmation_body.html:57
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "            <p>\n"
-#| "                We wish you all the best for the future and please do not hesitate to contact the member-office\n"
-#| "                (%(contact_email_address)s) if you have any further questions.\n"
-#| "            </p>\n"
-#| "            <p>Cooperative greetings,</p>\n"
-#| "            <p>Your SuperCoop-Board</p>\n"
-#| "        "
+#, python-format
 msgid ""
 "\n"
 "        <p>\n"
@@ -1841,13 +1829,14 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"         <p>\n"
-"           Wir wünschen Dir alles Gute für die Zukunft und zögere bitte nicht, wenn Du noch weitere Fragen hast,\n"
+"        <p>\n"
+"           Wir wünschen Dir alles Gute für die Zukunft und zögere bitte "
+"nicht, wenn Du noch weitere Fragen hast,\n"
 "           das Mitgliederbüro (%(contact_email_address)s) zu kontaktieren.\n"
 "        </p>\n"
 "        <p>Kooperative Grüße,</p>\n"
 "        <p>Dein SuperCoop-Vorstand</p>\n"
-"     "
+"    "
 
 #: coop/templates/coop/email/membershipresignation_confirmation_subject.html:4
 #, python-format
@@ -2134,7 +2123,7 @@ msgstr "Mitgliedschaftskündigungen"
 
 #: coop/templates/coop/member_self_registration_form.html:12
 msgid "Supercoop registration"
-msgstr ""
+msgstr "Supercoop-Registrierung"
 
 #: coop/templates/coop/member_self_registration_language.html:12
 #, python-format
@@ -2162,7 +2151,7 @@ msgstr "Neue Pause erstellen"
 #: coop/templates/coop/membership_pause/membership_pause_list.html:64
 #, python-format
 msgid "Filtered %(filtered_pause_count)s of %(total_pause_count)s"
-msgstr ""
+msgstr "%(filtered_pause_count)s von %(total_pause_count)s gefiltert"
 
 #: coop/templates/coop/membership_resignation_form.html:51
 #: coop/templates/coop/membership_resignation_form.html:56
@@ -2387,7 +2376,7 @@ msgstr "Endet am"
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:117
 #: coop/templates/coop/user_profile_pdf.html:163
 msgid "Sold or future"
-msgstr ""
+msgstr "verkauft oder zukünftig"
 
 #: coop/templates/coop/tags/user_coop_share_ownership_list_tag.html:142
 #, fuzzy
@@ -2845,16 +2834,16 @@ msgstr "Erstelle eine neue Finanzierungskampagne"
 #: financingcampaign/views.py:76
 #, python-format
 msgid "Edit financing campaign: %(name)s"
-msgstr ""
+msgstr "Bearbeite Finanzierungskampagne: %(name)s"
 
 #: financingcampaign/views.py:93
 msgid "Create a new financing source"
-msgstr ""
+msgstr "Erstelle neue Finanzierungskampagne"
 
 #: financingcampaign/views.py:104
 #, python-format
 msgid "Edit financing source: %(name)s"
-msgstr ""
+msgstr "Bearbeite Finanzierungsquelle: %(name)s"
 
 #: financingcampaign/views.py:123
 msgid "Create a new financing source datapoint"
