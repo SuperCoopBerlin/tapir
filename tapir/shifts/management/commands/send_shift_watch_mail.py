@@ -33,6 +33,7 @@ def check_staffing_status(
     if current_status:
         notification_reasons.append(current_status.label)
         shift_watch_data.last_staffing_status = current_status
+        shift_watch_data.save()
 
     # General attendance change notifications
     if not notification_reasons:
