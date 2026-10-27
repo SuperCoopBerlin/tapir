@@ -45,13 +45,13 @@
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="submit" class="{% tapir_button_action %}" name="save_draft">
                                     <span class="material-icons">edit_document</span>
-                                    {% translate 'Save draft' %}
+                                    {% translate "Save draft" %}
                                 </button>
                                 {% translate "Publishing the changes will make them visible to the teamleaders and will send them a mail telling them there is new information. Saving the draft won't send anything." as tooltip %}
                                 <span data-bs-toggle="tooltip" data-bs-html="false" title="{{ tooltip }}">
                                     <button type="submit" class="{% tapir_button_action %}" name="publish">
                                         <span class="material-icons">send</span>
-                                        {% translate 'Publish changes' %}
+                                        {% translate "Publish changes" %}
                                     </button>
                                 </span>
                             </div>
