@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
-from django.db.models import Prefetch, Sum
+from django.db.models import Sum
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -1046,31 +1046,14 @@ class ShiftUserData(models.Model):
     objects = ShiftUserDataQuerySet.as_manager()
 
     def get_capabilities_display(self):
+        capabilities_display = [
+            capability_assignment.get_display()
+            for capability_assignment in self.capability_assignments.select_related(
+                "capability"
+            ).prefetch_related("capability__capabilitytranslation_set")
+        ]
 
-        user_capabilities_prefetch = Prefetch(
-            "usercapability_set",
-            queryset=UserCapability.objects.filter(shift_user_data=self),
-        )
-
-        capabilities_list = []
-        for capability in (
-            self.capabilities.all()
-            .distinct()
-            .prefetch_related("capabilitytranslation_set", user_capabilities_prefetch)
-        ):
-            name = capability.get_current_translation().name
-
-            is_active = any(
-                user_capability.is_active()
-                for user_capability in capability.usercapability_set.all()
-            )
-
-            if is_active:
-                capabilities_list.append(name)
-            else:
-                capabilities_list.append(f"⚠️ {name}")
-
-        return ", ".join(capabilities_list)
+        return ", ".join(capabilities_display)
 
     def get_upcoming_shift_attendances(self):
         return self.user.shift_attendances.filter(
@@ -1121,6 +1104,7 @@ class ShiftUserData(models.Model):
 
 class CapabilityStatus(models.TextChoices):
     ACTIVE = "active", _("Active")
+    EXPIRES_SOON = "expires_soon", _("Expires soon")
     EXPIRED = "expired", _("Expired")
     NOT_STARTED = "not_started", _("Not started")
 
@@ -1157,9 +1141,12 @@ class UserCapability(models.Model):
         ).first()
 
     def get_status(self):
-        current = self.get_current_validity_period()
-        if current is None:
+        if not self.is_active():
             return CapabilityStatus.EXPIRED
+
+        days_left = self.days_until_expiration()
+        if days_left is not None and days_left < 10:
+            return CapabilityStatus.EXPIRES_SOON
 
         return CapabilityStatus.ACTIVE
 
@@ -1169,6 +1156,7 @@ class UserCapability(models.Model):
     def get_badge_class(self) -> str:
         status_classes = {
             CapabilityStatus.ACTIVE: "bg-success",
+            CapabilityStatus.EXPIRES_SOON: "bg-warning",
             CapabilityStatus.EXPIRED: "bg-danger",
             CapabilityStatus.NOT_STARTED: "bg-warning",
         }
@@ -1196,6 +1184,18 @@ class UserCapability(models.Model):
 
         today = timezone.now().date()
         return (effective_end_date - today).days
+
+    def get_display(self) -> str:
+        name = self.capability.get_current_translation().name
+
+        if not self.is_active():
+            return f"❌ {name}"
+
+        days_left = self.days_until_expiration()
+        if days_left is not None and days_left < 10:
+            return f"⚠️ {name}"
+
+        return name
 
 
 class UserCapabilityValidity(models.Model):
