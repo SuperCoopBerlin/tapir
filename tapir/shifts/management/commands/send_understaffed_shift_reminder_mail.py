@@ -24,6 +24,13 @@ class Command(BaseCommand):
         for shift_watch_data in ShiftWatch.objects.filter(
             shift__end_time__date=tomorrow
         ):
+            if (
+                len(shift_watch_data.staffing_status) == 0
+                or StaffingStatusChoices.UNDERSTAFFED
+                not in shift_watch_data.staffing_status
+            ):
+                continue
+
             this_valid_slot_ids = list(
                 ShiftSlot.objects.filter(
                     shift=shift_watch_data.shift,
@@ -33,7 +40,9 @@ class Command(BaseCommand):
             number_of_available_slots = shift_watch_data.shift.slots.count()
             valid_attendances_count = len(this_valid_slot_ids)
             required_attendances_count = shift_watch_data.shift.num_required_attendances
-            current_status = ShiftWatchCreator.get_staffing_status_if_changed(
+            # do not use get_staffing_status_if_changed() because we want to remind of UNDERSTAFFED (even if
+            # it hasn't changed since the last mail)
+            current_status = ShiftWatchCreator.calculate_staffing_status(
                 number_of_available_slots=number_of_available_slots,
                 valid_attendances=valid_attendances_count,
                 required_attendances=required_attendances_count,
@@ -41,5 +50,5 @@ class Command(BaseCommand):
             )
             if current_status == StaffingStatusChoices.UNDERSTAFFED:
                 SendShiftWatchCommand.send_shift_watch_mail(
-                    shift_watch_data, reason=StaffingStatusChoices.UNDERSTAFFED
+                    shift_watch_data, reason=StaffingStatusChoices.UNDERSTAFFED.label
                 )
