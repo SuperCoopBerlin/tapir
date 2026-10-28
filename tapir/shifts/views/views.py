@@ -687,7 +687,7 @@ class UserCapabilityValidityTable(django_tables2.Table):
         verbose_name=_("Qualification")
     )
     status = django_tables2.TemplateColumn(
-        template_code='<span class="badge {{ record.user_capability.get_badge_class }}">{{ record.user_capability.get_status_label }}</span>',
+        template_code='<span class="badge {{ record.get_badge_class }}">{{ record.get_status_label }}</span>',
         verbose_name="Status",
         orderable=False,
     )

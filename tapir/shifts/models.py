@@ -1227,6 +1227,35 @@ class UserCapabilityValidity(models.Model):
         today = timezone.now().date()
         return self.start_date <= today <= self.end_date
 
+    def time_until_expiration(self) -> timedelta | None:
+        if self.end_date is None:
+            return None
+
+        today = timezone.now().date()
+        return self.end_date - today
+
+    def get_status(self):
+        if not self.is_active:
+            return CapabilityStatus.EXPIRED
+
+        days_left = self.time_until_expiration()
+        if days_left is not None and days_left < timedelta(weeks=8):
+            return CapabilityStatus.EXPIRES_SOON
+
+        return CapabilityStatus.ACTIVE
+
+    def get_status_label(self) -> str:
+        return CapabilityStatus(self.get_status()).label
+
+    def get_badge_class(self) -> str:
+        status_classes = {
+            CapabilityStatus.ACTIVE: "bg-success",
+            CapabilityStatus.EXPIRES_SOON: "bg-warning",
+            CapabilityStatus.EXPIRED: "bg-danger",
+            CapabilityStatus.NOT_STARTED: "bg-warning",
+        }
+        return status_classes[self.get_status()]
+
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
     if not hasattr(instance, "shift_user_data"):
