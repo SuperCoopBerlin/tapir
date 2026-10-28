@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import random
+from datetime import timedelta
 
 import ldap
 from django.utils import timezone
@@ -41,6 +42,8 @@ from tapir.shifts.models import (
     ShiftTemplate,
     ShiftTemplateGroup,
     ShiftUserData,
+    UserCapability,
+    UserCapabilityValidity,
 )
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.statistics.models import (
@@ -222,12 +225,62 @@ def generate_shift_user_datas(tapir_users):
     ).capability
     capability_cashier = CapabilityTranslation.objects.get(name="Cashier").capability
 
+    today = timezone.now().date()
+
     shift_user_datas = ShiftUserData.objects.bulk_create(shift_user_datas)
     for shift_user_data in shift_user_datas:
         if random.randint(1, 7) == 1:
             shift_user_data.capabilities.add(capability_teamleader)
         if random.randint(1, 4) == 1:
-            shift_user_data.capabilities.add(capability_cashier)
+            user_capability = UserCapability.objects.create(
+                shift_user_data=shift_user_data, capability=capability_cashier
+            )
+            validity_periods = []
+
+            old_start = today - timedelta(days=1095)  # vor ~3 Jahren
+            old_end = today - timedelta(days=730)  # vor ~2 Jahren
+            validity_periods.append(
+                {
+                    "start_date": old_start,
+                    "end_date": old_end,
+                }
+            )
+
+            # Szenario 2: Mittlere Periode (vor 1-1.5 Jahren)
+            mid_start = today - timedelta(days=550)
+            mid_end = today - timedelta(days=280)
+            validity_periods.append(
+                {
+                    "start_date": mid_start,
+                    "end_date": mid_end,
+                }
+            )
+
+            current_scenario = random.choice(["active", "expires_soon", "expired"])
+
+            if current_scenario == "active":
+                current_start = today - timedelta(days=random.randint(30, 180))
+                current_end = today + timedelta(days=random.randint(180, 365))
+            elif current_scenario == "expires_soon":
+                current_start = today - timedelta(days=random.randint(90, 250))
+                current_end = today + timedelta(days=random.randint(14, 42))
+            else:  # expired
+                current_start = today - timedelta(days=random.randint(150, 280))
+                current_end = today - timedelta(days=random.randint(1, 50))
+
+            validity_periods.append(
+                {
+                    "start_date": current_start,
+                    "end_date": current_end,
+                }
+            )
+
+            for period in validity_periods:
+                UserCapabilityValidity.objects.create(
+                    user_capability=user_capability,
+                    start_date=period["start_date"],
+                    end_date=period["end_date"],
+                )
 
     return shift_user_datas
 
