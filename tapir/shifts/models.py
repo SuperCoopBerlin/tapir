@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 import datetime
+from datetime import timedelta
 from functools import cmp_to_key
 
 from django.conf import settings
@@ -1144,8 +1145,8 @@ class UserCapability(models.Model):
         if not self.is_active():
             return CapabilityStatus.EXPIRED
 
-        days_left = self.days_until_expiration()
-        if days_left is not None and days_left < 10:
+        days_left = self.time_until_expiration()
+        if days_left is not None and days_left < timedelta(weeks=8):
             return CapabilityStatus.EXPIRES_SOON
 
         return CapabilityStatus.ACTIVE
@@ -1177,13 +1178,13 @@ class UserCapability(models.Model):
         current = self.get_current_validity_period()
         return current is not None
 
-    def days_until_expiration(self) -> int | None:
+    def time_until_expiration(self) -> timedelta | None:
         effective_end_date = self.get_effective_end_date()
         if effective_end_date is None:
             return None
 
         today = timezone.now().date()
-        return (effective_end_date - today).days
+        return effective_end_date - today
 
     def get_display(self) -> str:
         name = self.capability.get_current_translation().name
@@ -1191,8 +1192,7 @@ class UserCapability(models.Model):
         if not self.is_active():
             return f"❌ {name}"
 
-        days_left = self.days_until_expiration()
-        if days_left is not None and days_left < 10:
+        if self.get_status() == CapabilityStatus.EXPIRES_SOON:
             return f"⚠️ {name}"
 
         return name
@@ -1226,13 +1226,6 @@ class UserCapabilityValidity(models.Model):
         """Ist dieser Zeitraum aktuell gültig?"""
         today = timezone.now().date()
         return self.start_date <= today <= self.end_date
-
-    @property
-    def days_until_expiration(self) -> int | None:
-        """Tage bis zum Ende dieses Zeitraums."""
-        if not self.is_active:
-            return None
-        return (self.end_date - timezone.now().date()).days
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
