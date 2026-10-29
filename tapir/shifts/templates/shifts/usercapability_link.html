@@ -1,7 +1,13 @@
 {% load core %}
 {% load i18n %}
 {% if record.capability.get_current_translation.can_expire %}
-    <a href="{% url 'shifts:usercapabilityvalidity_list' %}?shift_user_data_id={{ record.shift_user_data.id }}&capability_id={{ record.capability.id }}">
-        {% translate "Validity periods" %}
-    </a>
+    {% if record.validity_periods.all %}
+        <a href="{% url 'shifts:usercapabilityvalidity_list' %}?shift_user_data_id={{ record.shift_user_data.id }}&capability_id={{ record.capability.id }}">
+            {% translate "Validity periods" %}
+        </a>
+    {% else %}
+        <a href="{% url 'shifts:usercapability_create' record.shift_user_data.id %}">
+            {% translate "Create validity period" %}
+        </a>
+    {% endif %}
 {% endif %}
