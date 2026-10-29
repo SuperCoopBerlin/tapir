@@ -2,6 +2,7 @@ import datetime
 
 from django import forms
 from django.core.exceptions import PermissionDenied, ValidationError
+from django.db.models import Q
 from django.forms import (
     BooleanField,
     CharField,
@@ -953,10 +954,7 @@ class UserCapabilityValidityForm(forms.ModelForm):
         if user_capability and start_date and end_date:
             overlapping = UserCapabilityValidity.objects.filter(
                 user_capability=user_capability,
-            ).exclude(
-                end_date__lt=start_date,
-                start_date__gt=end_date,
-            )
+            ).exclude(Q(end_date__lt=start_date) | Q(start_date__gt=end_date))
             if overlapping.exists():
                 raise ValidationError(
                     _("This time period overlaps with an existing assignment.")
