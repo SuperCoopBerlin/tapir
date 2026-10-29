@@ -8,8 +8,12 @@ from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
 from tapir.shifts.management.commands.send_understaffed_shift_reminder_mail import (
     Command as ReminderCommand,
 )
-from tapir.shifts.models import ShiftSlot, ShiftUserCapability, StaffingStatusChoices
-from tapir.shifts.tests.factories import ShiftFactory
+from tapir.shifts.models import StaffingStatusChoices
+from tapir.shifts.tests.factories import (
+    CapabilityFactory,
+    ShiftFactory,
+    ShiftSlotFactory,
+)
 from tapir.shifts.tests.test_shiftwatch_notification import (
     create_shift_watch,
     create_shift_with_attendance,
@@ -119,19 +123,18 @@ class ShiftWatchReminderCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def test_reminder_withWatchedCapabilities_noMailSent(self):
 
-        ShiftSlot.objects.create(
-            shift=self.shift,
-            name="cheese-making",
-            required_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
-        )
+        capability = CapabilityFactory.create()
+
+        slot_with_capability = ShiftSlotFactory.create(shift=self.shift)
+        slot_with_capability.required_capabilities.set([capability])
 
         self.shift_watch = create_shift_watch(
             user=self.user,
             shift=self.shift,
             last_valid_slot_ids=[],
             staffing_status=[],
-            watched_capabilities=[ShiftUserCapability.SHIFT_COORDINATOR],
         )
+        self.shift_watch.watched_capabilities.set([capability])
 
         ReminderCommand().handle()
 
