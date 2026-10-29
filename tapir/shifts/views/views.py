@@ -66,6 +66,7 @@ from tapir.shifts.models import (
     TeamleaderPageContent,
     TeamleaderPageContentStatus,
     UpdateShiftUserDataLogEntry,
+    UserCapability,
     UserCapabilityValidity,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
@@ -654,6 +655,114 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
             )
 
 
+class UserCapabilityTable(django_tables2.Table):
+    """Tabelle für Capabilities eines Users."""
+
+    class Meta:
+        model = UserCapability
+        template_name = TAPIR_TABLE_TEMPLATE
+        fields = [
+            "id",
+            "shift_user_data__user",
+            "capability__get_current_translation__name",
+        ]
+        sequence = (
+            "id",
+            "shift_user_data__user",
+            "capability__get_current_translation__name",
+            "status",
+            "actions",
+        )
+        attrs = {"class": TAPIR_TABLE_CLASSES}
+
+    shift_user_data__user = django_tables2.Column(verbose_name=_("Member"))
+
+    capability__get_current_translation__name = django_tables2.Column(
+        verbose_name=_("Qualification")
+    )
+
+    status = django_tables2.TemplateColumn(
+        template_code='<span class="badge {{ record.get_badge_class }}">{{ record.get_status_label }}</span>',
+        verbose_name="Status",
+        orderable=False,
+    )
+
+    actions = django_tables2.TemplateColumn(
+        template_name="shifts/usercapability_link.html",
+        verbose_name=_("Actions"),
+        orderable=False,
+    )
+
+    def before_render(self, request):
+        self.request = request
+
+    def render_shift_user_data__user(self, value, record: UserCapability):
+        return UserUtils.build_html_link_for_viewer(
+            record.shift_user_data.user, self.request.user
+        )
+
+
+class UserCapabilityListView(
+    LoginRequiredMixin,
+    ExportMixin,
+    SingleTableView,
+):
+    model = UserCapability
+    table_class = UserCapabilityTable
+    template_name = "shifts/usercapability_overview.html"
+    context_object_name = "capabilities"
+    paginate_by = 25
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if not self.request.user.has_perm(PERMISSION_SHIFTS_MANAGE):
+            queryset = queryset.filter(
+                shift_user_data__id=self.request.user.shift_user_data.id
+            )
+
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            queryset = queryset.filter(shift_user_data__id=shift_user_data_id)
+
+        capability_id = self.request.GET.get("capability_id", None)
+        if capability_id is not None:
+            queryset = queryset.filter(capability__id=capability_id)
+
+        return queryset.select_related(
+            "shift_user_data__user",
+            "capability",
+        ).prefetch_related(
+            "capability__capabilitytranslation_set",
+            "validity_periods",
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        shift_user_data_id = self.request.GET.get("shift_user_data_id", None)
+        if shift_user_data_id is not None:
+            shift_user_data = ShiftUserData.objects.get(pk=shift_user_data_id)
+            context["shift_user_data"] = shift_user_data
+            context["target_user"] = shift_user_data.user
+
+            context["page_title"] = _("Capabilities of %(name)s") % {
+                "name": UserUtils.build_display_name(
+                    shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+            }
+            context["card_title"] = _("Capabilities of %(name)s") % {
+                "name": UserUtils.build_display_name(
+                    shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
+                )
+            }
+        else:
+            context["page_title"] = _("Capabilities")
+            context["card_title"] = _("Capabilities")
+
+        return context
+
+
 class UserCapabilityValidityTable(django_tables2.Table):
     """Tabelle für Gültigkeitszeiträume einer Capability."""
 
@@ -728,8 +837,7 @@ class UserCapabilityValidityListView(
 ):
     model = UserCapabilityValidity
     table_class = UserCapabilityValidityTable
-    template_name = "shifts/usercapability_overview.html"
-    context_object_name = "capabilities"
+    template_name = "shifts/usercapabilityvalidity_overview.html"
 
     def get_queryset(self):
         queryset = super().get_queryset()

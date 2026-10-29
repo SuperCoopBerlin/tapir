@@ -1,0 +1,51 @@
+{% extends "core/base.html" %}
+{% load render_table from django_tables2 %}
+{% load django_bootstrap5 %}
+{% load i18n %}
+{% load static %}
+{% load querystring_replace from django_tables2 %}
+{% load export_url from django_tables2 %}
+{% load core %}
+{% block title %}
+    {{ page_title }}
+{% endblock title %}
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'coop/css/coop.css' %}">
+{% endblock head %}
+{% block content %}
+    <div class="card mb-2">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5>{{ card_title }}</h5>
+            <div>
+                {% if shift_user_data and perms.shifts.manage %}
+                    <a class="{% tapir_button_link_to_action %}"
+                       href="{% url 'shifts:usercapability_create' target_user.pk %}">
+                        <span class="material-icons">person_add</span>
+                        {% translate "Register new expirable capability" %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if filter %}
+                <li class="list-group-item">
+                    <form action="" method="get" class="form member-filter-form">
+                        <div class="member-filter-form-filters">{% bootstrap_form filter.form %}</div>
+                        <div class="member-filter-form-buttons">
+                            <button type="submit" class="{% tapir_button_link %}">
+                                <span class="material-icons">filter_alt</span>{% translate "Filter" %}
+                            </button>
+                            <a class="{% tapir_button_link %}"
+                               href="{% url 'shifts:usercapability_overview' %}">
+                                <span class="material-icons">clear</span>
+                                {% translate "Clear all filters" %}
+                            </a>
+                        </div>
+                    </form>
+                </li>
+            {% endif %}
+            <li class="list-group-item">{% render_table table %}</li>
+        </ul>
+    </div>
+{% endblock content %}

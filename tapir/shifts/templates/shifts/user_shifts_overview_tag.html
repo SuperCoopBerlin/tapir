@@ -9,11 +9,6 @@
         <span class="d-flex justify-content-end flex-fill flex-wrap gap-2">
             {% if perms.shifts.manage and user.shift_user_data %}
                 <a class="{% tapir_button_link_to_action %}"
-                   id="edit_capabilities"
-                   href="{% url 'shifts:usercapability_overview' %}?shift_user_data_id={{ user.shift_user_data.id }}">
-                    <span class="material-icons button-icon">school</span>{% translate "Qualification validity periods" %}
-                </a>
-                <a class="{% tapir_button_link_to_action %}"
                    id="edit_shift_user_data_button"
                    href="{% url 'shifts:edit_shift_user_data' user.shift_user_data.pk %}">
                     <span class="material-icons button-icon">edit</span>{% translate "Edit" %}
@@ -108,6 +103,12 @@
             {% else %}
                 {% translate "None" context "No qualifications" %}
             {% endif %}
+            <a href="{% url 'shifts:usercapability_overview' %}?shift_user_data_id={{ user.shift_user_data.id }}"
+               class="{% tapir_button_link %} btn-sm"
+               id="capabalities_button">
+                <span class="material-icons">visibility</span>
+                {% translate "View all" %}
+            </a>
         </div>
     </div>
     <div class="row m-1">

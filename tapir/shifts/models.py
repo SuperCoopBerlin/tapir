@@ -1174,7 +1174,8 @@ class UserCapability(models.Model):
         return None
 
     def is_active(self) -> bool:
-
+        if not self.capability.get_current_translation().can_expire:
+            return True
         current = self.get_current_validity_period()
         return current is not None
 
