@@ -3,8 +3,12 @@ from django.utils import timezone
 
 from tapir.accounts.models import TapirUser
 from tapir.accounts.tests.factories.factories import TapirUserFactory
-from tapir.shifts.models import ShiftAttendanceTemplate
-from tapir.shifts.tests.factories import CapabilityFactory, ShiftTemplateFactory
+from tapir.shifts.models import ShiftAttendance, ShiftAttendanceTemplate
+from tapir.shifts.tests.factories import (
+    CapabilityFactory,
+    ShiftFactory,
+    ShiftTemplateFactory,
+)
 
 
 class TestRegisteredToABCDShiftSlotWithCapability(TestCase):
@@ -16,6 +20,7 @@ class TestRegisteredToABCDShiftSlotWithCapability(TestCase):
 
         slot_template = shift_template.slot_templates.get()
         slot_template.required_capabilities.set([capability])
+        slot_template.save()
         shift_template.create_shift_if_necessary(timezone.now().date())
         ShiftAttendanceTemplate.objects.create(
             user=user,
@@ -36,6 +41,7 @@ class TestRegisteredToABCDShiftSlotWithCapability(TestCase):
         shift_template = ShiftTemplateFactory.create()
         slot_template = shift_template.slot_templates.get()
         slot_template.required_capabilities.set([capability])
+        slot_template.save()
         shift_template.create_shift_if_necessary(timezone.now().date())
         ShiftAttendanceTemplate.objects.create(
             user=user,
@@ -52,14 +58,14 @@ class TestRegisteredToABCDShiftSlotWithCapability(TestCase):
         user = TapirUserFactory.create()
         capability = CapabilityFactory.create()
 
-        shift_template = ShiftTemplateFactory.create()
+        shift = ShiftFactory.create()
 
-        slot_template = shift_template.slot_templates.get()
-        slot_template.required_capabilities.set([capability])
-        shift_template.create_shift_if_necessary(timezone.now().date())
-        ShiftAttendanceTemplate.objects.create(
+        slot = shift.slots.first()
+        slot.required_capabilities.set([capability])
+        slot.save()
+        ShiftAttendance.objects.create(
             user=user,
-            slot_template=slot_template,
+            slot=slot,
         )
 
         result = TapirUser.objects.registered_to_shift_slot_with_capability(capability)
@@ -74,6 +80,7 @@ class TestRegisteredToABCDShiftSlotWithCapability(TestCase):
         shift_template = ShiftTemplateFactory.create()
         slot_template = shift_template.slot_templates.get()
         slot_template.required_capabilities.set([capability])
+        slot_template.save()
         shift_template.create_shift_if_necessary(timezone.now().date())
         ShiftAttendanceTemplate.objects.create(
             user=user,
