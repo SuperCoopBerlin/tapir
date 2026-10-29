@@ -873,19 +873,23 @@ class UserCapabilityValidityListView(
             context["shift_user_data"] = shift_user_data
             context["target_user"] = shift_user_data.user
 
-            context["page_title"] = _("Expirable capabilities of %(name)s") % {
+            context["page_title"] = _(
+                "Validity periods for qualifications of %(name)s"
+            ) % {
                 "name": UserUtils.build_display_name(
                     shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
                 )
             }
-            context["card_title"] = _("Expirable capabilities of %(name)s") % {
+            context["card_title"] = _(
+                "Validity periods for qualifications %(name)s"
+            ) % {
                 "name": UserUtils.build_display_name(
                     shift_user_data.user, UserUtils.DISPLAY_NAME_TYPE_FULL
                 )
             }
         else:
-            context["page_title"] = _("Expirable capabilities")
-            context["card_title"] = _("Expirable capabilities")
+            context["page_title"] = _("Validity periods for qualifications")
+            context["card_title"] = _("Validity periods for qualifications")
 
         return context
 

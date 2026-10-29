@@ -39,6 +39,11 @@
                 <a class="{% tapir_button_link %}"
                    href="{% url 'shifts:usercapability_overview' %}">
                     <span class="material-icons">school</span>
+                    {% translate "Qualifications" %}
+                </a>
+                <a class="{% tapir_button_link %}"
+                   href="{% url 'shifts:usercapabilityvalidity_list' %}">
+                    <span class="material-icons">school</span>
                     {% translate "Qualification validity periods" %}
                 </a>
             </div>
