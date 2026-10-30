@@ -955,6 +955,11 @@ class UserCapabilityValidityForm(forms.ModelForm):
             overlapping = UserCapabilityValidity.objects.filter(
                 user_capability=user_capability,
             ).exclude(Q(end_date__lt=start_date) | Q(start_date__gt=end_date))
+
+            # Exclude the current instance when editing
+            if self.instance.pk:
+                overlapping = overlapping.exclude(pk=self.instance.pk)
+
             if overlapping.exists():
                 raise ValidationError(
                     _("This time period overlaps with an existing assignment.")
