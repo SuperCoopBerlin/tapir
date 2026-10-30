@@ -1138,7 +1138,13 @@ class UserCapability(models.Model):
         ).first()
 
     def get_status(self):
-        if not self.is_active():
+        today = timezone.now().date()
+        current = self.get_current_validity_period()
+
+        if current is None:
+            future = self.validity_periods.filter(start_date__gt=today).first()
+            if future is not None:
+                return CapabilityStatus.NOT_STARTED
             return CapabilityStatus.EXPIRED
 
         days_left = self.time_until_expiration()
@@ -1225,7 +1231,12 @@ class UserCapabilityValidity(DurationModelMixin, models.Model):
         return self.end_date - today
 
     def get_status(self):
-        if not self.is_active:
+        today = timezone.now().date()
+
+        if today < self.start_date:
+            return CapabilityStatus.NOT_STARTED
+
+        if today > self.end_date:
             return CapabilityStatus.EXPIRED
 
         days_left = self.time_until_expiration()
