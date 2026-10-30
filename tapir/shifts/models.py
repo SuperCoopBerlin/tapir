@@ -1197,9 +1197,6 @@ class UserCapability(models.Model):
 
         return current.end_date
 
-    def is_active(self) -> bool:
-        return self.get_status() == CapabilityStatus.ACTIVE
-
     def time_until_expiration(self) -> timedelta | None:
         effective_end_date = self.get_effective_end_date()
         if effective_end_date is None:
@@ -1211,7 +1208,7 @@ class UserCapability(models.Model):
     def get_display(self) -> str:
         name = self.capability.get_current_translation().name
 
-        if not self.get_status() == CapabilityStatus.ACTIVE:
+        if self.get_status() != CapabilityStatus.ACTIVE:
             return f"❌ {name}"
 
         if self.get_status() == CapabilityStatus.EXPIRES_SOON:
@@ -1235,12 +1232,6 @@ class UserCapabilityValidity(DurationModelMixin, models.Model):
 
     def __str__(self):
         return f"{self.user_capability} ({self.start_date} - {self.end_date})"
-
-    @property
-    def is_active(self) -> bool:
-        """Ist dieser Zeitraum aktuell gültig?"""
-        today = timezone.now().date()
-        return self.start_date <= today <= self.end_date
 
     def time_until_expiration(self) -> timedelta | None:
         if self.end_date is None:
