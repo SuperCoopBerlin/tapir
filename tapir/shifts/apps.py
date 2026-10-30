@@ -76,6 +76,9 @@ class ShiftConfig(AppConfig):
     @staticmethod
     def register_emails():
         from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
+        from tapir.shifts.emails.capability_expires_email import (
+            CapabilityExpiresEmailBuilder,
+        )
         from tapir.shifts.emails.flying_member_registration_reminder_email import (
             FlyingMemberRegistrationReminderEmailBuilder,
         )
@@ -121,3 +124,4 @@ class ShiftConfig(AppConfig):
         )
         TapirEmailBuilderBase.register_email(ShiftWatchEmailBuilder)
         TapirEmailBuilderBase.register_email(TeamleaderPageUpdatedEmail)
+        TapirEmailBuilderBase.register_email(CapabilityExpiresEmailBuilder)
