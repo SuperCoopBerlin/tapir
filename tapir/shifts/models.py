@@ -1128,11 +1128,6 @@ class UserCapability(models.Model):
     def __str__(self):
         return f"{self.shift_user_data.user} - {self.capability.get_current_translation().name}"
 
-    def clean(self):
-        """Validate that start_date is before end_date."""
-        if self.end_date and self.start_date > self.end_date:
-            raise ValidationError(_("Start date must be before end date."))
-
     def get_current_validity_period(self) -> UserCapabilityValidity | None:
         """Gibt den aktuellen (aktiven) Gültigkeitszeitraum zurück."""
         today = timezone.now().date()
@@ -1199,14 +1194,13 @@ class UserCapability(models.Model):
         return name
 
 
-class UserCapabilityValidity(models.Model):
+class UserCapabilityValidity(DurationModelMixin, models.Model):
     user_capability = models.ForeignKey(
         UserCapability,
         on_delete=models.CASCADE,
         related_name="validity_periods",
     )
-    start_date = models.DateField()
-    end_date = models.DateField()
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -1214,7 +1208,7 @@ class UserCapabilityValidity(models.Model):
         ordering = ["start_date"]
         constraints = [
             models.CheckConstraint(
-                check=models.Q(start_date__lte=models.F("end_date")),
+                condition=models.Q(start_date__lte=models.F("end_date")),
                 name="start_before_end",
             ),
         ]
