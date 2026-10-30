@@ -1147,8 +1147,7 @@ class UserCapability(models.Model):
                 return CapabilityStatus.NOT_STARTED
             return CapabilityStatus.EXPIRED
 
-        days_left = self.time_until_expiration()
-        if days_left is not None and days_left < timedelta(weeks=8):
+        if self.expires_soon():
             return CapabilityStatus.EXPIRES_SOON
 
         return CapabilityStatus.ACTIVE
@@ -1167,13 +1166,24 @@ class UserCapability(models.Model):
 
     def get_effective_end_date(self) -> datetime.date | None:
         """
-        Returns the effective end date of this User-capability. Returns None (never expires or placeholder).
+        Returns the effective end date of this User-capability.
+        Returns None if there is a consecutive validity period without gap.
         """
         current = self.get_current_validity_period()
-        if current is not None and current.end_date:
-            return current.end_date
+        if current is None:
+            return None
 
-        return None
+        if current.end_date is None:
+            return None
+
+        # check if following validity without gap exists
+        next_validity = self.validity_periods.filter(
+            start_date=current.end_date + timedelta(days=1)
+        ).first()
+        if next_validity is not None:
+            return next_validity.end_date
+
+        return current.end_date
 
     def is_active(self) -> bool:
         if not self.capability.get_current_translation().can_expire:
