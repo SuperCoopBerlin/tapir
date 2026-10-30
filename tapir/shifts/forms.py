@@ -7,6 +7,7 @@ from django.forms import (
     BooleanField,
     CharField,
     CheckboxSelectMultiple,
+    DateField,
     ModelChoiceField,
     ModelMultipleChoiceField,
 )
@@ -914,14 +915,21 @@ class UserCapabilityValidityForm(forms.ModelForm):
         label=_("Capability Assignment"),
         help_text=_("Select an already assigned capability"),
     )
+    start_date = DateField(
+        label=_("Start date"),
+        required=True,
+        widget=DateInputTapir,
+    )
+    end_date = DateField(
+        label=_("End date"),
+        required=False,
+        widget=DateInputTapir,
+        help_text=_("Leave empty to create validity with the default validity period"),
+    )
 
     class Meta:
         model = UserCapabilityValidity
         fields = ["user_capability", "start_date", "end_date"]
-        widgets = {
-            "start_date": DateInputTapir(),
-            "end_date": DateInputTapir(),
-        }
 
     def __init__(self, *args, **kwargs):
         self.target_user = kwargs.pop("target_user", None)
@@ -946,6 +954,16 @@ class UserCapabilityValidityForm(forms.ModelForm):
         start_date = cleaned_data.get("start_date")
         end_date = cleaned_data.get("end_date")
         user_capability = cleaned_data.get("user_capability")
+
+        if start_date and not end_date and user_capability:
+            capability = user_capability.capability.get_current_translation()
+
+            if capability and capability.default_validity:
+
+                end_date = start_date + datetime.timedelta(
+                    days=capability.default_validity * 30
+                )
+                cleaned_data["end_date"] = end_date
 
         if start_date and end_date and start_date > end_date:
             raise ValidationError(_("Start date must be before end date."))
