@@ -1153,7 +1153,7 @@ class UserCapability(models.Model):
         today = timezone.now().date()
         current = self.get_current_validity_period()
 
-        if current is None:
+        if current is None and self.capability.get_current_translation().can_expire:
             future = self.validity_periods.filter(start_date__gt=today).first()
             if future is not None:
                 return CapabilityStatus.NOT_STARTED
@@ -1198,10 +1198,7 @@ class UserCapability(models.Model):
         return current.end_date
 
     def is_active(self) -> bool:
-        if not self.capability.get_current_translation().can_expire:
-            return True
-        current = self.get_current_validity_period()
-        return current is not None
+        return self.get_status() == CapabilityStatus.ACTIVE
 
     def time_until_expiration(self) -> timedelta | None:
         effective_end_date = self.get_effective_end_date()
@@ -1214,7 +1211,7 @@ class UserCapability(models.Model):
     def get_display(self) -> str:
         name = self.capability.get_current_translation().name
 
-        if not self.is_active():
+        if not self.get_status() == CapabilityStatus.ACTIVE:
             return f"❌ {name}"
 
         if self.get_status() == CapabilityStatus.EXPIRES_SOON:
