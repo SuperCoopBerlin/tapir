@@ -1137,6 +1137,10 @@ class UserCapability(models.Model):
             end_date__gte=today,
         ).first()
 
+    def expires_soon(self):
+        days_left = self.time_until_expiration()
+        return days_left is not None and days_left < timedelta(weeks=8)
+
     def get_status(self):
         today = timezone.now().date()
         current = self.get_current_validity_period()
@@ -1240,6 +1244,10 @@ class UserCapabilityValidity(DurationModelMixin, models.Model):
         today = timezone.now().date()
         return self.end_date - today
 
+    def expires_soon(self):
+        days_left = self.time_until_expiration()
+        return days_left is not None and days_left < timedelta(weeks=8)
+
     def get_status(self):
         today = timezone.now().date()
 
@@ -1249,8 +1257,7 @@ class UserCapabilityValidity(DurationModelMixin, models.Model):
         if today > self.end_date:
             return CapabilityStatus.EXPIRED
 
-        days_left = self.time_until_expiration()
-        if days_left is not None and days_left < timedelta(weeks=8):
+        if self.expires_soon():
             return CapabilityStatus.EXPIRES_SOON
 
         return CapabilityStatus.ACTIVE
