@@ -1206,12 +1206,6 @@ class UserCapabilityValidity(DurationModelMixin, models.Model):
 
     class Meta:
         ordering = ["start_date"]
-        constraints = [
-            models.CheckConstraint(
-                condition=models.Q(start_date__lte=models.F("end_date")),
-                name="start_before_end",
-            ),
-        ]
 
     def __str__(self):
         return f"{self.user_capability} ({self.start_date} - {self.end_date})"
