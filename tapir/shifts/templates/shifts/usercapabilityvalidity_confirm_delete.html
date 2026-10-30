@@ -15,9 +15,9 @@
                 <form method="post">
                     {% csrf_token %}
                     <p>
-                        {% blocktranslate with capability=object.user_capability.capability.get_current_translation.name %}
-                        Are you sure you want to delete <b>{{ capability }}</b>?
-                                            {% endblocktranslate %}
+                        {% blocktranslate trimmed %}
+                            Are you sure you want to delete <b>{{ object }}</b>?
+                        {% endblocktranslate %}
                     </p>
                     {{ form }}
                     <div class="d-flex justify-content-end">

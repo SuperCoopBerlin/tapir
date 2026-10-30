@@ -942,4 +942,10 @@ class UserCapabilityValidityDeleteView(
     permission_required = PERMISSION_SHIFTS_MANAGE
 
     def get_success_url(self):
-        return reverse("shifts:usercapability_overview")
+        shift_user_data = get_object_or_404(
+            UserCapabilityValidity, pk=self.kwargs["pk"]
+        ).user_capability.shift_user_data
+        return (
+            reverse("shifts:usercapabilityvalidity_list")
+            + f"?shift_user_data_id={shift_user_data.id}"
+        )
