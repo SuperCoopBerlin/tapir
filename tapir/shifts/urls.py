@@ -263,7 +263,7 @@ urlpatterns = [
     path(
         "capabilities/validities/<int:pk>/add/",
         views.UserCapabilityValidityCreateView.as_view(),
-        name="usercapability_create",
+        name="usercapabilityvalidity_create",
     ),
     path(
         "capabilities/validities/<int:pk>/delete/",

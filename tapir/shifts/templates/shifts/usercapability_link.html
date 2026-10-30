@@ -6,7 +6,7 @@
             {% translate "Validity periods" %}
         </a>
     {% else %}
-        <a href="{% url 'shifts:usercapability_create' record.shift_user_data.id %}">
+        <a href="{% url 'shifts:usercapabilityvalidity_create' record.shift_user_data.id %}">
             {% translate "Create validity period" %}
         </a>
     {% endif %}
