@@ -3,13 +3,13 @@ from django.utils.translation import gettext_lazy as _
 from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
-from tapir.shifts.models import UserCapabilityValidity
+from tapir.shifts.models import UserCapability
 
 
 class CapabilityExpiresEmailBuilder(TapirEmailBuilderBase):
-    def __init__(self, usercapabilityvalidity: UserCapabilityValidity):
+    def __init__(self, usercapability: UserCapability):
         super().__init__()
-        self.usercapabilityvalidity = usercapabilityvalidity
+        self.usercapability = usercapability
 
     @classmethod
     def get_unique_id(cls) -> str:
@@ -35,22 +35,22 @@ class CapabilityExpiresEmailBuilder(TapirEmailBuilderBase):
 
     def get_extra_context(self) -> dict:
         return {
-            "capability": self.usercapabilityvalidity.user_capability.capability,
-            "end_date": self.usercapabilityvalidity.end_date,
+            "capability": self.usercapability.capability,
+            "end_date": self.usercapability.get_effective_end_date(),
             "url_member_manual": URL_MEMBER_MANUAL,
         }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
-        capabilityvalidity = UserCapabilityValidity.objects.first()
-        if not capabilityvalidity:
+        capability = UserCapability.objects.first()
+        if not capability:
             return None
         share_owner = (
             ShareOwner.objects.filter(user__isnull=False).order_by("?").first()
         )
         if not share_owner:
             return None
-        mail = cls(usercapabilityvalidity=capabilityvalidity)
+        mail = cls(usercapability=capability)
         mail.get_full_context(
             share_owner=share_owner,
             member_infos=share_owner.get_info(),

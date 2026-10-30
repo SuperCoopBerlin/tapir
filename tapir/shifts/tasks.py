@@ -40,3 +40,8 @@ def send_shift_watch_mail():
 @shared_task
 def send_reminder_mail_about_old_pending_attendances():
     call_command("send_reminder_mail_about_old_pending_attendances")
+
+
+@shared_task
+def send_capability_expires_mail():
+    call_command("send_capability_expires_mail")

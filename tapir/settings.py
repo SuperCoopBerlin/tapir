@@ -154,6 +154,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "tapir.shifts.tasks.run_freeze_checks",
         "schedule": celery.schedules.crontab(minute=0, hour=1),
     },
+    "send_capability_expires_mail": {
+        "task": "tapir.shifts.tasks.send_capability_expires_mail",
+        "schedule": celery.schedules.crontab(minute=0, hour=2),
+    },
     "process_purchase_files": {
         "task": "tapir.statistics.tasks.process_purchase_files",
         "schedule": celery.schedules.crontab(minute=0, hour=3),
