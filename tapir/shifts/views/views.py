@@ -925,7 +925,11 @@ class UserCapabilityValidityCreateView(
         return kwargs
 
     def get_success_url(self):
-        return reverse("shifts:usercapability_overview")
+        shift_user_data = get_object_or_404(ShiftUserData, pk=self.kwargs["pk"])
+        return (
+            reverse("shifts:usercapabilityvalidity_list")
+            + f"?shift_user_data_id={shift_user_data.id}"
+        )
 
 
 class UserCapabilityValidityDeleteView(
