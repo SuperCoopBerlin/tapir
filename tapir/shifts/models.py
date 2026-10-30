@@ -28,6 +28,7 @@ from tapir.utils.shortcuts import (
     get_monday,
     get_timezone_aware_datetime,
 )
+from tapir.utils.user_utils import UserUtils
 
 
 class ShiftSlotWarning:
@@ -1126,7 +1127,7 @@ class UserCapability(models.Model):
         verbose_name_plural = _("Shift User Capability Assignments")
 
     def __str__(self):
-        return f"{self.shift_user_data.user} - {self.capability.get_current_translation().name}"
+        return f"{self.shift_user_data.user.get_display_name(UserUtils.DISPLAY_NAME_TYPE_FULL)} - {self.capability.get_current_translation().name}"
 
     def get_current_validity_period(self) -> UserCapabilityValidity | None:
         """Gibt den aktuellen (aktiven) Gültigkeitszeitraum zurück."""
