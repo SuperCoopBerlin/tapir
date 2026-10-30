@@ -671,6 +671,7 @@ class UserCapabilityTable(django_tables2.Table):
             "shift_user_data__user",
             "capability__get_current_translation__name",
             "status",
+            "effective_end_date",
             "actions",
         )
         attrs = {"class": TAPIR_TABLE_CLASSES}
@@ -687,6 +688,8 @@ class UserCapabilityTable(django_tables2.Table):
         orderable=False,
     )
 
+    effective_end_date = django_tables2.Column(empty_values=())
+
     actions = django_tables2.TemplateColumn(
         template_name="shifts/usercapability_link.html",
         verbose_name=_("Actions"),
@@ -700,6 +703,9 @@ class UserCapabilityTable(django_tables2.Table):
         return UserUtils.build_html_link_for_viewer(
             record.shift_user_data.user, self.request.user
         )
+
+    def render_effective_end_date(self, value, record: UserCapability):
+        return record.get_effective_end_date()
 
 
 class UserCapabilityListView(
