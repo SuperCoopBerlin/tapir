@@ -1,3 +1,4 @@
+import smtplib
 from unittest.mock import Mock, patch
 
 from django.core import mail
@@ -14,6 +15,7 @@ from tapir.utils.tests_utils import (
     TapirEmailTestMixin,
     TapirFactoryTestBase,
 )
+from tapir.utils.user_utils import UserUtils
 
 
 class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase, TapirEmailTestMixin):
@@ -86,3 +88,29 @@ class TestShiftCancel(PermissionTestMixin, TapirFactoryTestBase, TapirEmailTestM
             sent_mail,
         )
         self.assertIn(self.A_CANCELLATION_REASON, sent_mail.body)
+
+    @patch(
+        "tapir.shifts.services.shift_cancellation_service.SendMailService.send_to_tapir_user"
+    )
+    def test_CancelShiftView_apply_SMTPError(self, mock_send: Mock):
+
+        self.login_as_member_office_user()
+        shift = ShiftFactory.create()
+        tapir_user = TapirUserFactory.create()
+
+        ShiftAttendance.objects.create(user=tapir_user, slot=shift.slots.first())
+
+        mock_send.side_effect = smtplib.SMTPServerDisconnected("Connection lost")
+
+        response = self.client.post(
+            reverse(self.VIEW_NAME_CANCEL_SHIFT, args=[shift.id]),
+            {"cancelled_reason": self.A_CANCELLATION_REASON},
+            follow=True,
+        )
+
+        messages = list(response.context["messages"])
+        self.assertEqual(
+            str(messages[0]),
+            f"The shift has been cancelled but some of the notification mails could not be sent. "
+            f"The following members did not receive an email: {tapir_user.get_display_name(UserUtils.DISPLAY_NAME_TYPE_FULL)}",
+        )

@@ -11,8 +11,7 @@ class ShiftCancellationService:
     """Service for handling canceling a shift and updating attendances for the registered users."""
 
     @staticmethod
-    @transaction.atomic
-    def cancel(shift: Shift, actor: TapirUser | User | None = None):
+    def cancel(shift: Shift, actor: TapirUser | User | None = None) -> list[TapirUser]:
         """Cancels the given shift and updates attendances accordingly.
 
         If the attendance is for an ABCD shift (i.e. has an attendance template
@@ -27,34 +26,47 @@ class ShiftCancellationService:
             shift (Shift): The shift to cancel.
             actor
         """
-        shift.cancelled = True
-        shift.save()
+        attendances_to_notify = []
 
-        for slot in shift.slots.all():
-            attendance = slot.get_valid_attendance()
-            if not attendance:
-                continue
-            if (
-                hasattr(slot.slot_template, "attendance_template")
-                and slot.slot_template.attendance_template.user == attendance.user
-            ):
-                attendance.state = ShiftAttendance.State.MISSED_EXCUSED
-                attendance.excused_reason = "Shift cancelled"
-                attendance.save()
-                attendance.update_shift_account_entry()
-                user_is_registered_to_an_abcd_shift = True
+        with transaction.atomic():
+            shift.cancelled = True
+            shift.save()
 
-            else:
-                attendance.state = ShiftAttendance.State.CANCELLED
-                attendance.save()
-                user_is_registered_to_an_abcd_shift = False
+            for slot in shift.slots.all():
+                attendance = slot.get_valid_attendance()
+                if not attendance:
+                    continue
 
-            email_builder = ShiftCancelledEmail(
-                shift=shift,
-                user_is_registered_to_an_abcd_shift=user_is_registered_to_an_abcd_shift,
-            )
-            SendMailService.send_to_tapir_user(
-                actor=actor,
-                recipient=attendance.user,
-                email_builder=email_builder,
-            )
+                is_abcd_shift = (
+                    hasattr(slot.slot_template, "attendance_template")
+                    and slot.slot_template.attendance_template.user == attendance.user
+                )
+
+                if is_abcd_shift:
+                    attendance.state = ShiftAttendance.State.MISSED_EXCUSED
+                    attendance.excused_reason = "Shift cancelled"
+                    attendance.save()
+                    attendance.update_shift_account_entry()
+                else:
+                    attendance.state = ShiftAttendance.State.CANCELLED
+                    attendance.save()
+
+                attendances_to_notify.append((attendance.user, is_abcd_shift))
+
+        # send mails after transaction
+        failed_users = []
+        for recipient, is_abcd_shift in attendances_to_notify:
+            try:
+                email_builder = ShiftCancelledEmail(
+                    shift=shift,
+                    user_is_registered_to_an_abcd_shift=is_abcd_shift,
+                )
+                SendMailService.send_to_tapir_user(
+                    actor=actor,
+                    recipient=recipient,
+                    email_builder=email_builder,
+                )
+            except Exception:
+                failed_users.append(recipient)
+
+        return failed_users

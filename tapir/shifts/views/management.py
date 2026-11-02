@@ -38,6 +38,7 @@ from tapir.shifts.models import (
 from tapir.shifts.services.shift_cancellation_service import ShiftCancellationService
 from tapir.shifts.services.shift_generator import ShiftGenerator
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
+from tapir.utils.user_utils import UserUtils
 
 
 class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -107,7 +108,21 @@ class CancelShiftView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         shift: Shift = form.instance
-        ShiftCancellationService.cancel(shift, self.request.user)
+        failed = ShiftCancellationService.cancel(shift, self.request.user)
+        if failed:
+            messages.warning(
+                self.request,
+                _(
+                    "The shift has been cancelled but some of the notification mails could not be sent. "
+                    "The following members did not receive an email: %(users)s"
+                )
+                % {
+                    "users": ", ".join(
+                        u.get_display_name(UserUtils.DISPLAY_NAME_TYPE_FULL)
+                        for u in failed
+                    )
+                },
+            )
         return response
 
 
