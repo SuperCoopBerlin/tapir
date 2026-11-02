@@ -27,7 +27,12 @@ from tapir.coop.models import (
 from tapir.coop.services.membership_pause_service import MembershipPauseService
 from tapir.coop.services.number_of_shares_service import NumberOfSharesService
 from tapir.log.models import LogEntry
-from tapir.settings import GROUP_MEMBER_OFFICE, GROUP_VORSTAND
+from tapir.settings import (
+    GROUP_MEMBER_OFFICE,
+    GROUP_VORSTAND,
+    REG_GROUP_BASE_DN,
+    REG_PERSON_BASE_DN,
+)
 from tapir.shifts.models import (
     CreateShiftAttendanceTemplateLogEntry,
     Shift,
@@ -441,13 +446,13 @@ def clear_ldap():
     connection = get_admin_ldap_connection()
     for group_name in settings.LDAP_GROUPS:
         search = LDAPSearch(
-            "ou=groups,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE, f"(cn={group_name})"
+            REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_name})"
         )
         result = search.execute(connection)
         if result:
             connection.delete_s(build_ldap_group_dn(group_name))
 
-    search = LDAPSearch("ou=people,dc=supercoop,dc=de", ldap.SCOPE_SUBTREE)
+    search = LDAPSearch(REG_PERSON_BASE_DN, ldap.SCOPE_SUBTREE)
     search_results = search.execute(connection)
     for search_result in search_results:
         user_dn = search_result[0]
