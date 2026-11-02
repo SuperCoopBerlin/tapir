@@ -72,11 +72,6 @@ class SendExceptionsToSlackMiddleware:
             chain.from_iterable(({"type": "divider"}, section) for section in sections)
         )
 
-        data = {
-            "channel": "C079AQN3HE2",
-            "blocks": sections_and_dividers,
-        }
-
         try:
             client.chat_postMessage(channel="C079AQN3HE2", blocks=sections_and_dividers)
         except SlackApiError as e:
