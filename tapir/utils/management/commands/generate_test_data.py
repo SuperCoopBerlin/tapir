@@ -1,3 +1,5 @@
+import logging
+
 from django.core.management.base import BaseCommand
 
 from tapir import settings
@@ -9,6 +11,8 @@ from tapir.utils.management.commands.generate_test_data_functions import (
     generate_test_users,
     reset_all_test_data,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class Command(BaseCommand):
@@ -51,7 +55,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
-            print(
+            logger.warning(
                 "This is not a debug instance. Are you sure you want to run commands that generate test data?"
             )
             return

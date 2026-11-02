@@ -124,4 +124,4 @@ class Command(BaseCommand):
                 ]
             )
 
-        print(result.getvalue())
+        print(result.getvalue())  # noqa: T201

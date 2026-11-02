@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime
+import logging
 import os
 from collections.abc import Callable
 from typing import TYPE_CHECKING
@@ -22,6 +23,7 @@ from django_auth_ldap.config import LDAPSearch
 from ldap import modlist
 
 from tapir import settings
+from tapir.log.models import UpdateModelLogEntry
 from tapir.settings import (
     AUTH_LDAP_BIND_DN,
     AUTH_LDAP_BIND_PASSWORD,
@@ -29,9 +31,9 @@ from tapir.settings import (
     REG_GROUP_BASE_DN,
 )
 
+logger = logging.getLogger(__name__)
 if TYPE_CHECKING:
     from tapir.accounts.models import TapirUser
-from tapir.log.models import UpdateModelLogEntry
 
 
 def safe_redirect(redirect_url, default, request):
@@ -101,7 +103,7 @@ def setup_ssh_for_biooffice_storage():
 
 def send_file_to_storage_server(filename: str, username: str):
     if settings.DEBUG:
-        print(
+        logger.info(
             f"File '{filename}' won't be sent to the storage server because this is a debug instance."
         )
         return

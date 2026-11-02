@@ -1,6 +1,7 @@
 import csv
 import datetime
 import io
+import logging
 from dataclasses import dataclass
 
 from django.db import transaction
@@ -17,6 +18,8 @@ from tapir.shifts.models import (
     ShiftTemplate,
 )
 from tapir.utils.user_utils import UserUtils
+
+logger = logging.getLogger(__name__)
 
 
 class SlotModificationService:
@@ -68,10 +71,10 @@ class SlotModificationService:
         changes = cls.build_changes(
             parameter_sets, excluded_shift_template_ids, excluded_slot_template_ids
         )
-        print(cls.get_affected_members(changes))
+        logger.info(cls.get_affected_members(changes))
 
         if dry_run:
-            print("This is a dry run, no changes will actually be applied.")
+            logger.info("This is a dry run, no changes will actually be applied.")
             return
 
         for parameter_set, slots_templates in changes.items():

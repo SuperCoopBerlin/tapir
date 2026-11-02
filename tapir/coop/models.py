@@ -759,7 +759,6 @@ class MembershipPauseCreatedLogEntry(ModelLogEntry):
         return context_data
 
     def render(self):
-        print(self.values)
         return super().render()
 
 
