@@ -60,14 +60,13 @@
                     <h5>#{{ forloop.counter }}</h5>
                 </td>
                 <td>
-                    {{ slot.name }}
-                    <br />
-                    <br />
-                    <span class="small-text">
+                    <div>{{ slot.name }}</div>
+                    <div>&nbsp;</div>
+                    <div class="small-text">
                         {% if slot.required_capabilities|length > 0 %}
                             {% translate "Required qualifications: " %}{{ slot.get_required_capabilities_display }}
                         {% endif %}
-                    </span>
+                    </div>
                 </td>
                 <td>
                     {% with slot.get_valid_attendance as attendance %}
@@ -93,8 +92,7 @@
                             {% if attendance.state == attendance.State.LOOKING_FOR_STAND_IN %}
                                 ({% translate "Looking for a stand-in" %})
                             {% endif %}
-                            <br />
-                            <br />
+                            <div>&nbsp;</div>
                             {% if attendance.user.shift_user_data.capabilities|length > 0 %}
                                 <span class="small-text">
                                     {% translate "Has qualifications: " %}{{ attendance.user.shift_user_data.get_capabilities_display }}
