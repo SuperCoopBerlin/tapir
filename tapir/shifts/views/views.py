@@ -499,7 +499,9 @@ class CreateRecurringShiftWatchView(
         return response
 
 
-class RecurringShiftwatchListView(LoginRequiredMixin, generic.ListView):
+class RecurringShiftwatchListView(
+    LoginRequiredMixin, PermissionRequiredMixin, generic.ListView
+):
 
     template_name = "shifts/shiftwatch_overview.html"
     context_object_name = "recurringshiftwatches"
