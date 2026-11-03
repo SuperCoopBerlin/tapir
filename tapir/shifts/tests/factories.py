@@ -6,6 +6,8 @@ import factory
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.models import (
     WEEKDAY_CHOICES,
+    Capability,
+    CapabilityTranslation,
     Shift,
     ShiftSlot,
     ShiftSlotTemplate,
@@ -115,4 +117,30 @@ class ShiftWatchFactory(factory.django.DjangoModelFactory[ShiftWatch]):
             self.staffing_status = values
             return
         self.staffing_status = values
+        self.save()
+
+
+class CapabilityTranslationFactory(
+    factory.django.DjangoModelFactory[CapabilityTranslation]
+):
+    class Meta:
+        model = CapabilityTranslation
+
+    name = factory.Faker("sentence")
+    description = factory.Faker("bs")
+
+
+class CapabilityFactory(factory.django.DjangoModelFactory[Capability]):
+    class Meta:
+        model = Capability
+        skip_postgeneration_save = True
+
+    @factory.post_generation
+    def translations(self: Capability, create, languages, **kwargs):
+        if not create:
+            return
+        if languages is None:
+            languages = ["en"]
+        for language in languages:
+            CapabilityTranslationFactory.create(capability=self, language=language)
         self.save()

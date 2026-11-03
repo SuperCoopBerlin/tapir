@@ -20,8 +20,8 @@ from tapir.settings import PERMISSION_SHIFTS_MANAGE
 from tapir.shifts.config import FEATURE_FLAG_SHIFT_PARTNER
 from tapir.shifts.models import (
     SHIFT_SLOT_WARNING_CHOICES,
-    SHIFT_USER_CAPABILITY_CHOICES,
     WEEKDAY_CHOICES,
+    Capability,
     RecurringShiftWatch,
     Shift,
     ShiftAccountEntry,
@@ -116,18 +116,38 @@ class ShiftDeleteForm(forms.ModelForm):
         return super().clean()
 
 
+def get_capability_choices():
+    return {
+        capability.id: capability.get_current_translation().name
+        for capability in Capability.objects.all()
+    }
+
+
 class ShiftSlotForm(forms.ModelForm):
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
+        widget=CheckboxSelectMultiple,
+        label=_("Qualifications"),
+        required=False,
+    )
+
     class Meta:
         model = ShiftSlot
         fields = ["name", "required_capabilities", "warnings"]
         widgets = {
-            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
-            ),
             "warnings": forms.widgets.CheckboxSelectMultiple(
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),
         }
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.fields["required_capabilities"].choices = get_capability_choices()
+        if self.instance and self.instance.id:
+            self.fields["required_capabilities"].initial = (
+                self.instance.required_capabilities.values_list("id", flat=True)
+            )
 
 
 class TapirUserChoiceField(ModelChoiceField):
@@ -180,10 +200,11 @@ class MissingCapabilitiesWarningMixin(forms.Form):
             "confirm_missing_capabilities" in self.cleaned_data
             and not self.cleaned_data["confirm_missing_capabilities"]
         ):
+            user_capabilities = set(user_to_register.shift_user_data.capabilities.all())
             missing_capabilities = [
-                _(SHIFT_USER_CAPABILITY_CHOICES[capability])
+                capability.get_current_translation().name
                 for capability in self.get_required_capabilities()
-                if capability not in user_to_register.shift_user_data.capabilities
+                if capability not in user_capabilities
             ]
             if len(missing_capabilities) > 0:
                 error_msg = _(
@@ -280,7 +301,7 @@ class ShiftAttendanceTemplateForm(
         return user
 
     def get_required_capabilities(self):
-        return self.slot_template.required_capabilities
+        return self.slot_template.required_capabilities.all()
 
     def get_shift_object(self) -> Shift | ShiftTemplate:
         return self.slot_template.shift_template
@@ -306,7 +327,7 @@ class RegisterUserToShiftSlotForm(
             )
 
     def get_required_capabilities(self):
-        return self.slot.required_capabilities
+        return self.slot.required_capabilities.all()
 
     def clean_user_to_register(self):
         user_to_register = self.cleaned_data["user"]
@@ -347,17 +368,23 @@ class ShiftUserDataForm(forms.ModelForm):
         required=False,
         widget=HiddenInput,
     )
-    capabilities = forms.MultipleChoiceField(
-        required=False,
-        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+    capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
         widget=CheckboxSelectMultiple,
         label=_("Qualifications"),
+        required=False,
     )
     shift_partner = TapirUserChoiceField(required=False)
 
     def __init__(self, **kwargs):
         self.request_user = kwargs.pop("request_user", None)
         super().__init__(**kwargs)
+
+        self.fields["capabilities"].choices = get_capability_choices()
+        self.fields["capabilities"].initial = [
+            capability.id for capability in self.instance.capabilities.all()
+        ]
+
         if not FeatureFlag.get_flag_value(FEATURE_FLAG_SHIFT_PARTNER):
             self.fields["shift_partner"].disabled = True
             self.fields["shift_partner"].widget = HiddenInput()
@@ -672,9 +699,6 @@ class ShiftSlotTemplateForm(forms.ModelForm):
         model = ShiftSlotTemplate
         fields = ["name", "required_capabilities", "warnings"]
         widgets = {
-            "required_capabilities": forms.widgets.CheckboxSelectMultiple(
-                choices=SHIFT_USER_CAPABILITY_CHOICES.items()
-            ),
             "warnings": forms.widgets.CheckboxSelectMultiple(
                 choices=SHIFT_SLOT_WARNING_CHOICES.items()
             ),
@@ -686,6 +710,20 @@ class ShiftSlotTemplateForm(forms.ModelForm):
         ),
         required=True,
     )
+    required_capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
+        widget=CheckboxSelectMultiple,
+        required=False,
+        label=_("Qualifications"),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["required_capabilities"].choices = get_capability_choices()
+        if self.instance and self.instance.id:
+            self.fields["required_capabilities"].initial = (
+                self.instance.required_capabilities.values_list("id", flat=True)
+            )
 
 
 class ConvertShiftExemptionToMembershipPauseForm(forms.Form):
@@ -727,11 +765,11 @@ class ShiftWatchForm(forms.ModelForm):
         widget=CheckboxSelectMultiple(),
         disabled=False,
     )
-    watched_capabilities = forms.MultipleChoiceField(
+    watched_capabilities = forms.ModelMultipleChoiceField(
         required=False,
-        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
+        queryset=Capability.objects.all(),
         label=_("Notify me when these capabilities become available or unavailable"),
-        widget=CheckboxSelectMultiple(),
+        widget=CheckboxSelectMultiple,
         disabled=False,
         help_text=_(
             "Get notified when someone with specific skills registers or unregisters"
@@ -741,13 +779,15 @@ class ShiftWatchForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         request_user: TapirUser = kwargs.pop("request_user")
         super().__init__(*args, **kwargs)
-
+        self.fields["watched_capabilities"].choices = get_capability_choices()
         last_shiftwatch = (
             ShiftWatch.objects.filter(user=request_user).order_by("-id").first()
         )
         if last_shiftwatch:
             self.initial["staffing_status"] = last_shiftwatch.staffing_status
-            self.initial["watched_capabilities"] = last_shiftwatch.watched_capabilities
+            self.initial["watched_capabilities"] = (
+                last_shiftwatch.watched_capabilities.all()
+            )
         else:
             self.initial["staffing_status"] = get_staffingstatus_defaults()
             self.initial["watched_capabilities"] = []
@@ -786,21 +826,21 @@ class RecurringShiftWatchForm(forms.ModelForm):
     shift_template_group = forms.MultipleChoiceField(
         required=False,
         choices=[(p["name"], p["name"]) for p in ShiftTemplateGroup.NAME_INT_PAIRS],
-        widget=CheckboxSelectMultiple(),
+        widget=CheckboxSelectMultiple,
         label=_("ABCD Week"),
     )
     staffing_status = forms.MultipleChoiceField(
         required=False,
         choices=get_staffingstatus_choices,
         label=_("Shift changes you would like to be informed about"),
-        widget=CheckboxSelectMultiple(),
+        widget=CheckboxSelectMultiple,
         disabled=False,
     )
-    watched_capabilities = forms.MultipleChoiceField(
+    watched_capabilities = forms.ModelMultipleChoiceField(
+        queryset=Capability.objects.all(),
         required=False,
-        choices=SHIFT_USER_CAPABILITY_CHOICES.items(),
         label=_("Notify me when these capabilities become available or unavailable"),
-        widget=CheckboxSelectMultiple(),
+        widget=CheckboxSelectMultiple,
         disabled=False,
         help_text=_(
             "Get notified when someone with specific skills registers or unregisters"
@@ -824,6 +864,10 @@ class RecurringShiftWatchForm(forms.ModelForm):
             "shift_template_group": self.fields["shift_template_group"].label,
             "shift_templates": self.fields["shift_templates"].label,
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["watched_capabilities"].choices = get_capability_choices()
 
     def clean(self):
         cleaned_data = super().clean()

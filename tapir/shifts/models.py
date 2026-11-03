@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import calendar
 import datetime
+from functools import cmp_to_key
 
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -14,41 +15,18 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.html import format_html
+from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 
 from tapir.accounts.models import TapirUser
 from tapir.log.models import LogEntry, ModelLogEntry, UpdateModelLogEntry
-from tapir.utils.models import DurationModelMixin
-from tapir.utils.shortcuts import get_html_link, get_monday, get_timezone_aware_datetime
-
-
-class ShiftUserCapability:
-    SHIFT_COORDINATOR = "shift_coordinator"
-    CASHIER = "cashier"
-    MEMBER_OFFICE = "member_office"
-    BREAD_DELIVERY = "bread_delivery"
-    RED_CARD = "red_card"
-    FIRST_AID = "first_aid"
-    WELCOME_SESSION = "welcome_session"
-    HANDLING_CHEESE = "handling_cheese"
-    TRAIN_CHEESE_HANDLERS = "train_cheese_handlers"
-    INVENTORY = "inventory"
-    NEBENAN_DE_SUPPORT = "nebenan_de_support"
-
-
-SHIFT_USER_CAPABILITY_CHOICES = {
-    ShiftUserCapability.SHIFT_COORDINATOR: _("Teamleader"),
-    ShiftUserCapability.CASHIER: _("Cashier"),
-    ShiftUserCapability.MEMBER_OFFICE: _("Member Office"),
-    ShiftUserCapability.BREAD_DELIVERY: _("Bread Delivery"),
-    ShiftUserCapability.RED_CARD: _("Red Card"),
-    ShiftUserCapability.FIRST_AID: _("First Aid"),
-    ShiftUserCapability.WELCOME_SESSION: _("Welcome Session"),
-    ShiftUserCapability.HANDLING_CHEESE: _("Handling Cheese"),
-    ShiftUserCapability.TRAIN_CHEESE_HANDLERS: _("Train cheese handlers"),
-    ShiftUserCapability.INVENTORY: _("Inventory"),
-    ShiftUserCapability.NEBENAN_DE_SUPPORT: _("Nebenan.de-Support"),
-}
+from tapir.utils.models import PREFERRED_LANGUAGES, DurationModelMixin
+from tapir.utils.shortcuts import (
+    compare_languages_english_goes_first,
+    get_html_link,
+    get_monday,
+    get_timezone_aware_datetime,
+)
 
 
 class ShiftSlotWarning:
@@ -297,24 +275,56 @@ class ShiftTemplate(models.Model):
             )
 
 
+class Capability(models.Model):
+    def get_current_translation(self) -> CapabilityTranslation | None:
+        current_language = get_language()
+        translations = list(self.capabilitytranslation_set.all())
+
+        if len(translations) == 0:
+            return None
+
+        for translation in translations:
+            if translation.language == current_language or not current_language:
+                return translation
+
+        translations.sort(key=cmp_to_key(compare_languages_english_goes_first))
+        return translations[0]
+
+
+class CapabilityTranslation(models.Model):
+    language = models.CharField(
+        _("Language"),
+        choices=PREFERRED_LANGUAGES,
+        default="de",
+        max_length=16,
+    )
+    name = models.CharField(_("Name"), max_length=255)
+    description = models.TextField(_("Description"))
+    capability = models.ForeignKey(Capability, on_delete=models.CASCADE)
+
+
 class RequiredCapabilitiesMixin:
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
     # the data from ShiftSlot and ShiftSlotTemplate to it first
-    def get_required_capabilities_display(self):
+    def get_required_capabilities_display(self: ShiftSlotTemplate | ShiftSlot):
         return ", ".join(
             [
-                str(SHIFT_USER_CAPABILITY_CHOICES[capability])
-                for capability in self.required_capabilities
+                capability.get_current_translation().name
+                for capability in self.required_capabilities.all().prefetch_related(
+                    "capabilitytranslation_set"
+                )
             ]
         )
 
-    def get_required_capabilities_dict(self):
+    def get_required_capabilities_dict(self: ShiftSlotTemplate | ShiftSlot):
         """
-        returns required capabilites as dictionary with corresponding translatiom
+        returns required capabilities as dictionary with corresponding translation
         """
         return {
-            capability: _(SHIFT_USER_CAPABILITY_CHOICES[capability])
-            for capability in self.required_capabilities
+            capability: capability.get_current_translation().name
+            for capability in self.required_capabilities.all().prefetch_related(
+                "capabilitytranslation_set"
+            )
         }
 
 
@@ -328,14 +338,7 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
         on_delete=models.CASCADE,
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
+    required_capabilities = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -366,7 +369,9 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             .exists()
             and
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
+            set(self.required_capabilities.all()).issubset(
+                user.shift_user_data.capabilities.all()
+            )
         )
 
     def get_attendance_template(self):
@@ -386,13 +391,14 @@ class ShiftSlotTemplate(RequiredCapabilitiesMixin, models.Model):
             slot.update_attendance_from_template()
 
     def create_slot_from_template(self, shift: Shift):
-        return ShiftSlot.objects.create(
+        slot = ShiftSlot.objects.create(
             slot_template=self,
             name=self.name,
             shift=shift,
-            required_capabilities=self.required_capabilities,
             warnings=self.warnings,
         )
+        slot.required_capabilities.set(self.required_capabilities.all())
+        return slot
 
 
 class ShiftAttendanceTemplate(models.Model):
@@ -651,14 +657,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         Shift, related_name="slots", null=False, blank=False, on_delete=models.CASCADE
     )
 
-    required_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
+    required_capabilities = models.ManyToManyField(Capability)
 
     warnings = ArrayField(
         models.CharField(
@@ -691,27 +690,42 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
         return self.valid_attendance
 
     def user_can_attend(self, user):
-        return (
+        if (
+            self.get_valid_attendance() is not None
+            and self.get_valid_attendance().state
+            != ShiftAttendance.State.LOOKING_FOR_STAND_IN
+        ):
             # Slot must not be attended yet
-            (
-                not self.get_valid_attendance()
-                or self.get_valid_attendance().state
-                == ShiftAttendance.State.LOOKING_FOR_STAND_IN
-            )
-            and
+            return False
+
+        if self.shift.get_attendances().filter(user=user).with_valid_state().exists():
             # User isn't already registered for this shift
-            not self.shift.get_attendances()
-            .filter(user=user)
-            .with_valid_state()
-            .exists()
-            and
+            return False
+
+        if not set(self.required_capabilities.all()).issubset(
+            set(user.shift_user_data.capabilities.all())
+        ):
             # User must have all required capabilities
-            set(self.required_capabilities).issubset(user.shift_user_data.capabilities)
-            and self.shift.is_in_the_future()
-            and not self.shift.cancelled
-            and hasattr(user, "share_owner")
-            and user.share_owner.is_active(self.shift.start_time)
-        )
+            return False
+
+        if not self.shift.is_in_the_future():
+            return False
+
+        if self.shift.cancelled:
+            return False
+
+        if not hasattr(user, "share_owner") or user.share_owner is None:
+            return False
+
+        from tapir.coop.models import MemberStatus
+
+        if (
+            user.share_owner.get_member_status(self.shift.start_time)
+            != MemberStatus.ACTIVE
+        ):
+            return False
+
+        return True
 
     def user_can_self_unregister(self, user: TapirUser) -> bool:
         user_is_registered_to_slot = (
@@ -780,7 +794,7 @@ class ShiftSlot(RequiredCapabilitiesMixin, models.Model):
 
     def update_slot_from_template(self):
         self.name = self.slot_template.name
-        self.required_capabilities = self.slot_template.required_capabilities
+        self.required_capabilities.set(self.slot_template.required_capabilities.all())
         self.warnings = self.slot_template.warnings
         self.save()
 
@@ -1000,12 +1014,9 @@ class ShiftUserData(models.Model):
     user = models.OneToOneField(
         TapirUser, null=False, on_delete=models.CASCADE, related_name="shift_user_data"
     )
-    capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=SHIFT_USER_CAPABILITY_CHOICES.items(), blank=False
-        ),
-        default=list,
-    )
+
+    capabilities = models.ManyToManyField(Capability, through="UserCapability")
+
     shift_partner = models.OneToOneField(
         "self",
         on_delete=models.SET_NULL,
@@ -1019,7 +1030,12 @@ class ShiftUserData(models.Model):
 
     def get_capabilities_display(self):
         return ", ".join(
-            [str(SHIFT_USER_CAPABILITY_CHOICES[c]) for c in self.capabilities]
+            [
+                capability.get_current_translation().name
+                for capability in self.capabilities.all().prefetch_related(
+                    "capabilitytranslation_set"
+                )
+            ]
         )
 
     def get_upcoming_shift_attendances(self):
@@ -1067,6 +1083,25 @@ class ShiftUserData(models.Model):
 
     def is_currently_exempted_from_shifts(self, date=None):
         return self.get_current_shift_exemption(date) is not None
+
+
+class UserCapability(models.Model):
+    shift_user_data = models.ForeignKey(
+        ShiftUserData, on_delete=models.CASCADE, related_name="capability_assignments"
+    )
+    capability = models.ForeignKey(
+        Capability,
+        on_delete=models.CASCADE,
+    )
+    assigned_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("shift_user_data", "capability")
+        verbose_name = _("Shift User Capability Assignment")
+        verbose_name_plural = _("Shift User Capability Assignments")
+
+    def __str__(self):
+        return f"{self.shift_user_data.user} - {self.capability.get_current_translation().name}"
 
 
 def create_shift_user_data(instance: TapirUser, **kwargs):
@@ -1228,10 +1263,6 @@ def get_staffingstatus_defaults():
     return [StaffingStatusChoices.FULL, StaffingStatusChoices.UNDERSTAFFED]
 
 
-def get_shift_capability_choices():
-    return list(SHIFT_USER_CAPABILITY_CHOICES.items())
-
-
 class ShiftWatch(models.Model):
     user = models.ForeignKey(
         TapirUser, related_name="user_watching_shift", on_delete=models.CASCADE
@@ -1263,18 +1294,14 @@ class ShiftWatch(models.Model):
         on_delete=models.CASCADE,
     )
 
-    watched_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=get_shift_capability_choices, blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
+    watched_capabilities = models.ManyToManyField(Capability)
 
     def __str__(self):
         staffing_statuses = ", ".join(status for status in self.staffing_status)
-        watched_caps = ", ".join(cap for cap in self.watched_capabilities)
+        watched_caps = ", ".join(
+            cap.get_current_translation().name
+            for cap in self.watched_capabilities.all()
+        )
 
         return format_html(
             "{} is watching {} for changes of {} (capabilities: {})",
@@ -1322,14 +1349,7 @@ class RecurringShiftWatch(models.Model):
         default=get_staffingstatus_defaults,
     )
 
-    watched_capabilities = ArrayField(
-        models.CharField(
-            max_length=128, choices=get_shift_capability_choices, blank=False
-        ),
-        default=list,
-        blank=True,
-        null=False,
-    )
+    watched_capabilities = models.ManyToManyField(Capability)
 
 
 class TeamleaderPageContentStatus(models.TextChoices):

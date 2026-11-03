@@ -4,6 +4,7 @@ import datetime
 import logging
 import os
 from collections.abc import Callable
+from locale import strcoll
 from typing import TYPE_CHECKING
 
 import environ
@@ -267,3 +268,11 @@ def transfer_attributes(source, target, attributes):
 
 def is_running_tests():
     return "PYTEST_CURRENT_TEST" in os.environ
+
+
+def compare_languages_english_goes_first(a, b):
+    if a.language == "en":
+        return -1
+    if b.language == "en":
+        return 1
+    return strcoll(a.language, b.language)

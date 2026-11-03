@@ -7,9 +7,11 @@ from tapir.shifts.models import (
     ShiftSlot,
     ShiftSlotWarning,
     ShiftTemplate,
-    ShiftUserCapability,
 )
-from tapir.shifts.tests.factories import ShiftTemplateFactory
+from tapir.shifts.tests.factories import (
+    CapabilityFactory,
+    ShiftTemplateFactory,
+)
 from tapir.utils.tests_utils import TapirFactoryTestBase
 
 
@@ -25,7 +27,7 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
             timezone.now().date() + datetime.timedelta(days=10)
         )
 
-        required_capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
+        required_capabilities = [CapabilityFactory.create().id]
         warnings = [ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE]
 
         response = self.client.post(
@@ -48,7 +50,10 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
 
         slot: ShiftSlot = shift.slots.first()
         self.assertEqual(slot.name, self.SLOT_TEMPLATE_NAME)
-        self.assertEqual(slot.required_capabilities, required_capabilities)
+        self.assertEqual(
+            list(slot.required_capabilities.values_list("id", flat=True)),
+            required_capabilities,
+        )
         self.assertEqual(slot.warnings, warnings)
 
     def test_normal_user_access_denied(self):

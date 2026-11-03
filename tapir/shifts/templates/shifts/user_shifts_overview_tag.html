@@ -98,7 +98,7 @@
     <div class="row m-1">
         <div class="col-12 col-sm-4 fw-bold text-sm-end">{% translate "Qualifications" %}:</div>
         <div class="col-12 col-sm-8">
-            {% if user.shift_user_data.capabilities %}
+            {% if user.shift_user_data.capabilities.all %}
                 {{ user.shift_user_data.get_capabilities_display }}
             {% else %}
                 {% translate "None" context "No qualifications" %}

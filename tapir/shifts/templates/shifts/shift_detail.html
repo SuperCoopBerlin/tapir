@@ -266,7 +266,7 @@
                                     <!-- Requirements -->
                                     <td>
                                         {% for key, value in slot.get_required_capabilities_dict.items %}
-                                            {% if key in request.user.shift_user_data.capabilities %}
+                                            {% if key in request.user.shift_user_data.capabilities.all %}
                                                 <span class="d-flex align-items-center"><span class="material-icons">check</span><span>{{ value }}</span></span>
                                             {% else %}
                                                 <span class="d-flex align-items-center"><span class="material-icons">close</span><span>{{ value }}</span></span>

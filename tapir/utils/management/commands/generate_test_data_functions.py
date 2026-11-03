@@ -35,17 +35,17 @@ from tapir.settings import (
     REG_PERSON_BASE_DN,
 )
 from tapir.shifts.models import (
+    Capability,
+    CapabilityTranslation,
     CreateShiftAttendanceTemplateLogEntry,
     Shift,
     ShiftAccountEntry,
     ShiftAttendance,
-    ShiftAttendanceMode,
     ShiftAttendanceTemplate,
     ShiftCycleEntry,
     ShiftSlotTemplate,
     ShiftTemplate,
     ShiftTemplateGroup,
-    ShiftUserCapability,
     ShiftUserData,
 )
 from tapir.shifts.services.shift_generator import ShiftGenerator
@@ -223,17 +223,19 @@ def generate_shift_user_datas(tapir_users):
         if tapir_user is not None
     ]
 
-    for shift_user_data in shift_user_datas:
-        if random.randint(1, 2) == 1:
-            shift_user_data.attendance_mode = ShiftAttendanceMode.REGULAR
-        else:
-            shift_user_data.attendance_mode = ShiftAttendanceMode.FLYING
-        if random.randint(1, 7) == 1:
-            shift_user_data.capabilities.append(ShiftUserCapability.SHIFT_COORDINATOR)
-        if random.randint(1, 4) == 1:
-            shift_user_data.capabilities.append(ShiftUserCapability.CASHIER)
+    capability_teamleader = CapabilityTranslation.objects.get(
+        name="Teamleader"
+    ).capability
+    capability_cashier = CapabilityTranslation.objects.get(name="Cashier").capability
 
-    return ShiftUserData.objects.bulk_create(shift_user_datas)
+    shift_user_datas = ShiftUserData.objects.bulk_create(shift_user_datas)
+    for shift_user_data in shift_user_datas:
+        if random.randint(1, 7) == 1:
+            shift_user_data.capabilities.add(capability_teamleader)
+        if random.randint(1, 4) == 1:
+            shift_user_data.capabilities.add(capability_cashier)
+
+    return shift_user_datas
 
 
 def generate_test_users():
@@ -368,6 +370,15 @@ def generate_test_shift_templates():
                 )
 
     shift_templates = ShiftTemplate.objects.bulk_create(shift_templates)
+    teamleader_capability = Capability.objects.create()
+    CapabilityTranslation.objects.create(
+        capability=teamleader_capability, language="en", name="Teamleader"
+    )
+
+    cashier_capability = Capability.objects.create()
+    CapabilityTranslation.objects.create(
+        capability=cashier_capability, language="en", name="Cashier"
+    )
 
     slot_templates = []
     for shift_template in shift_templates:
@@ -378,20 +389,20 @@ def generate_test_shift_templates():
             slots = last_shift_slots
 
         for slot_name, slot_quantity in slots.items():
-            capabilities = []
-            if slot_name == "Teamleitung":
-                capabilities = [ShiftUserCapability.SHIFT_COORDINATOR]
-            if slot_name == "Kasse":
-                capabilities = [ShiftUserCapability.CASHIER]
             for _ in range(slot_quantity):
                 slot_templates.append(
                     ShiftSlotTemplate(
                         name=slot_name,
                         shift_template=shift_template,
-                        required_capabilities=capabilities,
                     )
                 )
-    ShiftSlotTemplate.objects.bulk_create(slot_templates)
+    slot_templates = ShiftSlotTemplate.objects.bulk_create(slot_templates)
+
+    for slot_template in slot_templates:
+        if slot_template.name == "Teamleitung":
+            slot_template.required_capabilities.set([teamleader_capability])
+        if slot_template.name == "Kasse":
+            slot_template.required_capabilities.set([cashier_capability])
 
     print("Generated test shift templates")
 
@@ -446,9 +457,7 @@ def clear_ldap():
     TapirUser.objects.all()
     connection = get_admin_ldap_connection()
     for group_name in settings.LDAP_GROUPS:
-        search = LDAPSearch(
-            REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_name})"
-        )
+        search = LDAPSearch(REG_GROUP_BASE_DN, ldap.SCOPE_SUBTREE, f"(cn={group_name})")
         result = search.execute(connection)
         if result:
             connection.delete_s(build_ldap_group_dn(group_name))
@@ -483,6 +492,8 @@ def clear_django_db():
         ProcessedPurchaseFiles,
         PurchaseBasket,
         FancyGraphCache,
+        CapabilityTranslation,
+        Capability,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:

@@ -70,5 +70,4 @@ class TapirUserFactory(UserDataFactory[TapirUser]):
         if not create:
             return
 
-        self.shift_user_data.capabilities = shift_capabilities or []
-        self.shift_user_data.save()
+        self.shift_user_data.capabilities.set(shift_capabilities or [])
