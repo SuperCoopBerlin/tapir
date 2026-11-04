@@ -141,7 +141,9 @@ You can connect to the selenium container via VNC for debugging purpose. The add
 secret
 
 ### Translations
+[![Translation status](https://translate.codeberg.org/widget/tapir/tapir/matrix-auto.svg)](https://translate.codeberg.org/widget/tapir/tapir)
 
+https://translate.codeberg.org/widget/tapir/tapir/matrix-auto.svg
 To generate the translation files, first use "makemessages" and specify the language you want to generate:
 
 ```sh

@@ -3,6 +3,8 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
 [![Python code test coverage](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=coverage)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
 [![Lines of python code](https://sonarcloud.io/api/project_badges/measure?project=SuperCoopBerlin_tapir&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=SuperCoopBerlin_tapir)
+[![Translation status](https://translate.codeberg.org/widget/tapir/tapir/svg-badge.svg)](https://translate.codeberg.org/widget/tapir/tapir)
+
 
 Tapir is a web application for cooperative member and shift management used by cooperatives such as [SuperCoop Berlin](https://supercoop.de) and [Rizoma](https://www.rizomacoop.pt/).
 It covers member profiles, shift scheduling and booking, automatic emails, and application workflows.
