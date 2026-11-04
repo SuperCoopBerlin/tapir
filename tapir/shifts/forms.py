@@ -768,12 +768,11 @@ class ShiftWatchForm(forms.ModelForm):
     watched_capabilities = forms.ModelMultipleChoiceField(
         required=False,
         queryset=Capability.objects.all(),
-        label=_("Notify me when these capabilities become available or unavailable"),
+        label=_(
+            "Notify me when a slot with this qualification becomes available or unavailable"
+        ),
         widget=CheckboxSelectMultiple,
         disabled=False,
-        help_text=_(
-            "Get notified when someone with specific skills registers or unregisters"
-        ),
     )
 
     def __init__(self, *args, **kwargs):
@@ -839,12 +838,11 @@ class RecurringShiftWatchForm(forms.ModelForm):
     watched_capabilities = forms.ModelMultipleChoiceField(
         queryset=Capability.objects.all(),
         required=False,
-        label=_("Notify me when these capabilities become available or unavailable"),
+        label=_(
+            "Notify me when a slot with this qualification becomes available or unavailable"
+        ),
         widget=CheckboxSelectMultiple,
         disabled=False,
-        help_text=_(
-            "Get notified when someone with specific skills registers or unregisters"
-        ),
     )
 
     WEEKDAYS_ERROR = _(
@@ -856,7 +854,7 @@ class RecurringShiftWatchForm(forms.ModelForm):
     )
 
     AT_LEAST_ONE_TARGET_ERROR = _(
-        "At least one of the fields staffing_status or required capabilities must be selected."
+        "At least one of the fields staffing_status or required qualification must be selected."
     )
 
     def _format_field_names(self):

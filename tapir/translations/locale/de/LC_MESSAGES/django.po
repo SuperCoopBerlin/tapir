@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 07:45+0100\n"
+"POT-Creation-Date: 2026-11-04 08:17+0100\n"
 "PO-Revision-Date: 2026-10-26 19:34+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -2601,7 +2601,7 @@ msgstr "Alle"
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:624 shifts/forms.py:830
+#: coop/views/shareowner.py:624 shifts/forms.py:828
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -3113,41 +3113,37 @@ msgstr ""
 msgid "I understand that this will delete the shift exemption and create a membership pause"
 msgstr ""
 
-#: shifts/forms.py:764 shifts/forms.py:835 shifts/views/views.py:431
+#: shifts/forms.py:764 shifts/forms.py:833 shifts/views/views.py:431
 #: shifts/views/views.py:432
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:771 shifts/forms.py:842
-msgid "Notify me when these capabilities become available or unavailable"
+#: shifts/forms.py:771 shifts/forms.py:840
+msgid "Notify me when a slot with this qualification becomes available or unavailable"
 msgstr ""
 
-#: shifts/forms.py:775 shifts/forms.py:846
-msgid "Get notified when someone with specific skills registers or unregisters"
-msgstr ""
-
-#: shifts/forms.py:824 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:822 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:851
+#: shifts/forms.py:846
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
 msgstr ""
 
-#: shifts/forms.py:855
+#: shifts/forms.py:850
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
 msgstr ""
 
-#: shifts/forms.py:859
-msgid "At least one of the fields staffing_status or required capabilities must be selected."
+#: shifts/forms.py:854
+msgid "At least one of the fields staffing_status or required qualification must be selected."
 msgstr ""
 
-#: shifts/forms.py:898 shifts/templates/shifts/teamleader_page_edit.html:32
+#: shifts/forms.py:893 shifts/templates/shifts/teamleader_page_edit.html:32
 msgid "Draft content"
 msgstr ""
 
