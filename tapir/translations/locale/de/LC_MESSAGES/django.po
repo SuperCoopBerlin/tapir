@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 08:17+0100\n"
+"POT-Creation-Date: 2026-11-04 16:44+0100\n"
 "PO-Revision-Date: 2026-11-04 07:32+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
-"de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2602,7 +2601,7 @@ msgstr "Alle"
 msgid "Shift Status"
 msgstr "Schichtstatus"
 
-#: coop/views/shareowner.py:624 shifts/forms.py:828
+#: coop/views/shareowner.py:624 shifts/forms.py:829
 msgid "ABCD Week"
 msgstr "ABCD-Woche"
 
@@ -2982,9 +2981,7 @@ msgstr "Vertretung gefunden"
 
 #: shifts/emails/stand_in_found_email.py:26
 msgid "Sent to a member that was looking for a stand-inwhen the corresponding slot is taken over by another member."
-msgstr ""
-"Wird an ein Mitglied, welches Ersatz sucht, gesendet wenn ein Ersatz "
-"gefunden werden konnte."
+msgstr "Wird an ein Mitglied, welches Ersatz sucht, gesendet wenn ein Ersatz gefunden werden konnte."
 
 #: shifts/emails/teamleader_page_updated_email.py:14
 #: shifts/templates/shifts/email/teamleader_page_updated.subject.html:2
@@ -3003,9 +3000,7 @@ msgstr "Benachrichtigung über Entsperrung"
 
 #: shifts/emails/unfreeze_notification_email.py:20
 msgid "Sent to a member when their shift status gets set from frozen to flying."
-msgstr ""
-"Wird an ein Mitglied gesendet wenn dessen Schichtstatus von Gesperrt auf "
-"Fliegend gesetzt wird."
+msgstr "Wird an ein Mitglied gesendet wenn dessen Schichtstatus von Gesperrt auf Fliegend gesetzt wird."
 
 #: shifts/forms.py:69
 msgid "The shift must end after it starts."
@@ -3017,9 +3012,7 @@ msgstr "Ich kenne die Konsequenzen, wenn eine Schicht gelöscht wird."
 
 #: shifts/forms.py:112
 msgid "In order to delete a shift, all member attendances must be set to 'Cancelled'. "
-msgstr ""
-"Um eine Schicht zu löschen, müssen alle Schichtteilnahmen auf 'Abgesagt' "
-"gesetzt werden. "
+msgstr "Um eine Schicht zu löschen, müssen alle Schichtteilnahmen auf 'Abgesagt' gesetzt werden. "
 
 #: shifts/forms.py:130 shifts/forms.py:374 shifts/forms.py:717
 #: shifts/templates/shifts/shift_day_printable.html:297
@@ -3065,10 +3058,7 @@ msgstr "Das ausgewählte Mitglied muss ein investierendes Mitglied sein."
 
 #: shifts/forms.py:479
 msgid "This member is registered to at least one ABCD shift. Please confirm the change of attendance mode with the checkbox below."
-msgstr ""
-"Dieses Mitglied ist mindestens zu einer ABCD-Schicht angemeldet. Bitte "
-"bestätige die Änderung des Schicht-Teilnahmemodus mit dem untenstehenden "
-"Kontrollkästchen."
+msgstr "Dieses Mitglied ist mindestens zu einer ABCD-Schicht angemeldet. Bitte bestätige die Änderung des Schicht-Teilnahmemodus mit dem untenstehenden Kontrollkästchen."
 
 #: shifts/forms.py:524
 msgid "I have read the warning about the cancelled attendances and confirm that the exemption should be created"
@@ -3105,9 +3095,7 @@ msgstr "Der Grund wird auf alle abgesagten Schichten angewendet."
 
 #: shifts/forms.py:664
 msgid "I understand that updating this ABCD shift will update all the corresponding future shifts"
-msgstr ""
-"Ich verstehe, dass durch das Aktualisieren der ABCD-Schicht alle "
-"entsprechenden zukünftigen Schichten ebenfalls aktualisiert werden"
+msgstr "Ich verstehe, dass durch das Aktualisieren der ABCD-Schicht alle entsprechenden zukünftigen Schichten ebenfalls aktualisiert werden"
 
 #: shifts/forms.py:683
 msgid "ABCD-Week"
@@ -3119,52 +3107,43 @@ msgstr "Wochentage"
 
 #: shifts/forms.py:709
 msgid "I understand that adding or editing a slot to this ABCD shift will affect all the corresponding future shifts"
-msgstr ""
-"Ich verstehe, dass das Hinzufügen oder Bearbeiten eines Schichtplatzes in "
-"dieser ABCD-Schicht Auswirkungen auf alle entsprechenden zukünftigen "
-"Schichten haben wird"
+msgstr "Ich verstehe, dass das Hinzufügen oder Bearbeiten eines Schichtplatzes in dieser ABCD-Schicht Auswirkungen auf alle entsprechenden zukünftigen Schichten haben wird"
 
 #: shifts/forms.py:732
 msgid "I understand that this will delete the shift exemption and create a membership pause"
-msgstr ""
-"Ich verstehe, dass dadurch die Schichtbefreiung aufgehoben und eine "
-"Mitgliedschaftspause eingerichtet wird"
+msgstr "Ich verstehe, dass dadurch die Schichtbefreiung aufgehoben und eine Mitgliedschaftspause eingerichtet wird"
 
-#: shifts/forms.py:764 shifts/forms.py:833 shifts/views/views.py:431
+#: shifts/forms.py:764 shifts/forms.py:834 shifts/views/views.py:431
 #: shifts/views/views.py:432
 msgid "Shift changes you would like to be informed about"
 msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 
-#: shifts/forms.py:771 shifts/forms.py:840
+#: shifts/forms.py:772 shifts/forms.py:842
 msgid "Notify me when a slot with this qualification becomes available or unavailable"
 msgstr ""
 
-#: shifts/forms.py:822 shifts/templates/shifts/shift_template_detail.html:7
+#: shifts/forms.py:823 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
 #: shifts/templates/shifts/user_shifts_overview_tag.html:31
 #: shifts/templates/shifts/user_shifts_overview_tag.html:43
 msgid "ABCD Shift"
 msgstr "ABCD-Schicht"
 
-#: shifts/forms.py:846
+#: shifts/forms.py:849
 #, python-format
 msgid "If weekdays or %(shift_template_group)s are selected, %(shift_templates)s may not be selected, and vice versa."
-msgstr ""
-"Wenn Wochentage oder %(shift_template_group)s ausgewählt wurden, können "
-"nicht %(shift_templates)s ausgewählt werden (oder anders herum)."
+msgstr "Wenn Wochentage oder %(shift_template_group)s ausgewählt wurden, können nicht %(shift_templates)s ausgewählt werden (oder anders herum)."
 
-#: shifts/forms.py:850
+#: shifts/forms.py:853
 #, python-format
 msgid "At least one of the fields (%(shift_templates)s, weekdays, or %(shift_template_group)s) must be selected."
-msgstr ""
-"Wenigstens eines der Felder aus %(shift_templates)s, Wochentage oder %"
-"(shift_template_group)s muss ausgewählt werden."
+msgstr "Wenigstens eines der Felder aus %(shift_templates)s, Wochentage oder %(shift_template_group)s muss ausgewählt werden."
 
-#: shifts/forms.py:854
+#: shifts/forms.py:857
 msgid "At least one of the fields staffing_status or required qualification must be selected."
 msgstr ""
 
-#: shifts/forms.py:893 shifts/templates/shifts/teamleader_page_edit.html:32
+#: shifts/forms.py:896 shifts/templates/shifts/teamleader_page_edit.html:32
 msgid "Draft content"
 msgstr ""
 
@@ -3174,16 +3153,11 @@ msgstr "Ich bestätige, dass alle Arbeitsgruppen die Arbeitsgruppe Warenannahme 
 
 #: shifts/models.py:45
 msgid "I understand that all working groups help the Reinigung & Aufräumen working group after the shop closes."
-msgstr ""
-"Ich verstehe, dass alle Arbeitsgruppen dem Schichtplatz Reinigung & "
-"Aufräumen helfen müssen, nachdem der Laden geschlossen hat."
+msgstr "Ich verstehe, dass alle Arbeitsgruppen dem Schichtplatz Reinigung & Aufräumen helfen müssen, nachdem der Laden geschlossen hat."
 
 #: shifts/models.py:48
 msgid "I understand that I need my own vehicle in order to pick up the bread. A cargo bike can be borrowed, more infos in Slack in the #cargobike channel"
-msgstr ""
-"Ich verstehe, dass ich mein eigenes Fahrzeug benötige, um das Brot "
-"abzuholen. Ein Lastenrad kann ausgeliehen werden; weitere Infos gibt es in "
-"Slack im Kanal #cargobike"
+msgstr "Ich verstehe, dass ich mein eigenes Fahrzeug benötige, um das Brot abzuholen. Ein Lastenrad kann ausgeliehen werden; weitere Infos gibt es in Slack im Kanal #cargobike"
 
 #: shifts/models.py:51
 msgid "I understand that I may need to carry heavy weights for this shift."
@@ -3199,9 +3173,7 @@ msgstr "Wenn weniger Mitlieder als diese Nummer zur Schicht registriert sind, wi
 
 #: shifts/models.py:156
 msgid "This determines from which date shifts should be generated from this ABCD shift."
-msgstr ""
-"Dadurch wird festgelegt, ab welchem Datum Schichten aus dieser ABCD-Schicht "
-"generiert werden sollen."
+msgstr "Dadurch wird festgelegt, ab welchem Datum Schichten aus dieser ABCD-Schicht generiert werden sollen."
 
 #: shifts/models.py:160 shifts/models.py:516
 #: shifts/templates/shifts/shift_block_tag.html:10
@@ -3210,10 +3182,7 @@ msgstr "Zeit flexibel"
 
 #: shifts/models.py:162 shifts/models.py:518
 msgid "If enabled, members who register for that shift can choose themselves the time where they come do their shift."
-msgstr ""
-"Wenn diese Option aktiviert ist, können Mitglieder, die sich für diese "
-"Schicht anmelden, selbst den Zeitpunkt wählen, zu dem sie ihre Schicht "
-"antreten."
+msgstr "Wenn diese Option aktiviert ist, können Mitglieder, die sich für diese Schicht anmelden, selbst den Zeitpunkt wählen, zu dem sie ihre Schicht antreten."
 
 #: shifts/models.py:296
 #, fuzzy
@@ -3229,14 +3198,7 @@ msgstr "Ausgewählte Uhrzeit"
 
 #: shifts/models.py:416
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come.Setting or updating this field will set the time for all individual shifts generated from this ABCD shift.You can update the time of a single shift individually and at any time on the shift page."
-msgstr ""
-"Bei dieser Schicht kannst du selbst bestimmen, zu welcher Uhrzeit du am Tag "
-"der Schicht erscheinen möchtest. Um die Anwesenheitsplanung zu erleichtern, "
-"gib bitte an, wann du voraussichtlich erscheinen wirst. Durch das Ausfüllen "
-"oder Aktualisieren dieses Feldes wird die Uhrzeit für alle einzelnen "
-"Schichten festgelegt, die aus dieser ABCD-Schicht generiert werden. Du "
-"kannst die Uhrzeit einer einzelnen Schicht jederzeit individuell auf der "
-"Schichtseite anpassen."
+msgstr "Bei dieser Schicht kannst du selbst bestimmen, zu welcher Uhrzeit du am Tag der Schicht erscheinen möchtest. Um die Anwesenheitsplanung zu erleichtern, gib bitte an, wann du voraussichtlich erscheinen wirst. Durch das Ausfüllen oder Aktualisieren dieses Feldes wird die Uhrzeit für alle einzelnen Schichten festgelegt, die aus dieser ABCD-Schicht generiert werden. Du kannst die Uhrzeit einer einzelnen Schicht jederzeit individuell auf der Schichtseite anpassen."
 
 #: shifts/models.py:500
 msgid "Number of required attendances"
