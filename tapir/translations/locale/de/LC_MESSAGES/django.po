@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 16:44+0100\n"
+"POT-Creation-Date: 2026-11-04 19:57+0100\n"
 "PO-Revision-Date: 2026-11-04 07:32+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -2858,7 +2858,7 @@ msgid "Email sent."
 msgstr "E-Mail gesendet."
 
 #: log/templates/log/email_log_entry.html:16
-msgid "Email-Inhalt ist aus Sicherheitsgründen nicht verfügbar"
+msgid "The content of this email is not available for security reasons"
 msgstr ""
 
 #: log/templates/log/log_entry_list_tag.html:8
