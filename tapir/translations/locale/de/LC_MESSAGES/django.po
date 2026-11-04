@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-23 14:34+0200\n"
+"POT-Creation-Date: 2026-11-04 17:51+0100\n"
 "PO-Revision-Date: 2026-10-26 19:34+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
-"de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,15 +42,11 @@ msgstr "Wird an aktive Mitglieder geschickt, wenn sie 1 Monat nach dem Beitritt 
 
 #: accounts/forms.py:74
 msgid "If there is not co-purchaser then the co-purchaser-mail field must also be empty"
-msgstr ""
-"Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld leer "
-"bleiben"
+msgstr "Wenn es keine:n Miteinkäufer:in gibt, muss das entsprechende Mail-Feld leer bleiben"
 
 #: accounts/forms.py:86
 msgid "If there is not co-purchaser 2 then the co-purchaser-mail 2 field must also be empty"
-msgstr ""
-"Wenn es keinen Mitkäufer 2 gibt, muss auch das Feld „Mitkäufer-E-Mail 2” "
-"leer sein"
+msgstr "Wenn es keinen Mitkäufer 2 gibt, muss auch das Feld „Mitkäufer-E-Mail 2” leer sein"
 
 #: accounts/forms.py:145
 msgid "This username is not available."
@@ -310,7 +305,7 @@ msgstr "Aktivieren"
 msgid "You can only look at your own barcode unless you have admin rights"
 msgstr "Du kannst nur deinen eigenen Strichcode sehen, es sei denn du hast Admin-Rechte"
 
-#: accounts/templates/accounts/user_detail.html:20 coop/models.py:734
+#: accounts/templates/accounts/user_detail.html:20 coop/models.py:737
 #: coop/templates/coop/draftuser_detail.html:86
 #: coop/templates/coop/shareowner_detail.html:10 log/views.py:95
 #: log/views.py:164 shifts/templates/shifts/shift_detail_printable.html:50
@@ -856,91 +851,91 @@ msgstr "Eintrittsgeld bezahlt"
 msgid "Registration origin"
 msgstr "Registrierungsherkunft"
 
-#: coop/models.py:541
+#: coop/models.py:544
 msgid "Email address must be set."
 msgstr "Email-Adresse muss gesetzt sein."
 
-#: coop/models.py:543
+#: coop/models.py:546
 msgid "First name must be set."
 msgstr "Vorname muss gesetzt sein."
 
-#: coop/models.py:545
+#: coop/models.py:548
 msgid "Last name must be set."
 msgstr "Nachname muss gesetzt sein."
 
-#: coop/models.py:549
+#: coop/models.py:552
 msgid "Membership agreement must be signed."
 msgstr "Mitgliedsantrag muss unterschrieben sein."
 
-#: coop/models.py:551
+#: coop/models.py:554
 msgid "Amount of requested shares must be positive."
 msgstr "Die Anzahl der erwünschten Anteile muss positiv sein."
 
-#: coop/models.py:553
+#: coop/models.py:556
 msgid "Member already created."
 msgstr "Mitglied schon vorhanden."
 
-#: coop/models.py:580
+#: coop/models.py:583
 msgid "Paying member"
 msgstr "Zahlendes Mitglied"
 
-#: coop/models.py:588
+#: coop/models.py:591
 msgid "Credited member"
 msgstr "Empfangendes Mitglied"
 
-#: coop/models.py:595 coop/templates/coop/user_profile_pdf.html:183
+#: coop/models.py:598 coop/templates/coop/user_profile_pdf.html:183
 msgid "Amount"
 msgstr "Betrag"
 
-#: coop/models.py:601
+#: coop/models.py:604
 msgid "Payment date"
 msgstr "Zahldatum"
 
-#: coop/models.py:604
+#: coop/models.py:607
 msgid "Creation date"
 msgstr "Erstellungsdatum"
 
-#: coop/models.py:609
+#: coop/models.py:612
 msgid "Created by"
 msgstr "Erstellt durch"
 
-#: coop/models.py:784
+#: coop/models.py:786
 msgid "The cooperative buys the shares back from the member"
 msgstr "Die Kooperative kauft die Anteile des Mitglieds zurück."
 
-#: coop/models.py:787
+#: coop/models.py:789
 msgid "The member gifts the shares to the cooperative"
 msgstr "Das Mitglied schenkt die Anteile der Genossenschaft."
 
-#: coop/models.py:789
+#: coop/models.py:791
 msgid "The shares get transferred to another member"
 msgstr "Die Anteile werden an ein anderes Mitglied übertragen"
 
-#: coop/models.py:792
+#: coop/models.py:794
 msgid "Financial reasons"
 msgstr "Finanzielle Gründe"
 
-#: coop/models.py:793
+#: coop/models.py:795
 msgid "Health reasons"
 msgstr "Gesundheit"
 
-#: coop/models.py:794
+#: coop/models.py:796
 msgid "Distance"
 msgstr "Entfernung"
 
-#: coop/models.py:795
+#: coop/models.py:797
 msgid "Strategic orientation of SuperCoop"
 msgstr "Strategische Ausrichtung von Supercoop"
 
-#: coop/models.py:796
+#: coop/models.py:798
 msgid "Other"
 msgstr "Andere"
 
-#: coop/models.py:801 coop/templates/coop/membershipresignation_detail.html:55
+#: coop/models.py:803 coop/templates/coop/membershipresignation_detail.html:55
 msgid "Shareowner"
 msgstr "Genossenschaftsmitglied"
 
-#: coop/models.py:820
+#: coop/models.py:822
 msgid "Leave this empty if the resignation type is not a transfer to another member"
 msgstr "Lass das Feld leer, wenn es sich nicht um eine Übertragung auf ein anderes Mitglied handelt"
 
@@ -1830,8 +1825,7 @@ msgid ""
 msgstr ""
 "\n"
 "        <p>\n"
-"           Wir wünschen Dir alles Gute für die Zukunft und zögere bitte "
-"nicht, wenn Du noch weitere Fragen hast,\n"
+"           Wir wünschen Dir alles Gute für die Zukunft und zögere bitte nicht, wenn Du noch weitere Fragen hast,\n"
 "           das Mitgliederbüro (%(contact_email_address)s) zu kontaktieren.\n"
 "        </p>\n"
 "        <p>Kooperative Grüße,</p>\n"
@@ -3281,7 +3275,7 @@ msgstr "Abgesagt"
 
 #: shifts/models.py:950 shifts/templates/shifts/shift_day_printable.html:267
 #: shifts/templates/shifts/shift_detail.html:346
-#: shifts/templates/shifts/shift_detail_printable.html:94
+#: shifts/templates/shifts/shift_detail_printable.html:93
 #: shifts/templates/shifts/shift_filters.html:87
 msgid "Looking for a stand-in"
 msgstr "Sucht Vertretung"
@@ -4167,18 +4161,18 @@ msgstr ""
 "                        "
 
 #: shifts/templates/shifts/shift_day_printable.html:251
-#: shifts/templates/shifts/shift_detail_printable.html:82
+#: shifts/templates/shifts/shift_detail_printable.html:81
 msgid "Expected to come at"
 msgstr "Kommt voraussichtlich um"
 
 #: shifts/templates/shifts/shift_day_printable.html:255
-#: shifts/templates/shifts/shift_detail_printable.html:84
+#: shifts/templates/shifts/shift_detail_printable.html:83
 msgid "Flexible time not specified"
 msgstr "Flexible Arbeitszeit nicht angegeben"
 
 #: shifts/templates/shifts/shift_day_printable.html:261
 #: shifts/templates/shifts/shift_detail.html:145
-#: shifts/templates/shifts/shift_detail_printable.html:90
+#: shifts/templates/shifts/shift_detail_printable.html:89
 #: shifts/templates/shifts/shift_template_detail.html:68
 msgid "Shift partner: "
 msgstr "Schicht-Partner: "
@@ -4354,11 +4348,11 @@ msgstr "Fliegende Anwesenheit"
 msgid "Edit slot"
 msgstr "Slot bearbeiten"
 
-#: shifts/templates/shifts/shift_detail_printable.html:68
+#: shifts/templates/shifts/shift_detail_printable.html:67
 msgid "Required qualifications: "
 msgstr "Erforderliche Qualifikation: "
 
-#: shifts/templates/shifts/shift_detail_printable.html:100
+#: shifts/templates/shifts/shift_detail_printable.html:98
 msgid "Has qualifications: "
 msgstr "Hat Qualifikationen : "
 
@@ -4588,19 +4582,19 @@ msgstr "Insgesamt"
 msgid "Show more"
 msgstr "Mehr anzeigen"
 
-#: shifts/templates/shifts/shiftwatch_overview.html:127
+#: shifts/templates/shifts/shiftwatch_overview.html:126
 msgid "You can watch single shifts for changes by selecting a shift "
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:128
+#: shifts/templates/shifts/shiftwatch_overview.html:127
 msgid "here"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:129
+#: shifts/templates/shifts/shiftwatch_overview.html:128
 msgid " and clicking on the Watch-button"
 msgstr ""
 
-#: shifts/templates/shifts/shiftwatch_overview.html:135
+#: shifts/templates/shifts/shiftwatch_overview.html:134
 msgid "Delete Selected"
 msgstr "Lösche das Ausgewählte"
 
@@ -4882,43 +4876,48 @@ msgstr "Schicht-Befreiung bearbeiten für: %(link)s"
 msgid "Shift exemption converted to membership pause."
 msgstr "Schichtfreistellung in Mitgliedschaftspause umgewandelt."
 
-#: shifts/views/management.py:50
+#: shifts/views/management.py:51
 msgid "Create a shift"
 msgstr "Schicht erzeugen"
 
-#: shifts/views/management.py:97
+#: shifts/views/management.py:98
 msgid "Edit slot: "
 msgstr "Slot bearbeiten: "
 
-#: shifts/views/management.py:157
+#: shifts/views/management.py:116
+#, python-format
+msgid "The shift has been cancelled but some of the notification mails could not be sent. The following members did not receive an email: %(users)s"
+msgstr ""
+
+#: shifts/views/management.py:172
 msgid "Edit shift: "
 msgstr "Schicht bearbeiten: "
 
-#: shifts/views/management.py:200
+#: shifts/views/management.py:215
 msgid "Edit shift template: "
 msgstr "ABCD-Schicht bearbeiten: "
 
-#: shifts/views/management.py:219
+#: shifts/views/management.py:234
 msgid "Create an ABCD shift"
 msgstr "ABCD-Schicht erzeugen"
 
-#: shifts/views/management.py:221
+#: shifts/views/management.py:236
 msgid "Shifts are generated every day at midnight. After you created the ABCD shift, come back tomorrow to see your shifts!"
 msgstr "Die Schichten werden jeden Tag um Mitternacht generiert. Nachdem Sie die ABCD-Schicht erstellt haben, schaue morgen wieder vorbei, um deine Schichten zu sehen!"
 
-#: shifts/views/management.py:267
+#: shifts/views/management.py:282
 msgid "Duplicate ABCD-Shift "
 msgstr "Dupliziere ABCD-Schichten"
 
-#: shifts/views/management.py:269
+#: shifts/views/management.py:284
 msgid "Please choose the weekdays and ABCD-weeks this ABCD-Shift should be copied to. These slots will be copied: "
 msgstr "Bitte wählen Sie die Wochentage und ABCD-Wochen aus, in die diese ABCD-Schicht kopiert werden soll. Diese Zeitfenster werden kopiert: "
 
-#: shifts/views/management.py:274
+#: shifts/views/management.py:289
 msgid " Shifts for this ABCD shift will be generated starting from "
 msgstr " Die Schichten für diese ABCD-Schicht werden ab dem folgenden Zeitpunkt generiert "
 
-#: shifts/views/management.py:391
+#: shifts/views/management.py:406
 msgid "Shifts generated."
 msgstr "Schichten erstellt."
 
