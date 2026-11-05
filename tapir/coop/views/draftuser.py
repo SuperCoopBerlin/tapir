@@ -27,7 +27,6 @@ from tapir.coop.emails.membership_confirmation_email_for_investing_member import
 )
 from tapir.coop.forms import (
     DraftUserForm,
-    DraftUserRegisterForm,
 )
 from tapir.coop.models import (
     DraftUser,
@@ -60,22 +59,6 @@ class DraftUserCreateView(
         context["page_title"] = _("Create applicant")
         context["card_title"] = _("Create applicant")
         return context
-
-
-class DraftUserRegisterView(generic.CreateView):
-    model = DraftUser
-    form_class = DraftUserRegisterForm
-    success_url = reverse_lazy("coop:draftuser_confirm_registration")
-
-    def get_template_names(self):
-        return [
-            "coop/draftuser_register_form.html",
-            "coop/draftuser_register_form.default.html",
-        ]
-
-
-class DraftUserConfirmRegistrationView(generic.TemplateView):
-    template_name = "coop/draftuser_confirm_registration.html"
 
 
 class DraftUserUpdateView(
