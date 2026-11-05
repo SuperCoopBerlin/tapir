@@ -3681,21 +3681,6 @@ files = [
 ]
 
 [[package]]
-name = "slack-sdk"
-version = "3.45.0"
-description = "The Slack API Platform SDK for Python"
-optional = false
-python-versions = ">=3.7"
-groups = ["main"]
-files = [
-    {file = "slack_sdk-3.45.0-py2.py3-none-any.whl", hash = "sha256:6356d4486d1a3ad156462c5544ab1b9c076ff426a250495c08f51b7ad71eb8fb"},
-    {file = "slack_sdk-3.45.0.tar.gz", hash = "sha256:1ab794452f238b59db0d8a4d346263d65190288add53ec67a05751d8e7402486"},
-]
-
-[package.extras]
-optional = ["SQLAlchemy (>=2.0.52,<3)", "aiodns (>1.0,<3.3) ; python_version < \"3.9\"", "aiodns (>1.0,<4) ; python_version == \"3.9\"", "aiodns (>=4.0.4) ; python_version >= \"3.10\"", "aiohttp (>=3.13.5,<3.14) ; python_version == \"3.9\"", "aiohttp (>=3.14.3,<4) ; python_version >= \"3.10\"", "aiohttp (>=3.7.3,<3.11) ; python_version == \"3.8\"", "aiohttp (>=3.7.3,<3.9) ; python_version == \"3.7\"", "boto3 (<=2)", "websocket-client (>=1,<1.6.2) ; python_version == \"3.7\"", "websocket-client (>=1,<1.9.0) ; python_version == \"3.8\"", "websocket-client (>=1,<1.9.1) ; python_version == \"3.9\"", "websocket-client (>=1.9.1,<2) ; python_version >= \"3.10\"", "websockets (>=16.1.1,<17) ; python_version >= \"3.10\"", "websockets (>=9.1,<12) ; python_version == \"3.7\"", "websockets (>=9.1,<14) ; python_version == \"3.8\"", "websockets (>=9.1,<16) ; python_version == \"3.9\""]
-
-[[package]]
 name = "sniffio"
 version = "1.3.1"
 description = "Sniff out which async library your code is running under"
@@ -4264,4 +4249,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14,<3.15"
-content-hash = "b265cea391810a6fcb45063aa60dada0abf02911b6b3705e79337944cd3898a0"
+content-hash = "c08f1a6a220662dc9f0cc44f4b7de0d26d8f580bf0518e47a7512b34e3d0d83e"
