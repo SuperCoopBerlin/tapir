@@ -66,6 +66,7 @@ class MemberSelfRegistrationFormTemplateView(TemplateView):
         context_data["membership_fee"] = config.COOP_ENTRY_AMOUNT
         context_data["coop_name"] = settings.COOP_NAME
         context_data["coop_street"] = settings.COOP_STREET
+        context_data["coop_bylaws_url"] = settings.COOP_BYLAWS_URL
         context_data["email_address_member_office"] = (
             settings.EMAIL_ADDRESS_MEMBER_OFFICE
         )

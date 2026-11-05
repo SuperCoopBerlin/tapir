@@ -39,6 +39,7 @@ type Props = {
   coopName: string;
   coopStreet: string;
   coopPlace: string;
+  coopBylawsUrl: string;
   membershipFee: number;
   ratenzahlung: boolean;
   emailAddressMemberOffice: string;
@@ -67,6 +68,7 @@ const Step4Legal: React.FC<Props> = ({
   coopName,
   coopStreet,
   coopPlace,
+  coopBylawsUrl,
   membershipFee,
   ratenzahlung,
   emailAddressMemberOffice,
@@ -82,7 +84,7 @@ const Step4Legal: React.FC<Props> = ({
 
   const [acceptsMembership, setAcceptsMembership] = useState(false);
   const [acceptsPeriod, setAcceptsPeriod] = useState(false);
-  const [acceptsConstitution, setAcceptsConstitution] = useState(false);
+  const [acceptsBylaws, setAcceptsBylaws] = useState(false);
   const [acceptsPayment, setAcceptsPayment] = useState(false);
   const [acceptsPrivacy, setAcceptsPrivacy] = useState(false);
   const [altchaResponse, setAltchaResponse] = useState<string | null>(null);
@@ -222,8 +224,8 @@ const Step4Legal: React.FC<Props> = ({
         setAcceptsMembership={setAcceptsMembership}
         acceptsPeriod={acceptsPeriod}
         setAcceptsPeriod={setAcceptsPeriod}
-        acceptsConstitution={acceptsConstitution}
-        setAcceptsConstitution={setAcceptsConstitution}
+        acceptsBylaws={acceptsBylaws}
+        setAcceptsBylaws={setAcceptsBylaws}
         acceptsPayment={acceptsPayment}
         setAcceptsPayment={setAcceptsPayment}
         acceptsPrivacy={acceptsPrivacy}
@@ -232,6 +234,7 @@ const Step4Legal: React.FC<Props> = ({
         coopName={coopName}
         coopStreet={coopStreet}
         coopPlace={coopPlace}
+        coopBylawsUrl={coopBylawsUrl}
         membershipFee={membershipFee}
       />
       <hr />
@@ -261,7 +264,7 @@ const Step4Legal: React.FC<Props> = ({
             onConfirmRegister();
           }}
           disabled={
-            !acceptsConstitution ||
+            !acceptsBylaws ||
             !acceptsMembership ||
             !acceptsPayment ||
             !acceptsPeriod ||

@@ -243,6 +243,10 @@ COOP_NAME = "SuperCoop Berlin"
 COOP_FULL_NAME = "SuperCoop Berlin eG"
 COOP_STREET = "Amsterdamer Straße 27"
 COOP_PLACE = "13347 Berlin"
+COOP_BYLAWS_URL = env.str(
+    "COOP_BYLAWS_URL",
+    default="https://drive.google.com/file/d/13AiGaWK8iTmAXwcR3Os6QicrqKD8R4Kz/view",
+)  # Link to the Satzung, defaults to the one from SuperCoop Berlin
 FROM_EMAIL_MEMBER_OFFICE = f"{COOP_NAME} Mitgliederbüro <{EMAIL_ADDRESS_MEMBER_OFFICE}>"
 DEFAULT_FROM_EMAIL = FROM_EMAIL_MEMBER_OFFICE
 

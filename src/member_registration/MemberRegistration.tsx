@@ -51,6 +51,8 @@ const MemberRegistration: React.FC = () => {
   const coopName = configElement?.dataset.coopName ?? "NAME NOT FOUND";
   const coopStreet = configElement?.dataset.coopStreet ?? "STREET NOT FOUND";
   const coopPlace = configElement?.dataset.coopPlace ?? "PLACE NOT FOUND";
+  const coopBylawsUrl =
+    configElement?.dataset.coopBylawsUrl ?? "BYLAWS URL NOT FOUND";
   const emailAddressMemberOffice =
     configElement?.dataset.emailAddressMemberOffice ??
     "EMAIL ADDRESS NOT FOUND";
@@ -152,6 +154,7 @@ const MemberRegistration: React.FC = () => {
             coopName={coopName}
             coopStreet={coopStreet}
             coopPlace={coopPlace}
+            coopBylawsUrl={coopBylawsUrl}
             membershipFee={membershipFee}
             ratenzahlung={ratenzahlung}
             emailAddressMemberOffice={emailAddressMemberOffice}

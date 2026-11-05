@@ -44,6 +44,7 @@ def get_membership_agreement_pdf(share_owner=None, num_shares=1):
         "coop_full_name": settings.COOP_FULL_NAME,
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
+        "coop_bylaws_url": settings.COOP_BYLAWS_URL,
         "share_price": config.COOP_SHARE_PRICE,
         "entry_amount": config.COOP_ENTRY_AMOUNT,
         "num_shares": num_shares,
@@ -98,6 +99,7 @@ def generate_share_request_pdf(
         "coop_street": settings.COOP_STREET,
         "coop_place": settings.COOP_PLACE,
         "contact_email_address": settings.EMAIL_ADDRESS_MEMBER_OFFICE,
+        "coop_bylaws_url": settings.COOP_BYLAWS_URL,
         "hide_user_signing_field": True,
         "generation_time": generation_time,
     }

@@ -12,8 +12,8 @@ type Props = {
   setAcceptsMembership: React.Dispatch<React.SetStateAction<boolean>>;
   acceptsPeriod: boolean;
   setAcceptsPeriod: React.Dispatch<React.SetStateAction<boolean>>;
-  acceptsConstitution: boolean;
-  setAcceptsConstitution: React.Dispatch<React.SetStateAction<boolean>>;
+  acceptsBylaws: boolean;
+  setAcceptsBylaws: React.Dispatch<React.SetStateAction<boolean>>;
   acceptsPayment: boolean;
   setAcceptsPayment: React.Dispatch<React.SetStateAction<boolean>>;
   acceptsPrivacy: boolean;
@@ -22,6 +22,7 @@ type Props = {
   coopName: string;
   coopStreet: string;
   coopPlace: string;
+  coopBylawsUrl: string;
   membershipFee: number;
 };
 
@@ -33,8 +34,8 @@ export default function Declarations({
   setAcceptsMembership,
   acceptsPeriod,
   setAcceptsPeriod,
-  acceptsConstitution,
-  setAcceptsConstitution,
+  acceptsBylaws,
+  setAcceptsBylaws,
   acceptsPayment,
   setAcceptsPayment,
   acceptsPrivacy,
@@ -43,6 +44,7 @@ export default function Declarations({
   coopName,
   coopStreet,
   coopPlace,
+  coopBylawsUrl,
   membershipFee,
 }: Props) {
   const paymentTotal = useMemo(
@@ -80,17 +82,17 @@ export default function Declarations({
       <Form.Group className={"mt-2"}>
         <Form.Check
           type={"checkbox"}
-          id="accepts-constitution"
+          id="accepts-bylaws"
           label={gettext(
             `I have been provided with a copy of the Bylaws of SuperCoop (either in digital or print form), which can be accessed below:`,
           )}
-          checked={acceptsConstitution}
-          name="accepts-constitution"
-          onChange={(event) => setAcceptsConstitution(event.target.checked)}
+          checked={acceptsBylaws}
+          name="accepts-bylaws"
+          onChange={(event) => setAcceptsBylaws(event.target.checked)}
           required
         />
         <p className="ms-4 mt-2">
-          <a href="https://supercoop.de/unsere-genossenschaft/" target="_blank">
+          <a href={coopBylawsUrl} target="_blank">
             SuperCoop - {gettext("Bylaws")}
           </a>
         </p>
