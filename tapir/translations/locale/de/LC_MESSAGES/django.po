@@ -1876,24 +1876,7 @@ msgid "%(resigned_member_full)s bequeathed her / his share(s) to you because of 
 msgstr "%(resigned_member_full)s hat dir seinen/ihren Anteil wegen seines/ihres Rücktritts vermacht"
 
 #: coop/templates/coop/email/self_registration_confirmation.body.default.html:6
-#, fuzzy, python-format
-#| msgid ""
-#| "\n"
-#| "        <p>Dear %(name_short)s,</p>\n"
-#| "        <p>\n"
-#| "            We are very happy about your interest in becoming a member of %(coop_name)s!\n"
-#| "        </p>\n"
-#| "        <p>\n"
-#| "            Your application will be checked soon, you will receive an e-mail as soon as it happens, usually within a\n"
-#| "            few days.\n"
-#| "        </p>\n"
-#| "        <p>If you already have questions, please contact our member office at <a\n"
-#| "                href=\"mailto:%(contact_email_address)s\">%(contact_email_address)s</a></p>\n"
-#| "        <p>\n"
-#| "            Cooperative greetings,<br/>\n"
-#| "            Your %(coop_name)s-Board\n"
-#| "        </p>\n"
-#| "    "
+#, python-format
 msgid ""
 "\n"
 "        <p>Dear %(name_short)s,</p>\n"
