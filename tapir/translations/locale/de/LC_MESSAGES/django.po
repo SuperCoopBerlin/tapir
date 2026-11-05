@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 19:57+0100\n"
+"POT-Creation-Date: 2026-11-05 16:47+0100\n"
 "PO-Revision-Date: 2026-11-04 07:32+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -153,8 +153,6 @@ msgstr "<p>Dein vorheriger Nutzername ist %(old_username)s.</p><p> Solltest du m
 
 #: accounts/templates/accounts/edit_username.default.html:43
 #: accounts/templates/registration/password_update.html:16
-#: coop/templates/coop/draftuser_register_form.default.html:42
-#: coop/templates/coop/draftuser_register_form.html:45
 #: coop/templates/coop/membership_resignation_form.html:65
 #: core/templates/core/tapir_form.default.html:30
 #: core/templates/core/tapir_form.html:30
@@ -354,7 +352,7 @@ msgstr "Name und Pronomen bearbeiten"
 #: coop/templates/coop/draftuser_detail.html:70
 #: coop/templates/coop/draftuser_detail.html:130
 #: coop/templates/coop/shareowner_detail.html:43
-#: coop/templates/coop/user_profile_pdf.html:101 coop/views/draftuser.py:262
+#: coop/templates/coop/user_profile_pdf.html:101 coop/views/draftuser.py:245
 #: core/templates/core/email_list.html:38
 #: core/templates/core/featureflag_list.html:18
 #: financingcampaign/templates/financingcampaign/general.html:25
@@ -552,8 +550,6 @@ msgstr "Mitglieder"
 
 #: coop/apps.py:25 coop/templates/coop/draftuser_list.html:9
 #: coop/templates/coop/draftuser_list.html:18
-#: coop/templates/coop/draftuser_register_form.default.html:11
-#: coop/templates/coop/draftuser_register_form.html:11
 msgid "Applicants"
 msgstr "Bewerber*innen"
 
@@ -993,14 +989,6 @@ msgstr "Tapir-Konto erstellen"
 msgid "Create account"
 msgstr "Konto erstellen"
 
-#: coop/templates/coop/draftuser_confirm_registration.html:6
-msgid "Registration confirmed"
-msgstr "Anmeldung bestätigt"
-
-#: coop/templates/coop/draftuser_confirm_registration.html:8
-msgid "<p>Registration successful! Congratulations!</p> <p>We just emailed your confirmation of your pre-registration with the Beteiligungserklärung already filled with your information. You just have to print it and send it back to us per post or scan it and send it per email.</p> <p>Once we have received both your Beteiligungserklärung and the corresponding payment, we'll send you the confirmation of your membership.</p> <p>We will also create for you an account for this website and for the wiki.</p>"
-msgstr "<p>Anmeldung erfolgreich! Glückwunsch!</p> <p>Wir haben dir deine Vorregistrierung mit der Beteiligungserklärung vorausgefüllt per Mail zugeschickt. Du musst es nur ausdrucken und per Post oder eingescannt per Mail an uns zurückschicken</p> <p>Sobald wir deine Beteiligungserklärung die zugehörige Bezahlung erhalten haben, senden wir dir eine Mitgliedsbescheinigung.</p> <p>Außerdem erstellen wir einen Account für Tapir und das Wiki.</p>"
-
 #: coop/templates/coop/draftuser_detail.html:8
 #: coop/templates/coop/draftuser_detail.html:78
 #: coop/templates/coop/draftuser_detail.html:127
@@ -1118,24 +1106,6 @@ msgstr "Alle Filter entfernen"
 #, python-format
 msgid "Filtered %(filtered)s of %(total)s"
 msgstr "%(filtered)s von %(total)s wurden gefiltert"
-
-#: coop/templates/coop/draftuser_register_form.default.html:27
-msgid "Create Applicant"
-msgstr "Bewerber*in erzeugen"
-
-#: coop/templates/coop/draftuser_register_form.default.html:29
-#: coop/templates/coop/draftuser_register_form.html:29 core/apps.py:87
-#: shifts/templates/shifts/register_user_to_shift_slot.html:27
-#: shifts/templates/shifts/register_user_to_shift_slot_template.html:26
-#: shifts/templates/shifts/shift_detail.html:258
-#: shifts/templates/shifts/shift_template_detail.html:88
-msgid "Register"
-msgstr "Anmelden"
-
-#: coop/templates/coop/draftuser_register_form.html:27
-#: coop/views/draftuser.py:60 coop/views/draftuser.py:61
-msgid "Create applicant"
-msgstr "Bewerber*in erstellen"
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:5
 #, python-format
@@ -2185,12 +2155,12 @@ msgid "Paid out"
 msgstr "Ausbezahlt"
 
 #: coop/templates/coop/membershipresignation_detail.html:85
-#: coop/views/draftuser.py:277
+#: coop/views/draftuser.py:260
 msgid "Yes"
 msgstr "Ja"
 
 #: coop/templates/coop/membershipresignation_detail.html:87
-#: coop/views/draftuser.py:277
+#: coop/views/draftuser.py:260
 msgid "No"
 msgstr "Nein"
 
@@ -2480,16 +2450,20 @@ msgstr "Kontostand zu diesem Datum"
 msgid "Generated on"
 msgstr "Erzeugt am"
 
-#: coop/views/draftuser.py:91 coop/views/draftuser.py:96
+#: coop/views/draftuser.py:59 coop/views/draftuser.py:60
+msgid "Create applicant"
+msgstr "Bewerber*in erstellen"
+
+#: coop/views/draftuser.py:74 coop/views/draftuser.py:79
 #, python-format
 msgid "Edit applicant: %(name)s"
 msgstr "Bewerber*innen bearbeiten: %(name)s"
 
-#: coop/views/draftuser.py:188
+#: coop/views/draftuser.py:171
 msgid "Can't create member: "
 msgstr "Kann Mitglied nicht erstellen: "
 
-#: coop/views/draftuser.py:267 coop/views/draftuser.py:304
+#: coop/views/draftuser.py:250 coop/views/draftuser.py:287
 msgid "Member can be created"
 msgstr "Mitglied kann erstellt werden: "
 
@@ -2556,7 +2530,7 @@ msgstr "Auszahlungsende"
 msgid "Cancel membership of %(name)s"
 msgstr "Beende Mitgliedschaft von %(name)s"
 
-#: coop/views/self_registration.py:100
+#: coop/views/self_registration.py:101
 #, python-brace-format
 msgid "This email address ({email}) is already in use"
 msgstr "Die Emailadresse {email} ist bereits in Verwendung"
@@ -2653,6 +2627,13 @@ msgstr "Slack-Chat"
 msgid "Contact the member office"
 msgstr "Mitgliederbüro kontaktieren"
 
+#: core/apps.py:87 shifts/templates/shifts/register_user_to_shift_slot.html:27
+#: shifts/templates/shifts/register_user_to_shift_slot_template.html:26
+#: shifts/templates/shifts/shift_detail.html:258
+#: shifts/templates/shifts/shift_template_detail.html:88
+msgid "Register"
+msgstr "Anmelden"
+
 #: core/apps.py:89
 msgid "Become a Member"
 msgstr "Werde Mitglied"
@@ -2665,11 +2646,11 @@ msgstr "Name des Schalters"
 msgid "Flag value"
 msgstr "Wert des Schalters"
 
-#: core/templates/core/base.html:80
+#: core/templates/core/base.html:81
 msgid "Use this form to search for members"
 msgstr "Benutze dieses Formular, um nach Mitgliedern zu suchen"
 
-#: core/templates/core/base.html:81
+#: core/templates/core/base.html:82
 msgid "Search Members"
 msgstr "Mitglieder suchen"
 
@@ -6277,6 +6258,15 @@ msgstr "%(name)s ist kein Mitglied der Genossenschaft. Vielleicht haben sie dere
 #, python-format
 msgid "%(name)s has not attended a welcome session yet. Make sure they plan to do it!"
 msgstr "%(name)s hat an dem Willkommenstreffen noch nicht teilgenommen. Stelle sicher, dass er*sie es entsprechend einplant!"
+
+#~ msgid "Registration confirmed"
+#~ msgstr "Anmeldung bestätigt"
+
+#~ msgid "<p>Registration successful! Congratulations!</p> <p>We just emailed your confirmation of your pre-registration with the Beteiligungserklärung already filled with your information. You just have to print it and send it back to us per post or scan it and send it per email.</p> <p>Once we have received both your Beteiligungserklärung and the corresponding payment, we'll send you the confirmation of your membership.</p> <p>We will also create for you an account for this website and for the wiki.</p>"
+#~ msgstr "<p>Anmeldung erfolgreich! Glückwunsch!</p> <p>Wir haben dir deine Vorregistrierung mit der Beteiligungserklärung vorausgefüllt per Mail zugeschickt. Du musst es nur ausdrucken und per Post oder eingescannt per Mail an uns zurückschicken</p> <p>Sobald wir deine Beteiligungserklärung die zugehörige Bezahlung erhalten haben, senden wir dir eine Mitgliedsbescheinigung.</p> <p>Außerdem erstellen wir einen Account für Tapir und das Wiki.</p>"
+
+#~ msgid "Create Applicant"
+#~ msgstr "Bewerber*in erzeugen"
 
 #~ msgid "Does not have qualification"
 #~ msgstr "Hat die Qualifikation nicht"
