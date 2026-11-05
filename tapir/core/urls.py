@@ -21,11 +21,6 @@ urlpatterns = [
         name="featureflag_update",
     ),
     path(
-        "error",
-        views.ErrorView.as_view(),
-        name="error",
-    ),
-    path(
         "jsi18n/",
         JavaScriptCatalog.as_view(),
         name="javascript-catalog",
