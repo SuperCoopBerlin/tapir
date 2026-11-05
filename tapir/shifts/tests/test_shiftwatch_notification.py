@@ -1,8 +1,7 @@
 import datetime
 
 from django.core import mail
-from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
+from django.utils import timezone, translation
 
 from tapir.accounts.tests.factories.factories import TapirUserFactory
 from tapir.shifts.emails.shift_watch_mail import ShiftWatchEmailBuilder
@@ -85,7 +84,9 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def assert_email_sent(self, expected_status_choice: str):
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(str(_(expected_status_choice)), mail.outbox[0].body)
+        with translation.override("en"):
+            expected_text = str(expected_status_choice)
+        self.assertIn(expected_text, mail.outbox[0].body)
         self.assertEmailOfClass_GotSentTo(
             ShiftWatchEmailBuilder, self.USER_EMAIL_ADDRESS, mail.outbox[0]
         )
