@@ -11,8 +11,10 @@ Just choose a task that you like.
 
 #### I just have a question?!
 
-If you are part of SuperCoop, reach out to us on [Slack](https://supercoopberlin.slack.com/). In case you are not member
-of SuperCoop, feel free to write us a mail to contact@supercoop.de.
+- You can reach us on the Matrix space: https://matrix.to/#/#tapir-fuer-supermrtke:matrix.org
+- If you are part of SuperCoop, reach out to us on [Slack](https://supercoopberlin.slack.com/), there is a dedicated
+  #tapir channel
+- Otherwise, see the contact options at the top of the README file.
 
 # Report issues or suggest new features
 
@@ -21,8 +23,8 @@ yourself.
 
 You found a bug in Tapir? You have an idea for a neat new feature? There two possibilities to let us know:
 
-1. Create an issue here in the repository (
-   see [Github manual for how to create issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue))
+1. Create an issue here in the repository
+   (see [Github manual for how to create issues](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue))
 2. [Contact us directly](CONTRIBUTING.md#i-just-have-a-question)
 
 In case it is a bug, describe us how to reproduce the behaviour you've encountered and how you would expect it to be.
@@ -49,8 +51,8 @@ the [django documentation for Translations](https://docs.djangoproject.com/en/4.
 If you would like to help and are able to contribute code, you are most welcome.
 
 In this chapter, we describe the basic procedure of how you can contribute code to the repository. Make yourself
-familiar with the technology stack and dependencies we use for Tapir (
-see [Documentation](CONTRIBUTING.md#documentation)).
+familiar with the technology stack and dependencies we use for Tapir
+(see [Documentation](CONTRIBUTING.md#documentation)).
 
 ## Getting started
 
@@ -67,8 +69,6 @@ example [here](https://github.com/vicente-gonzalez-ruiz/fork_and_branch_git_work
 
 Find instructions on how to start on our [README.md](README.md).
 
-
-
 ##### IDE
 
 We mostly use [PyCharm](https://www.jetbrains.com/pycharm/) for development. You can fully use it for developement.
@@ -77,11 +77,10 @@ Make sure to enable Django support in the project settings so that things like t
 test runner are automagically selected (note that right now this doesn't really work anymore as the tests must be run
 inside docker to have an LDAP server. But PyCharm is still pretty cool).
 
-
 ## Style guide/code conventions
 
 - We use the `Black` package, which "can be viewed as a strict subset of PEP 8". When you installed the pre-commit
-correctly as mentioned above, the style guide should be enforced automatically with every commit.
+  correctly as mentioned above, the style guide should be enforced automatically with every commit.
 - We use [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for creating automatic Release-notes.
 
 # Documentation
@@ -99,13 +98,13 @@ A few definitions to help newcomers understand the model classes.
 
 The class name is the convention for the word in texts, followed by how to write the class in code.
 
-| Class         | In-Code       | Definition                                                                                                                                                                                                                                                               |
-|---------------|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| DraftUser     | `draft_user`  | Also called Applicant. Represents a person that expressed interest in joining but that hasn't completed the subscription process yet. Gets deleted when ShareOwner is created.                                                                                           |
-| ShareOwner    | `share_owner` | Represents a person or a company that is either currently owning at least a share, or has owned shares in the past. Therefore they are or have been a member of the cooperative. They may not be active, for example investing members or someone who sold their shares. |
-| TapirUser     | `tapir_user`  | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive.                                                               |
-| Shift         |               | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate   |
-| ShiftTemplate |               | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21) |
+| Class           | In-Code                            | Definition                                                                                                                                                                                                                                                                                                                      |
+|-----------------|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DraftUser       | `draft_user`                       | Also called Applicant. Represents a person that expressed interest in joining but that hasn't completed the subscription process yet. Gets deleted when ShareOwner is created.                                                                                                                                                  |
+| ShareOwner      | `share_owner`                      | Represents a person or a company that is either currently owning at least a share, or has owned shares in the past. Therefore they are or have been a member of the cooperative. They may not be active, for example investing members or someone who sold their shares.                                                        |
+| TapirUser       | `tapir_user`                       | Represents a person with a user account. Accounts are linked between Tapir and the Wiki for example. Gets created when the member becomes active (part of the shift system etc.), but can become inactive.                                                                                                                      |
+| Shift           |                                    | Represents a shift with a specific date and time (for example, 18/06/21 10:00 to 13:00). Can be a one-time activity or an instance of a ShiftTemplate                                                                                                                                                                           |
+| ShiftTemplate   |                                    | Represents the recurring aspect of a shift in the ABCD system. For example helping at the shop on Tuesday, 10:00 to 13:00, on Week C. It has a weekday (Tuesday) and a time, but no date (18/06/21)                                                                                                                             |
 | ShiftAttendance | 'attendances', 'shift_attendances' | Represents the registration of a member to a slot. An attendance is always in one of the states defined in the state variable and the ShiftAttendance.State enum class. This is used for tracking who is coming to which shift but also if members are attending enough shifts. See ShiftAttendance.update_shift_account_entry. |
 
 ### Django Shell
@@ -161,7 +160,7 @@ again after saving from PoEdit.
 
 ### Pre-existing accounts
 
-After running `manage.py generate_test_data --reset_all`, 400 members are created. 
+After running `manage.py generate_test_data --reset_all`, 400 members are created.
 You can log in as any of them, in each case, the password is the username. Here are a few examples:
 
 - admin (not a member, just an account with admin rights)
@@ -204,7 +203,33 @@ classes: `btn tapir-btn btn-[BOOTSTRAP COLOR]`.
 Each button should have an icon, we use material-icons.  
 We use outlined buttons for links that have no consequences (for example, going to an edit page), and filled buttons
 when there are consequences (for example, a save button, or sending an email).
-Use the following template tags : 
- - `{% tapir_button_link %}` for buttons that are simple links
- - `{% tapir_button_link_to_action %}` for buttons that lead to a form
- - `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
+Use the following template tags :
+
+- `{% tapir_button_link %}` for buttons that are simple links
+- `{% tapir_button_link_to_action %}` for buttons that lead to a form
+- `{% tapir_button_action %}` for actions with permanent consequences (typically, creating or saving a model)
+
+# AI use policy
+
+The current dev team thinks that generative „AI” tools (Claude, Gemini...) have a globally negative impact and
+discourages you from using them. You are welcome and encouraged to ask as many questions as you need to get started
+working on Tapir, see the contact information at the beginning of the README.
+
+That said, the use of said tools is allowed, with the following restrictions:
+
+- **Agents are strictly forbidden from interacting with our repository.** This includes but is not limited to posting
+  issues, making pull requests, posting comments, posting code reviews, adding reactions, etc. You are free to do what
+  you want on your own machine, but as soon as there is an interaction with the repo, it must be handled by a human.
+- **All AI usage in any form must be disclosed.** You must state the tools you used (e.g. Claude Code, Cursor, Amp)
+  along with the extent that the work was AI-assisted. For example, a simple "I used Claude to generate a first draft of
+  the unit tests." is enough.
+- **Do not use AI-generated text in human-to-human communication.** For example this means you must write your PR
+  descriptions yourself. It also means that agents are not allowed to write on the Matrix room. **Code comments are
+  considered human-to-human communication.** Translations are an exception:
+  writing your text in one language and letting an AI translate it to English is allowed.
+- **You must understand and take responsibility for everything that you submit.** For example this means you must be
+  able to explain and justify the code of your PR.
+
+Thanks to [Polars](https://github.com/pola-rs/polars/blob/main/AI_POLICY.md)
+and [Godot](https://contributing.godotengine.org/en/latest/development/contribution_rules.html), we used their policy as
+inspiration for ours.
