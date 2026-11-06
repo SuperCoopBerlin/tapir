@@ -26,7 +26,9 @@ class ShiftWatchReminderCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     NUM_REQUIRED_ATTENDANCE = 2
 
     def setUp(self):
-        self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
+        self.user = TapirUserFactory.create(
+            email=self.USER_EMAIL_ADDRESS, preferred_language="en"
+        )
         # create shift empty from the beginning
         self.shift = ShiftFactory.create(
             nb_slots=3,

@@ -70,7 +70,9 @@ class ShiftWatchCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
     NUM_REQUIRED_ATTENDANCE = 2
 
     def setUp(self):
-        self.user = TapirUserFactory.create(email=self.USER_EMAIL_ADDRESS)
+        self.user = TapirUserFactory.create(
+            email=self.USER_EMAIL_ADDRESS, preferred_language="en"
+        )
         self.shift_ok_first, self.slots = create_shift_with_attendance(
             self.NUM_REQUIRED_ATTENDANCE
         )
