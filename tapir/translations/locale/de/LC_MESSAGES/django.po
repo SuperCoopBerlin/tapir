@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-05 16:47+0100\n"
-"PO-Revision-Date: 2026-11-04 07:32+0000\n"
+"PO-Revision-Date: 2026-11-06 09:53+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1124,6 +1125,21 @@ msgid ""
 "        </p>\n"
 "    "
 msgstr ""
+"\n"
+"        <p>\n"
+"            Hallo Buchhaltung und Mitgliedsbüro,\n"
+"        </p>\n"
+"        <p>\n"
+"            Das ist die Übersicht der Tapir-Buchhaltung für diese Woche.\n"
+"        </p>\n"
+"        <p>\n"
+"            %(num_new_members)s neue Mitglieder wurden erstellt. Für diese "
+"neuen Mitglieder wurden %(total_num_shares_new_members)s neue Anteile "
+"gezeichnet.<br />\n"
+"            Zusätzlich wurden %(total_num_shares_existing_members)s Anteile "
+"für bestehende Mitglieder erstellt.\n"
+"        </p>\n"
+"    "
 
 #: coop/templates/coop/email/accounting_recap.body.default.html:21
 msgid "New members (no payment by installments)"
@@ -1202,12 +1218,16 @@ msgid ""
 msgstr ""
 "\n"
 "        <p>\n"
-"            Sollte dies ein Fehler sein und nicht deiner Anfrage entsprechen, sende bitte eine kurze E-Mail an <a href=\"mailto:%(email_address_member_office)s\">das Mitgliederbüro</a>, um uns dies mitzuteilen.\n"
+"            Sollte dies ein Fehler sein und nicht deiner Anfrage "
+"entsprechen, sende bitte eine kurze E-Mail an <a href=\"mailto:%"
+"(email_address_member_office)s\">das Mitgliederbüro</a>, um uns dies "
+"mitzuteilen.\n"
 "        </p>\n"
 "        <p>\n"
 "            Kooperative Grüße,<br/>\n"
 "            Das Mitgliederbüro\n"
-"        </p> "
+"        </p>\n"
+"    "
 
 #: coop/templates/coop/email/extra_shares_bought.body.html:6
 #, python-format
@@ -1760,12 +1780,13 @@ msgid ""
 "    "
 msgstr ""
 "\n"
-"            <p>Liebe*r %(display_name)s,</p>\n"
+"        <p>Liebe*r %(display_name)s,</p>\n"
 "            <p>\n"
-"                schade, dass Du uns verlassen möchtest. Hiermit bestätigen wir Dir die Kündigung deiner Mitgliedschaft bei SuperCoop Berlin eG.\n"
+"                schade, dass Du uns verlassen möchtest. Hiermit bestätigen "
+"wir Dir die Kündigung deiner Mitgliedschaft bei SuperCoop Berlin eG.\n"
 "                <br>\n"
 "            </p>\n"
-"        "
+"    "
 
 #: coop/templates/coop/email/membershipresignation_confirmation_body.html:16
 msgid "As you stated in your letter of cancellation that you want to transfer your shares to SuperCoop, your termination is effective immediately."
@@ -2823,7 +2844,7 @@ msgstr "E-Mail gesendet."
 
 #: log/templates/log/email_log_entry.html:16
 msgid "The content of this email is not available for security reasons"
-msgstr ""
+msgstr "Der Inhalt dieser E-Mail ist aus Sicherheitsgründen nicht verfügbar"
 
 #: log/templates/log/log_entry_list_tag.html:8
 msgid "Last 5 log entries"
@@ -2873,10 +2894,8 @@ msgid "Shift management"
 msgstr "Schicht-Verwaltung"
 
 #: shifts/apps.py:69
-#, fuzzy
-#| msgid "Teamleader"
 msgid "Teamleaders"
-msgstr "Teamleiter*in"
+msgstr "Teamleitungen"
 
 #: shifts/emails/flying_member_registration_reminder_email.py:15
 msgid "Flying member registration reminder"
@@ -2949,14 +2968,14 @@ msgstr "Wird an ein Mitglied, welches Ersatz sucht, gesendet wenn ein Ersatz gef
 
 #: shifts/emails/teamleader_page_updated_email.py:14
 #: shifts/templates/shifts/email/teamleader_page_updated.subject.html:2
-#, fuzzy
-#| msgid "Teamleader"
 msgid "Teamleader page updated"
-msgstr "Teamleiter*in"
+msgstr "Teamleitungs-Seite aktualisiert"
 
 #: shifts/emails/teamleader_page_updated_email.py:19
 msgid "Sent to all teamleaders when the content of the teamleader page gets updated by an employee."
 msgstr ""
+"Wird an alle Teamleitungen geschickt wenn der Inhalt Teamleitungsseite "
+"geändert wurde."
 
 #: shifts/emails/unfreeze_notification_email.py:15
 msgid "Unfreeze Notification"
@@ -3085,6 +3104,8 @@ msgstr "Schicht-Änderungen, bei denen du informiert werden möchtest"
 #: shifts/forms.py:772 shifts/forms.py:842
 msgid "Notify me when a slot with this qualification becomes available or unavailable"
 msgstr ""
+"Benachrichtige mich wenn ein Schichtplatz mit dieser Qualifikation verügbar "
+"oder nicht mehr verfügbar wird"
 
 #: shifts/forms.py:823 shifts/templates/shifts/shift_template_detail.html:7
 #: shifts/templates/shifts/shift_template_detail.html:15
@@ -3106,10 +3127,12 @@ msgstr "Wenigstens eines der Felder aus %(shift_templates)s, Wochentage oder %(s
 #: shifts/forms.py:857
 msgid "At least one of the fields staffing_status or required qualification must be selected."
 msgstr ""
+"Mindestens eines der Felder „Beschäftigungsstatus“ oder „erforderliche "
+"Qualifikation“ muss ausgewählt werden."
 
 #: shifts/forms.py:896 shifts/templates/shifts/teamleader_page_edit.html:32
 msgid "Draft content"
-msgstr ""
+msgstr "Entwurfsinhalt"
 
 #: shifts/models.py:42
 msgid "I understand that all working groups help the Warenannahme & Lager working group until the shop opens."
@@ -3149,10 +3172,8 @@ msgid "If enabled, members who register for that shift can choose themselves the
 msgstr "Wenn diese Option aktiviert ist, können Mitglieder, die sich für diese Schicht anmelden, selbst den Zeitpunkt wählen, zu dem sie ihre Schicht antreten."
 
 #: shifts/models.py:296
-#, fuzzy
-#| msgid "Preferred Language"
 msgid "Language"
-msgstr "Bevorzugte Sprache"
+msgstr "Sprache"
 
 #: shifts/models.py:414 shifts/models.py:851
 #: shifts/templates/shifts/shift_detail.html:118
@@ -3175,6 +3196,7 @@ msgstr "Wird auf der Schichtseite unter dem Titel angezeigt"
 #: shifts/models.py:528 shifts/models.py:534
 msgid "If 'flexible time' is enabled, then the time component is ignored"
 msgstr ""
+"Wenn „flexible Arbeitszeit“ aktiviert ist, wird die Zeitkomponente ignoriert"
 
 #: shifts/models.py:853
 msgid "This shift lets you choose at what time you come during the day of the shift. In order to help organising the attendance, please specify when you expect to come."
@@ -3222,11 +3244,11 @@ msgstr "Ist eingefroren"
 
 #: shifts/models.py:1100
 msgid "Shift User Capability Assignment"
-msgstr ""
+msgstr "Zuweisung einer Benutzerberechtigung für Schichten"
 
 #: shifts/models.py:1101
 msgid "Shift User Capability Assignments"
-msgstr ""
+msgstr "Zuweisung von Benutzerberechtigungen für Schichten"
 
 #: shifts/models.py:1225
 msgid "Cycle start date"
@@ -3262,11 +3284,11 @@ msgstr ""
 
 #: shifts/models.py:1357
 msgid "Draft"
-msgstr ""
+msgstr "Entwurf"
 
 #: shifts/teamleader_middleware.py:20
 msgid "The qualification 'Teamleader' does not exist."
-msgstr ""
+msgstr "Die Qualifikation 'Teamleitung' existiert nicht."
 
 #: shifts/templates/shifts/cancel_shift.html:7
 msgid "Cancel shift:"
