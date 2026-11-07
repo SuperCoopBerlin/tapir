@@ -35,7 +35,6 @@ from tapir.settings import (
     REG_PERSON_BASE_DN,
 )
 from tapir.shifts.models import (
-    Capability,
     CapabilityTranslation,
     CreateShiftAttendanceTemplateLogEntry,
     Shift,
@@ -370,15 +369,11 @@ def generate_test_shift_templates():
                 )
 
     shift_templates = ShiftTemplate.objects.bulk_create(shift_templates)
-    teamleader_capability = Capability.objects.create()
-    CapabilityTranslation.objects.create(
-        capability=teamleader_capability, language="en", name="Teamleader"
-    )
 
-    cashier_capability = Capability.objects.create()
-    CapabilityTranslation.objects.create(
-        capability=cashier_capability, language="en", name="Cashier"
-    )
+    capability_teamleader = CapabilityTranslation.objects.get(
+        name="Teamleader"
+    ).capability
+    capability_cashier = CapabilityTranslation.objects.get(name="Cashier").capability
 
     slot_templates = []
     for shift_template in shift_templates:
@@ -400,9 +395,9 @@ def generate_test_shift_templates():
 
     for slot_template in slot_templates:
         if slot_template.name == "Teamleitung":
-            slot_template.required_capabilities.set([teamleader_capability])
+            slot_template.required_capabilities.set([capability_teamleader])
         if slot_template.name == "Kasse":
-            slot_template.required_capabilities.set([cashier_capability])
+            slot_template.required_capabilities.set([capability_cashier])
 
     print("Generated test shift templates")
 
@@ -492,8 +487,6 @@ def clear_django_db():
         ProcessedPurchaseFiles,
         PurchaseBasket,
         FancyGraphCache,
-        CapabilityTranslation,
-        Capability,
     ]
     ShareOwnership.objects.update(transferred_from=None)
     for cls in classes:
