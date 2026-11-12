@@ -302,6 +302,14 @@ class CapabilityTranslation(models.Model):
     description = models.TextField(_("Description"))
     capability = models.ForeignKey(Capability, on_delete=models.CASCADE)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["capability", "language"],
+                name="unique_capability_translation_per_language",
+            )
+        ]
+
 
 class RequiredCapabilitiesMixin:
     # Théo 23.12.22 the required_capabilities field could be moved to this class, but we'd need to migrate
