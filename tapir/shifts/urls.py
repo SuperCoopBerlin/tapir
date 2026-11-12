@@ -250,7 +250,4 @@ urlpatterns = [
         views.TeamleaderPageEditView.as_view(),
         name="teamleader_page_edit",
     ),
-    path(
-        "checkin/<str:token>/", views.AttendanceCheckInView.as_view(), name="check_in"
-    ),
 ]

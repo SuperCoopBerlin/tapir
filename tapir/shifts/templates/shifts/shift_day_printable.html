@@ -198,15 +198,6 @@
         white-space: nowrap;
         font-size: 10px;
     }
-    .qr-code {
-    float: right;
-    margin: 4px;
-}
-.qr-code svg {
-    display: block;
-    width: 40mm;
-    height: 40mm;
-}
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -307,7 +298,4 @@
             <span style="margin: 0 4px;"></span>
             <span style="margin-left: 4px">* {% translate "Only to be filled by teamleader, member office or employees." %}</span>
         </div>
-        {% if qr_svg %}
-            <div class="qr-code">{{ qr_svg|safe }}</div>
-        {% endif %}
     </div>

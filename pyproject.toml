@@ -37,7 +37,6 @@ dependencies = [
     "holidays (>=0.107,<0.108)",
     "drf-spectacular (>=0.30.0,<0.31.0)",
     "altcha-django[drf] (>=1.0.0,<2.0.0)",
-    "segno (>=1.6.6,<2.0.0)",
 ]
 
 [tool.poetry.group.dev.dependencies]

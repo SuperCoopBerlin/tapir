@@ -7,13 +7,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.management import call_command
 from django.db import transaction
 from django.db.models import Count, Q, Sum
-from django.http import HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404, redirect, render
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, redirect
 from django.template.defaulttags import register
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from django.views import View, generic
+from django.views import generic
 from django.views.generic import (
     CreateView,
     DetailView,
@@ -42,7 +42,6 @@ from tapir.settings import (
     PERMISSION_TEAMLEADERPAGE_VIEW,
     PERMISSION_WELCOMEDESK_VIEW,
 )
-from tapir.shifts.emails.shift_confirmed_email import ShiftConfirmedEmailBuilder
 from tapir.shifts.emails.teamleader_page_updated_email import TeamleaderPageUpdatedEmail
 from tapir.shifts.forms import (
     CreateShiftAccountEntryForm,
@@ -64,12 +63,10 @@ from tapir.shifts.models import (
     ShiftWatch,
     TeamleaderPageContent,
     TeamleaderPageContentStatus,
-    UpdateShiftAttendanceStateLogEntry,
     UpdateShiftUserDataLogEntry,
 )
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.templatetags.shifts import shift_name_as_class
-from tapir.shifts.utils import daily_token, is_token_valid, make_qr_svg
 from tapir.utils.expection_utils import TapirException
 from tapir.utils.user_utils import UserUtils
 
@@ -330,11 +327,6 @@ class ShiftDayPrintableView(LoginRequiredMixin, PermissionRequiredMixin, Templat
         context["shifts"] = Shift.objects.filter(start_time__date=day).order_by(
             "start_time"
         )
-
-        if day == timezone.localdate():
-            path = reverse("shifts:check_in", args=[daily_token(day)])
-            context["qr_svg"] = make_qr_svg(self.request.build_absolute_uri(path))
-
         return context
 
 
@@ -659,56 +651,3 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
                 recipient=teamleader,
                 email_builder=email_builder,
             )
-
-
-class AttendanceCheckInView(LoginRequiredMixin, View):
-    template_name = "check_in.html"
-
-    def get(self, request, token):
-        if not is_token_valid(token):
-            return HttpResponseForbidden("QR-Code ist ungültig oder abgelaufen.")
-
-        now = timezone.now()
-        current = list(
-            ShiftAttendance.objects.filter(
-                user=request.user,
-                slot__shift__start_time__lte=now
-                + datetime.timedelta(minutes=15),  # Vorlauf vor Schichtbeginn,
-                slot__shift__end_time__gte=now,
-            ).select_related("slot__shift", "user")
-        )
-
-        if not current:
-            status = "Du hast gerade keine laufende oder bald beginnende Schicht."
-        else:
-            marked = 0
-            for attendance in current:
-                if attendance.state != ShiftAttendance.State.DONE:
-                    self._mark_done(request, attendance)
-                    marked += 1
-            status = (
-                "Du bist als teilgenommen markiert."
-                if marked
-                else "Du warst für die aktuelle Schicht bereits markiert."
-            )
-
-        return render(request, self.template_name, {"status": status})
-
-    @transaction.atomic
-    def _mark_done(self, request, attendance):
-        attendance.state = ShiftAttendance.State.DONE
-        attendance.save()
-
-        UpdateShiftAttendanceStateLogEntry().populate(
-            actor=request.user,
-            tapir_user=attendance.user,
-            attendance=attendance,
-        ).save()
-
-        SendMailService.send_to_tapir_user(
-            actor=request.user,
-            recipient=attendance.user,
-            email_builder=ShiftConfirmedEmailBuilder(shift=attendance.slot.shift),
-        )
-
-        attendance.update_shift_account_entry(None)

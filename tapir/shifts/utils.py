@@ -1,14 +1,9 @@
-import hashlib
-import hmac
-import io
 from calendar import HTMLCalendar, day_abbr, month_name
 from datetime import date
 
-import segno
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from tapir import settings
 from tapir.coop.models import ShareOwner
 from tapir.shifts.models import (
     SHIFT_ATTENDANCE_MODE_CHOICES,
@@ -149,18 +144,3 @@ def get_attendance_mode_display(attendance_mode: str) -> str:
         if mode_choice[0] == attendance_mode:
             return mode_choice[1]
     return _(f"Unknown mode {attendance_mode}")
-
-
-def daily_token(day) -> str:
-    msg = f"checkin:{day.isoformat()}".encode()
-    return hmac.new(settings.QR_SECRET.encode(), msg, hashlib.sha256).hexdigest()[:32]
-
-
-def is_token_valid(token: str) -> bool:
-    return hmac.compare_digest(token, daily_token(timezone.localdate()))
-
-
-def make_qr_svg(url: str) -> str:
-    buf = io.BytesIO()
-    segno.make(url, error="m").save(buf, kind="svg", scale=8, omitsize=True)
-    return buf.getvalue().decode("utf-8")

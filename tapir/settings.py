@@ -465,5 +465,3 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
     },
 }
-
-QR_SECRET = "OsNXmtE67-c35qX0JhVOhXX_oJ4Bovh15DzN4eaRbed-eH0yAR7Mo86WdtfmeTwjIOk"
