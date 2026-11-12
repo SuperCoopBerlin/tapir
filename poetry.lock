@@ -3649,6 +3649,18 @@ files = [
 ]
 
 [[package]]
+name = "segno"
+version = "1.6.6"
+description = "QR Code and Micro QR Code generator for Python"
+optional = false
+python-versions = ">=3.5"
+groups = ["main"]
+files = [
+    {file = "segno-1.6.6-py3-none-any.whl", hash = "sha256:28c7d081ed0cf935e0411293a465efd4d500704072cdb039778a2ab8736190c7"},
+    {file = "segno-1.6.6.tar.gz", hash = "sha256:e60933afc4b52137d323a4434c8340e0ce1e58cec71439e46680d4db188f11b3"},
+]
+
+[[package]]
 name = "selenium"
 version = "4.51.0"
 description = "Official Python bindings for Selenium WebDriver"
@@ -4249,4 +4261,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14,<3.15"
-content-hash = "c08f1a6a220662dc9f0cc44f4b7de0d26d8f580bf0518e47a7512b34e3d0d83e"
+content-hash = "615071eafe24cb54e9f9e4450d65eb474ae2de5213274ecca2a8b039fbc8d2aa"
