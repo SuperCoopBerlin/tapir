@@ -289,7 +289,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities = [CapabilityFactory.create()]
+        capabilities = [CapabilityFactory.create(translations=["en"])]
         slot_template.required_capabilities.set(capabilities)
         for slot in slot_template.generated_slots.all():
             slot.required_capabilities.set(capabilities)
@@ -317,7 +317,7 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities = [CapabilityFactory.create()]
+        capabilities = [CapabilityFactory.create(translations=["en"])]
         slot_template.required_capabilities.set(capabilities)
         for slot in slot_template.generated_slots.all():
             slot.required_capabilities.set(capabilities)
@@ -341,14 +341,14 @@ class TestSlotModificationService(TapirFactoryTestBase):
         shift_template.create_shift_if_necessary(timezone.now().date())
         slot_template = shift_template.slot_templates.get()
 
-        capabilities_before = [CapabilityFactory.create()]
+        capabilities_before = [CapabilityFactory.create(translations=["en"])]
         slot_template.required_capabilities.set(capabilities_before)
         for slot in slot_template.generated_slots.all():
             slot.required_capabilities.set(capabilities_before)
 
         capabilities_after = [
-            CapabilityFactory.create(),
-            CapabilityFactory.create(),
+            CapabilityFactory.create(translations=["en"]),
+            CapabilityFactory.create(translations=["en"]),
         ]
         parameter_set = SlotModificationService.ParameterSet(
             origin_slot_name="",

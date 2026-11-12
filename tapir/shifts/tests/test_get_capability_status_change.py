@@ -3,6 +3,7 @@ import pytest
 from tapir.shifts.services.shift_watch_creation_service import ShiftWatchCreator
 from tapir.shifts.tests.factories import (
     CapabilityFactory,
+    CapabilityTranslationFactory,
     ShiftFactory,
     ShiftSlotFactory,
 )
@@ -12,28 +13,28 @@ from tapir.shifts.tests.factories import (
 def set_up_slots(db):
     shift = ShiftFactory.create(nb_slots=0)
 
-    coordinator_capability = CapabilityFactory.create()
-    coordinator_capability.capabilitytranslation_set.create(
-        name="SHIFT_COORDINATOR", language="en"
+    capability_1 = CapabilityFactory.create()
+    CapabilityTranslationFactory.create(
+        capability=capability_1, name="CAPABILITY_1", language="en"
     )
-    cheese_capability = CapabilityFactory.create()
-    cheese_capability.capabilitytranslation_set.create(
-        name="HANDLING_CHEESE", language="en"
+    capability_2 = CapabilityFactory.create()
+    CapabilityTranslationFactory.create(
+        capability=capability_2, name="CAPABILITY_2", language="en"
     )
 
     slot_1 = ShiftSlotFactory.create(id=1, shift=shift)
-    slot_1.required_capabilities.set([coordinator_capability])
+    slot_1.required_capabilities.set([capability_1])
     slot_2 = ShiftSlotFactory.create(id=2, shift=shift)
     slot_2.required_capabilities.set([])
     slot_3 = ShiftSlotFactory.create(id=3, shift=shift)
-    slot_3.required_capabilities.set([cheese_capability])
+    slot_3.required_capabilities.set([capability_2])
 
     return {
         "slot_1": slot_1.id,
         "slot_2": slot_2.id,
         "slot_3": slot_3.id,
-        "coordinator_cap": coordinator_capability,
-        "cheese_cap": cheese_capability,
+        "coordinator_cap": capability_1,
+        "cheese_cap": capability_2,
     }
 
 
@@ -46,22 +47,22 @@ def set_up_slots(db):
             [1, 2],
             [2],
             ["coordinator_cap"],
-            ["Member with capability added: SHIFT_COORDINATOR"],
+            ["Member with capability added: CAPABILITY_1"],
         ),
         (
             [2],
             [1, 2],
             ["coordinator_cap"],
-            ["Member with capability unregistered: SHIFT_COORDINATOR"],
+            ["Member with capability unregistered: CAPABILITY_1"],
         ),
         ([1, 2], [1, 2], ["coordinator_cap"], []),
-        ([3], [2], ["cheese_cap"], ["Member with capability added: HANDLING_CHEESE"]),
+        ([3], [2], ["cheese_cap"], ["Member with capability added: CAPABILITY_2"]),
         ([3], [2], ["coordinator_cap"], []),
         (
             [2],
             [3],
             ["cheese_cap"],
-            ["Member with capability unregistered: HANDLING_CHEESE"],
+            ["Member with capability unregistered: CAPABILITY_2"],
         ),
     ],
 )

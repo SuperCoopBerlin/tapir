@@ -64,7 +64,7 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
     def test_member_self_registers_with_capability(self):
         shift = self.create_shift_in_the_future()
         slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
         slot.required_capabilities.set([capability])
 
         user = self.login_as_normal_user(share_owner__is_investing=False)
@@ -76,7 +76,7 @@ class TestMemberSelfRegisters(TapirFactoryTestBase):
     def test_member_self_registers_without_capability(self):
         shift = self.create_shift_in_the_future()
         slot = ShiftSlot.objects.filter(shift=shift, attendances__isnull=True).first()
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
         slot.required_capabilities.set([capability])
 
         user = self.login_as_normal_user()

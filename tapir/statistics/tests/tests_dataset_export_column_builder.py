@@ -211,7 +211,7 @@ class TestDatasetExportColumnBuilder(TapirFactoryTestBase):
 
     def test_buildColumnShiftCapabilities_default_returnsCapabilities(self):
         share_owner = TapirUserFactory.create().share_owner
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
         share_owner.user.shift_user_data.capabilities.set([capability])
 
         result = DatasetExportColumnBuilder.build_column_shift_capabilities(share_owner)

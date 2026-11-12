@@ -14,7 +14,7 @@ from tapir.utils.tests_utils import TapirFactoryTestBase
 class TestRegisteredToABCDShiftSlotWithCapability(TapirFactoryTestBase):
     def test_registeredToABCDShiftSlotWithCapability_isRegistered_inQuerySet(self):
         user = TapirUserFactory.create()
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         shift_template = ShiftTemplateFactory.create()
 
@@ -37,8 +37,8 @@ class TestRegisteredToABCDShiftSlotWithCapability(TapirFactoryTestBase):
         self,
     ):
         user = TapirUserFactory.create()
-        capability = CapabilityFactory.create()
-        other_capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
+        other_capability = CapabilityFactory.create(translations=["en"])
 
         shift_template = ShiftTemplateFactory.create()
         slot_template = shift_template.slot_templates.get()
@@ -58,7 +58,7 @@ class TestRegisteredToABCDShiftSlotWithCapability(TapirFactoryTestBase):
 
     def test_registeredToShiftSlotWithCapability_isRegistered_inQuerySet(self):
         user = TapirUserFactory.create()
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         shift = ShiftFactory.create()
 
@@ -76,8 +76,8 @@ class TestRegisteredToABCDShiftSlotWithCapability(TapirFactoryTestBase):
 
     def test_registeredToShiftSlotWithCapability_isNotRegistered_notInQuerySet(self):
         user = TapirUserFactory.create()
-        capability = CapabilityFactory.create()
-        other_capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
+        other_capability = CapabilityFactory.create(translations=["en"])
 
         shift_template = ShiftTemplateFactory.create()
         slot_template = shift_template.slot_templates.get()

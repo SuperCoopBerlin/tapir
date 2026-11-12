@@ -27,7 +27,7 @@ class TestSlotTemplateCreate(TapirFactoryTestBase):
             timezone.now().date() + datetime.timedelta(days=10)
         )
 
-        required_capabilities = [CapabilityFactory.create().id]
+        required_capabilities = [CapabilityFactory.create(translations=["en"]).id]
         warnings = [ShiftSlotWarning.BREAD_PICKUP_NEEDS_A_VEHICLE]
 
         response = self.client.post(

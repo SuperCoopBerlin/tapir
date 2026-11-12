@@ -25,7 +25,7 @@ class TestSlotCreate(TapirFactoryTestBase):
         shift: Shift = ShiftFactory.create(nb_slots=0)
         self.assertEqual(shift.slots.count(), 0)
 
-        required_capabilities = [CapabilityFactory.create().id]
+        required_capabilities = [CapabilityFactory.create(translations=["en"]).id]
         warnings = [ShiftSlotWarning.IN_THE_MORNING_EVERYONE_HELPS_STORAGE]
 
         response = self.client.post(

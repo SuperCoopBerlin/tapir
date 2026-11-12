@@ -40,7 +40,7 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         user = TapirUserFactory.create()
         shift = ShiftFactory.create()
         slot = ShiftSlot.objects.filter(shift=shift).first()
-        slot.required_capabilities.set([CapabilityFactory.create()])
+        slot.required_capabilities.set([CapabilityFactory.create(translations=["en"])])
         slot.save()
 
         self.login_as_member_office_user()
@@ -96,7 +96,9 @@ class TestMemberRegistersOther(TapirFactoryTestBase):
         slot_template = ShiftSlotTemplate.objects.filter(
             shift_template=shift_template
         ).get()
-        slot_template.required_capabilities.set([CapabilityFactory.create()])
+        slot_template.required_capabilities.set(
+            [CapabilityFactory.create(translations=["en"])]
+        )
         slot_template.save()
 
         self.login_as_member_office_user()

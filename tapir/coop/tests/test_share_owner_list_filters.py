@@ -217,8 +217,8 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         )
 
     def test_has_qualification(self):
-        capability_1 = CapabilityFactory.create()
-        capability_2 = CapabilityFactory.create()
+        capability_1 = CapabilityFactory.create(translations=["en"])
+        capability_2 = CapabilityFactory.create(translations=["en"])
         share_owners_with_capability = [
             TapirUserFactory.create(shift_capabilities=[capability_1]).share_owner
             for _ in range(2)
@@ -236,7 +236,7 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         )
 
     def test_is_registered_to_slot_with_qualification(self):
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         shift = ShiftFactory.create()
         users_registered = []
@@ -262,7 +262,7 @@ class TestShareOwnerList(ShareOwnerFilterTestBase):
         )
 
     def test_is_registered_to_shifttemplate_slot_with_qualification(self):
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         owners_in_group = []
         for _ in range(2):

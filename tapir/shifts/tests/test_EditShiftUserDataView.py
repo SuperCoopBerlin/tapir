@@ -52,7 +52,7 @@ class TestEditShiftUserDataView(TapirFactoryTestBase):
         tapir_user = TapirUserFactory.create()
         tapir_user.shift_user_data.is_frozen = False
         tapir_user.shift_user_data.save()
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         response = self.client.post(
             reverse(self.VIEW_NAME, args=[tapir_user.shift_user_data.id]),

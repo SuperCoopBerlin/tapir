@@ -140,8 +140,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
         self.assertEqual(RecurringShiftWatch.objects.count(), 1)
 
     def test_createRecurringShiftWatch_withWatchedCapabilities_entrySaved(self):
-        capability_1 = CapabilityFactory.create()
-        capability_2 = CapabilityFactory.create()
+        capability_1 = CapabilityFactory.create(translations=["en"])
+        capability_2 = CapabilityFactory.create(translations=["en"])
         form_data = {
             **self.default_form_data,
             "weekdays": [1, 2],
@@ -201,8 +201,8 @@ class TestCreateWatchRecurringShiftsView(TapirFactoryTestBase):
     def test_createRecurringShiftWatch_withCapabilitiesAndStaffingStatus_entrySaved(
         self,
     ):
-        cap1 = CapabilityFactory.create()
-        cap2 = CapabilityFactory.create()
+        cap1 = CapabilityFactory.create(translations=["en"])
+        cap2 = CapabilityFactory.create(translations=["en"])
         form_data = {
             **self.default_form_data,
             "weekdays": [1, 2],

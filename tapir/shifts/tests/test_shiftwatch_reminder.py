@@ -127,7 +127,7 @@ class ShiftWatchReminderCommandTests(TapirFactoryTestBase, TapirEmailTestMixin):
 
     def test_reminder_withWatchedCapabilities_noMailSent(self):
 
-        capability = CapabilityFactory.create()
+        capability = CapabilityFactory.create(translations=["en"])
 
         slot_with_capability = ShiftSlotFactory.create(shift=self.shift)
         slot_with_capability.required_capabilities.set([capability])

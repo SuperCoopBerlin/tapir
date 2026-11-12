@@ -128,19 +128,18 @@ class CapabilityTranslationFactory(
 
     name = factory.Faker("sentence")
     description = factory.Faker("bs")
+    language = "de"
 
 
 class CapabilityFactory(factory.django.DjangoModelFactory[Capability]):
+
     class Meta:
         model = Capability
         skip_postgeneration_save = True
 
     @factory.post_generation
     def translations(self: Capability, create, languages, **kwargs):
-        if not create:
+        if not create or not languages:
             return
-        if languages is None:
-            languages = ["en"]
         for language in languages:
             CapabilityTranslationFactory.create(capability=self, language=language)
-        self.save()
