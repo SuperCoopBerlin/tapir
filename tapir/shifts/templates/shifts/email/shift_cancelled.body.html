@@ -2,8 +2,7 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% get_display_name_short tapir_user as display_name_short %}
-    <p>{% blocktranslate with name=display_name_short %}Hi {{ name }},{% endblocktranslate %}</p>
+    {% include "core/includes/greeting.html" %}
     <p>{% blocktranslate with coop_name=coop_name %}This is an automated email from {{ coop_name }}
         .{% endblocktranslate %}</p>
     <p>

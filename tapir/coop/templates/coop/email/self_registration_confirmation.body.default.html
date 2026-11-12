@@ -2,9 +2,8 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% get_display_name_short draft_user as name_short %}
-    {% blocktranslate with name_short=name_short contact_email_address=EMAIL_ADDRESS_MEMBER_OFFICE coop_name=coop_name %}
-        <p>Dear {{ name_short }},</p>
+    {% include "core/includes/greeting.html" %}
+    {% blocktranslate with contact_email_address=EMAIL_ADDRESS_MEMBER_OFFICE coop_name=coop_name %}
         <p>
             We are very happy about your interest in becoming a member of {{ coop_name }}!
         </p>

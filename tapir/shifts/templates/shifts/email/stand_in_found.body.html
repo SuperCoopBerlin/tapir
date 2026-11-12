@@ -2,9 +2,8 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% get_display_name_short member_infos as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short shift_display_name=shift.get_display_name %}
-        <p>Dear {{ display_name_short }},</p>
+    {% include "core/includes/greeting.html" %}
+    {% blocktranslate with shift_display_name=shift.get_display_name %}
 
         <p>This is an automated email from {{ coop_name }}.</p>
         <p>

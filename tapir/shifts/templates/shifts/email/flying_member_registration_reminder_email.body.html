@@ -2,9 +2,9 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% get_display_name_short member_infos as display_name_short %}
-    {% blocktranslate with display_name_short=display_name_short %}
-        <p>Hi {{ display_name_short }},</p>
+    {% include "core/includes/greeting.html" %}
+    {% blocktranslate %}
+
 
         <p>
             we would like to remind you about your next <a href="https://members.supercoop.de/shifts/calendar">shift

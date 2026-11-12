@@ -2,9 +2,8 @@
 {% load i18n %}
 {% load utils %}
 {% block body %}
-    {% get_display_name_short member_infos as display_name %}
-    {% blocktranslate with user_display_name=display_name %}
-        <p>Dear {{ user_display_name }},</p>
+    {% include "core/includes/greeting.html" %}
+    {% blocktranslate %}
         <p>we just created an account for you in our SuperCoop member system. Here you can view your upcoming shifts,
             book an additional shift if you'd like or mark your shift as “looking for a stand-in” (for example when you
             go on vacation). <br />

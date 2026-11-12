@@ -1,0 +1,4 @@
+{% load i18n %}
+{% load utils %}
+{% get_display_name_short member_infos as display_name_short %}
+<p>{% blocktranslate with display_name_short=display_name_short %}Hello {{ display_name_short }}{% endblocktranslate %},</p>
