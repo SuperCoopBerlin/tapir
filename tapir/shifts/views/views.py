@@ -662,7 +662,7 @@ class TeamleaderPageEditView(LoginRequiredMixin, PermissionRequiredMixin, FormVi
 
 
 class AttendanceCheckInView(LoginRequiredMixin, View):
-    template_name = "check_in.html"
+    template_name = "shifts/check_in.html"
 
     def get(self, request, token):
         if not is_token_valid(token):
