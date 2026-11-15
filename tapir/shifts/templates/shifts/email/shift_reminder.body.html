@@ -3,24 +3,33 @@
 {% load utils %}
 {% block body %}
     {% include "core/includes/greeting.html" %}
-    {% blocktranslate with shift_display_name=shift.get_display_url %}
-
-        <p>We'll see you on {{ shift_display_name }}</p>
-        <div>
-            If you can't make it to your shift:
-            <ol>
-                <li>Please set yourself to ‘Looking for a stand-in’ in Tapir</li>
-                <li>Register for another shift</li>
-                <li>Contact your team leader or the Member Office within the next 48 hours. This way you avoid an additional catch-up shift.</li>
-            </ol>
-        </div>
-        <p></p>
-        <p>If you have already contacted your team leader and/or the Member Office about this matter, you can ignore this message.</p>
-        <p>If you can't be on time for your shift: Please come anyway, any support is important!</p>
-        <p>You can find more information about the stand-in system in the <a href="https://docs.google.com/document/d/19v91mj2MAJTtrPLCw54VMS6qlaiJqBqUAuiC6z_AKpw/edit?tab=t.0#heading=h.naxyslw4b9ig">member manual</a>.</p>
-        <p>
-            Cooperative greetings,<br />
-            The Member Office
-        </p>
-    {% endblocktranslate %}
+    <p>
+        {% blocktranslate trimmed with shift_display_name=shift.get_display_url %}
+            We'll see you on {{ shift_display_name }}.
+        {% endblocktranslate %}
+    </p>
+    <p>{% translate "If you can't make it to your shift:" %}</p>
+    <ol>
+        <li>{% translate "Please set yourself to ‘Looking for a stand-in’ in Tapir." %}</li>
+        <li>{% translate "Register for another shift." %}</li>
+        <li>
+            {% translate "Contact your team leader or the Member Office within the next 48 hours. This way you avoid an additional catch-up shift." %}
+        </li>
+    </ol>
+    <p>
+        {% translate "If you have already contacted your team leader and/or the Member Office about this matter, you can ignore this message." %}
+    </p>
+    <p>{% translate "If you can't be on time for your shift: Please come anyway, any support is important!" %}</p>
+    <p>
+        {% blocktranslate trimmed with url_member_manual=url_member_manual %}
+            You can find more information about the stand-in system in the
+            <a href="{{ url_member_manual }}">Member Manual</a>.
+        {% endblocktranslate %}
+    </a>.
+    </p>
+    <p>
+        {% translate "Cooperative greetings," %}
+        <br />
+        {% translate "The Member Office" %}
+    </p>
 {% endblock body %}

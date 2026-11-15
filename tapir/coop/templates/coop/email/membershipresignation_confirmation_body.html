@@ -3,13 +3,15 @@
 {% load utils %}
 {% block body %}
     {% include "core/includes/greeting.html" %}
-    {% blocktranslate %}
-        <p>
+    <p>
+        {% blocktranslate %}
+
             what a pity that you want to leave us. We hereby confirm the cancellation of your membership with SuperCoop
             Berlin eG.
-            <br>
-        </p>
+
+
     {% endblocktranslate %}
+    </p>
     {% if resigned_member.resignation_type == resignation_type_gift_to_coop %}
         <p>
             {% blocktranslate trimmed %}
@@ -28,30 +30,35 @@
             {% endblocktranslate %}
         </p>
     {% else %}
-        {% blocktranslate trimmed with contact_email_address=contact_email_address %}
-            <p>
+        <p>
+            {% blocktranslate trimmed %}
                 As you wished in your cancellation letter your membership will run until the end of the regular
                 cancellation period specified in our Articles of Association, i.e.
                 until the end of the financial year in three years. Please note the passage stated in our Articles of
                 Association
                 under <b>§4 Termination of membership, transfer of business assets, death and exclusion</b>.
                 As a precaution, the articles of association are attached to this e-mail.
-            </p>
-            <p>
-                <b>As your membership will continue to run as normal for the next three years and is still entered as
+            {% endblocktranslate %}
+        </p>
+        <p>
+            <b>
+                {% blocktranslate trimmed with contact_email_address=contact_email_address %}
+                    As your membership will continue to run as normal for the next three years and is still entered as
                     "active" in Tapir,
                     we would like to take this opportunity to point out that you can continue to complete shifts in the
                     next three years
                     and therefore retain your right to shop. If you no longer wish to complete shifts or shop in
                     Supercoop, we would ask you to apply to
                     the member-office ({{ contact_email_address }}) to switch your membership to "investing".
-                </b>
-            </p>
-            <p>
+                {% endblocktranslate %}
+            </b>
+        </p>
+        <p>
+            {% blocktranslate trimmed %}
                 This will prevent your shift backlog from going into the red and you from receiving emails with warnings
                 from us in the future.
-            </p>
-        {% endblocktranslate %}
+            {% endblocktranslate %}
+        </p>
     {% endif %}
     {% blocktranslate with contact_email_adress=contact_email_adress %}
         <p>

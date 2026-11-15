@@ -1,5 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
+from tapir.coop.config import URL_MEMBER_MANUAL
 from tapir.coop.models import ShareOwner
 from tapir.core.mail_option import MailOption
 from tapir.core.tapir_email_builder_base import TapirEmailBuilderBase
@@ -39,7 +40,10 @@ class ShiftReminderEmailBuilder(TapirEmailBuilderBase):
         ]
 
     def get_extra_context(self) -> dict:
-        return {"shift": self.shift}
+        return {
+            "shift": self.shift,
+            "url_member_manual": URL_MEMBER_MANUAL,
+        }
 
     @classmethod
     def get_dummy_version(cls) -> TapirEmailBuilderBase | None:
