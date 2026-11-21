@@ -38,14 +38,14 @@ sentinel = ["httpx (>=0.24)"]
 
 [[package]]
 name = "amqp"
-version = "5.4.1"
+version = "5.4.2"
 description = "Low-level AMQP client for Python (fork of amqplib)."
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "amqp-5.4.1-py3-none-any.whl", hash = "sha256:ac2b816a14a380ed10c5ebbf85a334fd68111fa476496867a5ccd2fd09926d5e"},
-    {file = "amqp-5.4.1.tar.gz", hash = "sha256:79a9c0ab70e71745667f127ff80666894a734c26236b6f33149c964b096f0b20"},
+    {file = "amqp-5.4.2-py3-none-any.whl", hash = "sha256:e6e756b15c89c86818b48a4947a424706238afbf67d457428d3269bc4590db9e"},
+    {file = "amqp-5.4.2.tar.gz", hash = "sha256:9362660c4a31150cf18e78cae2ce8aa1e929fc6c6739e69f6dd5dbea9c3edc82"},
 ]
 
 [package.dependencies]
@@ -174,14 +174,14 @@ typecheck = ["mypy"]
 
 [[package]]
 name = "billiard"
-version = "4.3.1"
+version = "4.3.2"
 description = "Python multiprocessing fork with improvements and bugfixes"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "billiard-4.3.1-py3-none-any.whl", hash = "sha256:2c7075283191d9c0add66cf8fca8e06ba599e75fe7319b67186759f8877dfdaf"},
-    {file = "billiard-4.3.1.tar.gz", hash = "sha256:c88559b306ee5dc93f8d5f843d07da15d795d67af26720d14ee9d09f09eb0b22"},
+    {file = "billiard-4.3.2-py3-none-any.whl", hash = "sha256:37735a7b4117aafa73532b3b493db4c02fb85c0e69d5f3447f113fd30ff27872"},
+    {file = "billiard-4.3.2.tar.gz", hash = "sha256:9eb83c99b1cf7acb1fed86c1dfd477157000a1a2c0108005c1e5837b55d2acba"},
 ]
 
 [[package]]
@@ -424,58 +424,59 @@ cffi = {version = ">=1.17.0", markers = "python_version >= \"3.13\""}
 
 [[package]]
 name = "celery"
-version = "5.6.3"
+version = "5.7.0"
 description = "Distributed Task Queue."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "celery-5.6.3-py3-none-any.whl", hash = "sha256:0808f42f80909c4d5833202360ffafb2a4f83f4d8e23e1285d926610e9a7afa6"},
-    {file = "celery-5.6.3.tar.gz", hash = "sha256:177006bd2054b882e9f01be59abd8529e88879ef50d7918a7050c5a9f4e12912"},
+    {file = "celery-5.7.0-py3-none-any.whl", hash = "sha256:18310a9c919f9029e4735367484d93e6a25cdfd30afdc474622cc263d9b35f6e"},
+    {file = "celery-5.7.0.tar.gz", hash = "sha256:6a5dfcf6662287204f009a02002b9e66c83d4105e47ebabdc7079108772fc6f0"},
 ]
 
 [package.dependencies]
-billiard = ">=4.2.1,<5.0"
-click = ">=8.1.2,<9.0"
-click-didyoumean = ">=0.3.0"
-click-plugins = ">=1.1.1"
-click-repl = ">=0.2.0"
+billiard = ">=4.3.2"
+click = ">=8.3.1,<9.0"
+click-didyoumean = ">=0.3.1"
+click-plugins = ">=1.1.1.2"
+click-repl = ">=0.4.1"
 kombu = [
-    {version = ">=5.6.0"},
+    {version = ">=5.7.0"},
     {version = "*", extras = ["redis"], optional = true, markers = "extra == \"redis\""},
 ]
-python-dateutil = ">=2.8.2"
+python-dateutil = "2.9.0.post0"
 tzlocal = "*"
 vine = ">=5.1.0,<6.0"
 
 [package.extras]
-arangodb = ["pyArango (>=2.0.2)"]
-auth = ["cryptography (==46.0.5)"]
-azureblockblob = ["azure-identity (>=1.19.0)", "azure-storage-blob (>=12.15.0)"]
-brotli = ["brotli (>=1.0.0) ; platform_python_implementation == \"CPython\"", "brotlipy (>=0.7.0) ; platform_python_implementation == \"PyPy\""]
-cassandra = ["cassandra-driver (>=3.25.0,<4)"]
+arangodb = ["pyArango (>=2.1.1)"]
+auth = ["cryptography (==50.0.2)"]
+azureblockblob = ["azure-identity (==1.27.0)", "azure-storage-blob (==12.31.1)"]
+brotli = ["brotli (>=1.2.1) ; platform_python_implementation == \"CPython\"", "brotlicffi (>=1.2.1.0) ; platform_python_implementation == \"PyPy\""]
+cassandra = ["cassandra-driver (==3.30.1)"]
 consul = ["python-consul2 (==0.1.5)"]
 cosmosdbsql = ["pydocumentdb (==2.3.5)"]
 couchbase = ["couchbase (>=3.0.0) ; platform_python_implementation != \"PyPy\" and (platform_system != \"Windows\" or python_version < \"3.10\")"]
-couchdb = ["pycouchdb (==1.16.0)"]
-django = ["Django (>=2.2.28)"]
+couchdb = ["pycouchdb (==1.17.1)"]
+django = ["Django (>=3.2.1)"]
 dynamodb = ["boto3 (>=1.26.143)"]
-elasticsearch = ["elastic-transport (<=9.2.1)", "elasticsearch (<=9.3.0)"]
+elasticsearch = ["elastic-transport (<=9.4.2)", "elasticsearch (<=9.5.1)"]
 eventlet = ["eventlet (>=0.32.0) ; python_version < \"3.10\""]
-gcs = ["google-cloud-firestore (==2.23.0)", "google-cloud-storage (>=2.10.0)", "grpcio (==1.76.0)"]
-gevent = ["gevent (>=1.5.0)"]
+gcpubsub = ["kombu[gcpubsub] (>=5.5.0)"]
+gcs = ["google-cloud-firestore (==2.32.0)", "google-cloud-storage (==3.17.1)", "grpcio (==1.85.1)"]
+gevent = ["gevent (==26.9.0)"]
 librabbitmq = ["librabbitmq (>=2.0.0) ; python_version < \"3.11\""]
-memcache = ["pylibmc (==1.6.3) ; platform_system != \"Windows\""]
+memcache = ["pymemcache (>=4.0.0)"]
 mongodb = ["kombu[mongodb]"]
 msgpack = ["kombu[msgpack]"]
-pydantic = ["pydantic (>=2.12.0a1) ; python_version >= \"3.14\"", "pydantic (>=2.4) ; python_version < \"3.14\""]
-pymemcache = ["python-memcached (>=1.61)"]
+pydantic = ["pydantic (==2.14.1)"]
+pymemcache = ["pymemcache (>=4.0.0)"]
 pyro = ["pyro4 (==4.82) ; python_version < \"3.11\""]
 pytest = ["pytest-celery[all] (>=1.3.0)"]
 redis = ["kombu[redis]"]
 s3 = ["boto3 (>=1.26.143)"]
 slmq = ["softlayer_messaging (>=1.0.3)"]
-solar = ["ephem (==4.2) ; platform_python_implementation != \"PyPy\""]
+solar = ["ephem (==4.2.1) ; platform_python_implementation != \"PyPy\""]
 sqlalchemy = ["kombu[sqlalchemy]"]
 sqs = ["boto3 (>=1.26.143)", "kombu[sqs] (>=5.5.0)", "pycurl (>=7.43.0.5,<7.45.4) ; sys_platform != \"win32\" and platform_python_implementation == \"CPython\" and python_version < \"3.9\"", "pycurl (>=7.45.4) ; sys_platform != \"win32\" and platform_python_implementation == \"CPython\" and python_version >= \"3.9\"", "urllib3 (>=1.26.16)"]
 tblib = ["tblib (==3.2.2)"]
@@ -2129,40 +2130,41 @@ files = [
 
 [[package]]
 name = "kombu"
-version = "5.6.2"
+version = "5.7.0"
 description = "Messaging library for Python."
 optional = false
-python-versions = ">=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "kombu-5.6.2-py3-none-any.whl", hash = "sha256:efcfc559da324d41d61ca311b0c64965ea35b4c55cc04ee36e55386145dace93"},
-    {file = "kombu-5.6.2.tar.gz", hash = "sha256:8060497058066c6f5aed7c26d7cd0d3b574990b09de842a8c5aaed0b92cc5a55"},
+    {file = "kombu-5.7.0-py3-none-any.whl", hash = "sha256:dede73bff4c89175be382c4203d2f167cf7017c384396ec75c36a1b5678f1587"},
+    {file = "kombu-5.7.0.tar.gz", hash = "sha256:31e62fdfd2381caa3422f8e02b84a491d9a2180ddda74507b57f4cb1e1c2c2c9"},
 ]
 
 [package.dependencies]
-amqp = ">=5.1.1,<6.0.0"
-packaging = "*"
-redis = {version = ">=4.5.2,!=4.5.5,!=5.0.2,<6.5", optional = true, markers = "extra == \"redis\""}
-tzdata = ">=2025.2"
+amqp = ">=5.4.2"
+packaging = {version = "26.3", optional = true, markers = "extra == \"redis\""}
+redis = {version = ">=6.4.0,<9.0.0", optional = true, markers = "extra == \"redis\""}
+tzdata = {version = ">=2026.2", markers = "sys_platform == \"win32\""}
 vine = "5.1.0"
 
 [package.extras]
-azureservicebus = ["azure-servicebus (>=7.10.0)"]
-azurestoragequeues = ["azure-identity (>=1.12.0)", "azure-storage-queue (>=12.6.0)"]
-confluentkafka = ["confluent-kafka (>=2.2.0)"]
+azureservicebus = ["azure-servicebus (==7.15.0)"]
+azurestoragequeues = ["azure-identity (==1.27.0)", "azure-storage-queue (==12.18.0)"]
+confluentkafka = ["confluent-kafka (==2.15.1)"]
 consul = ["python-consul2 (==0.1.5)"]
-gcpubsub = ["google-cloud-monitoring (>=2.16.0)", "google-cloud-pubsub (>=2.18.4)", "grpcio (==1.75.1)", "protobuf (==6.32.1)"]
+gcpubsub = ["google-cloud-monitoring (==2.32.0)", "google-cloud-pubsub (==2.43.0)", "grpcio (==1.85.1)", "protobuf (==7.36.2)"]
 librabbitmq = ["librabbitmq (>=2.0.0) ; python_version < \"3.11\""]
-mongodb = ["pymongo (==4.15.3)"]
-msgpack = ["msgpack (==1.1.2)"]
+mongodb = ["pymongo (==4.18.3)"]
+msgpack = ["msgpack (==1.2.3)"]
+pgmq = ["pgmq (==1.1.4)"]
 pyro = ["pyro4 (==4.82)"]
 qpid = ["qpid-python (==1.36.0.post1)", "qpid-tools (==1.36.0.post1)"]
-redis = ["redis (>=4.5.2,!=4.5.5,!=5.0.2,<6.5)"]
+redis = ["packaging (==26.3)", "redis (>=6.4.0,<9.0.0)"]
 slmq = ["softlayer_messaging (>=1.0.3)"]
-sqlalchemy = ["sqlalchemy (>=1.4.48,<2.1)"]
+sqlalchemy = ["sqlalchemy (>=1.4.54,<2.2)"]
 sqs = ["boto3 (>=1.26.143)", "pycurl (>=7.43.0.5) ; sys_platform != \"win32\" and platform_python_implementation == \"CPython\"", "urllib3 (>=1.26.16)"]
-yaml = ["PyYAML (>=3.10)"]
-zookeeper = ["kazoo (>=2.8.0)"]
+yaml = ["PyYAML (==6.0.3)"]
+zookeeper = ["kazoo (==2.11.0)"]
 
 [[package]]
 name = "markupsafe"
@@ -3878,7 +3880,7 @@ files = [
     {file = "tzdata-2026.5-py2.py3-none-any.whl", hash = "sha256:b683bd1b6659ddcd810ff02ad09ba821d4bf1065072805063eb35c49617905ac"},
     {file = "tzdata-2026.5.tar.gz", hash = "sha256:8cc73c0a0bfca7dbfa59235d60b2eff82231dee33f53d206db1acd9173cfc0a7"},
 ]
-markers = {dev = "platform_system == \"Windows\" or sys_platform == \"win32\""}
+markers = {main = "platform_system == \"Windows\" or sys_platform == \"win32\" or sys_platform == \"emscripten\"", dev = "platform_system == \"Windows\" or sys_platform == \"win32\""}
 
 [[package]]
 name = "tzlocal"
