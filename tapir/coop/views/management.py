@@ -11,7 +11,11 @@ from tapir.coop.emails.tapir_account_created_email import (
 from tapir.core.config import TAPIR_TABLE_CLASSES, TAPIR_TABLE_TEMPLATE
 from tapir.core.services.send_mail_service import SendMailService
 from tapir.core.views import TapirFormMixin
-from tapir.settings import PERMISSION_ACCOUNTS_MANAGE, PERMISSION_SHIFTS_MANAGE
+from tapir.settings import (
+    PERMISSION_ACCOUNTS_MANAGE,
+    PERMISSION_ACCOUNTS_VIEW,
+    PERMISSION_SHIFTS_MANAGE,
+)
 from tapir.utils.user_utils import UserUtils
 
 
@@ -78,7 +82,10 @@ class GeneralAccountsTable(django_tables2.Table):
         return UserUtils.build_html_link_for_viewer(record, self.request.user)
 
 
-class GeneralTapirAccountsListView(LoginRequiredMixin, SingleTableView):
+class GeneralTapirAccountsListView(
+    LoginRequiredMixin, PermissionRequiredMixin, SingleTableView
+):
+    permission_required = PERMISSION_ACCOUNTS_VIEW
     model = TapirUser
     paginate_by = 30
     template_name = "coop/general_accounts_list.html"
