@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-21 09:54+0100\n"
+"POT-Creation-Date: 2026-11-22 18:01+0100\n"
 "PO-Revision-Date: 2026-11-15 17:48+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -974,8 +974,8 @@ msgstr "Löschen"
 
 #: coop/templates/coop/create_user_from_shareowner_form.html:9
 #: coop/templates/coop/create_user_from_shareowner_form.html:19
-#: coop/templates/coop/shareowner_detail.html:36 coop/views/management.py:48
-#: coop/views/management.py:49
+#: coop/templates/coop/shareowner_detail.html:36 coop/views/management.py:52
+#: coop/views/management.py:53
 msgid "Create Tapir account"
 msgstr "Tapir-Konto erstellen"
 
@@ -2458,7 +2458,7 @@ msgstr "Bezahlung aktualisiert."
 msgid "Payment deleted"
 msgstr "Bezahlung gelöscht"
 
-#: coop/views/management.py:42
+#: coop/views/management.py:46
 msgid "Required. Please insert a valid email address."
 msgstr "Erforderlich. Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
@@ -4133,7 +4133,7 @@ msgstr "Suche nach Vertretung"
 #: shifts/templates/shifts/shift_detail.html:217
 #, python-format
 msgid "You can only unregister yourself %(NB_DAYS_FOR_SELF_UNREGISTER)s days before the shift. Also, ABCD-Shifts can't be unregistered from. If you can't attend, look for a stand-in or contact your shift leader as soon as possible."
-msgstr "Du kannst dich nur %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht selbst abmelden. Von ABCD-Schichen kann man generell nicht abgemeldet werden. Wenn du nicht teilnehmen kannst, suche dir eine Vertretung oder kontaktiere deine Teamleitung so früh wie möglich."
+msgstr "Du kannst dich nur %(NB_DAYS_FOR_SELF_UNREGISTER)s Tage vor der Schicht selbst abmelden. Von ABCD-Schichten kann man generell nicht abgemeldet werden. Wenn du nicht teilnehmen kannst, suche dir eine Vertretung oder kontaktiere deine Teamleitung so früh wie möglich."
 
 #: shifts/templates/shifts/shift_detail.html:234
 msgid "Unregister myself"
