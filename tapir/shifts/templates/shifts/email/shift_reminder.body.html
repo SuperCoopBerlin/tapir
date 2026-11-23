@@ -5,21 +5,22 @@
     {% include "core/includes/greeting.html" %}
     <p>
         {% blocktranslate trimmed with shift_display_name=shift.get_display_url %}
-            We'll see you on {{ shift_display_name }}.
+            We look forward to seeing you at {{ shift_display_name }}.
         {% endblocktranslate %}
     </p>
     <p>{% translate "If you can't make it to your shift:" %}</p>
     <ol>
-        <li>{% translate "Please set yourself to ‘Looking for a stand-in’ in Tapir." %}</li>
-        <li>{% translate "Register for another shift." %}</li>
+        <li>{% translate "Please mark yourself as ‘Looking for a stand-in’ in Tapir." %}</li>
+        <li>{% translate "Sign up for another shift." %}</li>
         <li>
-            {% translate "Contact your team leader or the Member Office within the next 48 hours. This way you avoid an additional catch-up shift." %}
+            {% translate "Contact your team leader or the Member Office within 48 hours. This way you avoid an additional make-up shift." %}
         </li>
     </ol>
     <p>
         {% translate "If you have already contacted your team leader and/or the Member Office about this matter, you can ignore this message." %}
     </p>
-    <p>{% translate "If you can't be on time for your shift: Please come anyway, any support is important!" %}</p>
+    <p>{% translate "If you can't be on time for your shift: Please come anyway, every bit of help makes a difference!" %}</p>
+    <p>{% translate "In winter: Please come dressed warmly, as we don’t heat the place much." %}</p>
     <p>
         {% blocktranslate trimmed with url_member_manual=url_member_manual %}
             You can find more information about the stand-in system in the

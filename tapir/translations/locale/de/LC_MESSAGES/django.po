@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-22 18:01+0100\n"
+"POT-Creation-Date: 2026-11-23 10:57+0100\n"
 "PO-Revision-Date: 2026-11-15 17:48+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
 "Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
@@ -3321,7 +3321,40 @@ msgid "Sign up for your next SuperCoop shift"
 msgstr "Melde dich für deine nächste SuperCoop-Schicht an"
 
 #: shifts/templates/shifts/email/freeze_warning.body.html:7
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "\n"
+#| "        <p>\n"
+#| "            This is an automated email from %(coop_name)s. This is to kindly inform you that your shift log has\n"
+#| "            reached %(account_balance)s.\n"
+#| "        </p>\n"
+#| "\n"
+#| "        <p>\n"
+#| "            You now have %(freeze_after_days)s days to register for the outstanding shifts as make-up shifts. These shifts\n"
+#| "            must be within the next %(nb_weeks_in_the_future)s weeks.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Please note: If you do not sign up for your catch-up shifts within the next %(freeze_after_days)s days,\n"
+#| "            your account will be frozen. This means you will not be able to shop or vote in general meetings. To\n"
+#| "            unfreeze your account, you will need to sign up for your outstanding shifts.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            If you are an ABCD member and do not complete your catch-up shifts, nor your regular shifts, you will be\n"
+#| "            removed from your ABCD shift.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            So please sign up for your outstanding shifts as soon as possible. For more information on the shift system,\n"
+#| "            please see the <a href=\"%(url_member_manual)s\">Member Manual</a>.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Thank you!\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Cooperative greetings,<br />\n"
+#| "            The member office\n"
+#| "        </p>\n"
+#| "    "
 msgid ""
 "\n"
 "\n"
@@ -3335,12 +3368,12 @@ msgid ""
 "            must be within the next %(nb_weeks_in_the_future)s weeks.\n"
 "        </p>\n"
 "        <p>\n"
-"            Please note: If you do not sign up for your catch-up shifts within the next %(freeze_after_days)s days,\n"
+"            Please note: If you do not sign up for your make-up shifts within the next %(freeze_after_days)s days,\n"
 "            your account will be frozen. This means you will not be able to shop or vote in general meetings. To\n"
 "            unfreeze your account, you will need to sign up for your outstanding shifts.\n"
 "        </p>\n"
 "        <p>\n"
-"            If you are an ABCD member and do not complete your catch-up shifts, nor your regular shifts, you will be\n"
+"            If you are an ABCD member and do not complete your make-up shifts, nor your regular shifts, you will be\n"
 "            removed from your ABCD shift.\n"
 "        </p>\n"
 "        <p>\n"
@@ -3388,7 +3421,33 @@ msgid "Your shift log has reached %(account_balance)s shifts"
 msgstr "Dein Schichtprotokoll hat %(account_balance)s Schichten erreicht"
 
 #: shifts/templates/shifts/email/member_frozen.body.html:6
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "        <p>\n"
+#| "            This is an automated email from %(coop_name)s. This is to kindly inform you that your Tapir account at\n"
+#| "            SuperCoop has been temporarily frozen. Unfortunately, your shift log has been below %(freeze_threshold)s\n"
+#| "            shifts for more than %(freeze_after_days)s days.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            While your account is frozen, you cannot shop or vote in the General Assembly.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            To unfreeze your account, simply sign up for your outstanding shifts as catch-up shifts. Please note that\n"
+#| "            these shifts must be within the next %(nb_weeks_in_the_future_for_make_up_shifts)s weeks.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            So please sign up for your outstanding shifts as soon as possible. For more information on the shift system,\n"
+#| "            please see the <a href=\"%(url_member_manual)s\">Member Manual</a>.\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Thank you very much!\n"
+#| "        </p>\n"
+#| "        <p>\n"
+#| "            Cooperative greetings,<br />\n"
+#| "            The Member Office\n"
+#| "        </p>\n"
+#| "    "
 msgid ""
 "\n"
 "        <p>\n"
@@ -3400,7 +3459,7 @@ msgid ""
 "            While your account is frozen, you cannot shop or vote in the General Assembly.\n"
 "        </p>\n"
 "        <p>\n"
-"            To unfreeze your account, simply sign up for your outstanding shifts as catch-up shifts. Please note that\n"
+"            To unfreeze your account, simply sign up for your outstanding shifts as make-up shifts. Please note that\n"
 "            these shifts must be within the next %(nb_weeks_in_the_future_for_make_up_shifts)s weeks.\n"
 "        </p>\n"
 "        <p>\n"
@@ -3616,8 +3675,9 @@ msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:7
-#, python-format
-msgid "We'll see you on %(shift_display_name)s."
+#, fuzzy, python-format
+#| msgid "We'll see you on %(shift_display_name)s."
+msgid "We look forward to seeing you at %(shift_display_name)s."
 msgstr "Wir sehen uns für %(shift_display_name)s."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:11
@@ -3625,15 +3685,21 @@ msgid "If you can't make it to your shift:"
 msgstr "Wenn du es nicht zu deiner Schicht schaffst:"
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:13
-msgid "Please set yourself to ‘Looking for a stand-in’ in Tapir."
+#, fuzzy
+#| msgid "Please set yourself to ‘Looking for a stand-in’ in Tapir."
+msgid "Please mark yourself as ‘Looking for a stand-in’ in Tapir."
 msgstr "Bitte stelle dich selbst auf \"Suche nach Vertretung\" in Tapir."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:14
-msgid "Register for another shift."
+#, fuzzy
+#| msgid "Register for another shift."
+msgid "Sign up for another shift."
 msgstr "Melde dich für eine andere Schicht an."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:16
-msgid "Contact your team leader or the Member Office within the next 48 hours. This way you avoid an additional catch-up shift."
+#, fuzzy
+#| msgid "Contact your team leader or the Member Office within the next 48 hours. This way you avoid an additional catch-up shift."
+msgid "Contact your team leader or the Member Office within 48 hours. This way you avoid an additional make-up shift."
 msgstr "Kontaktiere deine Teamleitung oder das Mitgliederbüro in den nächsten 48 Stunden. Auf diesem Weg vermeidest du auch eine zusätzliche Nachholschicht."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:20
@@ -3641,19 +3707,25 @@ msgid "If you have already contacted your team leader and/or the Member Office a
 msgstr "Wenn du bereits deine Teamleitung und/oder das Mitgliederbüro deswegen kontaktiert hast kannst du diese Nachricht ignorieren."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:22
-msgid "If you can't be on time for your shift: Please come anyway, any support is important!"
+#, fuzzy
+#| msgid "If you can't be on time for your shift: Please come anyway, any support is important!"
+msgid "If you can't be on time for your shift: Please come anyway, every bit of help makes a difference!"
 msgstr "Wenn du nicht pünktlich zu deiner Schicht kommen kannst: Komme auf jeden Fall trotzdem, jede Unterstützung ist wichtig!"
 
-#: shifts/templates/shifts/email/shift_reminder.body.html:24
+#: shifts/templates/shifts/email/shift_reminder.body.html:23
+msgid "In winter: Please come dressed warmly, as we don’t heat the place much."
+msgstr ""
+
+#: shifts/templates/shifts/email/shift_reminder.body.html:25
 #, python-format
 msgid "You can find more information about the stand-in system in the <a href=\"%(url_member_manual)s\">Member Manual</a>."
 msgstr "Für mehr Informationen über das Vertretungssystem schau im <a href=\"%(url_member_manual)s\">Mitgliederhandbuch</a>."
 
-#: shifts/templates/shifts/email/shift_reminder.body.html:30
+#: shifts/templates/shifts/email/shift_reminder.body.html:31
 msgid "Cooperative greetings,"
 msgstr "Kooperative Grüße,"
 
-#: shifts/templates/shifts/email/shift_reminder.body.html:32
+#: shifts/templates/shifts/email/shift_reminder.body.html:33
 msgid "The Member Office"
 msgstr "Das Mitgliederbüro"
 
@@ -5014,13 +5086,25 @@ msgid "Members eligible to purchase"
 msgstr "Einkaufsberechtigte Mitglieder"
 
 #: statistics/templates/statistics/main_statistics.html:54
-#, python-format
+#, fuzzy, python-format
+#| msgid ""
+#| "\n"
+#| "                                <p>\n"
+#| "                                    All working members and all members who have an exemption (such as parental leave,\n"
+#| "                                    over 70, etc.). Members who are frozen (and have not yet signed up for their\n"
+#| "                                    catch-up shifts) or on break (3 shift cycles or longer away) are not eligible to\n"
+#| "                                    purchase.\n"
+#| "                                </p>\n"
+#| "                                <p>\n"
+#| "                                    Target number of purchasing members for break-even: %(target_count)s.\n"
+#| "                                </p>\n"
+#| "                            "
 msgid ""
 "\n"
 "                                <p>\n"
 "                                    All working members and all members who have an exemption (such as parental leave,\n"
 "                                    over 70, etc.). Members who are frozen (and have not yet signed up for their\n"
-"                                    catch-up shifts) or on break (3 shift cycles or longer away) are not eligible to\n"
+"                                    make-up shifts) or on break (3 shift cycles or longer away) are not eligible to\n"
 "                                    purchase.\n"
 "                                </p>\n"
 "                                <p>\n"
