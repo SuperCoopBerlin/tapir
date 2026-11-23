@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-23 10:57+0100\n"
-"PO-Revision-Date: 2026-11-15 17:48+0000\n"
+"PO-Revision-Date: 2026-11-23 10:06+0000\n"
 "Last-Translator: crosspolar <crosspolar@noreply.codeberg.org>\n"
-"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/de/>\n"
+"Language-Team: German <https://translate.codeberg.org/projects/tapir/tapir/"
+"de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3675,10 +3676,9 @@ msgid "You missed your shift!"
 msgstr "Du hast deine Schicht versäumt!"
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:7
-#, fuzzy, python-format
-#| msgid "We'll see you on %(shift_display_name)s."
+#, python-format
 msgid "We look forward to seeing you at %(shift_display_name)s."
-msgstr "Wir sehen uns für %(shift_display_name)s."
+msgstr "Wir freuen uns darauf, dich bei %(shift_display_name)s zu sehen."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:11
 msgid "If you can't make it to your shift:"
@@ -3715,6 +3715,7 @@ msgstr "Wenn du nicht pünktlich zu deiner Schicht kommen kannst: Komme auf jede
 #: shifts/templates/shifts/email/shift_reminder.body.html:23
 msgid "In winter: Please come dressed warmly, as we don’t heat the place much."
 msgstr ""
+"Im Winter: Komme mit warmer Kleidung, da wir den Laden nicht stark beheizen."
 
 #: shifts/templates/shifts/email/shift_reminder.body.html:25
 #, python-format
