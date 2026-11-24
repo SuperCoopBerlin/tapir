@@ -1,6 +1,6 @@
 services:
   openldap:
-    image: "osixia/openldap"
+    image: "osixia/openldap:1.5.0"
     environment:
       LDAP_ORGANISATION: "SuperCoop Berlin"
       LDAP_DOMAIN: "supercoop.de"
